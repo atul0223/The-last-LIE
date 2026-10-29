@@ -4,7 +4,11 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../theme/tokens';
 
 export default function HomeFeature() {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      testID="home.placeholder"
+    >
       <View style={styles.header}>
         <Text style={styles.title} allowFontScaling>
           THE LAST LIE

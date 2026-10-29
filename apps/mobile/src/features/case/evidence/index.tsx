@@ -5,7 +5,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function EvidenceSlot({ sessionId }: CaseSlotProps) {
   return (
-    <View style={styles.container} testID="slot-evidence">
+    <View style={styles.container} testID="case.evidence.placeholder">
       <Text style={styles.badge} allowFontScaling>
         SLOT // EVIDENCE (WP-11)
       </Text>

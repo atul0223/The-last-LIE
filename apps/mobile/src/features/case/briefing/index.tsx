@@ -5,7 +5,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function BriefingSlot({ sessionId }: CaseSlotProps) {
   return (
-    <View style={styles.container} testID="slot-briefing">
+    <View style={styles.container} testID="case.briefing.placeholder">
       <Text style={styles.badge} allowFontScaling>
         SLOT // BRIEFING (WP-11)
       </Text>

@@ -78,9 +78,9 @@ export class LocalGameService implements GameService {
       startedAt: new Date(1710000000000).toISOString(),
     };
 
-    useSessionStore.getState().setSession(session);
-
     const publicCase = toPublicCase(def, session.unlockedClueIds);
+    useSessionStore.getState().setSession(session, publicCase);
+
     return { session, case: publicCase };
   }
 
@@ -133,6 +133,8 @@ export class LocalGameService implements GameService {
     });
 
     const updatedPublicCase = toPublicCase(def, nextUnlocked);
+    useSessionStore.getState().setCasePublic(sessionId, updatedPublicCase);
+
     const unlockedClue = updatedPublicCase.clues.find((c) => c.id === clueId);
     if (!unlockedClue) {
       throw new GameServiceError('CLUE_NOT_FOUND', `Clue '${clueId}' not found after unlock`);

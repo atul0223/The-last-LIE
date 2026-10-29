@@ -4,7 +4,11 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../theme/tokens';
 
 export default function ProgressFeature() {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      testID="progress.placeholder"
+    >
       <View style={styles.header}>
         <Text style={styles.title} allowFontScaling>
           CAREER &amp; DOSSIERS

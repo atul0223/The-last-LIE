@@ -5,7 +5,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function BoardSlot({ sessionId }: CaseSlotProps) {
   return (
-    <View style={styles.container} testID="slot-board">
+    <View style={styles.container} testID="case.board.placeholder">
       <Text style={styles.badge} allowFontScaling>
         SLOT // BOARD (WP-12)
       </Text>

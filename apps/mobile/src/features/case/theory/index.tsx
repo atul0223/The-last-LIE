@@ -5,7 +5,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function TheorySlot({ sessionId }: CaseSlotProps) {
   return (
-    <View style={styles.container} testID="slot-theory">
+    <View style={styles.container} testID="case.theory.placeholder">
       <Text style={styles.badge} allowFontScaling>
         SLOT // THEORY (WP-13)
       </Text>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import BoardSlot from '../../src/features/case/board';
 import TheorySlot from '../../src/features/case/theory';
 import RevealSlot from '../../src/features/case/reveal';
 import { DevLocalBadge } from '../../src/services';
+import { useCaseSession } from '../../src/features/case/slots';
 
 type CaseSubView = 'briefing' | 'evidence' | 'board' | 'theory' | 'reveal';
 
@@ -23,9 +24,16 @@ const SUB_VIEWS: { id: CaseSubView; label: string }[] = [
 export default function CaseScreen() {
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const router = useRouter();
+  const safeSessionId = Array.isArray(sessionId) ? (sessionId[0] ?? '') : (sessionId ?? '');
+
+  const { casePublic, status } = useCaseSession(safeSessionId);
   const [activeTab, setActiveTab] = useState<CaseSubView>('briefing');
 
-  const safeSessionId = Array.isArray(sessionId) ? (sessionId[0] ?? '') : (sessionId ?? '');
+  useEffect(() => {
+    if (status === 'submitted') {
+      setActiveTab('reveal');
+    }
+  }, [status]);
 
   return (
     <View style={styles.container}>
@@ -41,10 +49,10 @@ export default function CaseScreen() {
         </Pressable>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle} numberOfLines={1} allowFontScaling>
-            CASE INVESTIGATION
+            {casePublic ? casePublic.title.toUpperCase() : 'CASE INVESTIGATION'}
           </Text>
           <Text style={styles.sessionIdText} allowFontScaling>
-            {safeSessionId}
+            {safeSessionId} • {status.toUpperCase()}
           </Text>
         </View>
         <DevLocalBadge />

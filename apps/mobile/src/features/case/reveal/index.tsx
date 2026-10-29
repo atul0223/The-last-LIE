@@ -5,7 +5,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function RevealSlot({ sessionId }: CaseSlotProps) {
   return (
-    <View style={styles.container} testID="slot-reveal">
+    <View style={styles.container} testID="case.reveal.placeholder">
       <Text style={styles.badge} allowFontScaling>
         SLOT // REVEAL (WP-13)
       </Text>
