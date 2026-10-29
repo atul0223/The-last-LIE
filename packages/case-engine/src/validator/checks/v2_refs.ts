@@ -119,7 +119,9 @@ export const v2RefsCheck: ValidatorCheck = {
         checkRef(fact.who, charIds, 'character', `${path}.who`);
         checkRef(fact.what, objIds, 'object', `${path}.what`);
       } else if (fact.kind === 'message') {
-        checkRef(fact.sender, charIds, 'character', `${path}.sender`);
+        if (fact.sender) {
+          checkRef(fact.sender, charIds, 'character', `${path}.sender`);
+        }
         checkRef(fact.recipient, charIds, 'character', `${path}.recipient`);
         checkRef(fact.device, objIds, 'object', `${path}.device`);
       } else if (fact.kind === 'device_use') {
