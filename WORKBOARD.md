@@ -139,7 +139,7 @@ export interface CaseSlotProps {
 | 25      | D    | A1    | `main`                     | ✅ merged (playtest kit, survey, rubrics, guide)      |
 | 32      | E    | Agent 2| `wp/32-template-false-alibi`| ✅ merged (false_alibi procedural template)           |
 | 33      | E    | Agent 2| `wp/33-template-missing-item`| ✅ merged (missing_item procedural template)         |
-| 34      | E    | Agent 2| `wp/34-template-forged-message`| 🔵 in progress (forged_message procedural template) |
+| 34      | E    | Agent 2| `wp/34-template-forged-message`| ✅ merged (forged_message procedural template)        |
 | 35a     | T    | Agent 3| `wp/35a-cli-core`          | ✅ merged (CLI validate, render, playtest)           |
 | 35b     | T    | Agent 3| `wp/35b-cli-generate`      | 🔵 in progress (CLI generate command)                |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
