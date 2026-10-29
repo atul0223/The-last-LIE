@@ -461,6 +461,7 @@ Do NOT edit packages/content/src/index.ts. The integrator registers your case on
 Write <case_000N> using the type, difficulty, decisive rule, setting, and name range from the WP-20 table in PROMPTS.md.
 Order: walkthrough first, then the timeline, clues derived from the timeline, hypotheses (solution + 2–3 decoys, each eliminated by a different key clue), keyEvidence, and reveal beats.
 Follow SYSTEM_DESIGN §3.6: physical clue asserts contain only what that record could observe (no message sender on carrier logs), and clue text mentions only people and times in its own asserts.
+Fair-play rule: no single clue may state the crime or the answer outright (e.g. never 'X took the item'). But the evidence MUST let the player prove the solution: every declared lie must be contradicted by at least one obtainable physical clue, and the culprit must be placed (by time/place/possession/device) by at least one key-evidence clue. Physical records may name people when the record itself would show them (badge logs, sign-in sheets, device logins).
 Your test must: parse with CaseDefinitionSchema, validateCase → zero errors, measured difficulty within ±1 of the target, and deepScan(toPublicCase(def, defaultClueIds)) passes.
 Finish with the Definition of done report plus the validator output.
 ```

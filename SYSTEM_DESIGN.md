@@ -267,6 +267,8 @@ Each check returns `{ checkId, severity: "error"|"warning", message, refs[] }`. 
 | V11 | `text.render` | Every clue renders to non-empty text, and no rendered text leaks truth-only ids (e.g. culprit name inside "redacted" text) |
 | V12 | `hooks.canonical` | `conspiracyHooks` only reference existing canonical nodes, and they never create edges |
 | V13 | `ambiguity.intentional` | If V7 fails because a case is *meant* to be ambiguous, `meta.allowAmbiguity` must be set and each surviving hypothesis must be listed in the reveal |
+| V14 | `lie.contradictable` | Every statement clue in `truth.liars` has ≥1 fact contradicted by a fact from an obtainable physical clue |
+| V15 | `solution.positive_evidence` | At least one `keyEvidence` set contains a physical clue with a fact about a culprit (`who`/`by`/`sender` = a culprit id) |
 
 **Difficulty metric** (deterministic) is a weighted sum of:
 - size of the smallest `keyEvidence` set,

@@ -44,7 +44,7 @@ Every clue is rendered from structured facts or provided as an intentional textu
    - _Good:_ "Maya passed through the lobby exit turnstile at 23:41. Keycard 408 was registered."
    - _Bad:_ "Maya exited through the lobby after texting Arjun because she was running late."
 2. **24-Hour Times (`HH:MM`):** Always write timestamps in 24-hour notation with leading zeros (e.g., `09:15`, `23:41`, `00:05`).
-3. **No Answer Leaks:** Never state the solution or name the culprit inside clue prose. Let the juxtaposition of facts expose the contradiction.
+3. **Fair-play rule:** No single clue may state the crime or the answer outright (e.g. never 'X took the item'). But the evidence MUST let the player prove the solution: every declared lie must be contradicted by at least one obtainable physical clue, and the culprit must be placed (by time/place/possession/device) by at least one key-evidence clue. Physical records may name people when the record itself would show them (badge logs, sign-in sheets, device logins).
 4. **Reliability Disciplines:**
    - **Physical Evidence:** Access logs, CCTV timestamps, digital device logs, time-stamped receipts, and forensic object logs. Every fact asserted must be entailed by the ground truth timeline.
    - **Testimony:** Statements given by suspects or witnesses. Testimony may assert subjective or false claims (lies), but any lie must be explicitly declared in `truth.liars`.
