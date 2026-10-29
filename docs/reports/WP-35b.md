@@ -1,41 +1,71 @@
-# Definition of Done Report: WP-35b (Authoring CLI: generate)
+# WP-35b Report: Authoring CLI Generate
 
-## Summary
-- Implemented `lastlie generate` command in `tools/cli/src/generate/index.ts` allowing batch procedural mystery generation via Commander.
-- Supports template resolution across all registered engine templates (`tpl_false_alibi_v1`, `tpl_missing_item_v1`, `tpl_forged_message_v1`, `tpl_toy_two_rooms`).
-- Configurable parameters:
-  - `--template <id>`: Target template ID.
-  - `--count <n>`: Number of distinct cases to generate.
-  - `--difficulty <d>`: Difficulty level 1–4.
-  - `--seed <s>`: Base PRNG seed (auto-increments across generated batches).
-  - `--out <dir>`: Target output directory.
-- Enforces strict validation: Every generated case must pass `validateCase` with 0 errors and measured difficulty matching target difficulty within $\pm 1$.
-- Produces individual JSON files formatted per schema and outputs a consolidated `manifest.json` cataloging case IDs, seeds, generation attempts, and measured metrics.
-- Added comprehensive unit and integration tests in `tools/cli/tests/generate.test.ts`.
+> **Author**: Agent 3 (Lane T/E)  
+> **Branch**: `wp/35b-cli-generate` (STACKED ON `wp/35a-cli-core`)  
+> **Status**: READY
 
-## Acceptance Checklist
-- [x] **CLI generate command:** Generates cases with specified template, count, difficulty, and seed.
-- [x] **Validator integration:** Rejects invalid cases and asserts 0 validator errors before saving.
-- [x] **Manifest generation:** Creates `manifest.json` indexing all generated files with metadata.
-- [x] **Safety & Sanitization:** Enforces path boundaries via `assertSafePath` to prevent directory traversal outside workspace boundaries.
-- [x] **CLI Tests:** Automated tests covering batch generation, invalid template handling, custom output paths, and manifest integrity.
-- [x] **Test suite & CI:** `pnpm -r typecheck`, `pnpm -r lint`, `pnpm -r test` pass clean across all workspace packages.
+---
 
-## Files Changed
-- `tools/cli/src/generate/index.ts` (implemented batch generation logic)
-- `tools/cli/tests/generate.test.ts` (created)
-- `docs/reports/WP-35b.md` (created)
+## 1. Summary
 
-## Decisions Made
-- **Dynamic Template Discovery**: Dynamically resolves all registered templates from `@lastlie/case-engine`, allowing new templates to immediately become available via CLI without modifying `tools/cli`.
-- **Manifest Catalog**: Generated batches include a `manifest.json` describing each generated case's ID, file path, seed, attempts, and measured difficulty.
+- **Procedural Case Generation**: Implemented `lastlie generate --template <id> --count N --difficulty D [--seed S] --out <dir>` in `tools/cli/src/generate/index.ts`.
+- **Dynamic Template Discovery**: Dynamically resolves registered templates from `@lastlie/case-engine` (`BUILTIN_TEMPLATES` plus any exported `CaseTemplate` objects), supporting both canonical IDs (`tpl_toy_two_rooms`, `tpl_false_alibi_v1`, `tpl_missing_item_v1`) and user-friendly aliases (`toy`, `false_alibi`, `missing_item`, etc.).
+- **Deterministic Batch Generation**: Generates deterministic cases using seeded RNG forks; auto-increments seeds `(S, S+1, ...)` for batch generation.
+- **Output Artifacts**: Writes individual `<case_id>.json` CaseDefinition files and an aggregated `summary.json` containing generation metadata: `seed`, `attempts`, `measuredDifficulty`, `fingerprint` (when available via WP-36), and detailed case entries.
+- **Path Sandboxing & Security**: Rigorously guards `--out <dir>` and target filenames via `assertSafePath` and directory traversal checks to prevent writing outside designated output directories or escaping the repository.
+- **Integration Tests**: Added `tools/cli/tests/generate.test.ts` verifying single and multi-case generation, template alias resolution, validation failure handling, and path security.
 
-## Requests
+---
+
+## 2. Acceptance Checklist
+
+| Criteria | Status | Evidence |
+|---|---|---|
+| `lastlie generate --template <id> --count N --difficulty D [--seed S] --out <dir>` | ✅ | Verified CLI options and execution via Commander and `runGenerate` |
+| Writes CaseDefinition JSON | ✅ | Each generated case written as `<case_id>.json` matching schema and passing `validateCase` |
+| Writes `summary.json` (seed, attempts, measured difficulty, fingerprint if available) | ✅ | `summary.json` records `seed`, `attempts`, `measuredDifficulty`, and `fingerprint` (hooked for WP-36) |
+| Works with toy template (`tpl_toy_two_rooms` / `toy`) | ✅ | Verified in `generate.test.ts` and CLI manual test |
+| Works with real templates as merged (`false_alibi`, `missing_item`) | ✅ | Verified in `generate.test.ts` via dynamic registry lookup |
+| Dynamic template lookup without hard-coding | ✅ | Implemented `getTemplateRegistry` inspecting `@lastlie/case-engine` exports |
+| Security: never write outside `--out`, no escaping repo | ✅ | Tested in `generate.test.ts` asserting `SecurityError` on traversal attempts |
+| Integration tests against temporary dirs | ✅ | `tools/cli/tests/generate.test.ts` (8 passed) |
+
+---
+
+## 3. Files Changed
+
+From `git diff --name-only main...HEAD`:
+- `tools/cli/src/generate/index.ts`
+- `tools/cli/tests/generate.test.ts`
+- `docs/reports/WP-35b.md`
+*(Note: branch is stacked on `wp/35a-cli-core`)*
+
+---
+
+## 4. Decisions Made
+
+1. **Flexible Template Lookup**: Created `getTemplateRegistry` that dynamically inspects all templates from `@lastlie/case-engine` and provides normalized aliases (stripping `tpl_` prefix and `_v1` suffix). This allows users to invoke `--template false_alibi` or `--template tpl_false_alibi_v1` interchangeably.
+2. **Dual-level Summary Schema**: `summary.json` provides both top-level metadata (`seed`, `attempts`, `measuredDifficulty`, `fingerprint`) for single-case checks and a `cases` array with per-case details for multi-case runs.
+3. **Optional Fingerprint Hook**: Dynamically detects `fingerprint(def)` from `@lastlie/case-engine` so that as soon as WP-36 implements and exports it, `generate` will populate fingerprints without code changes.
+
+---
+
+## 5. Requests for Integrator / Other Agents
+
 - None.
 
-## Risks / Follow-ups
-- Ready to execute batch generation for Phase 3 content pack (Item (d)).
+---
 
-## Branch & Worktree
-- **Branch:** `wp/35b-cli-generate`
-- **Worktree:** `C:\Users\user\Documents\lastlie-wt\wp-35b`
+## 6. Definition of Done Verification
+
+- `pnpm -r typecheck`: PASS (5/5 packages)
+- `pnpm -r lint`: PASS (5/5 packages)
+- `pnpm -r test`: PASS (38 test files, 357 tests passed)
+- Zero `any` / `@ts-ignore`
+
+---
+
+## 7. Branch & Worktree Path
+
+- **Branch**: `wp/35b-cli-generate` (STACKED ON `wp/35a-cli-core`)
+- **Worktree**: `C:\Users\user\Documents\lastlie-wt\wp-35b`
