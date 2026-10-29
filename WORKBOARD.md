@@ -124,7 +124,7 @@ export interface CaseSlotProps {
 | 10      | MS   | A1    | `wp/10-local-service`      | ✅ merged (slot/hook contract FROZEN)                 |
 | 22      | E    | A2    | `wp/22-progression`        | ✅ merged                                             |
 | 30      | E    | A2    | `wp/30-rng-render`         | ✅ merged                                             |
-| 20a     | C    | Agent 2| `wp/20a-case-0002`         | 🔵 in progress (fair-play fix)                        |
+| 20a     | C    | Agent 2| `wp/20a-case-0002`         | ✅ merged (authored case_0002)                        |
 | 05b     | E    | Agent 2| `wp/05b-validator-fairplay`| ✅ merged (V14/V15 validator checks)                  |
 | 11      | MU   | Agent 3| `wp/11-briefing-evidence`  | ✅ merged                                             |
 | 12      | MU   | Agent 3| `wp/12-evidence-board`     | ✅ merged                                             |
