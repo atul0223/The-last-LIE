@@ -216,6 +216,9 @@ type CaseStatus = "draft" | "validated" | "reviewed" | "published" | "retired";
 | `access.presence` | `access(x, door of L, t)` but x claims `at(x, L2≠L, …)` covering t |
 | `possess.exclusive` | Two people have exclusive possession of the same object over overlapping intervals |
 | `state.value` | Same `what/property` has different values at the same time with no change event between |
+| `presence.travel` | Person x at L1 at/until t1 and at L2 at/from t2 (L1≠L2), and elapsed time `\|t2 - t1\| < travelTime(L1, L2)` |
+
+**Interval semantics:** Intervals are half-open `[from, to)`. A person/possession exists at time `t` when `from <= t < to`. Touching intervals (where `to === from`) do **NOT** count as overlapping.
 
 `ctx` holds the static world data (which door belongs to which location, device owners, travel times between locations). Travel time lets the engine catch "could not have got there in time" contradictions with `presence.travel`.
 
