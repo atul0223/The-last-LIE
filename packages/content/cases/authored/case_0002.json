@@ -1,0 +1,355 @@
+{
+  "id": "case_0002",
+  "version": 1,
+  "kind": "authored",
+  "title": "The Missing Astrum",
+  "difficulty": 1,
+  "estimatedMinutes": 4,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": ["loc_gallery", "loc_dock"],
+    "date": "2026-10-30",
+    "summary": "Helios Fine Arts Gallery and its rear loading dock on a fog-drenched autumn evening."
+  },
+  "briefing": "The Astrum Seal, a priceless clockwork artifact, vanished from Helios Gallery before scheduled transit at 20:30. Who stole the artifact, and how?",
+  "characters": [
+    {
+      "id": "char_asher",
+      "name": "Asher Vance",
+      "role": "Gallery Curator",
+      "publicDescription": "Curator of Helios Gallery. Responsible for verifying display seals before courier shipment."
+    },
+    {
+      "id": "char_beatrice",
+      "name": "Beatrice Chen",
+      "role": "Archive Registrar",
+      "publicDescription": "Registrar responsible for condition reporting and packaging antiquities for courier transit."
+    },
+    {
+      "id": "char_clara",
+      "name": "Clara Diaz",
+      "role": "Security Officer",
+      "publicDescription": "Contract night guard monitoring exterior dock gates and outer perimeter cameras."
+    },
+    {
+      "id": "char_daniel",
+      "name": "Daniel Holt",
+      "role": "Transit Courier",
+      "publicDescription": "Logistics courier contracted to transport the crated antiquity to the municipal museum."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_gallery",
+      "name": "Helios Exhibition Hall",
+      "description": "Main gallery hall featuring glass display vitrines and secured exhibition pedestals.",
+      "doorIds": ["door_gallery_entrance"],
+      "adjacency": [{ "to": "loc_dock", "travelMinutes": 2 }]
+    },
+    {
+      "id": "loc_dock",
+      "name": "North Loading Dock",
+      "description": "Enclosed freight staging bay with automated security turnstiles and rolling shutter doors.",
+      "doorIds": ["door_dock_turnstile", "door_dock_bay"],
+      "adjacency": [{ "to": "loc_gallery", "travelMinutes": 2 }]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_astrum_seal",
+      "name": "The Astrum Seal",
+      "description": "A sixteenth-century brass and obsidian celestial automaton on high-security loan.",
+      "type": "item",
+      "ownerId": "char_asher"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_asher_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_asher",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_asher",
+          "where": "loc_gallery",
+          "from": 1200,
+          "to": 1213
+        }
+      ],
+      "text": "Asher stated: 'I was in the exhibition hall from 20:00 to 20:13 conducting final inventory before walking to the dock.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_beatrice_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_beatrice",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_beatrice",
+          "where": "loc_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Beatrice stated: 'I was present in the loading dock from 20:10 to 20:30 preparing transport crates.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_daniel_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_daniel",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_daniel",
+          "where": "loc_gallery",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "text": "Daniel stated: 'I was in the exhibition hall from 20:15 to 20:30 helping pack vitrines.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_clara_patrol_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_clara",
+          "door": "door_dock_bay",
+          "at": 1205
+        }
+      ],
+      "text": "Perimeter checkpoint log: Guard Clara Diaz scanned badge at North Dock Bay gate at 20:05.",
+      "unlock": { "kind": "default" },
+      "tags": ["red_herring"]
+    },
+    {
+      "id": "clue_pedestal_sensor",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_asher",
+          "what": "obj_astrum_seal",
+          "from": 1205,
+          "to": 1213
+        }
+      ],
+      "text": "Exhibition pedestal sensor log: Display cradle registered manual custody of the Astrum Seal by Asher Vance from 20:05 to 20:13.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_dock_access_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_asher",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Loading dock card reader: Asher Vance scanned credential at North Dock Turnstile at 20:15.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_asher_testimony"
+      }
+    },
+    {
+      "id": "clue_cargo_staging_log",
+      "type": "receipt",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_beatrice",
+          "verb": "placed",
+          "target": "obj_astrum_seal",
+          "at": 1221,
+          "where": "loc_dock"
+        }
+      ],
+      "text": "Loading dock staging record: Beatrice Chen placed the Astrum Seal into dock holding locker at 20:21.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_beatrice_testimony"
+      }
+    },
+    {
+      "id": "clue_courier_access_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_daniel",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Loading dock card reader: Daniel Holt scanned courier badge at North Dock Turnstile at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_daniel_testimony"
+      }
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_asher_stole",
+      "label": "Asher Vance concealed the Astrum Seal in the exhibition hall.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_asher",
+          "where": "loc_gallery",
+          "from": 1210,
+          "to": 1225
+        }
+      ],
+      "culpritIds": ["char_asher"]
+    },
+    {
+      "id": "hyp_beatrice_stole",
+      "label": "Beatrice Chen removed the Astrum Seal during early packing.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_beatrice",
+          "what": "obj_astrum_seal",
+          "from": 1208,
+          "to": 1220
+        }
+      ],
+      "culpritIds": ["char_beatrice"]
+    },
+    {
+      "id": "hyp_daniel_stole",
+      "label": "Daniel Holt took the Astrum Seal from the loading dock staging bay.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_daniel",
+          "verb": "took",
+          "target": "obj_astrum_seal",
+          "at": 1222,
+          "where": "loc_dock"
+        }
+      ],
+      "culpritIds": ["char_daniel"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_dock_bay",
+        "at": 1205
+      },
+      {
+        "kind": "at",
+        "who": "char_asher",
+        "where": "loc_gallery",
+        "from": 1200,
+        "to": 1213
+      },
+      {
+        "kind": "possess",
+        "who": "char_asher",
+        "what": "obj_astrum_seal",
+        "from": 1205,
+        "to": 1213
+      },
+      {
+        "kind": "at",
+        "who": "char_beatrice",
+        "where": "loc_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_asher",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_asher",
+        "where": "loc_dock",
+        "from": 1215,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_daniel",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_beatrice",
+        "verb": "placed",
+        "target": "obj_astrum_seal",
+        "at": 1221,
+        "where": "loc_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_daniel",
+        "where": "loc_dock",
+        "from": 1218,
+        "to": 1228
+      },
+      {
+        "kind": "action",
+        "who": "char_daniel",
+        "verb": "took",
+        "target": "obj_astrum_seal",
+        "at": 1222,
+        "where": "loc_dock"
+      }
+    ],
+    "culpritIds": ["char_daniel"],
+    "liars": [
+      {
+        "who": "char_daniel",
+        "statementClueIds": ["clue_daniel_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_daniel_stole",
+    "keyEvidence": [["clue_dock_access_log", "clue_pedestal_sensor", "clue_courier_access_log"]],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Asher Vance concluded display verification at 20:13 and badged into the loading dock at 20:15, disproving claims that he remained in the gallery hall.",
+        "clueIds": ["clue_dock_access_log", "clue_pedestal_sensor"]
+      },
+      {
+        "time": 1221,
+        "text": "Beatrice Chen transferred the Astrum Seal into the dock holding locker at 20:21 after Asher completed his inspection.",
+        "clueIds": ["clue_cargo_staging_log"]
+      },
+      {
+        "time": 1222,
+        "text": "Daniel Holt entered the loading dock staging bay and took the Astrum Seal at 20:22, fabricating an alibi that placed him in the exhibition hall.",
+        "clueIds": ["clue_daniel_testimony", "clue_courier_access_log"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}
