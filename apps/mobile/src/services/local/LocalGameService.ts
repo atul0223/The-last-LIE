@@ -25,6 +25,7 @@ import type {
   CaseSummary,
 } from '../GameService';
 import { useSessionStore } from '../../store';
+import { loadPersistedState, savePersistedState } from '../../store/persist';
 import { GameServiceError } from './errors';
 
 let sessionCounter = 1;
@@ -34,9 +35,22 @@ export class LocalGameService implements GameService {
   private awardedSessions = new Set<string>();
 
   constructor() {
+    // Load static authored case definitions into memory (NEVER persisted to disk)
     for (const rawCase of AUTHORED_CASES) {
       const parsed = CaseDefinitionSchema.parse(rawCase);
       this.caseDefinitions.set(parsed.id, parsed);
+    }
+
+    // Restore private awardedSessions state from storage
+    try {
+      const persisted = loadPersistedState();
+      if (persisted.awardedSessionIds) {
+        for (const id of persisted.awardedSessionIds) {
+          this.awardedSessions.add(id);
+        }
+      }
+    } catch {
+      // Graceful fallback if storage cannot be read
     }
   }
 
@@ -56,7 +70,13 @@ export class LocalGameService implements GameService {
     const defaultClues = def.clues.filter((c) => c.unlock.kind === 'default');
     const defaultClueIds = defaultClues.map((c) => c.id);
 
-    const sessionId = `sess_${def.id}_${sessionCounter++}`;
+    // Ensure session IDs do not collide across restarts
+    const existingSessions = Object.keys(useSessionStore.getState().sessions);
+    const existingCount = existingSessions.length;
+    const currentCount = Math.max(sessionCounter, existingCount + 1);
+    sessionCounter = currentCount + 1;
+
+    const sessionId = `sess_${def.id}_${currentCount}`;
 
     const board: BoardState = {
       cards: defaultClueIds.map((id, index) => ({
@@ -148,6 +168,7 @@ export class LocalGameService implements GameService {
     if (!session) {
       throw new GameServiceError('SESSION_NOT_FOUND', `Session '${sessionId}' not found`);
     }
+
     useSessionStore.getState().updateSession(sessionId, { board });
   }
 
@@ -160,7 +181,7 @@ export class LocalGameService implements GameService {
       );
     }
 
-    // Idempotent double submit handling
+    // Idempotent double submit handling: if result exists, return immediately without re-awarding
     const existing = useSessionStore.getState().getResult(submission.sessionId);
     if (existing) {
       return existing;
@@ -181,7 +202,7 @@ export class LocalGameService implements GameService {
 
     const reveal = buildReveal(def, submission);
 
-    // If this session has not yet been awarded, record it
+    // If this session has already been awarded, do not double-award XP
     if (this.awardedSessions.has(submission.sessionId)) {
       result = {
         ...result,
@@ -199,6 +220,22 @@ export class LocalGameService implements GameService {
     });
 
     useSessionStore.getState().setResult(submission.sessionId, outcome);
+
+    // Persist updated awardedSessions along with the store state
+    try {
+      const persisted = loadPersistedState();
+      savePersistedState({
+        ...persisted,
+        sessions: useSessionStore.getState().sessions,
+        cases: useSessionStore.getState().cases,
+        results: useSessionStore.getState().results,
+        readClueIds: useSessionStore.getState().readClueIds,
+        activeSessionId: useSessionStore.getState().activeSessionId,
+        awardedSessionIds: Array.from(this.awardedSessions),
+      });
+    } catch {
+      // Storage error does not break game logic
+    }
 
     return outcome;
   }
