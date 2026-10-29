@@ -1,0 +1,359 @@
+{
+  "id": "case_0004",
+  "version": 1,
+  "kind": "authored",
+  "title": "The Midnight Edition",
+  "difficulty": 3,
+  "estimatedMinutes": 6,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": ["loc_newsroom", "loc_printshop"],
+    "date": "2026-11-10",
+    "summary": "The Vesper Chronicle Newsroom and North Gate Lithograph & Print Shop during deadline rush."
+  },
+  "briefing": "At 23:30, the midnight edition of The Vesper Chronicle appeared with a forged front-page headline suppressing a city corruption investigation. Who substituted the lead slug on the rotary press, and how was their false verification exposed?",
+  "characters": [
+    {
+      "id": "char_quinn",
+      "name": "Quinn Harper",
+      "role": "Senior Investigative Reporter",
+      "publicDescription": "Author of the municipal corruption report; was conducting archive research during deadline."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Finch",
+      "role": "Master Typesetter",
+      "publicDescription": "Veteran pressman responsible for freight dock deliveries and mechanical press maintenance."
+    },
+    {
+      "id": "char_silas",
+      "name": "Silas Thorne",
+      "role": "Managing Editor",
+      "publicDescription": "Editor-in-chief overseeing editorial sign-off and safe custody of master headline slugs."
+    },
+    {
+      "id": "char_toby",
+      "name": "Toby Crane",
+      "role": "Print Shop Assistant",
+      "publicDescription": "Composing room assistant assigned to verify plate mounting before the print run."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, reference library, and secured archive vault in downtown Vesper City.",
+      "doorIds": ["door_newsroom_press", "door_newsroom_archives"],
+      "adjacency": [{ "to": "loc_printshop", "travelMinutes": 10 }]
+    },
+    {
+      "id": "loc_printshop",
+      "name": "North Gate Lithograph & Print Shop",
+      "description": "Industrial printing facility containing heavy rotary presses, casting furnaces, and composing bays.",
+      "doorIds": ["door_printshop_dock", "door_printshop_composing"],
+      "adjacency": [{ "to": "loc_newsroom", "travelMinutes": 10 }]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "The High-Speed Rotary Press",
+      "description": "Heavy industrial printing press fitted with optical plate alignment sensors.",
+      "type": "item",
+      "ownerId": "char_roland"
+    },
+    {
+      "id": "obj_lead_slug",
+      "name": "The Front-Page Headline Slug",
+      "description": "A cast lead typography slug bearing the approved editorial headline for the midnight edition.",
+      "type": "item",
+      "ownerId": "char_silas"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_quinn_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_quinn",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_quinn",
+          "where": "loc_newsroom",
+          "from": 1385,
+          "to": 1405
+        }
+      ],
+      "text": "Quinn stated: 'I remained in the newsroom archives from 23:05 to 23:25 reviewing municipal land deeds.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_roland_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_roland",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_printshop",
+          "from": 1385,
+          "to": 1405
+        }
+      ],
+      "text": "Roland stated: 'I was monitoring loading dock deliveries from 23:05 to 23:25.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_toby_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_toby",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "status",
+          "value": "approved_original",
+          "at": 1395
+        }
+      ],
+      "text": "Toby stated: 'I inspected the rotary press plate at 23:15 in the print shop, and its verification status was approved_original.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_editor_custody_log",
+      "type": "receipt",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_silas",
+          "what": "obj_lead_slug",
+          "from": 1380,
+          "to": 1395
+        }
+      ],
+      "text": "Managing editor custody log: Silas Thorne held verified custody of the Front-Page Headline Slug in the newsroom from 23:00 to 23:15.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_dock_patrol_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_printshop_dock",
+          "at": 1388
+        }
+      ],
+      "text": "Print shop delivery reader: Master Typesetter Roland Finch scanned security key at Loading Dock at 23:08.",
+      "unlock": { "kind": "default" },
+      "tags": ["red_herring"]
+    },
+    {
+      "id": "clue_newsroom_keycard_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quinn",
+          "door": "door_newsroom_archives",
+          "at": 1390
+        }
+      ],
+      "text": "Newsroom electronic door lock: Quinn Harper badged into Archives Vault at 23:10.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_quinn_testimony"
+      }
+    },
+    {
+      "id": "clue_press_optical_sensor",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "status",
+          "value": "forged_altered",
+          "at": 1395
+        }
+      ],
+      "text": "Rotary press optical scanner telemetry: Press cylinder plate status registered as forged_altered at 23:15.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_toby_testimony"
+      }
+    },
+    {
+      "id": "clue_composing_cctv",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_toby",
+          "where": "loc_printshop",
+          "from": 1395,
+          "to": 1410
+        }
+      ],
+      "text": "Composing bay camera recording: Toby Crane observed inside North Gate Print Shop from 23:15 to 23:30.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_toby_testimony"
+      }
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_quinn_forged",
+      "label": "Quinn Harper altered the headline plate in the composing room to fabricate a sensational scoop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_quinn",
+          "where": "loc_printshop",
+          "from": 1385,
+          "to": 1400
+        }
+      ],
+      "culpritIds": ["char_quinn"]
+    },
+    {
+      "id": "hyp_roland_forged",
+      "label": "Roland Finch smuggled the forged slug in early and held exclusive possession of the plate.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_roland",
+          "what": "obj_lead_slug",
+          "from": 1382,
+          "to": 1392
+        }
+      ],
+      "culpritIds": ["char_roland"]
+    },
+    {
+      "id": "hyp_toby_forged",
+      "label": "Toby Crane substituted the headline plate on the rotary press in the composing bay.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_toby",
+          "verb": "placed",
+          "target": "obj_rotary_press",
+          "at": 1400,
+          "where": "loc_printshop"
+        }
+      ],
+      "culpritIds": ["char_toby"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_silas",
+        "what": "obj_lead_slug",
+        "from": 1380,
+        "to": 1395
+      },
+      {
+        "kind": "at",
+        "who": "char_quinn",
+        "where": "loc_newsroom",
+        "from": 1385,
+        "to": 1405
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_printshop_dock",
+        "at": 1388
+      },
+      {
+        "kind": "access",
+        "who": "char_quinn",
+        "door": "door_newsroom_archives",
+        "at": 1390
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_printshop",
+        "from": 1385,
+        "to": 1405
+      },
+      {
+        "kind": "state",
+        "what": "obj_rotary_press",
+        "property": "status",
+        "value": "forged_altered",
+        "at": 1395
+      },
+      {
+        "kind": "at",
+        "who": "char_toby",
+        "where": "loc_printshop",
+        "from": 1395,
+        "to": 1410
+      },
+      {
+        "kind": "action",
+        "who": "char_toby",
+        "verb": "placed",
+        "target": "obj_rotary_press",
+        "at": 1400,
+        "where": "loc_printshop"
+      }
+    ],
+    "culpritIds": ["char_toby"],
+    "liars": [
+      {
+        "who": "char_toby",
+        "statementClueIds": ["clue_toby_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_toby_forged",
+    "keyEvidence": [
+      [
+        "clue_newsroom_keycard_log",
+        "clue_editor_custody_log",
+        "clue_composing_cctv"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1390,
+        "text": "Quinn Harper entered the newsroom archive vault at 23:10, disproving allegations that she was at the print shop across town.",
+        "clueIds": ["clue_newsroom_keycard_log"]
+      },
+      {
+        "time": 1395,
+        "text": "Silas Thorne held exclusive custody of the master headline slug until 23:15, disproving that Roland Finch smuggled it earlier.",
+        "clueIds": ["clue_editor_custody_log"]
+      },
+      {
+        "time": 1395,
+        "text": "Rotary press optical sensors confirmed the plate status was forged_altered at 23:15, directly contradicting Toby Crane's claim of an approved plate.",
+        "clueIds": ["clue_toby_testimony", "clue_press_optical_sensor"]
+      },
+      {
+        "time": 1400,
+        "text": "Toby Crane mounted the counterfeit plate onto the rotary press at 23:20, confirming him as the sole perpetrator.",
+        "clueIds": ["clue_composing_cctv"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}
