@@ -1,0 +1,74 @@
+[
+  {
+    "id": "obj_brass_chronometer",
+    "name": "Naval Brass Chronometer",
+    "description": "A precision maritime gimbaled clock used for naval charting.",
+    "type": "item"
+  },
+  {
+    "id": "obj_cipher_ledger",
+    "name": "Transit Cipher Ledger",
+    "description": "An encrypted dispatch notebook containing railway junction codes.",
+    "type": "item"
+  },
+  {
+    "id": "obj_astrum_seal",
+    "name": "The Astrum Seal",
+    "description": "A sixteenth-century clockwork celestial automaton.",
+    "type": "item"
+  },
+  {
+    "id": "obj_lead_slug",
+    "name": "Headline Plate Slug",
+    "description": "A heavy typography slug engraved with the approved editorial headline.",
+    "type": "item"
+  },
+  {
+    "id": "obj_telegraph_terminal",
+    "name": "Meridian Telegraph Terminal",
+    "description": "A brass telegraph transceiver connected to the central exchange.",
+    "type": "device"
+  },
+  {
+    "id": "obj_rotary_press",
+    "name": "High-Speed Rotary Press",
+    "description": "Industrial steam printing press fitted with optical alignment sensors.",
+    "type": "device"
+  },
+  {
+    "id": "obj_archive_terminal",
+    "name": "Archive Catalog Console",
+    "description": "Mechanical card-punch indexing console used for cataloging municipal deeds.",
+    "type": "device"
+  },
+  {
+    "id": "obj_dock_scanner",
+    "name": "Freight Turnstile Scanner",
+    "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+    "type": "device"
+  },
+  {
+    "id": "obj_apothecary_scale",
+    "name": "Precision Analytical Balance",
+    "description": "Delicate counterweighted brass balance used in compounding medicines.",
+    "type": "item"
+  },
+  {
+    "id": "obj_constabulary_safe",
+    "name": "Heavy Iron Evidence Safe",
+    "description": "Three-tumbler safe securing impounded contraband and trial exhibits.",
+    "type": "device"
+  },
+  {
+    "id": "obj_funicular_winch",
+    "name": "Cablecar Hydraulic Controller",
+    "description": "Pneumatic governor station regulating cablecar speed and brake tension.",
+    "type": "device"
+  },
+  {
+    "id": "obj_observatory_spectrograph",
+    "name": "Prismatic Quartz Spectrograph",
+    "description": "Rare optical instrument calibrated for spectral astronomical photography.",
+    "type": "device"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "firstNames": [
+    "Adrian", "Alistair", "Amara", "Arthur", "Astrid", "Atticus", "Beatrix", "Bram",
+    "Cassian", "Celeste", "Clara", "Corin", "Cynthia", "Damian", "Daphne", "Dorian",
+    "Edgar", "Eleanor", "Elias", "Eliza", "Emil", "Esther", "Evander", "Fabian",
+    "Felicity", "Gideon", "Greta", "Harold", "Helena", "Hugo", "Ingrid", "Isaac",
+    "Jasper", "Julian", "Katrina", "Kieran", "Leander", "Lenore", "Lillian", "Lucas",
+    "Lucian", "Magnus", "Marcel", "Maren", "Maxim", "Milo", "Miriam", "Nadia",
+    "Nathaniel", "Nora", "Octavia", "Orion", "Percival", "Quentin", "Reginald", "Roland",
+    "Rosalind", "Rowan", "Sebastian", "Silas", "Soren", "Stella", "Thaddeus", "Theodore",
+    "Tobias", "Valerie", "Victor", "Vera", "Walter", "Wilhelm", "Xavier", "Yvaine"
+  ],
+  "surnames": [
+    "Adler", "Althaus", "Ashford", "Bancroft", "Belmont", "Blackwood", "Brauer", "Calloway",
+    "Castile", "Chambers", "Chen", "Corbett", "Cross", "Cromwell", "Danforth", "Delgado",
+    "Dunbar", "Eisen", "Ellington", "Faulkner", "Finch", "Fitzgerald", "Frost", "Garrick",
+    "Godfrey", "Graves", "Grayson", "Halloway", "Harrington", "Hawthorne", "Haywood", "Holt",
+    "Ibrahim", "Keene", "Kendrick", "Kessler", "Kingsley", "Lancaster", "Lattimore", "Leclair",
+    "Lockwood", "MacKenzie", "Mercer", "Monroe", "Montgomery", "Navarro", "Oakhaven", "Orlov",
+    "Pendleton", "Pike", "Preston", "Radcliffe", "Ramsay", "Roth", "Sinclair", "Sterling",
+    "Strand", "Sutherland", "Talbot", "Thorne", "Vance", "Vaughn", "Volkov", "Wainwright",
+    "Ward", "Waverly", "Webb", "Whitman", "Winter", "Wyatt", "Yeats", "Zimmerman"
+  ]
+}

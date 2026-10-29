@@ -1,0 +1,164 @@
+[
+  {
+    "id": "loc_grand_hotel",
+    "name": "The Grand Vesper Hotel",
+    "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+    "doorIds": ["door_hotel_lobby", "door_hotel_suite"],
+    "adjacency": [
+      { "to": "loc_central_station", "travelMinutes": 15 },
+      { "to": "loc_chronicle_newsroom", "travelMinutes": 10 }
+    ]
+  },
+  {
+    "id": "loc_central_station",
+    "name": "Vesper Central Station",
+    "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+    "doorIds": ["door_station_gate", "door_station_lockers"],
+    "adjacency": [
+      { "to": "loc_grand_hotel", "travelMinutes": 15 },
+      { "to": "loc_north_dock", "travelMinutes": 12 },
+      { "to": "loc_riverfront_market", "travelMinutes": 8 }
+    ]
+  },
+  {
+    "id": "loc_chronicle_newsroom",
+    "name": "The Vesper Chronicle Newsroom",
+    "description": "Editorial offices, library archives, and news telegraph desks.",
+    "doorIds": ["door_newsroom_press", "door_newsroom_archives"],
+    "adjacency": [
+      { "to": "loc_grand_hotel", "travelMinutes": 10 },
+      { "to": "loc_northgate_printshop", "travelMinutes": 10 }
+    ]
+  },
+  {
+    "id": "loc_northgate_printshop",
+    "name": "North Gate Print Shop",
+    "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+    "doorIds": ["door_printshop_dock", "door_printshop_composing"],
+    "adjacency": [
+      { "to": "loc_chronicle_newsroom", "travelMinutes": 10 },
+      { "to": "loc_helios_gallery", "travelMinutes": 14 }
+    ]
+  },
+  {
+    "id": "loc_helios_gallery",
+    "name": "Helios Fine Arts Gallery",
+    "description": "Stately municipal exhibition hall featuring glass vitrines and antiquities.",
+    "doorIds": ["door_gallery_entrance", "door_gallery_vault"],
+    "adjacency": [
+      { "to": "loc_northgate_printshop", "travelMinutes": 14 },
+      { "to": "loc_north_dock", "travelMinutes": 5 }
+    ]
+  },
+  {
+    "id": "loc_north_dock",
+    "name": "North Freight Dock",
+    "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+    "doorIds": ["door_dock_turnstile", "door_dock_bay"],
+    "adjacency": [
+      { "to": "loc_helios_gallery", "travelMinutes": 5 },
+      { "to": "loc_central_station", "travelMinutes": 12 },
+      { "to": "loc_harbor_warehouse", "travelMinutes": 8 }
+    ]
+  },
+  {
+    "id": "loc_blackwood_archive",
+    "name": "Blackwood Historical Archives",
+    "description": "Limestone repository holding rare city deeds, municipal records, and codices.",
+    "doorIds": ["door_archive_reading", "door_archive_stacks"],
+    "adjacency": [
+      { "to": "loc_district4_precinct", "travelMinutes": 6 },
+      { "to": "loc_clocktower_exchange", "travelMinutes": 10 }
+    ]
+  },
+  {
+    "id": "loc_harbor_warehouse",
+    "name": "Pier 9 Harbor Warehouse",
+    "description": "Waterfront customs storage depot stacked with timber pallets and freight crates.",
+    "doorIds": ["door_warehouse_rollgate", "door_warehouse_office"],
+    "adjacency": [
+      { "to": "loc_north_dock", "travelMinutes": 8 },
+      { "to": "loc_riverfront_market", "travelMinutes": 6 }
+    ]
+  },
+  {
+    "id": "loc_st_jude_infirmary",
+    "name": "St. Jude District Infirmary",
+    "description": "Victorian brick charity hospital with triage wards and an apothecary store.",
+    "doorIds": ["door_infirmary_triage", "door_infirmary_pharmacy"],
+    "adjacency": [
+      { "to": "loc_district4_precinct", "travelMinutes": 7 },
+      { "to": "loc_botanical_conservatory", "travelMinutes": 11 }
+    ]
+  },
+  {
+    "id": "loc_district4_precinct",
+    "name": "District 4 Constabulary",
+    "description": "Municipal police headquarters with booking desks, cells, and evidence storage.",
+    "doorIds": ["door_precinct_front", "door_precinct_cells"],
+    "adjacency": [
+      { "to": "loc_st_jude_infirmary", "travelMinutes": 7 },
+      { "to": "loc_blackwood_archive", "travelMinutes": 6 }
+    ]
+  },
+  {
+    "id": "loc_ironworks_foundry",
+    "name": "Vulcan Steam Foundry",
+    "description": "Heavy industrial smelting works with blast furnaces and iron casting floor.",
+    "doorIds": ["door_foundry_gate", "door_foundry_furnace"],
+    "adjacency": [
+      { "to": "loc_clocktower_exchange", "travelMinutes": 9 },
+      { "to": "loc_cablecar_station", "travelMinutes": 12 }
+    ]
+  },
+  {
+    "id": "loc_clocktower_exchange",
+    "name": "The Meridian Clocktower",
+    "description": "Civic telegraph exchange and municipal timepiece dominating Central Square.",
+    "doorIds": ["door_clocktower_foyer", "door_clocktower_dial"],
+    "adjacency": [
+      { "to": "loc_blackwood_archive", "travelMinutes": 10 },
+      { "to": "loc_ironworks_foundry", "travelMinutes": 9 }
+    ]
+  },
+  {
+    "id": "loc_riverfront_market",
+    "name": "Old Riverfront Market",
+    "description": "Covered cobblestone market pavilion alongside the canal docks.",
+    "doorIds": ["door_market_pier", "door_market_stalls"],
+    "adjacency": [
+      { "to": "loc_central_station", "travelMinutes": 8 },
+      { "to": "loc_harbor_warehouse", "travelMinutes": 6 }
+    ]
+  },
+  {
+    "id": "loc_botanical_conservatory",
+    "name": "Glass Botanical Conservatory",
+    "description": "Ornate cast-iron and glass conservatory housing exotic flora and research hotbeds.",
+    "doorIds": ["door_conservatory_atrium", "door_conservatory_greenhouse"],
+    "adjacency": [
+      { "to": "loc_st_jude_infirmary", "travelMinutes": 11 },
+      { "to": "loc_solaris_observatory", "travelMinutes": 14 }
+    ]
+  },
+  {
+    "id": "loc_solaris_observatory",
+    "name": "Solaris Hill Observatory",
+    "description": "High-altitude astronomical dome overlooking the foggy sprawl of Vesper City.",
+    "doorIds": ["door_observatory_dome", "door_observatory_library"],
+    "adjacency": [
+      { "to": "loc_botanical_conservatory", "travelMinutes": 14 },
+      { "to": "loc_cablecar_station", "travelMinutes": 8 }
+    ]
+  },
+  {
+    "id": "loc_cablecar_station",
+    "name": "Highgate Cablecar Station",
+    "description": "Funicular rail terminus transporting passengers up the steep hills to Highgate.",
+    "doorIds": ["door_cablecar_turnstile", "door_cablecar_platform"],
+    "adjacency": [
+      { "to": "loc_solaris_observatory", "travelMinutes": 8 },
+      { "to": "loc_ironworks_foundry", "travelMinutes": 12 }
+    ]
+  }
+]

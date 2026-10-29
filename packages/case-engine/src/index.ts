@@ -8,3 +8,4 @@ export * from './scoring/index.js';
 export * from './progression/index.js';
 export * from './rng.js';
 export * from './render/index.js';
+export * from './generator/core/index.js';
