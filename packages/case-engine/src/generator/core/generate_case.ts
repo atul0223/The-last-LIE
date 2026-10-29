@@ -4,6 +4,7 @@ import { buildRenderWorld, renderClue } from '../../render/index.js';
 import type { ValidationReport } from '../../validator/types.js';
 import { fillSlots } from './fill_slots.js';
 import { tpl_toy_two_rooms } from './toy_template.js';
+import { tpl_false_alibi } from '../templates/false_alibi.js';
 import {
   type CaseTemplate,
   type GenerationOptions,
@@ -13,6 +14,7 @@ import {
 
 export const BUILTIN_TEMPLATES: Record<string, CaseTemplate> = {
   [tpl_toy_two_rooms.id]: tpl_toy_two_rooms,
+  [tpl_false_alibi.id]: tpl_false_alibi,
 };
 
 /**
