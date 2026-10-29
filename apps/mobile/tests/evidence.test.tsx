@@ -3,28 +3,25 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import renderer, { act } from 'react-test-renderer';
 import type { CasePublic, SessionState, PublicClue, ClueType } from '@lastlie/case-engine';
 
-vi.mock('@shopify/flash-list', async () => {
-  const { View } = await import('react-native-web');
-  return {
-    FlashList: <T,>({
-      data,
-      renderItem,
-      keyExtractor,
-    }: {
-      data: T[];
-      renderItem: (info: { item: T; index: number }) => React.ReactElement | null;
-      keyExtractor?: (item: T, index: number) => string;
-    }) => (
-      <View testID="flash-list-mock">
-        {data.map((item, index) => (
-          <React.Fragment key={keyExtractor ? keyExtractor(item, index) : index}>
-            {renderItem({ item, index })}
-          </React.Fragment>
-        ))}
-      </View>
-    ),
-  };
-});
+vi.mock('@shopify/flash-list', () => ({
+  FlashList: <T,>({
+    data,
+    renderItem,
+    keyExtractor,
+  }: {
+    data: T[];
+    renderItem: (info: { item: T; index: number }) => React.ReactElement | null;
+    keyExtractor?: (item: T, index: number) => string;
+  }) => (
+    <>
+      {data.map((item, index) => (
+        <React.Fragment key={keyExtractor ? keyExtractor(item, index) : index}>
+          {renderItem({ item, index })}
+        </React.Fragment>
+      ))}
+    </>
+  ),
+}));
 
 import EvidenceSlot from '../src/features/case/evidence';
 import { ClueCard } from '../src/features/case/components/ClueCard';
