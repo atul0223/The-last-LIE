@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "The Last Lie",
+    "slug": "the-last-lie",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "thelastlie",
+    "newArchEnabled": true,
+    "jsEngine": "hermes",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0d0f12"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lastlie.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0d0f12"
+      },
+      "package": "com.lastlie.mobile"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
