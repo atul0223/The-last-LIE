@@ -1,0 +1,361 @@
+{
+  "id": "case_0003",
+  "version": 1,
+  "kind": "authored",
+  "title": "The Man from Platform 4",
+  "difficulty": 2,
+  "estimatedMinutes": 5,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": ["loc_station", "loc_hotel"],
+    "date": "2026-11-04",
+    "summary": "Vesper Central Station and The Grand Vesper Hotel on a cold November evening."
+  },
+  "briefing": "At 22:00, the Transit Cipher Ledger vanished from Vesper Central Station during an encrypted courier relay. Intelligence warns that the operative 'The Chameleon' arrived under a false identity to intercept it. Who is the impostor, and how was their alibi broken?",
+  "characters": [
+    {
+      "id": "char_irene",
+      "name": "Irene Frost",
+      "role": "Diplomatic Attache",
+      "publicDescription": "Foreign affairs attache lodging at the Grand Vesper Hotel while delivering encrypted transit manifests."
+    },
+    {
+      "id": "char_julian",
+      "name": "Julian Croft",
+      "role": "Station Dispatcher",
+      "publicDescription": "Night supervisor in charge of freight staging and luggage locker dispatch at Vesper Central Station."
+    },
+    {
+      "id": "char_kendra",
+      "name": "Kendra Pike",
+      "role": "Platform Technician",
+      "publicDescription": "Maintenance technician monitoring rail power systems and concourse turnstiles."
+    },
+    {
+      "id": "char_lucas",
+      "name": "Lucas Mercer",
+      "role": "Visiting Antiquarian",
+      "publicDescription": "Traveling archivist claiming to be in Vesper City for an auction, staying at the Grand Vesper Hotel."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail terminus featuring passenger platforms, automated luggage bays, and staff offices.",
+      "doorIds": ["door_station_gate", "door_station_lockers"],
+      "adjacency": [{ "to": "loc_hotel", "travelMinutes": 15 }]
+    },
+    {
+      "id": "loc_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated three kilometers north of the central rail terminus.",
+      "doorIds": ["door_hotel_lobby", "door_hotel_suite"],
+      "adjacency": [{ "to": "loc_station", "travelMinutes": 15 }]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "The Transit Cipher Ledger",
+      "description": "An encrypted dispatch journal bound in dark morocco leather containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_julian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_irene_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_irene",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_irene",
+          "where": "loc_hotel",
+          "from": 1275,
+          "to": 1295
+        }
+      ],
+      "text": "Irene stated: 'I remained in my suite at the Grand Vesper Hotel from 21:15 to 21:35 reviewing conference papers.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_julian_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_julian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_station",
+          "from": 1280,
+          "to": 1300
+        }
+      ],
+      "text": "Julian stated: 'I was on duty inside the station freight office from 21:20 to 21:40 logging overnight cargo manifests.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_lucas_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lucas",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lucas",
+          "where": "loc_hotel",
+          "from": 1280,
+          "to": 1300
+        }
+      ],
+      "text": "Lucas stated: 'I was in the Grand Vesper Hotel lobby from 21:20 to 21:40 having tea before turning in.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_hotel_custody_receipt",
+      "type": "receipt",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_irene",
+          "what": "obj_cipher_ledger",
+          "from": 1265,
+          "to": 1280
+        }
+      ],
+      "text": "Hotel safe deposit dispatch receipt: Irene Frost held registered custody of the Transit Cipher Ledger until courier transfer from 21:05 to 21:20.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_platform_maintenance_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_kendra",
+          "door": "door_station_gate",
+          "at": 1270
+        }
+      ],
+      "text": "Station concourse gate reader: Technician Kendra Pike scanned service pass at Concourse Gate at 21:10.",
+      "unlock": { "kind": "default" },
+      "tags": ["red_herring"]
+    },
+    {
+      "id": "clue_hotel_keycard_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_irene",
+          "door": "door_hotel_suite",
+          "at": 1285
+        }
+      ],
+      "text": "Hotel suite electronic lock record: Irene Frost unlocked Suite 402 at Grand Vesper Hotel at 21:25.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_irene_testimony"
+      }
+    },
+    {
+      "id": "clue_luggage_locker_log",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_julian",
+          "verb": "placed",
+          "target": "obj_cipher_ledger",
+          "at": 1285,
+          "where": "loc_station"
+        }
+      ],
+      "text": "Automated luggage locker telemetry: Julian Croft placed the Transit Cipher Ledger into locker storage at 21:25.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_julian_testimony"
+      }
+    },
+    {
+      "id": "clue_station_cctv",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lucas",
+          "where": "loc_station",
+          "from": 1305,
+          "to": 1315
+        }
+      ],
+      "text": "Station platform camera feed: Lucas Mercer recorded on Platform 4 at Vesper Central Station from 21:45 to 21:55.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_lucas_testimony"
+      }
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_irene_operative",
+      "label": "Irene Frost used an attache alias to take the ledger during a secret meet at the station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_irene",
+          "where": "loc_station",
+          "from": 1280,
+          "to": 1295
+        }
+      ],
+      "culpritIds": ["char_irene"]
+    },
+    {
+      "id": "hyp_julian_operative",
+      "label": "Julian Croft retained custody of the cipher ledger to sell to foreign syndicates.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_julian",
+          "what": "obj_cipher_ledger",
+          "from": 1270,
+          "to": 1290
+        }
+      ],
+      "culpritIds": ["char_julian"]
+    },
+    {
+      "id": "hyp_lucas_operative",
+      "label": "Lucas Mercer is 'The Chameleon' who retrieved the ledger at Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lucas",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1308,
+          "where": "loc_station"
+        }
+      ],
+      "culpritIds": ["char_lucas"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "access",
+        "who": "char_kendra",
+        "door": "door_station_gate",
+        "at": 1270
+      },
+      {
+        "kind": "possess",
+        "who": "char_irene",
+        "what": "obj_cipher_ledger",
+        "from": 1265,
+        "to": 1280
+      },
+      {
+        "kind": "at",
+        "who": "char_irene",
+        "where": "loc_hotel",
+        "from": 1275,
+        "to": 1295
+      },
+      {
+        "kind": "access",
+        "who": "char_irene",
+        "door": "door_hotel_suite",
+        "at": 1285
+      },
+      {
+        "kind": "at",
+        "who": "char_julian",
+        "where": "loc_station",
+        "from": 1280,
+        "to": 1300
+      },
+      {
+        "kind": "action",
+        "who": "char_julian",
+        "verb": "placed",
+        "target": "obj_cipher_ledger",
+        "at": 1285,
+        "where": "loc_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_lucas",
+        "where": "loc_hotel",
+        "from": 1280,
+        "to": 1285
+      },
+      {
+        "kind": "at",
+        "who": "char_lucas",
+        "where": "loc_station",
+        "from": 1302,
+        "to": 1318
+      },
+      {
+        "kind": "action",
+        "who": "char_lucas",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1308,
+        "where": "loc_station"
+      }
+    ],
+    "culpritIds": ["char_lucas"],
+    "liars": [
+      {
+        "who": "char_lucas",
+        "statementClueIds": ["clue_lucas_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_lucas_operative",
+    "keyEvidence": [
+      [
+        "clue_hotel_keycard_log",
+        "clue_hotel_custody_receipt",
+        "clue_station_cctv"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1285,
+        "text": "Irene Frost unlocked Suite 402 at the Grand Vesper Hotel at 21:25, disproving claims that she slipped away to the train station.",
+        "clueIds": ["clue_hotel_keycard_log"]
+      },
+      {
+        "time": 1285,
+        "text": "Hotel safe records prove Irene held custody of the ledger until 21:20, disproving that Julian Croft stole it during early dispatch.",
+        "clueIds": ["clue_hotel_custody_receipt", "clue_luggage_locker_log"]
+      },
+      {
+        "time": 1305,
+        "text": "Lucas Mercer appeared on Platform 4 security cameras at 21:45, an impossible 5-minute transit from his claimed 21:40 hotel alibi.",
+        "clueIds": ["clue_lucas_testimony", "clue_station_cctv"]
+      },
+      {
+        "time": 1308,
+        "text": "Lucas Mercer retrieved the Transit Cipher Ledger from locker storage at 21:48, confirming his identity as 'The Chameleon'.",
+        "clueIds": ["clue_station_cctv"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}
