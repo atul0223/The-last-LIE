@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`WP-30 Prose Rendering Engine > Snapshot Tests > matches deterministic snapshot for case_0001 clues at seeds 1, 2, 3 1`] = `
+{
+  "seed_1": [
+    "[clue_message_carrier]: [23:47] MESSAGE RECORD · Maya's Work Phone sent to Arjun Mehta by Arjun Mehta",
+    "[clue_arjun_testimony]: Arjun Mehta stated: "Maya Lin remained in 4th Floor Design Studio between 23:40 and 23:55."",
+    "[clue_maya_testimony]: Maya Lin stated: "Maya Lin remained in 4th Floor Design Studio between 23:00 and 23:37."",
+    "[clue_rhea_testimony]: Rhea Vance stated: "Between 23:40 and 23:50, Rhea Vance was present at Ground Floor Lobby."",
+    "[clue_marcus_log]: [23:30] ENTRY_GATE · COURTYARD_GATE · authorized: Marcus Kane",
+    "[clue_keycard_exit]: [23:41] ENTRY_GATE · LOBBY_EXIT · authorized: Maya Lin",
+    "[clue_device_log]: [23:47] MAYA'S_WORK_PHONE · session: Arjun Mehta",
+  ],
+  "seed_2": [
+    "[clue_message_carrier]: [23:47] SMS · Maya's Work Phone → Arjun Mehta (sender: Arjun Mehta)",
+    "[clue_arjun_testimony]: Arjun Mehta stated: "Maya Lin remained in 4th Floor Design Studio between 23:40 and 23:55."",
+    "[clue_maya_testimony]: Maya Lin stated: "Maya Lin remained in 4th Floor Design Studio between 23:00 and 23:37."",
+    "[clue_rhea_testimony]: Rhea Vance testified: "Between 23:40 and 23:50, Rhea Vance was present at Ground Floor Lobby."",
+    "[clue_marcus_log]: [23:30] ENTRY_GATE · COURTYARD_GATE · authorized: Marcus Kane",
+    "[clue_keycard_exit]: [23:41] ACCESS_LOG · LOBBY_EXIT · badge: Maya Lin",
+    "[clue_device_log]: [23:47] SYS_LOG · MAYA'S_WORK_PHONE active · operator: Arjun Mehta",
+  ],
+  "seed_3": [
+    "[clue_message_carrier]: [23:47] SMS · Maya's Work Phone → Arjun Mehta (sender: Arjun Mehta)",
+    "[clue_arjun_testimony]: Arjun Mehta reported: "Between 23:40 and 23:55, Maya Lin was present at 4th Floor Design Studio."",
+    "[clue_maya_testimony]: Maya Lin stated: "Maya Lin remained in 4th Floor Design Studio between 23:00 and 23:37."",
+    "[clue_rhea_testimony]: Rhea Vance stated: "Between 23:40 and 23:50, Rhea Vance was present at Ground Floor Lobby."",
+    "[clue_marcus_log]: [23:30] ACCESS_LOG · COURTYARD_GATE · badge: Marcus Kane",
+    "[clue_keycard_exit]: [23:41] ACCESS_LOG · LOBBY_EXIT · badge: Maya Lin",
+    "[clue_device_log]: [23:47] MAYA'S_WORK_PHONE · session: Arjun Mehta",
+  ],
+}
+`;
