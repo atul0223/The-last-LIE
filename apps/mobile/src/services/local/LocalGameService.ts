@@ -1,0 +1,252 @@
+import { AUTHORED_CASES } from '@lastlie/content';
+import {
+  toPublicCase,
+  canUnlock,
+  scoreSubmission,
+  buildReveal,
+  CaseDefinitionSchema,
+} from '@lastlie/case-engine';
+import type {
+  CaseDefinition,
+  CasePublic,
+  PublicClue,
+  SessionState,
+  BoardState,
+  Submission,
+  ScoreResult,
+  Reveal,
+  ClueUnlock,
+} from '@lastlie/case-engine';
+import type {
+  GameService,
+  StartSessionOptions,
+  PlayerProgress,
+  ArchiveEntry,
+  CaseSummary,
+} from '../GameService';
+import { useSessionStore } from '../../store';
+import { GameServiceError } from './errors';
+
+let sessionCounter = 1;
+
+export class LocalGameService implements GameService {
+  private readonly caseDefinitions: Map<string, CaseDefinition> = new Map();
+  private awardedSessions = new Set<string>();
+
+  constructor() {
+    for (const rawCase of AUTHORED_CASES) {
+      const parsed = CaseDefinitionSchema.parse(rawCase);
+      this.caseDefinitions.set(parsed.id, parsed);
+    }
+  }
+
+  async startSession(
+    opts?: StartSessionOptions,
+  ): Promise<{ session: SessionState; case: CasePublic }> {
+    const caseId = opts?.caseId ?? 'case_0001';
+    const def = this.caseDefinitions.get(caseId);
+
+    if (!def) {
+      throw new GameServiceError(
+        'CASE_NOT_FOUND',
+        `Case '${caseId}' was not found in local authored cases`,
+      );
+    }
+
+    const defaultClues = def.clues.filter((c) => c.unlock.kind === 'default');
+    const defaultClueIds = defaultClues.map((c) => c.id);
+
+    const sessionId = `sess_${def.id}_${sessionCounter++}`;
+
+    const board: BoardState = {
+      cards: defaultClueIds.map((id, index) => ({
+        id,
+        x: 100 + (index % 3) * 220,
+        y: 120 + Math.floor(index / 3) * 160,
+      })),
+      links: [],
+    };
+
+    const session: SessionState = {
+      id: sessionId,
+      caseId: def.id,
+      caseVersion: def.version,
+      mode: opts?.mode ?? 'normal',
+      unlockedClueIds: defaultClueIds,
+      board,
+      status: 'in_progress',
+      startedAt: new Date(1710000000000).toISOString(),
+    };
+
+    useSessionStore.getState().setSession(session);
+
+    const publicCase = toPublicCase(def, session.unlockedClueIds);
+    return { session, case: publicCase };
+  }
+
+  async unlockClue(sessionId: string, clueId: string, via: ClueUnlock): Promise<PublicClue> {
+    const session = useSessionStore.getState().getSession(sessionId);
+    if (!session) {
+      throw new GameServiceError('SESSION_NOT_FOUND', `Session '${sessionId}' not found`);
+    }
+
+    if (session.status !== 'in_progress') {
+      throw new GameServiceError(
+        'ALREADY_SUBMITTED',
+        `Cannot unlock clues on a ${session.status} session`,
+      );
+    }
+
+    const def = this.caseDefinitions.get(session.caseId);
+    if (!def) {
+      throw new GameServiceError('CASE_NOT_FOUND', `Case '${session.caseId}' definition missing`);
+    }
+
+    // Check if already unlocked
+    if (session.unlockedClueIds.includes(clueId)) {
+      const pubCase = toPublicCase(def, session.unlockedClueIds);
+      const found = pubCase.clues.find((c) => c.id === clueId);
+      if (found) return found;
+    }
+
+    // Check unlock eligibility with case-engine
+    const check = canUnlock(def, session, clueId, via);
+    if (!check.ok) {
+      throw new GameServiceError('CANNOT_UNLOCK', check.message, check);
+    }
+
+    const nextUnlocked = [...session.unlockedClueIds, clueId];
+    const newCard = {
+      id: clueId,
+      x: 100 + (nextUnlocked.length % 3) * 220,
+      y: 120 + Math.floor(nextUnlocked.length / 3) * 160,
+    };
+
+    const nextBoard: BoardState = {
+      ...session.board,
+      cards: [...session.board.cards, newCard],
+    };
+
+    useSessionStore.getState().updateSession(sessionId, {
+      unlockedClueIds: nextUnlocked,
+      board: nextBoard,
+    });
+
+    const updatedPublicCase = toPublicCase(def, nextUnlocked);
+    const unlockedClue = updatedPublicCase.clues.find((c) => c.id === clueId);
+    if (!unlockedClue) {
+      throw new GameServiceError('CLUE_NOT_FOUND', `Clue '${clueId}' not found after unlock`);
+    }
+
+    return unlockedClue;
+  }
+
+  async saveBoard(sessionId: string, board: BoardState): Promise<void> {
+    const session = useSessionStore.getState().getSession(sessionId);
+    if (!session) {
+      throw new GameServiceError('SESSION_NOT_FOUND', `Session '${sessionId}' not found`);
+    }
+    useSessionStore.getState().updateSession(sessionId, { board });
+  }
+
+  async submit(submission: Submission): Promise<{ result: ScoreResult; reveal: Reveal }> {
+    const session = useSessionStore.getState().getSession(submission.sessionId);
+    if (!session) {
+      throw new GameServiceError(
+        'SESSION_NOT_FOUND',
+        `Session '${submission.sessionId}' not found`,
+      );
+    }
+
+    // Idempotent double submit handling
+    const existing = useSessionStore.getState().getResult(submission.sessionId);
+    if (existing) {
+      return existing;
+    }
+
+    const def = this.caseDefinitions.get(session.caseId);
+    if (!def) {
+      throw new GameServiceError('CASE_NOT_FOUND', `Case '${session.caseId}' definition missing`);
+    }
+
+    let result: ScoreResult;
+    try {
+      result = scoreSubmission(def, session, submission);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      throw new GameServiceError('INVALID_SUBMISSION', msg);
+    }
+
+    const reveal = buildReveal(def, submission);
+
+    // If this session has not yet been awarded, record it
+    if (this.awardedSessions.has(submission.sessionId)) {
+      result = {
+        ...result,
+        xp: 0,
+      };
+    } else {
+      this.awardedSessions.add(submission.sessionId);
+    }
+
+    const outcome = { result, reveal };
+
+    useSessionStore.getState().updateSession(submission.sessionId, {
+      status: 'submitted',
+      submittedAt: new Date(1710000600000).toISOString(),
+    });
+
+    useSessionStore.getState().setResult(submission.sessionId, outcome);
+
+    return outcome;
+  }
+
+  async getProgress(): Promise<PlayerProgress> {
+    const results = Object.values(useSessionStore.getState().results);
+    const totalScore = results.reduce((sum, o) => sum + o.result.score, 0);
+
+    return {
+      rank: totalScore > 1000 ? 'Senior Detective' : 'Detective Inspector',
+      masteryPoints: totalScore,
+      solvedCasesCount: results.length,
+      streakDays: results.length > 0 ? 1 : 0,
+      unlockedDossiers: ['char_maya', 'char_arjun'],
+    };
+  }
+
+  async listArchive(): Promise<ArchiveEntry[]> {
+    const entries: ArchiveEntry[] = [];
+    const sessions = Object.values(useSessionStore.getState().sessions);
+
+    for (const session of sessions) {
+      const outcome = useSessionStore.getState().getResult(session.id);
+      const def = this.caseDefinitions.get(session.caseId);
+      if (outcome && def) {
+        entries.push({
+          caseId: def.id,
+          title: def.title,
+          difficulty: def.difficulty,
+          solvedAt: session.submittedAt ?? session.startedAt,
+          score: outcome.result.score,
+          stars: outcome.result.score >= 100 ? 3 : outcome.result.score >= 50 ? 2 : 1,
+        });
+      }
+    }
+
+    return entries;
+  }
+
+  async getDaily(): Promise<CaseSummary> {
+    const def = this.caseDefinitions.get('case_0001');
+    if (!def) {
+      throw new GameServiceError('CASE_NOT_FOUND', 'Daily case 0001 not found');
+    }
+    return {
+      caseId: def.id,
+      title: def.title,
+      summary: def.briefing,
+      difficulty: def.difficulty,
+      estimatedMinutes: def.estimatedMinutes,
+    };
+  }
+}
