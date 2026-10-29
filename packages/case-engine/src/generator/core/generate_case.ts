@@ -5,6 +5,7 @@ import type { ValidationReport } from '../../validator/types.js';
 import { fillSlots } from './fill_slots.js';
 import { tpl_toy_two_rooms } from './toy_template.js';
 import { tpl_false_alibi } from '../templates/false_alibi.js';
+import { tpl_missing_item } from '../templates/missing_item.js';
 import {
   type CaseTemplate,
   type GenerationOptions,
@@ -15,6 +16,7 @@ import {
 export const BUILTIN_TEMPLATES: Record<string, CaseTemplate> = {
   [tpl_toy_two_rooms.id]: tpl_toy_two_rooms,
   [tpl_false_alibi.id]: tpl_false_alibi,
+  [tpl_missing_item.id]: tpl_missing_item,
 };
 
 /**
