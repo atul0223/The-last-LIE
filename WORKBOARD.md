@@ -137,7 +137,10 @@ export interface CaseSlotProps {
 | 24      | MU   | Agent 3| `wp/24-home-library`       | ✅ merged (home hero CTA, library catalog, filters)   |
 | 23      | MU   | Agent 3| `wp/23-progress-tab`       | ✅ merged (rank card, archive, replay, dossiers)      |
 | 25      | D    | A1    | `main`                     | ✅ merged (playtest kit, survey, rubrics, guide)      |
-| 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |
+| 32      | E    | Agent 2| `wp/32-template-false-alibi`| ✅ merged (false_alibi procedural template)           |
+| 33      | E    | Agent 2| `wp/33-template-missing-item`| ✅ merged (missing_item procedural template)         |
+| 34      | E    | Agent 2| `wp/34-template-forged-message`| 🔵 in progress (forged_message procedural template) |
+| 35a     | T    | Agent 3| `wp/35a-cli-core`          | 🔵 in progress (CLI validate, render, playtest)       |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
 
