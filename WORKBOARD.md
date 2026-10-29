@@ -130,7 +130,8 @@ export interface CaseSlotProps {
 | 12      | MU   | Agent 3| `wp/12-evidence-board`     | ✅ merged                                             |
 | 13      | MU   | Agent 3| `wp/13-theory-reveal`       | ✅ merged                                             |
 | 21      | MS   | Agent 3| `wp/21-local-persistence`  | 🔵 in progress (Wave 2)                               |
-| 20b/c   | C    | Agent 2|                            | ⬜ Wave 1                                             |
+| 20b     | C    | Agent 2| `wp/20b-case-0003`         | ✅ merged (authored case_0003)                        |
+| 20c     | C    | Agent 2| `wp/20c-case-0004`         | 🔵 in progress (Wave 1)                               |
 | 25      | D    |       |                            | ⬜ Wave 1 (opt)                                       |
 | 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |
 | NEXT-2  | INT  | —     | —                          | ⬜ not started (message `sender` still required)      |
