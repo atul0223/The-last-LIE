@@ -118,11 +118,11 @@ export interface CaseSlotProps {
 
 | WP      | Lane | Agent | Branch               | State                                            |
 | ------- | ---- | ----- | -------------------- | ------------------------------------------------ |
-| 01–06   | —    | —     | stacked `wp/01…06`   | ✅ committed, **not merged to main**             |
-| 07      | MS   | —     | `wp/07-mobile-shell` | 🟡 built, **uncommitted**. Tests 5/5 pass        |
+| 01–07   | —    | INT   | `main`               | ✅ committed & merged to main                    |
+| 07      | MS   | INT   | `main`               | ✅ committed & merged to main                    |
 | NEXT-2  | INT  | —     | —                    | ⬜ not started (message `sender` still required) |
 | NEXT-3  | INT  | —     | —                    | ⬜ not started (no `.gitattributes`)             |
-| 10      | MS   | A1    |                      | ⬜ Wave 1                                        |
+| 10      | MS   | A1    | `wp/10-local-service`| 🔵 in progress (Wave 1)                          |
 | 20a/b/c | C    | A4/A5 |                      | ⬜ Wave 1                                        |
 | 22      | E    | A2    |                      | ⬜ Wave 1                                        |
 | 25      | D    |       |                      | ⬜ Wave 1 (opt)                                  |
