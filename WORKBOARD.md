@@ -141,7 +141,8 @@ export interface CaseSlotProps {
 | 33      | E    | Agent 2| `wp/33-template-missing-item`| ✅ merged (missing_item procedural template)         |
 | 34      | E    | Agent 2| `wp/34-template-forged-message`| ✅ merged (forged_message procedural template)        |
 | 35a     | T    | Agent 3| `wp/35a-cli-core`          | ✅ merged (CLI validate, render, playtest)           |
-| 35b     | T    | Agent 3| `wp/35b-cli-generate`      | 🔵 in progress (CLI generate command)                |
+| 35b     | T    | Agent 3| `wp/35b-cli-generate`      | ✅ merged (CLI generate command)                     |
+| 36      | E    | Agent 3| `wp/36-fingerprint-calibration` | 🔵 in progress (fingerprint & difficulty tuning) |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
 
