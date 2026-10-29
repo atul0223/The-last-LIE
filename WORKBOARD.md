@@ -135,7 +135,7 @@ export interface CaseSlotProps {
 | 20c     | C    | Agent 2| `wp/20c-case-0004`         | ✅ merged (authored case_0004)                        |
 | 31      | E    | Agent 2| `wp/31-template-framework` | ✅ merged (generator core, pools, toy template)       |
 | 24      | MU   | Agent 3| `wp/24-home-library`       | ✅ merged (home hero CTA, library catalog, filters)   |
-| 23      | MU   | Agent 3| `wp/23-progress-tab`       | 🔵 in progress (Wave 3)                               |
+| 23      | MU   | Agent 3| `wp/23-progress-tab`       | ✅ merged (rank card, archive, replay, dossiers)      |
 | 25      | D    | A1    | `main`                     | ✅ merged (playtest kit, survey, rubrics, guide)      |
 | 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
