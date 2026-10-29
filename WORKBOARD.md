@@ -29,6 +29,8 @@ Recommended total: **4–6 agents at once**. More than that and merge work outgr
 
 ## 2. Waves (what can run together, starting from WP-10)
 
+Team: 3 agents. Agent 1 = integrator (main folder), Agents 2 and 3 = builders reusing new worktrees.
+
 A wave starts only after the previous wave is **merged to `main`** and `main` is green.
 
 ### Wave 0 — Stabilize (sequential, INT only) ⛔ do this first
@@ -48,14 +50,14 @@ A wave starts only after the previous wave is **merged to `main`** and `main` is
 | A1    | MS   | **WP-10** LocalGameService + **case-screen slots** | `wp/10-local-service` | `apps/mobile/src/services/local/**`, `apps/mobile/src/services/index.ts`, `apps/mobile/src/store/**`, `apps/mobile/app/case/**`, `apps/mobile/src/features/case/*/index.tsx` (slot stubs only) |
 | A2    | E    | **WP-22** Progression engine                       | `wp/22-progression`   | `packages/case-engine/src/progression/**`, `tests/progression*.test.ts`                                                                                                                        |
 | A3    | E    | **WP-30** RNG + renderer                           | `wp/30-rng-render`    | `packages/case-engine/src/rng.ts`, `src/render/**`, `tests/rng*.test.ts`, `tests/render*.test.ts`                                                                                              |
-| A4    | C    | **WP-20a** case_0002 (missing_item, d1)            | `wp/20a-case-0002`    | `packages/content/cases/authored/case_0002.json`, `docs/cases/case_0002-walkthrough.md`                                                                                                        |
-| A5    | C    | **WP-20b** case_0003 (hidden_identity, d2)         | `wp/20b-case-0003`    | `case_0003.json`, `docs/cases/case_0003-walkthrough.md`                                                                                                                                        |
-| A6    | T    | **WP-35a** CLI: validate / render / playtest       | `wp/35a-cli-core`     | `tools/cli/src/**` (except `generate/`, `publish/`, `report/`, `paraphrase/`)                                                                                                                  |
+| Agent 2 | C    | **WP-20a** case_0002 (missing_item, d1)            | `wp/20a-case-0002`    | `packages/content/cases/authored/case_0002.json`, `docs/cases/case_0002-walkthrough.md`                                                                                                        |
+| Agent 2 | C    | **WP-20b** case_0003 (hidden_identity, d2)         | `wp/20b-case-0003`    | `case_0003.json`, `docs/cases/case_0003-walkthrough.md`                                                                                                                                        |
+| Agent 2 | T    | **WP-35a** CLI: validate / render / playtest       | `wp/35a-cli-core`     | `tools/cli/src/**` (except `generate/`, `publish/`, `report/`, `paraphrase/`)                                                                                                                  |
 | (opt) | C    | **WP-20c** case_0004 (forged_message, d3)          | `wp/20c-case-0004`    | `case_0004.json`, walkthrough                                                                                                                                                                  |
 | (opt) | D    | **WP-25** Playtest kit                             | `wp/25-playtest-kit`  | `docs/playtest/**`                                                                                                                                                                             |
 
 **Wave 1 notes**
-- Content agents (A4, A5, opt 20c) also own `packages/content/tests/<case>.test.ts`. They must NOT edit `packages/content/src/index.ts`. INT registers each case during merge.
+- Content agents (Agent 2, opt 20c) also own `packages/content/tests/<case>.test.ts`. They must NOT edit `packages/content/src/index.ts`. INT registers each case during merge.
 - A1 (WP-10) also owns `apps/mobile/src/features/case/slots.ts` and `docs/proposals/WP-10.md`, and may edit the three tab screens only to render the home/library/progress slots.
 - A1 should commit **Part A (slots)** first. INT may merge Part A early, so Wave 2 UI agents can start sooner.
 - A2 and A3 both append one line to `packages/case-engine/src/index.ts`. That conflict is expected and trivial: INT keeps both lines.
@@ -122,14 +124,14 @@ export interface CaseSlotProps {
 | 10      | MS   | A1    | `wp/10-local-service`      | ✅ merged (slot/hook contract FROZEN)                 |
 | 22      | E    | A2    | `wp/22-progression`        | ✅ merged                                             |
 | 30      | E    | A2    | `wp/30-rng-render`         | ✅ merged                                             |
-| 20a     | C    | A4    | `wp/20a-case-0002`         | 🔴 fixing: lie not provable (A4)                      |
+| 20a     | C    | Agent 2| `wp/20a-case-0002`         | 🔴 fixing: lie not provable (Agent 2)                      |
 | 05b     | E    | A2    | `wp/05b-validator-fairplay`| 🔵 in progress (V14/V15 validator checks)             |
-| 11      | MU   | A5    | `wp/11-briefing-evidence`  | 🔵 in progress (Wave 2)                               |
-| 12      | MU   | A6    | `wp/12-evidence-board`     | 🔵 in progress (Wave 2)                               |
-| 13      | MU   | A7    | `wp/13-theory-reveal`       | 🔵 in progress (Wave 2)                               |
-| 20b/c   | C    | A5    |                            | ⬜ Wave 1                                             |
+| 11      | MU   | Agent 3| `wp/11-briefing-evidence`  | 🔵 in progress (Wave 2)                               |
+| 12      | MU   | Agent 3| `wp/12-evidence-board`     | 🔵 in progress (Wave 2)                               |
+| 13      | MU   | Agent 3| `wp/13-theory-reveal`       | 🔵 in progress (Wave 2)                               |
+| 20b/c   | C    | Agent 2|                            | ⬜ Wave 1                                             |
 | 25      | D    |       |                            | ⬜ Wave 1 (opt)                                       |
-| 35a     | T    | A6    |                            | ⬜ Wave 1                                             |
+| 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |
 | NEXT-2  | INT  | —     | —                          | ⬜ not started (message `sender` still required)      |
 | NEXT-3  | INT  | —     | —                          | ⬜ not started (no `.gitattributes`)                  |
 
