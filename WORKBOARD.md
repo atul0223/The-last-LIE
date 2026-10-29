@@ -119,14 +119,16 @@ export interface CaseSlotProps {
 | WP      | Lane | Agent | Branch               | State                                            |
 | ------- | ---- | ----- | -------------------- | ------------------------------------------------ |
 | 01–07   | —    | INT   | `main`               | ✅ committed & merged to main                    |
-| 07      | MS   | INT   | `main`               | ✅ committed & merged to main                    |
+| 20b/c   | C    | A5    |                      | ⬜ Wave 1                                        |
 | NEXT-2  | INT  | —     | —                    | ⬜ not started (message `sender` still required) |
 | NEXT-3  | INT  | —     | —                    | ⬜ not started (no `.gitattributes`)             |
-| 10      | MS   | A1    | `wp/10-local-service`| 🔵 in progress (Wave 1)                          |
-| 20a/b/c | C    | A4/A5 |                      | ⬜ Wave 1                                        |
-| 22      | E    | A2    |                      | ⬜ Wave 1                                        |
+| 10      | MS   | A1    | `wp/10-local-service`| ✅ merged (slot/hook contract FROZEN)            |
+| 20a     | C    | A4    | `wp/20a-case-0002`   | 🔵 in progress (Wave 1)                          |
+| 22      | E    | A2    | `wp/22-progression`  | ✅ merged                                        |
 | 25      | D    |       |                      | ⬜ Wave 1 (opt)                                  |
-| 30      | E    | A3    |                      | ⬜ Wave 1                                        |
+| 30      | E    | A2    | `wp/30-rng-render`   | 🔵 in progress (Wave 1)                          |
 | 35a     | T    | A6    |                      | ⬜ Wave 1                                        |
+
+> **Wave 2 notice:** The mobile slot and hook contract defined in WP-10 (`useCaseSession`, `CaseSlotProps`, subview slot mapping) is **FROZEN** for Wave 2 UI agents.
 
 States: ⬜ todo · 🔵 in progress · 🟡 done, awaiting review · 🟢 verified (R1 PASS) · ✅ merged · 🔴 blocked
