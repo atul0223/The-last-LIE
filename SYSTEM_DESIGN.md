@@ -374,6 +374,8 @@ The score cannot be computed from time spent or number of attempts. **One submis
 
 Rank thresholds and mastery gates are stored as config in the `game_config` table, not hardcoded.
 
+> **XP Source of Truth:** `applyResult` in `packages/case-engine/src/progression/apply_result.ts` is the authoritative source of truth for player progression, rank gating, and earned XP. `ScoreResult.xp` is a submission-level preview for immediate UI feedback.
+
 ---
 
 ## 8. Backend
@@ -482,6 +484,45 @@ interface GameService {
 3. **Board**: a pannable canvas. Clue cards can be dragged, and you link two cards to claim a contradiction. Links are local until submit (or `check-link` in hint mode). It must also work without drag-and-drop for accessibility: select A, select B, tap "Link".
 4. **Theory**: pick a hypothesis plus up to 3 supporting clues, confirm, then submit.
 5. **Reveal**: a timeline of what really happened, with each beat citing clues. It shows the score breakdown, which links were right or wrong, and Next case / Share.
+
+#### Slot Architecture & Data Contract (FROZEN for Wave 2)
+
+The route `apps/mobile/app/case/[sessionId].tsx` renders decoupled slot components based on the active tab:
+- `briefing` → `apps/mobile/src/features/case/briefing` (`case.briefing.placeholder`, WP-11)
+- `evidence` → `apps/mobile/src/features/case/evidence` (`case.evidence.placeholder`, WP-11)
+- `board` → `apps/mobile/src/features/case/board` (`case.board.placeholder`, WP-12)
+- `theory` → `apps/mobile/src/features/case/theory` (`case.theory.placeholder`, WP-13)
+- `reveal` → `apps/mobile/src/features/case/reveal` (`case.reveal.placeholder`, WP-13)
+
+Tab screen slots:
+- `home` → `apps/mobile/src/features/home` (`home.placeholder`, WP-24)
+- `investigate` → `apps/mobile/src/features/library` (`library.placeholder`, WP-24)
+- `progress` → `apps/mobile/src/features/progress` (`progress.placeholder`, WP-23)
+
+All feature slots receive `{ sessionId: string }` and consume the frozen `useCaseSession` hook:
+
+```ts
+// Exported from apps/mobile/src/features/case/slots.ts
+export interface CaseSlotProps {
+  sessionId: string;
+}
+
+export type CaseSessionStatus = 'loading' | 'active' | 'submitted' | 'error';
+
+export function useCaseSession(sessionId: string): {
+  casePublic: CasePublic | undefined;
+  session: SessionState | undefined;
+  status: CaseSessionStatus;
+  error?: GameServiceError;
+  result?: ScoreResult;
+  reveal?: Reveal;
+  unlockClue: (clueId: string, via: ClueUnlock) => Promise<void>;
+  saveBoard: (board: BoardState) => void; // debounced 500ms
+  markClueRead: (clueId: string) => void;
+  submit: (submission: Omit<Submission, 'sessionId'> | Submission) => Promise<void>;
+};
+export function useGameService(): GameService;
+```
 
 ### 9.4 UX rules
 - Every case has to be finishable in one sitting, but sessions resume if the player leaves.
