@@ -525,8 +525,8 @@ describe('Case Validator Core & Checks (V1-V13)', () => {
     expect(metrics.measuredDifficulty).toBe(1);
   });
 
-  it('ALL_CHECKS exports all 13 checks', () => {
-    expect(ALL_CHECKS).toHaveLength(13);
+  it('ALL_CHECKS exports all 15 checks', () => {
+    expect(ALL_CHECKS).toHaveLength(15);
     const checkIds = ALL_CHECKS.map((c) => c.checkId);
     expect(checkIds).toContain('schema');
     expect(checkIds).toContain('refs');
@@ -541,6 +541,8 @@ describe('Case Validator Core & Checks (V1-V13)', () => {
     expect(checkIds).toContain('text.render');
     expect(checkIds).toContain('hooks.canonical');
     expect(checkIds).toContain('ambiguity.intentional');
+    expect(checkIds).toContain('lie.contradictable');
+    expect(checkIds).toContain('solution.positive_evidence');
   });
 
   it('individual checks can be executed directly', () => {

@@ -18,4 +18,23 @@ config.resolver.nodeModulesPaths = [
 // 3. Allow hierarchical lookup for pnpm symlinks
 config.resolver.disableHierarchicalLookup = false;
 
+// 4. Handle TypeScript ESM relative imports ending in .js in workspace packages
+const defaultResolveRequest = config.resolver.resolveRequest;
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName.endsWith('.js') && (moduleName.startsWith('./') || moduleName.startsWith('../'))) {
+    try {
+      const tsModuleName = moduleName.slice(0, -3) + '.ts';
+      return (defaultResolveRequest || context.resolveRequest)(context, tsModuleName, platform);
+    } catch {
+      try {
+        const tsxModuleName = moduleName.slice(0, -3) + '.tsx';
+        return (defaultResolveRequest || context.resolveRequest)(context, tsxModuleName, platform);
+      } catch {
+        // fallback
+      }
+    }
+  }
+  return (defaultResolveRequest || context.resolveRequest)(context, moduleName, platform);
+};
+
 module.exports = config;

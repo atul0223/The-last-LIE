@@ -124,11 +124,12 @@ export interface CaseSlotProps {
 | 10      | MS   | A1    | `wp/10-local-service`      | ✅ merged (slot/hook contract FROZEN)                 |
 | 22      | E    | A2    | `wp/22-progression`        | ✅ merged                                             |
 | 30      | E    | A2    | `wp/30-rng-render`         | ✅ merged                                             |
-| 20a     | C    | Agent 2| `wp/20a-case-0002`         | 🔴 fixing: lie not provable (Agent 2)                      |
-| 05b     | E    | A2    | `wp/05b-validator-fairplay`| 🔵 in progress (V14/V15 validator checks)             |
-| 11      | MU   | Agent 3| `wp/11-briefing-evidence`  | 🔵 in progress (Wave 2)                               |
-| 12      | MU   | Agent 3| `wp/12-evidence-board`     | 🔵 in progress (Wave 2)                               |
-| 13      | MU   | Agent 3| `wp/13-theory-reveal`       | 🔵 in progress (Wave 2)                               |
+| 20a     | C    | Agent 2| `wp/20a-case-0002`         | 🔵 in progress (fair-play fix)                        |
+| 05b     | E    | Agent 2| `wp/05b-validator-fairplay`| ✅ merged (V14/V15 validator checks)                  |
+| 11      | MU   | Agent 3| `wp/11-briefing-evidence`  | ✅ merged                                             |
+| 12      | MU   | Agent 3| `wp/12-evidence-board`     | ✅ merged                                             |
+| 13      | MU   | Agent 3| `wp/13-theory-reveal`       | ✅ merged                                             |
+| 21      | MS   | Agent 3| `wp/21-local-persistence`  | 🔵 in progress (Wave 2)                               |
 | 20b/c   | C    | Agent 2|                            | ⬜ Wave 1                                             |
 | 25      | D    |       |                            | ⬜ Wave 1 (opt)                                       |
 | 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |

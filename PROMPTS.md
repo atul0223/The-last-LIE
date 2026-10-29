@@ -114,7 +114,7 @@ You are the integrator. Work in the main repo C:\Users\user\Documents\The last L
 Merge branch <wp/ID-slug> (R1 verdict: PASS) into main:
 
 1. git checkout main. Make sure the working tree is clean. If it isn't, STOP.
-2. Scope check: git diff --name-only main...<branch>. Compare every path with the WP's Owns in WORKBOARD.md. Allowed extras: one appended export line in a barrel, package.json/pnpm-lock.yaml in a "[WP-<ID>] deps:" commit, docs/proposals/WP-<ID>.md. Anything else → STOP and report (send it back with R2).
+2. Scope check: git diff --name-only main...<branch>. Compare every path with the WP's Owns in WORKBOARD.md. Allowed extras: one appended export line in a barrel, package.json/pnpm-lock.yaml in a "[WP-<ID>] deps:" commit, docs/proposals/WP-<ID>.md, docs/reports/WP-<ID>.md. Anything else → STOP and report (send it back with R2).
 3. git merge --no-ff <branch> -m "Merge WP-<ID>: <title>".
 4. Conflicts:
    - Barrel index.ts → keep BOTH export lines.
