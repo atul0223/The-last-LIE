@@ -129,6 +129,7 @@ export interface CaseSlotProps {
 | 11      | MU   | Agent 3| `wp/11-briefing-evidence`  | ✅ merged                                             |
 | 12      | MU   | Agent 3| `wp/12-evidence-board`     | ✅ merged                                             |
 | 13      | MU   | Agent 3| `wp/13-theory-reveal`       | ✅ merged                                             |
+| 14      | T    | A1    | `main`                     | ✅ merged (Maestro flows, case_solve & fail)          |
 | 21      | MS   | Agent 3| `wp/21-local-persistence`  | ✅ merged (MMKV, migrations, quarantine)             |
 | 20b     | C    | Agent 2| `wp/20b-case-0003`         | ✅ merged (authored case_0003)                        |
 | 20c     | C    | Agent 2| `wp/20c-case-0004`         | ✅ merged (authored case_0004)                        |
