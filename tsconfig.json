@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/case-engine" },
+    { "path": "./packages/content" },
+    { "path": "./packages/api-contract" },
+    { "path": "./tools/cli" }
+  ]
+}

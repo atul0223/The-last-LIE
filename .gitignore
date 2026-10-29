@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env*
+!.env.example
+
+# Test and build outputs
+coverage/
+dist/
+
+# Expo / React Native
+.expo/
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.log
