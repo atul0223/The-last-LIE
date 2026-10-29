@@ -1,6 +1,7 @@
 # THE LAST LIE: Infinite — Build Plan for Agents
 
 > Read [`SYSTEM_DESIGN.md`](./SYSTEM_DESIGN.md) first. This file breaks the build into **phases** and **work packages (WPs)** that agents can pick up on their own.
+> **Parallel mode:** when `WORKBOARD.md` lists different **Owns** paths or splits a WP (e.g. WP-20a/b/c, WP-35a/b), WORKBOARD wins.
 > Each WP lists what it depends on, the paths it owns, what it delivers, and how we know it's done.
 
 ---

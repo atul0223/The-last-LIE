@@ -1,107 +1,156 @@
-# PROMPTS.md — Step-by-step agent prompts
+# PROMPTS.md — Agent prompts (parallel mode)
 
-Copy one prompt at a time into a fresh agent session that is opened in `The last LIE/`.
-Every prompt assumes the agent follows `AGENTS.md`, and each one says so explicitly.
+Several agents work at once, each in its **own git worktree** and lane.
+- **`WORKBOARD.md`** says which WPs run together (waves), who owns which files, and live status.
+- **`AGENTS.md`** holds the rules every agent follows, including the parallel work protocol.
+- This file holds the prompts to paste.
 
 ---
 
-## 📍 Current status (checked 2026-10-29)
+## How parallel work runs
 
-| WP | State | Notes |
-|---|---|---|
-| WP-01 Scaffold | ✅ committed | Branches are stacked (01→02→03→04→05→06). **Nothing is merged to `main` yet.** |
-| WP-02 Schema | ✅ committed | |
-| WP-03 Logic | ✅ committed | Added interval semantics and `presence.travel` to SYSTEM_DESIGN §4.1. Good. |
-| WP-04 case_0001 | ⚠️ committed, needs fix | The carrier clue's `asserts` say `sender: char_arjun`, which is the culprit, on a clue players see by default. Fixed by **NEXT-2**. |
-| WP-05 Validator | ✅ committed | |
-| WP-06 Redact/Scoring | 🔶 in progress, **uncommitted** | Typecheck and lint pass. **5 tests fail** (see NEXT-1). `toPublicCase` leaks `asserts` and internal tags. |
-| WP-07 Mobile shell | ⬜ not started | Can start now, in parallel |
-
-Other repo problems:
-- GitHub `origin` has only `wp/03-logic` pushed, and it's the remote default branch. `main` should be the default.
-- Git shows LF/CRLF warnings on Windows. There's no `.gitattributes`.
-
-### ▶ Run next, in this order
-1. **NEXT-1**: finish WP-06 (same branch).
-2. **NEXT-2**: contract fix for message sender and case_0001.
-3. **NEXT-3**: repo housekeeping. Can run in parallel with WP-07.
-4. **R1** for WP-06, then **R3 (P0)**, then **R4 (P0)**.
-5. On GO: fast-forward `main` to the top of the stack and push. Then start **WP-07** (if not already running) and P1.
-
-### NEXT-1 — Finish WP-06 (fix failing tests + leak)
-
-```text
-Follow AGENTS.md. Continue WP-06 on branch wp/06-redact-scoring. The uncommitted work there is a good start. Keep it.
-Read SYSTEM_DESIGN.md §3.6 (UPDATED: redaction rules) and §7.2.
-
-1. Redaction leak (blocker): toPublicCase currently copies clue `asserts` and all `tags` to the client. Change it to:
-   - unlocked clue → { id, type, reliability, source?, text (always present: override or renderClue fallback; if no renderer exists yet, require the text override and throw a typed error otherwise), unlock, tags filtered by an exported PUBLIC_CLUE_TAGS allow-list }.
-   - locked clue → { id: "locked_<n>", type, locked: true, hint }, where hint follows §3.6.
-   - Update PublicUnlockedClueSchema/PublicLockedClueSchema in schema/clue.ts to match (remove asserts; add hint). You may edit schema/clue.ts for this contract change.
-   - Export a mapping helper so the server can turn placeholder ids back into real ids (it is never sent to the client).
-2. Failing tests: the 5 failures are TEST bugs, not scoring bugs. In case_0001, clue_arjun_testimony asserts `at(char_maya, loc_studio, 1420–1435)`, which contradicts clue_keycard_exit (`at(char_maya, loc_lobby, 1420–1430)`) by presence.two_places. It does NOT contradict clue_device_log (that clue has only a device_use fact). `clue_maya_access` does not exist. Rewrite the expectations from the real case file: valid link = arjun_testimony ↔ keycard_exit. Bad-link test must use real, unlocked clue ids. Add a separate test that a non-existent id throws.
-   Note: after NEXT-2, arjun_testimony ↔ device_log will ALSO become valid. Write the tests so they don't depend on that link being invalid.
-3. Extend the deepScan helper's forbidden keys: truth, claims, culpritIds, seed, asserts, keyEvidence, liars, conspiracyHooks; forbidden values: internal tags, locked clue texts, real ids of locked clues. Run it for every unlock subset of case_0001.
-4. Commit everything on the branch. Finish with the Definition of done report.
+```
+             ┌── Agent A1 (worktree wp-10) ──┐
+main ──▶ WAVE├── Agent A2 (worktree wp-22) ──┤──▶ R1 verify each ──▶ INT merges one by one ──▶ main (green) ──▶ next WAVE
+             ├── Agent A3 (worktree wp-30) ──┤
+             └── ...                          ┘
 ```
 
-### NEXT-2 — Contract fix: optional message sender + case_0001 + text rule
+1. **INT** (you, or one integrator agent) prepares the wave. `main` must be green, and WORKBOARD must be updated.
+2. Open **one terminal or session per agent**. Paste **P-START** with that agent's WP filled in, then the WP prompt under it.
+3. When an agent finishes, open a **new** session and paste **R1** for that WP (reviewers can run in parallel too).
+4. Paste **R2** into the builder's session for any findings. Repeat until R1 says PASS.
+5. **INT** merges PASSed branches into `main` one at a time, with **INT-MERGE**.
+6. When the whole wave is merged, start the next wave. At the end of a phase, run R3 (security) and R4 (gate).
+
+**Golden rules:**
+- One WP = one agent = one worktree = one branch.
+- Agents never merge, push, or touch other worktrees.
+- Contract changes (schema, api-contract, design docs) only happen **between** waves, run by INT alone.
+
+---
+
+# Parallel-mode prompts
+
+### P-START — Put this ABOVE every WP prompt
 
 ```text
-Follow AGENTS.md. This is a contract-change task. Branch wp/06b-message-sender, stacked on wp/06-redact-scoring.
+You are agent <A1> working in lane <MS|E|C|MU|T|B|D> on WP-<ID>, in parallel with other agents.
+Main repo: C:\Users\user\Documents\The last LIE
+Your worktree: C:\Users\user\Documents\lastlie-wt\wp-<ID>   Your branch: wp/<ID>-<slug>
+
+Before anything else:
+1. Read AGENTS.md (especially "Parallel work protocol"), then WORKBOARD.md (find your row and its Owns paths), then your WP in PLAN.md.
+2. Create your worktree from main exactly as AGENTS.md §1 shows, then cd into it. Do ALL work there. Never run commands in the main repo folder except `git worktree add`.
+3. Restate your Owns paths in one line. Those, plus an append-only barrel line and your own deps commit, are the ONLY files you may create or change.
+4. Other agents are editing other folders right now. Never delete, revert, reformat, or "fix" anything outside your Owns paths. If something outside them is broken or missing, put it under Requests and continue with a local fake.
+5. At the end: commit everything, run the Definition of done (including `git diff --name-only main...HEAD`), and report. Do NOT merge, push, or remove the worktree.
+
+Your task:
+```
+*(paste the WP prompt from below here)*
+
+---
+
+### INT-0 — Stabilize: commit WP-07 and merge the stack (run ALONE, in the main repo)
+
+```text
+You are the integrator. You are the ONLY agent running right now. Work in C:\Users\user\Documents\The last LIE.
+Read AGENTS.md and WORKBOARD.md.
+
+1. You are on branch wp/07-mobile-shell, and apps/ plus a pnpm-lock.yaml change are uncommitted. These are the finished WP-07 work. Review `git status` and `git diff`. Make sure nothing secret or generated (node_modules, .expo, dist, coverage) is staged. Commit as "[WP-07] Mobile shell". Don't change source code.
+   The updated docs (AGENTS.md, PROMPTS.md, and the new WORKBOARD.md) are also uncommitted. Commit them separately as "docs: parallel work protocol, workboard, prompts".
+   For any OTHER modified file (e.g. packages/case-engine/tests/redact.test.ts): if `git diff -w --ignore-blank-lines` shows only formatting, commit it as "chore: format". If it has real code changes, STOP and ask the user. Never discard it.
+2. Run pnpm install --frozen-lockfile, then pnpm -r typecheck, pnpm -r lint, and pnpm -r test. Paste the results. If anything fails, STOP and report it. Don't fix it.
+3. Fast-forward main to wp/07-mobile-shell (git checkout main && git merge --ff-only wp/07-mobile-shell). The branches are a linear stack 01→07, so this must be a pure fast-forward. If it isn't, STOP and report.
+4. Show the commands the user should run to push main and set it as the GitHub default branch (`git push -u origin main`, then GitHub → Settings → Default branch). Don't run them unless the user said to push.
+5. Create the folder C:\Users\user\Documents\lastlie-wt (for worktrees).
+6. In WORKBOARD.md §4 (you own it), mark 01–07 as ✅ merged.
+Report what you did.
+```
+
+### NEXT-2 — Contract task: optional message sender + case_0001 + text rule (run ALONE, after NEXT-3 is merged into main)
+
+```text
+Follow AGENTS.md. This is a CONTRACT task. No other agents are running, so the hot-file restrictions don't apply to your Owns list below.
+Create worktree C:\Users\user\Documents\lastlie-wt\wp-06b on branch wp/06b-message-sender from main.
 Owns: packages/case-engine/src/schema/fact.ts, src/logic/contradicts.ts (message rules only), src/validator/checks/v11_text_render.ts, packages/content/cases/authored/case_0001.json, docs/cases/case_0001-walkthrough.md, and the matching tests.
-Read SYSTEM_DESIGN.md §3.2 and §3.6 (both UPDATED).
+Read SYSTEM_DESIGN.md §3.2 and §3.6.
 
 1. Make `sender` optional on the message Fact. Update message.sender_device: it fires only when the message HAS a sender and a device_use on the same device at the same time shows a different person. Add tests for the sender-less case (no contradiction).
 2. Fix case_0001 so physical evidence doesn't hand over the answer:
    - clue_message_carrier: remove `sender` (a carrier record only knows the device).
-   - clue_arjun_testimony: add a message fact `{msg_2347, sender: char_maya, device: obj_phone_maya, recipient: char_arjun, sentAt: 1427}`, which is his lie (the text already says "She sent me a text at 23:47"). Make sure truth.liars still covers it and V5 passes.
+   - clue_arjun_testimony: add a message fact {msg_2347, sender: char_maya, device: obj_phone_maya, recipient: char_arjun, sentAt: 1427}, which is his lie. Make sure truth.liars still covers it and V5 passes.
    - Now arjun_testimony ↔ device_log is a valid contradiction (message.sender_device), alongside arjun_testimony ↔ keycard_exit (presence.two_places).
-   - Re-check that all 3 hypotheses still evaluate correctly and V7/V8 still pass. Update the walkthrough.
-3. V11 text rule: a clue's text must not mention a character name that isn't the clue's `source`, or doesn't appear in its asserts (match against characters[].name). Also check every HH:MM in the text appears in its asserts. Add a broken fixture test for each.
-4. Run the full test suite, fix any test expectations that changed because of the new valid link, and commit. Finish with the Definition of done report.
+   - Re-check all 3 hypotheses, V7, and V8. Update the walkthrough.
+3. V11 text rule: a clue's text must not mention a character name that isn't its `source` or in its asserts. Every HH:MM in the text must appear in its asserts. Add a broken-fixture test for each rule.
+4. Run the full suite. Fix test expectations in scoring/redact tests that changed because of the new valid link (allowed in this contract task). Commit. Finish with the Definition of done report.
 ```
 
-### NEXT-3 — Repo housekeeping
+### NEXT-3 — Housekeeping (run ALONE, right after INT-0 and BEFORE NEXT-2. It renormalizes line endings in every file, so anything running alongside it would conflict)
 
 ```text
-Follow AGENTS.md. Branch wp/00-housekeeping from main.
-1. Add .gitattributes: `* text=auto eol=lf`, plus binary rules for png/jpg/ttf/otf. Renormalize (git add --renormalize .) in a separate commit.
-2. Check .gitignore covers coverage/, dist/, .expo/, .env*, !.env.example, *.log.
-3. Make sure CI (.github/workflows/ci.yml) also runs on pushes to wp/** branches.
-Do NOT push. Report the exact commands the user should run to push main and set it as the GitHub default branch.
+Follow AGENTS.md. Integrator-lane task. Worktree C:\Users\user\Documents\lastlie-wt\wp-00 on branch wp/00-housekeeping from main.
+Owns: .gitattributes, .gitignore, .github/workflows/ci.yml.
+1. Add .gitattributes: `* text=auto eol=lf`, plus binary rules for png/jpg/jpeg/gif/webp/ttf/otf/mp3/mp4. Renormalize (git add --renormalize .) in a separate commit, only for line endings.
+2. Check .gitignore covers node_modules, coverage/, dist/, .expo/, web-build/, .env*, !.env.example, *.log.
+3. CI must run on push to main and wp/**, and on pull requests. Add a job step that runs `git diff --name-only origin/main...HEAD` and prints it (for scope review).
+Commit. Don't push. Finish with the Definition of done report.
 ```
 
----
+### INT-1 — Merge Wave 0 and prep Wave 1
 
-## How to use this file
-
-For each work package (WP), run this loop:
-
-```
-1. BUILD    → paste the WP prompt                     (one agent session)
-2. VERIFY   → paste R1 with the WP id                 (NEW session — fresh eyes)
-3. FIX      → paste R2 with the verifier's findings   (same session as BUILD, or new)
-4. repeat 2–3 until VERIFY says PASS
-5. MERGE    → you review the diff, then merge the WP branch into main
-              (git checkout main && git merge --ff-only wp/<id>-...) and push
-6. The next WP branches from the updated main
+```text
+You are the integrator, running alone in C:\Users\user\Documents\The last LIE. Read AGENTS.md and WORKBOARD.md.
+Merge wp/06b-message-sender into main using the INT-MERGE steps (wp/00-housekeeping should already be merged; if not, merge it first). Then run R4-style checks for P0 (all tests green, content validator clean).
+Update WORKBOARD.md §4: Wave 0 ✅, Wave 1 rows ⬜ ready.
+Report: GO or NO-GO for Wave 1.
 ```
 
-Don't let WP branches pile up unmerged. Merge each one once it passes, so later WPs start from verified code.
+### INT-MERGE — Merge one finished branch (integrator only, ONE branch at a time)
 
-At the end of each phase:
+```text
+You are the integrator. Work in the main repo C:\Users\user\Documents\The last LIE. No other agent may merge right now.
+Merge branch <wp/ID-slug> (R1 verdict: PASS) into main:
 
+1. git checkout main. Make sure the working tree is clean. If it isn't, STOP.
+2. Scope check: git diff --name-only main...<branch>. Compare every path with the WP's Owns in WORKBOARD.md. Allowed extras: one appended export line in a barrel, package.json/pnpm-lock.yaml in a "[WP-<ID>] deps:" commit, docs/proposals/WP-<ID>.md. Anything else → STOP and report (send it back with R2).
+3. git merge --no-ff <branch> -m "Merge WP-<ID>: <title>".
+4. Conflicts:
+   - Barrel index.ts → keep BOTH export lines.
+   - pnpm-lock.yaml → take main's version (`git checkout --ours pnpm-lock.yaml`, since you are on main), finish resolving package.json, then run `pnpm install` to regenerate it, and `git add pnpm-lock.yaml`.
+   - package.json dependency lists → keep the union of both sides.
+   - ANY other conflict → git merge --abort and STOP. Report the files. A human or the WP agent must decide.
+5. pnpm install --frozen-lockfile (or pnpm install if the lockfile was regenerated), then pnpm -r typecheck, lint, and test. If anything fails, git reset --hard ORIG_HEAD (this undoes ONLY your merge) and STOP with the failure output.
+5b. Content lane (WP-20x, WP-53): register the new case in packages/content/src/index.ts (import + add to AUTHORED_CASES), run tests again, and commit "[INT] register <case>".
+6. If docs/proposals/WP-<ID>.md exists, apply the approved doc changes to SYSTEM_DESIGN.md/PLAN.md in a separate commit "docs: apply WP-<ID> proposals".
+7. Update WORKBOARD.md §4 (state ✅) and commit.
+8. Remove the merged worktree: git worktree remove "C:\Users\user\Documents\lastlie-wt\wp-<ID>" (only this one), and keep the branch.
+9. Tell every still-running agent in the same wave: "main moved. You may run `git merge main` on your own branch if you need the new code." Never rebase their branches for them.
+Report what was merged and the test results.
 ```
-6. SECURITY → paste R3 with the phase name     (NEW session)
-7. GATE     → paste R4 with the phase name     (NEW session) → only start the next phase on GO
+
+### INT-WAVE — Start a new wave
+
+```text
+You are the integrator. Read WORKBOARD.md §2 for Wave <N>.
+1. Confirm every WP from the previous wave is ✅ merged and main is green (run the full suite).
+2. If the previous wave produced Requests for contract changes, list them and propose ONE contract task prompt that bundles them. It must run alone BEFORE this wave.
+3. For each Wave <N> row, output the exact text to paste into that agent's session: P-START filled with agent name, lane, WP id, branch, and worktree path, followed by the WP prompt copied from PROMPTS.md.
+4. Mark those rows 🔵 in WORKBOARD.md §4 and commit on main.
 ```
 
-Tips
-- Run one WP per session. Don't paste the next WP into the same chat.
-- Packages in the same column of the PLAN.md dependency graph can run in parallel sessions. Use separate git worktrees or branches for that.
-- If an agent stops mid-way, use R5 to resume.
-- **Backend:** the P4 prompts assume **Option C**, which is Supabase (Postgres + Auth + Storage) with the API written in **Hono**. If you choose something else, run prompt **B0** first and it will rewrite the P4 prompts.
+### R0 — Conflict / scope inspector (any time, read-only)
+
+```text
+Read-only task. Don't modify anything.
+List all worktrees (git worktree list) and, for each wp/* branch not merged into main, run git diff --name-only main...<branch>.
+Report:
+1. Any file changed by more than one branch (potential conflict), with the branches involved.
+2. Any file outside that branch's Owns paths in WORKBOARD.md.
+3. Any branch whose base is far behind main (git rev-list --count <branch>..main > 15).
+Recommend which branch should merge first and which agents should `git merge main` now.
+```
 
 ---
 
@@ -312,7 +361,16 @@ Finish with the Definition of done report, including the exact commands to run o
 ### WP-10 — LocalGameService
 
 ```text
-Follow AGENTS.md. Task: WP-10 in PLAN.md. Owns: apps/mobile/src/services/local/**, apps/mobile/src/services/index.ts.
+Follow AGENTS.md. Task: WP-10 in PLAN.md (Wave 1, lane MS).
+Owns: apps/mobile/src/services/local/**, apps/mobile/src/services/index.ts, apps/mobile/src/store/**, apps/mobile/app/case/**, apps/mobile/src/features/case/slots.ts, docs/proposals/WP-10.md, and the SLOT STUB files listed in WORKBOARD.md §3 (stubs only). You may also edit apps/mobile/app/(tabs)/index.tsx, investigate.tsx and progress.tsx, but ONLY to render the home/library/progress slots.
+
+Part A, slots for parallel UI work (do this FIRST and commit it on its own, so Wave 2 agents get a stable layout):
+- apps/mobile/src/features/case/slots.ts: export `CaseSlotProps { sessionId: string }`, plus the hooks contract the slots use: `useCaseSession(sessionId)` → { casePublic, session, status, error } and `useGameService()` → GameService. Implement the hooks in apps/mobile/src/store/.
+- apps/mobile/app/case/[sessionId].tsx: case screen container with top tabs Briefing | Evidence | Board | Theory, and Reveal shown after submit. Each tab renders its slot component.
+- Slot stubs (WORKBOARD §3): each exports a default component (CaseSlotProps for case slots, no props for home/library/progress) that renders a placeholder <Text> with testID "<feature>.placeholder". Wave 2 agents replace ONLY the inside of these files and add sibling files.
+- Write docs/proposals/WP-10.md describing the slot contract, for the integrator to fold into SYSTEM_DESIGN §9.
+
+Part B, LocalGameService:
 
 Implement LocalGameService over bundled authored cases from @lastlie/content, using engine functions (toPublicCase, canUnlock, scoreSubmission, buildReveal). The UI must only ever receive CasePublic, never CaseDefinition, even locally. Keep definitions private inside the service module.
 - Sessions are held in a Zustand store (persistence comes in WP-21).
@@ -325,12 +383,12 @@ Finish with the Definition of done report.
 ### WP-11 — Briefing & Evidence screens
 
 ```text
-Follow AGENTS.md. Task: WP-11 in PLAN.md. Owns: apps/mobile/src/features/case/briefing/**, apps/mobile/src/features/case/evidence/**, apps/mobile/src/features/case/components/ClueCard*, and the route file app/case/[sessionId]/ (briefing and evidence tabs only).
-
-Build the Case screen container with top tabs Briefing | Evidence | Board | Theory (Board and Theory are placeholders here).
+Follow AGENTS.md. Task: WP-11 in PLAN.md (Wave 2, lane MU, runs in parallel with WP-12 and WP-13).
+Owns: apps/mobile/src/features/case/briefing/**, apps/mobile/src/features/case/evidence/**, apps/mobile/src/features/case/components/** (the shared ClueCard. Keep its props stable and document them in the file header).
+Do NOT edit app/case/** or slots.ts (WP-10 owns them). Fill in the briefing/index.tsx and evidence/index.tsx slots. Get all data through useCaseSession/useGameService.
 - Briefing: question, setting, character list with public descriptions.
 - Evidence: FlashList of ClueCards, type filter chips, unread dot (tracked in the session), detail sheet. Log-type clues use the monospace style.
-- Locked clues show as locked cards with the unlock condition. "Request evidence" shows its cost and asks for confirmation (in-app sheet, not a native alert).
+- Locked clues show as locked cards with their `hint` (SYSTEM_DESIGN §3.6). "Request evidence" shows its cost and asks for confirmation (in-app sheet, not a native alert).
 - Accessibility: labels on all interactive elements, works at 200% font scale, color is never the only signal.
 Tests: renders every clue type; filter works; unlock flow calls the service; locked card shows no text.
 Finish with the Definition of done report plus screenshots or a description of each state.
@@ -339,7 +397,9 @@ Finish with the Definition of done report plus screenshots or a description of e
 ### WP-12 — Evidence board
 
 ```text
-Follow AGENTS.md. Task: WP-12 in PLAN.md. Owns: apps/mobile/src/features/case/board/**.
+Follow AGENTS.md. Task: WP-12 in PLAN.md (Wave 2, lane MU, runs in parallel with WP-11 and WP-13).
+Owns: apps/mobile/src/features/case/board/** only. Fill in the board/index.tsx slot. Don't import WP-11's ClueCard (not merged yet). Board cards are drawn with Skia inside board/.
+Use Expo port 8012 if you run the dev server.
 
 Build the board with react-native-skia for drawing (cards and link lines), plus Reanimated and Gesture Handler for pan/zoom/drag (UI thread, no JS-thread animation).
 - Add clue cards to the board from the Evidence tab or a tray. Drag to position.
@@ -354,7 +414,9 @@ Finish with the Definition of done report.
 ### WP-13 — Theory & Reveal
 
 ```text
-Follow AGENTS.md. Task: WP-13 in PLAN.md. Owns: apps/mobile/src/features/case/theory/**, apps/mobile/src/features/case/reveal/**.
+Follow AGENTS.md. Task: WP-13 in PLAN.md (Wave 2, lane MU, runs in parallel with WP-11 and WP-12).
+Owns: apps/mobile/src/features/case/theory/**, apps/mobile/src/features/case/reveal/**. Fill in the theory/index.tsx and reveal/index.tsx slots. For clue lists, use a small local row component inside theory/. Don't import WP-11's ClueCard yet; a follow-up can swap it in after merge.
+Use Expo port 8013 if you run the dev server.
 
 - Theory: pick one hypothesis (labels only), choose up to 3 supporting clues from the unlocked ones, review the board links, then a confirm sheet ("You can't change your answer"), then submit.
 - Reveal: score header with breakdown, a vertical timeline of reveal beats (tap a beat to open the cited clue), the player's links marked ✓/✗ with an icon and text (not color alone) and the rule explanation, then "Next case" and "Back to home".
@@ -366,7 +428,8 @@ Finish with the Definition of done report.
 ### WP-14 — Prototype E2E
 
 ```text
-Follow AGENTS.md. Task: WP-14 in PLAN.md. Owns: apps/mobile/e2e/**, plus testIDs you need to add (list them under Requests if they fall outside your scope, or add them minimally and report each one).
+Follow AGENTS.md. Task: WP-14 in PLAN.md (Wave 3, lane T). Owns: apps/mobile/e2e/** ONLY.
+Use the testIDs that feature agents added under the `<feature>.<element>[.<id>]` convention (grep the code for testID). If one you need is missing, do NOT add it to feature files. List it under Requests and use a text-based selector for now.
 
 Write a Maestro flow: launch → Home "Solve a case" → case_0001 → open 2 clues → unlock 1 → create 1 link on the board (use the accessible flow) → Theory → pick the correct hypothesis + key clues → submit → assert the reveal score > 0 → "Next case" opens a case screen.
 Add a second flow with the wrong hypothesis that asserts the reveal shows the correct answer.
@@ -380,15 +443,26 @@ Finish with the Definition of done report.
 
 # Phase 2 — Content & progression
 
-### WP-20 — Authored cases 0002–0004
+### WP-20a / 20b / 20c — One authored case per agent (Wave 1, lane C, can run in parallel)
+
+| Sub-WP | Case | Type | Difficulty | Decisive rule | Setting | Cast first names |
+|---|---|---|---|---|---|---|
+| 20a | case_0002 | missing_item | 1 | `possess.exclusive` or `access.presence` | gallery + loading dock | start with A–H |
+| 20b | case_0003 | hidden_identity | 2 | `presence.travel` | train station + hotel | start with I–P |
+| 20c | case_0004 | forged_message | 3 | `message.time` or `state.value` | newsroom + print shop | start with Q–Z |
+
+case_0001's cast (Maya, Arjun, Rhea, Marcus) and its studio are reserved, so don't reuse them.
 
 ```text
-Follow AGENTS.md and docs/content-style-guide.md. Task: WP-20 in PLAN.md. Owns: packages/content/cases/authored/case_0002..0004.json and docs/cases/case_000{2,3,4}-walkthrough.md.
+Follow AGENTS.md and docs/content-style-guide.md. Task: WP-20<a|b|c> (Wave 1, lane C). Other content agents are writing the other cases right now.
+Owns ONLY: packages/content/cases/authored/<case_000N>.json, docs/cases/<case_000N>-walkthrough.md, packages/content/tests/<case_000N>.test.ts.
+Do NOT edit packages/content/src/index.ts. The integrator registers your case on merge, and your test imports the JSON directly.
 
-Write three cases: missing_item (difficulty 1), hidden_identity (difficulty 2), forged_message (difficulty 3), set in different Vesper City locations with different casts. For each: walkthrough first, then the timeline, clues, hypotheses, keyEvidence, and reveal.
-Each must pass validateCase with zero errors, and the measured difficulty must fall within ±1 of the target.
-Don't reuse case_0001's decisive contradiction rule in more than one of the three.
-Finish with the Definition of done report plus the validator output for each case.
+Write <case_000N> using the type, difficulty, decisive rule, setting, and name range from the WP-20 table in PROMPTS.md.
+Order: walkthrough first, then the timeline, clues derived from the timeline, hypotheses (solution + 2–3 decoys, each eliminated by a different key clue), keyEvidence, and reveal beats.
+Follow SYSTEM_DESIGN §3.6: physical clue asserts contain only what that record could observe (no message sender on carrier logs), and clue text mentions only people and times in its own asserts.
+Your test must: parse with CaseDefinitionSchema, validateCase → zero errors, measured difficulty within ±1 of the target, and deepScan(toPublicCase(def, defaultClueIds)) passes.
+Finish with the Definition of done report plus the validator output.
 ```
 Then run **R6** on each new case.
 
@@ -491,7 +565,10 @@ Then run **R6** on 3 of the generated samples.
 ### WP-35 — Authoring CLI
 
 ```text
-Follow AGENTS.md. Task: WP-35 in PLAN.md. Owns: tools/cli/**.
+Follow AGENTS.md. Task: WP-35a in PLAN.md (Wave 1, lane T). Owns: tools/cli/** EXCEPT tools/cli/src/generate/, publish/, report/, paraphrase/ (later WPs own those).
+Create a command registry (tools/cli/src/commands.ts) with each command in its own folder, so later WPs only add a folder plus one append-only registry line.
+This is part A: validate, render, playtest, and the publish stub. `generate` is WP-35b (Wave 3, after WP-31), so leave a stub that prints "available after WP-31".
+The CLI loads cases from files/globs. Don't depend on packages/content/src/index.ts.
 
 Build the `lastlie` CLI (commander or citty) exposed as `pnpm lastlie`:
 - validate <glob...>: exits non-zero on any error, prints formatReport.
