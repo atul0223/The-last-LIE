@@ -437,6 +437,12 @@ describe('Case Validator Core & Checks (V1-V13)', () => {
     const repLeak = validateCase(leakCase);
     expect(repLeak.ok).toBe(false);
     expect(repLeak.errors.some((e) => e.checkId === 'text.render')).toBe(true);
+
+    // 4. Clue text omitted: renders via renderClue and validates cleanly
+    const dynamicCase = makeCase();
+    delete dynamicCase.clues[0]!.text;
+    const repDynamic = validateCase(dynamicCase);
+    expect(repDynamic.errors.some((e) => e.checkId === 'text.render')).toBe(false);
   });
 
   it('V12 (hooks.canonical): catches malformed conspiracy hooks', () => {

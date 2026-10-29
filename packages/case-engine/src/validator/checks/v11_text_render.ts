@@ -1,14 +1,18 @@
 import type { CaseDefinition } from '../../schema/index.js';
 import type { ValidationIssue, ValidatorCheck, ValidatorContext } from '../types.js';
+import { buildRenderWorld, renderClue } from '../../render/index.js';
+import { createRng } from '../../rng.js';
 
 export const v11TextRenderCheck: ValidatorCheck = {
   checkId: 'text.render',
   run(def: CaseDefinition, _ctx: ValidatorContext): ValidationIssue[] {
     const issues: ValidationIssue[] = [];
+    const world = buildRenderWorld(def);
+    const rng = createRng(def.meta?.seed ?? 0);
 
     // 1. Clue texts
     for (const clue of def.clues) {
-      if (!clue.text || clue.text.trim().length === 0) {
+      if (typeof clue.text === 'string' && clue.text.trim().length === 0) {
         issues.push({
           checkId: 'text.render',
           severity: 'error',
@@ -18,17 +22,28 @@ export const v11TextRenderCheck: ValidatorCheck = {
         continue;
       }
 
-      if (/\{\{.*?\}\}/.test(clue.text)) {
+      const text = renderClue(clue, world, rng);
+      if (!text || text.trim().length === 0) {
         issues.push({
           checkId: 'text.render',
           severity: 'error',
-          message: `Clue '${clue.id}' contains unrendered template variable: '${clue.text.match(/\{\{.*?\}\}/)?.[0]}'`,
+          message: `Clue '${clue.id}' renders to empty or whitespace-only text`,
+          refs: [clue.id],
+        });
+        continue;
+      }
+
+      if (/\{\{.*?\}\}/.test(text)) {
+        issues.push({
+          checkId: 'text.render',
+          severity: 'error',
+          message: `Clue '${clue.id}' contains unrendered template variable: '${text.match(/\{\{.*?\}\}/)?.[0]}'`,
           refs: [clue.id],
         });
       }
 
       // Check for forbidden internal id leaks inside clue text
-      if (clue.text.includes(def.truth.solutionHypothesisId)) {
+      if (text.includes(def.truth.solutionHypothesisId)) {
         issues.push({
           checkId: 'text.render',
           severity: 'error',
