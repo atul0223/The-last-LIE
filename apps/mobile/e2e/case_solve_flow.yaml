@@ -1,0 +1,106 @@
+appId: com.lastlie.mobile
+---
+# The Last Lie — End-to-End Case Solve Journey (case_0001)
+# Verifies complete player loop: briefing -> clues -> request unlock -> board link -> theory -> reveal
+
+- launchApp:
+    clearState: true
+
+# 1. Dev / Home Screen
+- assertVisible:
+    id: "dev-local-badge"
+
+# 2. Briefing Tab
+- assertVisible:
+    id: "case.briefing.container"
+- assertVisible:
+    id: "case.briefing.question"
+- assertVisible:
+    id: "case.briefing.character.char_maya"
+
+# 3. Evidence Tab: view clues & unlock requested evidence
+- tapOn: "Evidence"
+- assertVisible:
+    id: "case.evidence.container"
+
+# Open clue 1 (clue_message_carrier)
+- tapOn:
+    id: "case.evidence.card.clue_message_carrier"
+- assertVisible:
+    id: "case.evidence.detail.sheet"
+- tapOn: "CLOSE"
+
+# Open clue 2 (clue_arjun_testimony)
+- tapOn:
+    id: "case.evidence.card.clue_arjun_testimony"
+- assertVisible:
+    id: "case.evidence.detail.sheet"
+- tapOn: "CLOSE"
+
+# Unlock locked clue (clue_device_log) via request
+- tapOn:
+    id: "case.evidence.request.clue_device_log"
+- assertVisible:
+    id: "case.evidence.request.sheet"
+- tapOn:
+    id: "case.evidence.request.confirm"
+
+# 4. Board Tab: accessible link flow between two cards
+- tapOn: "Board"
+- assertVisible:
+    id: "case.board.container"
+
+# Select Card A
+- tapOn:
+    id: "case.board.card.clue_message_carrier"
+- assertVisible:
+    id: "case.board.linkButton"
+- tapOn:
+    id: "case.board.linkButton"
+
+# Select Card B to complete link
+- tapOn:
+    id: "case.board.card.clue_device_log"
+
+# Assert the link exists
+- assertVisible:
+    id: "case.board.link.clue_message_carrier__clue_device_log"
+
+# 5. Theory Tab: formulate and submit theory
+- tapOn: "Theory"
+- assertVisible:
+    id: "case.theory.container"
+
+# Select solution hypothesis (Arjun forged)
+- tapOn:
+    id: "case.theory.hypothesis.hyp_arjun_forged"
+
+# Select supporting clues (key evidence)
+- tapOn:
+    id: "case.theory.clue.clue_device_log"
+- tapOn:
+    id: "case.theory.clue.clue_message_carrier"
+
+# Submit
+- tapOn:
+    id: "case.theory.submit"
+- assertVisible:
+    id: "case.theory.confirm.sheet"
+- tapOn:
+    id: "case.theory.confirm"
+
+# 6. Reveal Tab: verify results
+- assertVisible:
+    id: "case.reveal.container"
+- assertVisible:
+    id: "case.reveal.score"
+- assertVisible:
+    id: "case.reveal.breakdown"
+
+# Assert validated link in reveal breakdown
+- assertVisible:
+    id: "case.reveal.link.clue_message_carrier__clue_device_log"
+
+# Tap Next Case CTA
+- tapOn:
+    id: "case.reveal.next"

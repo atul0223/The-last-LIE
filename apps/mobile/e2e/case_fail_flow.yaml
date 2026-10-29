@@ -1,0 +1,46 @@
+appId: com.lastlie.mobile
+---
+# The Last Lie — End-to-End Wrong Hypothesis & Reveal Flow
+# Verifies that submitting an incorrect hypothesis reveals the true explanation and culprit
+
+- launchApp:
+    clearState: true
+
+# 1. Start from Case Screen
+- assertVisible:
+    id: "dev-local-badge"
+- assertVisible:
+    id: "case.briefing.container"
+
+# 2. Directly open Theory Tab
+- tapOn: "Theory"
+- assertVisible:
+    id: "case.theory.container"
+
+# Select decoy hypothesis (Maya sent message)
+- tapOn:
+    id: "case.theory.hypothesis.hyp_maya_sent"
+
+# Submit wrong theory
+- tapOn:
+    id: "case.theory.submit"
+- assertVisible:
+    id: "case.theory.confirm.sheet"
+- tapOn:
+    id: "case.theory.confirm"
+
+# 3. Reveal Tab: verify results show the true explanation
+- assertVisible:
+    id: "case.reveal.container"
+- assertVisible:
+    id: "case.reveal.score"
+- assertVisible:
+    id: "case.reveal.breakdown"
+
+# Assert reveal explanation beats are present and cite true facts
+- assertVisible:
+    id: "case.reveal.beat.0"
+
+# Verify Home button navigation returns safely
+- tapOn:
+    id: "case.reveal.home"
