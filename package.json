@@ -5,7 +5,7 @@
   "description": "THE LAST LIE: Infinite — Monorepo scaffold",
   "type": "module",
   "scripts": {
-    "lastlie": "node --experimental-strip-types tools/cli/src/bin.ts",
+    "lastlie": "node tools/cli/node_modules/tsx/dist/cli.mjs tools/cli/src/bin.ts",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "test": "vitest run",
