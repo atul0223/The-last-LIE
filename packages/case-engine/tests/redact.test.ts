@@ -154,29 +154,44 @@ describe('toPublicCase & Security Leak Tests (WP-06)', () => {
     };
 
     const pub = toPublicCase(caseWithTags, [caseWithTags.clues[0]!.id]);
-    expect(pub.clues[0]?.tags).toEqual(['physical', 'alibi']);
-    expect(pub.clues[0]?.tags).not.toContain('red_herring');
-    expect(pub.clues[0]?.tags).not.toContain('conspiracy_hook');
+    const firstClue = pub.clues[0];
+    if (firstClue && !firstClue.locked) {
+      expect(firstClue.tags).toEqual(['physical', 'alibi']);
+      expect(firstClue.tags).not.toContain('red_herring');
+      expect(firstClue.tags).not.toContain('conspiracy_hook');
+    } else {
+      throw new Error('Expected first clue to be unlocked');
+    }
   });
 
   it('handles locked clue hints: after_clue hides prerequisite until unlocked', () => {
     // clue_device_log unlocks after clue_keycard_exit
     // Case A: prerequisite is NOT unlocked -> hint is after_clue_hidden
     const pubWithoutPrereq = toPublicCase(case0001, []);
-    const lockedDeviceLogWithoutPrereq = pubWithoutPrereq.clues.find(
-      (c) => c.type === 'device_log',
+    const lockedWithoutPrereq = pubWithoutPrereq.clues.find(
+      (c) => c.type === 'device_log' && c.locked === true,
     );
-    expect(lockedDeviceLogWithoutPrereq?.hint).toEqual({
-      kind: 'after_clue_hidden',
-    });
+    if (lockedWithoutPrereq && lockedWithoutPrereq.locked) {
+      expect(lockedWithoutPrereq.hint).toEqual({
+        kind: 'after_clue_hidden',
+      });
+    } else {
+      throw new Error('Expected locked device log');
+    }
 
     // Case B: prerequisite is unlocked -> hint reveals prerequisite clueId
     const pubWithPrereq = toPublicCase(case0001, ['clue_keycard_exit']);
-    const lockedDeviceLogWithPrereq = pubWithPrereq.clues.find((c) => c.type === 'device_log');
-    expect(lockedDeviceLogWithPrereq?.hint).toEqual({
-      kind: 'after_clue',
-      clueId: 'clue_keycard_exit',
-    });
+    const lockedWithPrereq = pubWithPrereq.clues.find(
+      (c) => c.type === 'device_log' && c.locked === true,
+    );
+    if (lockedWithPrereq && lockedWithPrereq.locked) {
+      expect(lockedWithPrereq.hint).toEqual({
+        kind: 'after_clue',
+        clueId: 'clue_keycard_exit',
+      });
+    } else {
+      throw new Error('Expected locked device log with prerequisite');
+    }
   });
 
   it('handles locked clue hints: interview and request', () => {
@@ -211,11 +226,23 @@ describe('toPublicCase & Security Leak Tests (WP-06)', () => {
     };
 
     const pub = toPublicCase(customCase, []);
-    const interviewClue = pub.clues.find((c) => c.hint?.kind === 'interview');
-    expect(interviewClue?.hint).toEqual({ kind: 'interview' });
+    const interviewClue = pub.clues.find(
+      (c) => c.locked === true && c.hint?.kind === 'interview',
+    );
+    if (interviewClue && interviewClue.locked) {
+      expect(interviewClue.hint).toEqual({ kind: 'interview' });
+    } else {
+      throw new Error('Expected locked interview clue');
+    }
 
-    const requestClue = pub.clues.find((c) => c.hint?.kind === 'request');
-    expect(requestClue?.hint).toEqual({ kind: 'request', cost: 15 });
+    const requestClue = pub.clues.find(
+      (c) => c.locked === true && c.hint?.kind === 'request',
+    );
+    if (requestClue && requestClue.locked) {
+      expect(requestClue.hint).toEqual({ kind: 'request', cost: 15 });
+    } else {
+      throw new Error('Expected locked request clue');
+    }
   });
 
   it('throws typed error if unlocked clue is missing text', () => {
