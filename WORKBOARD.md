@@ -132,6 +132,8 @@ export interface CaseSlotProps {
 | 21      | MS   | Agent 3| `wp/21-local-persistence`  | ✅ merged (MMKV, migrations, quarantine)             |
 | 20b     | C    | Agent 2| `wp/20b-case-0003`         | ✅ merged (authored case_0003)                        |
 | 20c     | C    | Agent 2| `wp/20c-case-0004`         | ✅ merged (authored case_0004)                        |
+| 31      | E    | Agent 2| `wp/31-template-framework` | ✅ merged (generator core, pools, toy template)       |
+| 24      | MU   | Agent 3| `wp/24-home-library`       | 🔵 in progress (Wave 3)                               |
 | 25      | D    |       |                            | ⬜ Wave 1 (opt)                                       |
 | 35a     | T    | Agent 2|                            | ⬜ Wave 1                                             |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
