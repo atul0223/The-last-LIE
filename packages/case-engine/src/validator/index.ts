@@ -17,3 +17,5 @@ export * from './checks/v10_difficulty_band.js';
 export * from './checks/v11_text_render.js';
 export * from './checks/v12_hooks_canonical.js';
 export * from './checks/v13_ambiguity.js';
+export * from './checks/v14_lie_contradictable.js';
+export * from './checks/v15_solution_positive_evidence.js';

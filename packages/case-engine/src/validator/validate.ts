@@ -42,20 +42,12 @@ export const ALL_CHECKS: ValidatorCheck[] = [
   v11TextRenderCheck,
   v12HooksCanonicalCheck,
   v13AmbiguityCheck,
-];
-
-export const FAIRPLAY_CHECKS: ValidatorCheck[] = [
   v14LieContradictableCheck,
   v15SolutionPositiveEvidenceCheck,
 ];
 
-export const VALIDATOR_CHECKS: ValidatorCheck[] = [
-  ...ALL_CHECKS,
-  ...FAIRPLAY_CHECKS,
-];
-
 /**
- * Validates a case definition against all deterministic validation rules (V1-V13).
+ * Validates a case definition against all deterministic validation rules (V1-V15).
  * A case is publishable only with zero errors (ok === true).
  */
 export function validateCase(def: CaseDefinition, opts?: ValidateCaseOptions): ValidationReport {
@@ -91,8 +83,8 @@ export function validateCase(def: CaseDefinition, opts?: ValidateCaseOptions): V
   metrics.obtainableCluesCount = obtainableClueIds.size;
 
   const checksToRun = opts?.checks
-    ? VALIDATOR_CHECKS.filter((c) => opts.checks?.includes(c.checkId))
-    : VALIDATOR_CHECKS;
+    ? ALL_CHECKS.filter((c) => opts.checks?.includes(c.checkId))
+    : ALL_CHECKS;
 
   const allIssues: ValidationIssue[] = [];
   for (const check of checksToRun) {
