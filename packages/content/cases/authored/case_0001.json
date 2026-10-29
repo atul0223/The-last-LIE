@@ -1,0 +1,333 @@
+{
+  "id": "case_0001",
+  "version": 1,
+  "kind": "authored",
+  "title": "The Missing Message",
+  "difficulty": 2,
+  "estimatedMinutes": 5,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": ["loc_studio", "loc_lobby", "loc_courtyard"],
+    "date": "2026-10-29",
+    "summary": "OmniCorp Design Tower on a rain-swept autumn night."
+  },
+  "briefing": "A message was sent from Maya Lin's work phone at 23:47, but she claims she was already on a train home. Who sent the text, and why?",
+  "characters": [
+    {
+      "id": "char_maya",
+      "name": "Maya Lin",
+      "role": "Lead Architect",
+      "publicDescription": "Claims she left the studio before 23:40 and forgot her device on the drafting table."
+    },
+    {
+      "id": "char_arjun",
+      "name": "Arjun Mehta",
+      "role": "Systems Engineer",
+      "publicDescription": "Claims Maya sent him a confirmation SMS from the studio at 23:47."
+    },
+    {
+      "id": "char_rhea",
+      "name": "Rhea Vance",
+      "role": "Associate Designer",
+      "publicDescription": "Claims she saw someone moving near Maya's desk in the studio around 23:45."
+    },
+    {
+      "id": "char_marcus",
+      "name": "Marcus Kane",
+      "role": "Night Security Guard",
+      "publicDescription": "Conducted perimeter patrols through the courtyard and lobby."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_studio",
+      "name": "4th Floor Design Studio",
+      "description": "An open architectural studio with drafting benches and workstation docks.",
+      "doorIds": ["door_studio_entry"],
+      "adjacency": [{ "to": "loc_lobby", "travelMinutes": 3 }]
+    },
+    {
+      "id": "loc_lobby",
+      "name": "Ground Floor Lobby",
+      "description": "Main tower entrance equipped with automated optical turnstiles.",
+      "doorIds": ["door_lobby_turnstile", "door_lobby_exit"],
+      "adjacency": [
+        { "to": "loc_studio", "travelMinutes": 3 },
+        { "to": "loc_courtyard", "travelMinutes": 2 }
+      ]
+    },
+    {
+      "id": "loc_courtyard",
+      "name": "Exterior Courtyard",
+      "description": "Paved exterior plaza connecting the tower to the street gates.",
+      "doorIds": ["door_courtyard_gate"],
+      "adjacency": [{ "to": "loc_lobby", "travelMinutes": 2 }]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_phone_maya",
+      "name": "Maya's Work Phone",
+      "description": "Secured corporate smartphone registered to Maya Lin.",
+      "type": "device",
+      "ownerId": "char_maya"
+    },
+    {
+      "id": "obj_keycard_maya",
+      "name": "Maya's RFID Keycard",
+      "description": "High-frequency RFID credential.",
+      "type": "key",
+      "ownerId": "char_maya"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_message_carrier",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_2347",
+          "sender": "char_arjun",
+          "device": "obj_phone_maya",
+          "recipient": "char_arjun",
+          "sentAt": 1427
+        }
+      ],
+      "text": "Cellular carrier record: Outgoing SMS from Maya's device to Arjun delivered at 23:47.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_arjun_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_arjun",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_maya",
+          "where": "loc_studio",
+          "from": 1420,
+          "to": 1435
+        }
+      ],
+      "text": "Arjun stated: 'Maya was working late at her bench in the studio. She sent me a text at 23:47 confirming the plans.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_maya_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_maya",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_maya",
+          "where": "loc_studio",
+          "from": 1380,
+          "to": 1417
+        }
+      ],
+      "text": "Maya stated: 'I completed my drawing set and left the studio before 23:40. I must have left my phone behind on the drafting table.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_rhea_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_rhea",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_rhea",
+          "where": "loc_lobby",
+          "from": 1420,
+          "to": 1430
+        }
+      ],
+      "text": "Rhea stated: 'I was in the lobby between 23:40 and 23:50 waiting for my rideshare. I noticed movement by Maya's desk around 23:45.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_marcus_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "source": "char_marcus",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_marcus",
+          "door": "door_courtyard_gate",
+          "at": 1410
+        }
+      ],
+      "text": "Security checkpoint log: Guard Marcus Kane scanned courtyard gate reader at 23:30 during routine patrol.",
+      "unlock": { "kind": "default" },
+      "tags": ["red_herring"]
+    },
+    {
+      "id": "clue_keycard_exit",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maya",
+          "door": "door_lobby_exit",
+          "at": 1421
+        },
+        {
+          "kind": "at",
+          "who": "char_maya",
+          "where": "loc_lobby",
+          "from": 1420,
+          "to": 1430
+        }
+      ],
+      "text": "Lobby turnstile record: Maya Lin scanned RFID badge at the main exit turnstile at 23:41.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_maya_testimony"
+      }
+    },
+    {
+      "id": "clue_device_log",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_phone_maya",
+          "by": "char_arjun",
+          "at": 1427
+        }
+      ],
+      "text": "Phone security audit log: Screen unlock on Maya's phone registered session login by Arjun Mehta at 23:47.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_keycard_exit"
+      }
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_arjun_forged",
+      "label": "Arjun forged the message after Maya left.",
+      "claims": [
+        {
+          "kind": "device_use",
+          "device": "obj_phone_maya",
+          "by": "char_arjun",
+          "at": 1427
+        }
+      ],
+      "culpritIds": ["char_arjun"]
+    },
+    {
+      "id": "hyp_maya_sent",
+      "label": "Maya sent the message from the studio before leaving.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_maya",
+          "where": "loc_studio",
+          "from": 1425,
+          "to": 1430
+        }
+      ],
+      "culpritIds": ["char_maya"]
+    },
+    {
+      "id": "hyp_rhea_sent",
+      "label": "Rhea intercepted and sent the message from Maya's phone.",
+      "claims": [
+        {
+          "kind": "message",
+          "msg": "msg_2347",
+          "sender": "char_rhea",
+          "device": "obj_phone_maya",
+          "recipient": "char_arjun",
+          "sentAt": 1427
+        }
+      ],
+      "culpritIds": ["char_rhea"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "access",
+        "who": "char_marcus",
+        "door": "door_courtyard_gate",
+        "at": 1410
+      },
+      {
+        "kind": "at",
+        "who": "char_maya",
+        "where": "loc_studio",
+        "from": 1380,
+        "to": 1417
+      },
+      {
+        "kind": "at",
+        "who": "char_maya",
+        "where": "loc_lobby",
+        "from": 1420,
+        "to": 1430
+      },
+      {
+        "kind": "access",
+        "who": "char_maya",
+        "door": "door_lobby_exit",
+        "at": 1421
+      },
+      {
+        "kind": "at",
+        "who": "char_arjun",
+        "where": "loc_studio",
+        "from": 1425,
+        "to": 1435
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_phone_maya",
+        "by": "char_arjun",
+        "at": 1427
+      },
+      {
+        "kind": "message",
+        "msg": "msg_2347",
+        "sender": "char_arjun",
+        "device": "obj_phone_maya",
+        "recipient": "char_arjun",
+        "sentAt": 1427
+      }
+    ],
+    "culpritIds": ["char_arjun"],
+    "liars": [
+      {
+        "who": "char_arjun",
+        "statementClueIds": ["clue_arjun_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_arjun_forged",
+    "keyEvidence": [["clue_keycard_exit", "clue_device_log"]],
+    "explanation": [
+      {
+        "time": 1421,
+        "text": "Maya Lin departed through the lobby turnstile at 23:41, leaving her work phone behind on the studio drafting desk.",
+        "clueIds": ["clue_keycard_exit"]
+      },
+      {
+        "time": 1427,
+        "text": "Arjun Mehta entered the empty studio and unlocked Maya's phone at 23:47 to send a message to himself and fabricate an alibi.",
+        "clueIds": ["clue_device_log", "clue_message_carrier"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}

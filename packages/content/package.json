@@ -9,5 +9,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "@lastlie/case-engine": "workspace:*"
   }
 }
