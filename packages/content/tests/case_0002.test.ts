@@ -192,7 +192,7 @@ describe('Case 0002: Solvability & Contradiction Verification', () => {
     expect(keySets.length).toBeLessThanOrEqual(2);
 
     for (const set of keySets) {
-      expect(set).toHaveLength(2);
+      expect(set).toHaveLength(3);
       const surviving = survivingHypotheses(parsedCase, set, ctx);
       expect(surviving).toHaveLength(1);
       expect(surviving[0]?.id).toBe(parsedCase.truth.solutionHypothesisId);
@@ -210,5 +210,46 @@ describe('Case 0002: Solvability & Contradiction Verification', () => {
       parsedCase.truth.timeline.some((t) => Boolean(contradicts(fact, t, ctx))),
     );
     expect(contradictsTimeline).toBe(true);
+  });
+
+  it('verifies Daniel lie is provably contradicted by obtainable physical clue (V14 fair-play)', () => {
+    const danielTestimony = parsedCase.clues.find((c) => c.id === 'clue_daniel_testimony')!;
+    const courierAccessClue = parsedCase.clues.find((c) => c.id === 'clue_courier_access_log')!;
+
+    expect(courierAccessClue.reliability).toBe('physical');
+
+    // Confirm contradiction between Daniel's alibi and his dock turnstile scan
+    let contradictionFound = false;
+    for (const lieFact of danielTestimony.asserts) {
+      for (const physFact of courierAccessClue.asserts) {
+        const contra = contradicts(lieFact, physFact, ctx);
+        if (contra) {
+          contradictionFound = true;
+          expect(contra.ruleId).toBe('access.presence');
+        }
+      }
+    }
+    expect(contradictionFound).toBe(true);
+  });
+
+  it('verifies keyEvidence contains physical clue with culprit ID (V15 positive evidence)', () => {
+    const culpritIds = new Set(parsedCase.truth.culpritIds);
+    const keySets = parsedCase.truth.keyEvidence;
+
+    const hasCulpritPhysicalClue = keySets.some((set) =>
+      set.some((clueId) => {
+        const clue = parsedCase.clues.find((c) => c.id === clueId);
+        if (!clue || clue.reliability !== 'physical') return false;
+        return clue.asserts.some((f) => {
+          if ('who' in f && typeof f.who === 'string' && culpritIds.has(f.who)) return true;
+          if ('by' in f && typeof f.by === 'string' && culpritIds.has(f.by)) return true;
+          if ('sender' in f && typeof f.sender === 'string' && culpritIds.has(f.sender)) return true;
+          if ('recipient' in f && typeof f.recipient === 'string' && culpritIds.has(f.recipient)) return true;
+          return false;
+        });
+      }),
+    );
+
+    expect(hasCulpritPhysicalClue).toBe(true);
   });
 });

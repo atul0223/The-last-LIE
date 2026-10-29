@@ -184,6 +184,24 @@
         "kind": "after_clue",
         "clueId": "clue_beatrice_testimony"
       }
+    },
+    {
+      "id": "clue_courier_access_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_daniel",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Loading dock card reader: Daniel Holt scanned courier badge at North Dock Turnstile at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_daniel_testimony"
+      }
     }
   ],
   "hypotheses": [
@@ -274,6 +292,12 @@
         "to": 1230
       },
       {
+        "kind": "access",
+        "who": "char_daniel",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
         "kind": "action",
         "who": "char_beatrice",
         "verb": "placed",
@@ -305,7 +329,7 @@
       }
     ],
     "solutionHypothesisId": "hyp_daniel_stole",
-    "keyEvidence": [["clue_dock_access_log", "clue_pedestal_sensor"]],
+    "keyEvidence": [["clue_dock_access_log", "clue_pedestal_sensor", "clue_courier_access_log"]],
     "explanation": [
       {
         "time": 1215,
@@ -320,7 +344,7 @@
       {
         "time": 1222,
         "text": "Daniel Holt entered the loading dock staging bay and took the Astrum Seal at 20:22, fabricating an alibi that placed him in the exhibition hall.",
-        "clueIds": ["clue_daniel_testimony"]
+        "clueIds": ["clue_daniel_testimony", "clue_courier_access_log"]
       }
     ]
   },

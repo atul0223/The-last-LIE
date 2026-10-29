@@ -11,13 +11,13 @@ At 20:30 on October 30, 2026, an armored municipal transport van arrived at the 
 - **20:10–20:30:** Archive registrar Beatrice Chen (`char_beatrice`) prepares transit packing crates in the loading dock (`loc_dock`).
 - **20:13–20:15:** Asher completes his notes, leaves the gallery hall, and walks to the loading dock. At 20:15, he badges through the loading dock turnstile (`door_dock_turnstile`).
 - **20:16–20:21:** Beatrice takes custody of the Astrum Seal from Asher in the dock and places it inside the dock staging bay holding locker at 20:21.
-- **20:18–20:28:** Logistics courier Daniel Holt (`char_daniel`) enters the loading dock.
+- **20:18:** Logistics courier Daniel Holt (`char_daniel`) scans his badge at the loading dock turnstile (`door_dock_turnstile`) and enters the loading dock (`loc_dock`, 20:18–20:28).
 - **20:22:** Daniel intercepts the unattended holding locker, steals the Astrum Seal, and conceals it in his transport container.
 - **20:25:** Daniel invents a false alibi: he claims he was never in the loading dock staging bay and spent 20:15–20:30 inside the exhibition hall assisting with vitrine packing.
 
 ### Who Lied and Why
 
-- **Daniel Holt (`char_daniel`):** Daniel is the sole culprit and the sole liar. He stated that he was inside the exhibition hall (`loc_gallery`) from 20:15 to 20:30. In reality, he was present in the loading dock (`loc_dock`) from 20:18 to 20:28 where he stole the artifact. His statement directly conflicts with ground truth physical presence (`presence.two_places`).
+- **Daniel Holt (`char_daniel`):** Daniel is the sole culprit and the sole liar. He stated that he was inside the exhibition hall (`loc_gallery`) from 20:15 to 20:30. In reality, he badged into the loading dock turnstile (`door_dock_turnstile` in `loc_dock`) at 20:18 where he stole the artifact. His statement directly conflicts with physical access evidence (`access.presence`) and ground truth presence (`presence.two_places`).
 
 ---
 
@@ -61,14 +61,15 @@ The detective starts with the briefing and 5 default clues:
 ### Step 4: Discard Red Herring & Expose Daniel Holt
 
 - **Red Herring (`clue_clara_patrol_log`):** Clara Diaz only scanned the exterior gate at 20:05; she never entered the packing area or had custody of the artifact.
-- **Daniel's False Alibi (`clue_daniel_testimony`):** Daniel claimed he stayed in the gallery hall from 20:15 to 20:30. But Asher's dock access log and Beatrice's staging testimony confirm movement in the dock, where Daniel arrived with freight equipment. Daniel's declared presence in the gallery is a lie that covers his theft in the dock staging bay.
+- **Unlock Clue 8 (`clue_courier_access_log`):** Following Daniel's statement, checking the turnstile reader reveals Daniel Holt badged through `door_dock_turnstile` at **20:18** (`1218`).
+- **Provable Lie (`access.presence`):** Daniel claimed he stayed in the gallery hall from 20:15 to 20:30 (`[1215, 1230)`). However, `clue_courier_access_log` proves he badged into the loading dock at 20:18. Daniel cannot badge into `door_dock_turnstile` (`loc_dock`) while being in `loc_gallery`. This physical evidence directly proves Daniel lied to cover his presence at the scene of the theft.
 
 ### Step 5: Final Deductive Synthesis
 
 1. Decoy 1 (Asher hid the seal in the gallery) is eliminated by `clue_dock_access_log` (`access.presence`).
 2. Decoy 2 (Beatrice stole the seal early) is eliminated by `clue_pedestal_sensor` (`possess.exclusive`).
-3. Daniel Holt's alibi is fabricated, leaving him as the only viable suspect who had access to the dock staging bay.
+3. Daniel Holt's alibi is shattered by `clue_courier_access_log` (`access.presence`), placing the culprit at the loading dock where the artifact disappeared.
 4. **Conclusion:** Solution Hypothesis **`hyp_daniel_stole`** (_"Daniel Holt took the Astrum Seal from the loading dock staging bay."_) is the sole surviving truth.
 
-**Key Evidence Pair:** `["clue_dock_access_log", "clue_pedestal_sensor"]`
-Together, these two physical clues eliminate both decoy hypotheses, leaving Daniel Holt as the sole perpetrator.
+**Key Evidence Trio:** `["clue_dock_access_log", "clue_pedestal_sensor", "clue_courier_access_log"]`
+Together, these three physical clues eliminate both decoy hypotheses and positively place Daniel Holt at the loading dock, satisfying all fair-play and positive evidence rules.
