@@ -11,6 +11,7 @@ dist/
 
 # Expo / React Native
 .expo/
+web-build/
 
 # OS and temporary files
 .DS_Store

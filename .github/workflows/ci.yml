@@ -16,6 +16,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scope review
+        if: github.ref != 'refs/heads/main'
+        run: |
+          git diff --name-only origin/main...HEAD || true
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
