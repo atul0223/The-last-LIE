@@ -12,5 +12,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "@lastlie/case-engine": "workspace:^",
+    "commander": "^15.0.0",
+    "tsx": "^4.23.15"
   }
 }
