@@ -13,6 +13,8 @@ import { v10DifficultyBandCheck } from './checks/v10_difficulty_band.js';
 import { v11TextRenderCheck } from './checks/v11_text_render.js';
 import { v12HooksCanonicalCheck } from './checks/v12_hooks_canonical.js';
 import { v13AmbiguityCheck } from './checks/v13_ambiguity.js';
+import { v14LieContradictableCheck } from './checks/v14_lie_contradictable.js';
+import { v15SolutionPositiveEvidenceCheck } from './checks/v15_solution_positive_evidence.js';
 import { computeDifficultyMetrics } from './config.js';
 import { getObtainableClueIds } from './obtainable.js';
 import type {
@@ -40,6 +42,16 @@ export const ALL_CHECKS: ValidatorCheck[] = [
   v11TextRenderCheck,
   v12HooksCanonicalCheck,
   v13AmbiguityCheck,
+];
+
+export const FAIRPLAY_CHECKS: ValidatorCheck[] = [
+  v14LieContradictableCheck,
+  v15SolutionPositiveEvidenceCheck,
+];
+
+export const VALIDATOR_CHECKS: ValidatorCheck[] = [
+  ...ALL_CHECKS,
+  ...FAIRPLAY_CHECKS,
 ];
 
 /**
@@ -79,8 +91,8 @@ export function validateCase(def: CaseDefinition, opts?: ValidateCaseOptions): V
   metrics.obtainableCluesCount = obtainableClueIds.size;
 
   const checksToRun = opts?.checks
-    ? ALL_CHECKS.filter((c) => opts.checks?.includes(c.checkId))
-    : ALL_CHECKS;
+    ? VALIDATOR_CHECKS.filter((c) => opts.checks?.includes(c.checkId))
+    : VALIDATOR_CHECKS;
 
   const allIssues: ValidationIssue[] = [];
   for (const check of checksToRun) {
