@@ -72,7 +72,7 @@ export type PossessFact = z.infer<typeof PossessFactBaseSchema>;
 export const MessageFactSchema = z.object({
   kind: z.literal('message'),
   msg: IdSchema,
-  sender: IdSchema,
+  sender: IdSchema.optional(),
   device: IdSchema,
   recipient: IdSchema,
   sentAt: TimeSchema,

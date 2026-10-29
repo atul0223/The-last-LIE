@@ -73,6 +73,7 @@ function evaluateContradiction(first: Fact, second: Fact, ctx: LogicContext): Co
 
   if (messageFact && deviceUseFact) {
     if (
+      messageFact.sender &&
       messageFact.device === deviceUseFact.device &&
       messageFact.sender !== deviceUseFact.by &&
       messageFact.sentAt === deviceUseFact.at

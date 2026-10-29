@@ -200,6 +200,14 @@ describe('Fact variants & interval refinements', () => {
       sentAt: 1427,
     };
     expect(MessageFactSchema.parse(valid)).toEqual(valid);
+    const withoutSender = {
+      kind: 'message' as const,
+      msg: 'msg_01',
+      device: 'obj_phone',
+      recipient: 'char_maya',
+      sentAt: 1427,
+    };
+    expect(MessageFactSchema.parse(withoutSender)).toEqual(withoutSender);
     expect(() => MessageFactSchema.parse({ ...valid, recipient: '' })).toThrow();
   });
 

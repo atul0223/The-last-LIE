@@ -82,7 +82,7 @@ export function factEntailed(fact: Fact, timeline: Fact[], ctx: LogicContext): b
 
     // Rule 6: Device use via sent message
     if (fact.kind === 'device_use' && t.kind === 'message') {
-      if (fact.device === t.device && fact.by === t.sender && fact.at === t.sentAt) {
+      if (fact.device === t.device && t.sender && fact.by === t.sender && fact.at === t.sentAt) {
         return true;
       }
     }

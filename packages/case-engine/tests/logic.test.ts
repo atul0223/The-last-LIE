@@ -273,6 +273,18 @@ describe('Contradiction Rules', () => {
       };
       expect(contradicts(msgMaya, useArjunLater, ctx)).toBeNull();
     });
+
+    it('negative case: message without sender does not trigger message.sender_device', () => {
+      const msgNoSender: Fact = {
+        kind: 'message',
+        msg: 'm1',
+        device: 'obj_phone',
+        recipient: 'char_arjun',
+        sentAt: 1427,
+      };
+      expect(contradicts(msgNoSender, useArjun, ctx)).toBeNull();
+      expect(contradicts(useArjun, msgNoSender, ctx)).toBeNull();
+    });
   });
 
   describe('Rule 4: message.time', () => {
