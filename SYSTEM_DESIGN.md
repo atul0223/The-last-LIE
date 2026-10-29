@@ -111,7 +111,9 @@ type Fact =
   | { kind: "at";        who: Id; where: Id; from: Time; to: Time }      // presence interval
   | { kind: "action";    who: Id; verb: Verb; target?: Id; at: Time; where?: Id }
   | { kind: "possess";   who: Id; what: Id; from: Time; to: Time }
-  | { kind: "message";   msg: Id; sender: Id; device: Id; recipient: Id; sentAt: Time }
+  | { kind: "message";   msg: Id; sender?: Id; device: Id; recipient: Id; sentAt: Time }
+    // sender is optional: a carrier/phone record only knows the DEVICE, not the person.
+    // Physical clues must omit `sender` unless the record itself proves who typed it.
   | { kind: "device_use";device: Id; by: Id; at: Time }                  // unlock/log entries
   | { kind: "access";    who: Id; door: Id; at: Time }                   // keycard/door logs
   | { kind: "relation";  a: Id; b: Id; rel: RelationType }
@@ -197,7 +199,19 @@ interface CaseDefinition {
 type CaseStatus = "draft" | "validated" | "reviewed" | "published" | "retired";
 ```
 
-`CasePublic` comes from `toPublicCase(def, unlockedClueIds)`. It drops `truth`, `hypotheses[].claims`, `hypotheses[].culpritIds`, `meta.seed`, and every clue that is not unlocked. Locked clues show up only as a count and placeholder ids, so the UI can show "3 more pieces of evidence".
+`CasePublic` comes from `toPublicCase(def, unlockedClueIds)`. It uses an explicit allow-list.
+
+**Unlocked clue → client:** `{ id, type, reliability, source?, text, unlock, tags? }`. `text` is **always present**: the `text` override, or else `renderClue()` output.
+- **`asserts` is never sent.** Structured facts are the answer key in machine-readable form. For example, a message fact's `sender` can name the culprit even when the prose doesn't. The client works only from prose, and only the server evaluates facts.
+- **`tags` are filtered** through a public allow-list (`PUBLIC_CLUE_TAGS`). Internal tags like `red_herring` and `conspiracy_hook` never leave the server.
+
+**Locked clue → client:** `{ id: "locked_<n>", type, locked: true, hint }`.
+- `hint` is one of `{ kind: "after_clue", clueId }` (only when that prerequisite clue is already unlocked, so its real id is public), `{ kind: "after_clue_hidden" }`, `{ kind: "interview" }`, or `{ kind: "request", cost }`.
+- Placeholder ids are mapped back to real ids **on the server only**, inside the session.
+
+**Also dropped:** `truth`, `hypotheses[].claims`, `hypotheses[].culpritIds`, `meta` (except `status`), and `conspiracyHooks`.
+
+**Content rule (enforced by V11):** a clue's text may mention only the times, people, places and objects that appear in its own `asserts` (or its `source`). Physical clue `asserts` contain only what that record could actually observe.
 
 ---
 
@@ -408,7 +422,7 @@ All request and response bodies are defined in `packages/api-contract` (Zod). Ea
 | Function | Input | Behavior |
 |---|---|---|
 | `start-session` | `{ caseId? , mode, challengeId? }` | Picks a case if none is given (next unplayed case at the right difficulty, fingerprint dedupe). Creates a session and returns `CasePublic` with default clues. |
-| `unlock-clue` | `{ sessionId, clueId, via }` | Checks the unlock rule against the session state. Adds the clue to the session and returns its public form. |
+| `unlock-clue` | `{ sessionId, clueId, via }` | `clueId` is the public placeholder (`locked_<n>`), and the server maps it to the real id within the session. Checks the unlock rule against the session state. Adds the clue to the session and returns its public form. |
 | `save-board` | `{ sessionId, board }` | Saves the evidence-board state (debounced from the client). |
 | `check-link` | `{ sessionId, a, b }` | *Optional hint mode.* Returns only `valid: boolean` and is rate-limited. Off by default for competitive modes. |
 | `submit` | `Submission` | Requires the session to be unsubmitted. Loads `case_private`, runs `scoreSubmission`, writes the result, updates progress/unlocks, and returns `ScoreResult` + `Reveal` (the full explanation and every clue). |
@@ -497,7 +511,7 @@ Key funnels: first-case completion, second-case start, D1/D7 retention, referral
 ## 12. Quality gates
 
 - `case-engine`: ≥90% line coverage. Property tests (fast-check) confirm that `generateCase` gives validator-clean output for 1,000 seeds per template.
-- **Redaction test**: snapshot-test that `toPublicCase` output has none of the keys `truth`, `claims`, `culpritIds`, `seed`, and none of the locked clue texts. An integration test does the same for the `start-session` / `unlock-clue` responses.
+- **Redaction test**: deep-scan `toPublicCase` output for every unlock subset. It must contain none of the keys `truth`, `claims`, `culpritIds`, `seed`, `asserts`, `keyEvidence`, `liars`, `conspiracyHooks`, none of the internal tags, none of the locked clue texts, and no real id of a locked clue. An integration test does the same for the `start-session` / `unlock-clue` responses.
 - **RLS tests**: SQL tests (pgTAP or supabase test scripts) confirm that anon and authenticated roles cannot read `case_private` or write sessions/results.
 - **Content CI**: `lastlie validate packages/content/cases/**` runs in CI, and any error fails the build.
 - Mobile: component tests for the case screen, plus one Maestro (or Detox) E2E flow: start case → view clue → link → submit → reveal → next case.

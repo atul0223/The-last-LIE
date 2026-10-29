@@ -113,10 +113,7 @@ export const CaseMetaSchema = z.object({
 export type CaseMeta = z.infer<typeof CaseMetaSchema>;
 
 export const CasePublicMetaSchema = z.object({
-  templateId: IdSchema.optional(),
-  author: z.string().optional(),
   status: CaseStatusSchema,
-  allowAmbiguity: z.boolean().optional(),
 });
 export type CasePublicMeta = z.infer<typeof CasePublicMetaSchema>;
 
@@ -210,7 +207,6 @@ export const CasePublicSchema = z.object({
   lockedClueIds: z.array(IdSchema).default([]),
   hypotheses: z.array(PublicHypothesisSchema),
   interviews: z.array(InterviewSchema).optional(),
-  conspiracyHooks: z.array(ConspiracyHookSchema).optional(),
   meta: CasePublicMetaSchema,
 });
 

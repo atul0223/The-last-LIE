@@ -52,14 +52,57 @@ export const ClueSchema = z.object({
 });
 export type Clue = z.infer<typeof ClueSchema>;
 
-export const PublicClueSchema = z.object({
+export const PUBLIC_CLUE_TAGS = [
+  'crucial',
+  'alibi',
+  'physical',
+  'document',
+  'testimony',
+  'digital',
+  'forensic',
+  'witness',
+  'timeline',
+] as const;
+export type PublicClueTag = (typeof PUBLIC_CLUE_TAGS)[number];
+
+export const LockedClueHintSchema = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('after_clue'),
+    clueId: IdSchema,
+  }),
+  z.object({
+    kind: z.literal('after_clue_hidden'),
+  }),
+  z.object({
+    kind: z.literal('interview'),
+  }),
+  z.object({
+    kind: z.literal('request'),
+    cost: z.number().int().min(0),
+  }),
+]);
+export type LockedClueHint = z.infer<typeof LockedClueHintSchema>;
+
+export const PublicUnlockedClueSchema = z.object({
   id: IdSchema,
   type: ClueTypeSchema,
   reliability: ReliabilitySchema,
   source: IdSchema.optional(),
-  asserts: z.array(FactSchema).default([]),
-  text: z.string().optional(),
+  asserts: z.array(FactSchema).default([]).optional(),
+  text: z.string().min(1, 'Public clue text cannot be empty'),
   unlock: ClueUnlockSchema,
   tags: z.array(z.string()).optional(),
+  locked: z.literal(false).optional(),
 });
+export type PublicUnlockedClue = z.infer<typeof PublicUnlockedClueSchema>;
+
+export const PublicLockedClueSchema = z.object({
+  id: IdSchema,
+  type: ClueTypeSchema,
+  locked: z.literal(true),
+  hint: LockedClueHintSchema.optional(),
+});
+export type PublicLockedClue = z.infer<typeof PublicLockedClueSchema>;
+
+export const PublicClueSchema = z.union([PublicUnlockedClueSchema, PublicLockedClueSchema]);
 export type PublicClue = z.infer<typeof PublicClueSchema>;

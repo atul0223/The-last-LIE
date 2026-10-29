@@ -6,6 +6,8 @@ import { GroundTruthSchema, RevealBeatSchema } from './case.js';
 export const ContradictionLinkSchema = z.object({
   a: IdSchema,
   b: IdSchema,
+  ruleId: z.string().optional(),
+  explanation: z.string().optional(),
 });
 export type ContradictionLink = z.infer<typeof ContradictionLinkSchema>;
 

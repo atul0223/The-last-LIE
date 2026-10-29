@@ -5,6 +5,75 @@ Every prompt assumes the agent follows `AGENTS.md`, and each one says so explici
 
 ---
 
+## 📍 Current status (checked 2026-10-29)
+
+| WP | State | Notes |
+|---|---|---|
+| WP-01 Scaffold | ✅ committed | Branches are stacked (01→02→03→04→05→06). **Nothing is merged to `main` yet.** |
+| WP-02 Schema | ✅ committed | |
+| WP-03 Logic | ✅ committed | Added interval semantics and `presence.travel` to SYSTEM_DESIGN §4.1. Good. |
+| WP-04 case_0001 | ⚠️ committed, needs fix | The carrier clue's `asserts` say `sender: char_arjun`, which is the culprit, on a clue players see by default. Fixed by **NEXT-2**. |
+| WP-05 Validator | ✅ committed | |
+| WP-06 Redact/Scoring | 🔶 in progress, **uncommitted** | Typecheck and lint pass. **5 tests fail** (see NEXT-1). `toPublicCase` leaks `asserts` and internal tags. |
+| WP-07 Mobile shell | ⬜ not started | Can start now, in parallel |
+
+Other repo problems:
+- GitHub `origin` has only `wp/03-logic` pushed, and it's the remote default branch. `main` should be the default.
+- Git shows LF/CRLF warnings on Windows. There's no `.gitattributes`.
+
+### ▶ Run next, in this order
+1. **NEXT-1**: finish WP-06 (same branch).
+2. **NEXT-2**: contract fix for message sender and case_0001.
+3. **NEXT-3**: repo housekeeping. Can run in parallel with WP-07.
+4. **R1** for WP-06, then **R3 (P0)**, then **R4 (P0)**.
+5. On GO: fast-forward `main` to the top of the stack and push. Then start **WP-07** (if not already running) and P1.
+
+### NEXT-1 — Finish WP-06 (fix failing tests + leak)
+
+```text
+Follow AGENTS.md. Continue WP-06 on branch wp/06-redact-scoring. The uncommitted work there is a good start. Keep it.
+Read SYSTEM_DESIGN.md §3.6 (UPDATED: redaction rules) and §7.2.
+
+1. Redaction leak (blocker): toPublicCase currently copies clue `asserts` and all `tags` to the client. Change it to:
+   - unlocked clue → { id, type, reliability, source?, text (always present: override or renderClue fallback; if no renderer exists yet, require the text override and throw a typed error otherwise), unlock, tags filtered by an exported PUBLIC_CLUE_TAGS allow-list }.
+   - locked clue → { id: "locked_<n>", type, locked: true, hint }, where hint follows §3.6.
+   - Update PublicUnlockedClueSchema/PublicLockedClueSchema in schema/clue.ts to match (remove asserts; add hint). You may edit schema/clue.ts for this contract change.
+   - Export a mapping helper so the server can turn placeholder ids back into real ids (it is never sent to the client).
+2. Failing tests: the 5 failures are TEST bugs, not scoring bugs. In case_0001, clue_arjun_testimony asserts `at(char_maya, loc_studio, 1420–1435)`, which contradicts clue_keycard_exit (`at(char_maya, loc_lobby, 1420–1430)`) by presence.two_places. It does NOT contradict clue_device_log (that clue has only a device_use fact). `clue_maya_access` does not exist. Rewrite the expectations from the real case file: valid link = arjun_testimony ↔ keycard_exit. Bad-link test must use real, unlocked clue ids. Add a separate test that a non-existent id throws.
+   Note: after NEXT-2, arjun_testimony ↔ device_log will ALSO become valid. Write the tests so they don't depend on that link being invalid.
+3. Extend the deepScan helper's forbidden keys: truth, claims, culpritIds, seed, asserts, keyEvidence, liars, conspiracyHooks; forbidden values: internal tags, locked clue texts, real ids of locked clues. Run it for every unlock subset of case_0001.
+4. Commit everything on the branch. Finish with the Definition of done report.
+```
+
+### NEXT-2 — Contract fix: optional message sender + case_0001 + text rule
+
+```text
+Follow AGENTS.md. This is a contract-change task. Branch wp/06b-message-sender, stacked on wp/06-redact-scoring.
+Owns: packages/case-engine/src/schema/fact.ts, src/logic/contradicts.ts (message rules only), src/validator/checks/v11_text_render.ts, packages/content/cases/authored/case_0001.json, docs/cases/case_0001-walkthrough.md, and the matching tests.
+Read SYSTEM_DESIGN.md §3.2 and §3.6 (both UPDATED).
+
+1. Make `sender` optional on the message Fact. Update message.sender_device: it fires only when the message HAS a sender and a device_use on the same device at the same time shows a different person. Add tests for the sender-less case (no contradiction).
+2. Fix case_0001 so physical evidence doesn't hand over the answer:
+   - clue_message_carrier: remove `sender` (a carrier record only knows the device).
+   - clue_arjun_testimony: add a message fact `{msg_2347, sender: char_maya, device: obj_phone_maya, recipient: char_arjun, sentAt: 1427}`, which is his lie (the text already says "She sent me a text at 23:47"). Make sure truth.liars still covers it and V5 passes.
+   - Now arjun_testimony ↔ device_log is a valid contradiction (message.sender_device), alongside arjun_testimony ↔ keycard_exit (presence.two_places).
+   - Re-check that all 3 hypotheses still evaluate correctly and V7/V8 still pass. Update the walkthrough.
+3. V11 text rule: a clue's text must not mention a character name that isn't the clue's `source`, or doesn't appear in its asserts (match against characters[].name). Also check every HH:MM in the text appears in its asserts. Add a broken fixture test for each.
+4. Run the full test suite, fix any test expectations that changed because of the new valid link, and commit. Finish with the Definition of done report.
+```
+
+### NEXT-3 — Repo housekeeping
+
+```text
+Follow AGENTS.md. Branch wp/00-housekeeping from main.
+1. Add .gitattributes: `* text=auto eol=lf`, plus binary rules for png/jpg/ttf/otf. Renormalize (git add --renormalize .) in a separate commit.
+2. Check .gitignore covers coverage/, dist/, .expo/, .env*, !.env.example, *.log.
+3. Make sure CI (.github/workflows/ci.yml) also runs on pushes to wp/** branches.
+Do NOT push. Report the exact commands the user should run to push main and set it as the GitHub default branch.
+```
+
+---
+
 ## How to use this file
 
 For each work package (WP), run this loop:
@@ -14,8 +83,12 @@ For each work package (WP), run this loop:
 2. VERIFY   → paste R1 with the WP id                 (NEW session — fresh eyes)
 3. FIX      → paste R2 with the verifier's findings   (same session as BUILD, or new)
 4. repeat 2–3 until VERIFY says PASS
-5. COMMIT   → you review the diff, then commit / merge
+5. MERGE    → you review the diff, then merge the WP branch into main
+              (git checkout main && git merge --ff-only wp/<id>-...) and push
+6. The next WP branches from the updated main
 ```
+
+Don't let WP branches pile up unmerged. Merge each one once it passes, so later WPs start from verified code.
 
 At the end of each phase:
 
@@ -204,11 +277,12 @@ Finish with the Definition of done report.
 Follow AGENTS.md. Task: WP-06 in PLAN.md. Owns: packages/case-engine/src/redact/**, packages/case-engine/src/scoring/**.
 
 Implement:
-- toPublicCase(def, unlockedIds): builds an explicit allow-list of output fields. Never copy the object and delete fields from it. Locked clues appear only as { id: opaque placeholder, type, locked: true } with no text. Hypotheses show only id and label.
+- toPublicCase(def, unlockedIds): builds an explicit allow-list of output fields, following SYSTEM_DESIGN §3.6 exactly. Never copy the object and delete fields from it. Unlocked clues: NO `asserts`, tags filtered by PUBLIC_CLUE_TAGS, text always present. Locked clues: { id: "locked_<n>", type, locked: true, hint }. Hypotheses show only id and label.
 - canUnlock(def, session, clueId, via) → ok | { error code }.
 - scoreSubmission(def, session, submission) following §7.2 exactly. Return a breakdown per component. Validate the submission against the session (clue ids must be unlocked, hypothesis must exist).
 - buildReveal(def, result): full timeline beats, all clues, the validity of each player link with its ruleId.
-Security tests: a deepScan helper that walks any output and fails on keys {truth, claims, culpritIds, seed, keyEvidence, liars} and on any locked clue's rendered text. Run it against case_0001 for every unlock subset (the power set is fine at this size).
+Security tests: a deepScan helper that walks any output and fails on keys {truth, claims, culpritIds, seed, asserts, keyEvidence, liars, conspiracyHooks}, on internal tags, on any locked clue's text, and on real ids of locked clues.
+Scoring tests: read case_0001.json first and derive every expected id and number from it. Run it against case_0001 for every unlock subset (the power set is fine at this size).
 Scoring table tests: correct + full evidence, correct + partial, wrong + good links, bad links floor, request penalties, replay multiplier.
 Finish with the Definition of done report.
 ```
