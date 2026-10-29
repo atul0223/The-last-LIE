@@ -61,6 +61,19 @@ If your work seems to need any of these, stop and list it under **Requests**.
 
 ---
 
+## Queue mode (asynchronous continuous execution)
+
+When working in queue mode, agents work through assigned task queues autonomously without waiting for explicit prompt triggers:
+
+1. **READY Signal:** When your task is complete, verified, and Definition of Done passes, commit your final report and signal readiness with a commit whose message ends with `READY`, formatted as:
+   `[WP-<ID>] READY` or `[WP-<ID>] <summary>: READY`
+2. **Report File Path:** Each WP owns `docs/reports/WP-<ID>.md`. Write your full Definition of Done report, test outputs, acceptance checklist, and decisions into this file before making your READY commit.
+3. **Stacked Branches:** If you start a subsequent WP that depends on unmerged work from your previous WP, branch off your previous branch (`wp/<ID>-<slug>`). An agent or integrator merges stacked branches only after the base branch has been merged into `main`.
+4. **Self-Review Step:** Before declaring READY, perform a strict self-review: run `pnpm -r typecheck`, `pnpm -r lint`, `pnpm -r test`, and `git diff --name-only main...HEAD`. Confirm zero leaks, no `any`/@ts-ignore, accessibility labels on touchables, and that only owned files (plus `docs/reports/WP-<ID>.md` and allowed barrel/lockfile changes) are in the diff.
+5. **Stop Conditions:** Stop working on a queue when all assigned WPs in your queue are completed and marked READY, or when blocked by an external dependency or critical review finding.
+
+---
+
 ## Hard rules (all work)
 - **Contracts:** shared types live in `packages/case-engine/src/schema` and `packages/api-contract`. Change them only in a contract task.
 - **Determinism:** engine code (`packages/case-engine`) must not use `Math.random`, `Date.now`, `new Date()` without arguments, network calls, `fs`, React, Node APIs, or Deno APIs. Pass RNG and time in as arguments.
