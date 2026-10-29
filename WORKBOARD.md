@@ -138,6 +138,6 @@ export interface CaseSlotProps {
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
 
 > **Wave 2 notice:** The mobile slot and hook contract defined in WP-10 (`useCaseSession`, `CaseSlotProps`, subview slot mapping) is **FROZEN** for Wave 2 UI agents.
-> **Follow-up:** WP-30 proposal (wire `renderClue` into V11 text render check + content leak guards) deferred to future engine task.
+> **Resolved:** WP-30 proposal (wire `renderClue` into V11 text render check) implemented and merged to `main`.
 
 States: ⬜ todo · 🔵 in progress · 🟡 done, awaiting review · 🟢 verified (R1 PASS) · ✅ merged · 🔴 blocked
