@@ -12,7 +12,7 @@
 
 "THE LAST LIE: Infinite" has been built end-to-end across all architectural layers. The monorepo incorporates deterministic logic simulation, procedural mystery generation, fair-play verification, a complete cross-platform Expo mobile client, and a server-authoritative backend REST API built on Hono and Supabase.
 
-Over **550 automated tests** pass continuously across the workspace with zero failures, zero TypeScript errors (`pnpm -r typecheck` clean), zero linter warnings (`pnpm -r lint` clean), and zero answer leaks.
+Over **606 automated tests** pass continuously across the workspace with zero failures, zero TypeScript errors (`pnpm -r typecheck` clean), zero linter warnings (`pnpm -r lint` clean), and zero answer leaks.
 
 ---
 
@@ -72,7 +72,12 @@ Over **550 automated tests** pass continuously across the workspace with zero fa
   - `TheorySlot`: Suspect accusation selection, supporting clues picker, contradiction builder.
   - `RevealSlot`: Server-authoritative score breakdown, truth reveal, XP progression award.
 - **Dual GameService:** Seamless runtime switching between offline `LocalGameService` (MMKV) and online `RemoteGameService` (TanStack Query, offline board queue, last-write-wins).
-- **Authentication & User Profiles:** Anonymous guest start, email OTP account upgrade preserving `user.id`, feature-flagged social login, custom detective titles, and persistent privacy preferences.
+- **Authentication & User Profiles (WP-44):** Anonymous guest start, email OTP account upgrade preserving `user.id`, feature-flagged social login, custom detective titles, and persistent privacy preferences.
+- **Challenges & Web Play (WP-45):** Spoiler-free investigator result cards (`ResultCard` with `react-native-view-shot`), deep-link `/c/[code]` routing, HMAC-SHA256 guest play, and peer deduction comparison view.
+- **Daily Investigation & Streaks (WP-50):** Home daily mystery card with streak tracker (`🔥 N DAYS`), non-punitive streak grace, and deterministic UTC date-hash fallback.
+- **Conspiracy Map UI (WP-52):** Interactive 2D graph canvas (`@shopify/react-native-skia`) with pan/zoom, deterministic force-directed layout caching, unrevealed '?' neighbor lead anonymization, dossier sheet inspector, and accessible list view.
+- **Push Notifications (WP-54):** Privacy-first opt-in prompt after 2 solved cases, recurring local time morning reminders, zero-leak notification copy, and one-tap Profile opt-out.
+- **Weekly Community Duels (WP-55):** Synchronous weekly case section, live window countdown, first-attempt leaderboard ranking, and post-close aggregate theory unlock.
 
 ---
 
@@ -85,8 +90,8 @@ Over **550 automated tests** pass continuously across the workspace with zero fa
 | API Contract Schemas | `packages/api-contract` | 17 tests | Strict Zod request/response validation, error envelopes |
 | Publisher CLI | `tools/cli` | 25 tests | Path traversal defense, validation refusal, dry-run |
 | Backend API & Security | `supabase/tests` | 51 tests | IDOR, double submit, guest HMAC, rate limits, zero leaks |
-| Mobile Features & Flow | `apps/mobile` | 151 tests | End-to-end case flow, SecureStore chunking, offline queue |
-| **Total Test Count** | **Monorepo** | **554 tests** | **100% PASSING** |
+| Mobile Features & Flow | `apps/mobile` | 203 tests | End-to-end case flow, SecureStore chunking, offline queue, challenges, daily/weekly, map, push |
+| **Total Test Count** | **Monorepo** | **606 tests** | **100% PASSING** |
 
 ---
 
