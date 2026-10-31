@@ -34,6 +34,76 @@ export interface PublishClient {
     };
     definition: CaseDefinition;
   }): Promise<void>;
+  upsertConspiracyGraph?(nodes: RawConspiracyNodePublish[], edges: RawConspiracyEdgePublish[]): Promise<void>;
+}
+
+export interface RawConspiracyNodePublish {
+  id: string;
+  kind: string;
+  name: string;
+  publicSummary?: string;
+  description?: string;
+}
+
+export interface RawConspiracyEdgePublish {
+  id: string;
+  from: string;
+  to: string;
+  rel: string;
+  revealedBy?: { caseId: string; clueId?: string };
+  revealedByCaseId?: string;
+}
+
+export interface PublishGraphOptions {
+  nodesPath: string;
+  edgesPath: string;
+  env: 'local' | 'staging' | 'prod';
+  dryRun?: boolean;
+  confirmProd?: boolean;
+  client?: PublishClient;
+}
+
+export async function publishConspiracyGraph(options: PublishGraphOptions): Promise<{
+  success: boolean;
+  nodesCount: number;
+  edgesCount: number;
+  errors?: string[];
+}> {
+  const { nodesPath, edgesPath, env, dryRun = false, confirmProd = false, client } = options;
+
+  if (env === 'prod' && !dryRun && !confirmProd) {
+    throw new Error('Production publish requires explicit confirmation (--yes or interactive prompt)');
+  }
+
+  const nodes = JSON.parse(fs.readFileSync(nodesPath, 'utf-8')) as RawConspiracyNodePublish[];
+  const edges = JSON.parse(fs.readFileSync(edgesPath, 'utf-8')) as RawConspiracyEdgePublish[];
+
+  // Validate nodes and edges (ensure no dangling edge endpoints)
+  const nodeIds = new Set(nodes.map((n) => n.id));
+  const errors: string[] = [];
+
+  for (const edge of edges) {
+    if (!nodeIds.has(edge.from)) {
+      errors.push(`Edge '${edge.id}' references nonexistent 'from' node '${edge.from}'`);
+    }
+    if (!nodeIds.has(edge.to)) {
+      errors.push(`Edge '${edge.id}' references nonexistent 'to' node '${edge.to}'`);
+    }
+  }
+
+  if (errors.length > 0) {
+    return { success: false, nodesCount: 0, edgesCount: 0, errors };
+  }
+
+  if (dryRun) {
+    return { success: true, nodesCount: nodes.length, edgesCount: edges.length };
+  }
+
+  if (client?.upsertConspiracyGraph) {
+    await client.upsertConspiracyGraph(nodes, edges);
+  }
+
+  return { success: true, nodesCount: nodes.length, edgesCount: edges.length };
 }
 
 export interface PublishResult {

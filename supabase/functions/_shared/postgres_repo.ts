@@ -589,18 +589,35 @@ export class PostgresRepository implements Repository {
       revealedByCaseId: e.revealed_by_case_id,
     }));
 
-    const nodeIds = new Set<string>();
+    const revealedNodeIds = new Set<string>();
     for (const e of revealedEdges) {
-      nodeIds.add(e.from);
-      nodeIds.add(e.to);
+      revealedNodeIds.add(e.from);
+      revealedNodeIds.add(e.to);
     }
 
+    // Discover 1-hop adjacent unrevealed neighbours
+    const { data: allEdges } = await this.client
+      .from('conspiracy_edges')
+      .select('from_node, to_node');
+
+    const adjacentNodeIds = new Set<string>();
+    if (allEdges) {
+      for (const e of allEdges) {
+        if (revealedNodeIds.has(e.from_node) && !revealedNodeIds.has(e.to_node)) {
+          adjacentNodeIds.add(e.to_node);
+        } else if (revealedNodeIds.has(e.to_node) && !revealedNodeIds.has(e.from_node)) {
+          adjacentNodeIds.add(e.from_node);
+        }
+      }
+    }
+
+    // Fetch revealed nodes (name and description included)
     const { data: nodes } = await this.client
       .from('conspiracy_nodes')
       .select('*')
-      .in('id', Array.from(nodeIds));
+      .in('id', Array.from(revealedNodeIds));
 
-    const revealedNodes = (nodes || []).map((n) => ({
+    const revealedNodes: GraphNode[] = (nodes || []).map((n) => ({
       id: n.id,
       kind: n.kind,
       name: n.name,
@@ -608,7 +625,27 @@ export class PostgresRepository implements Repository {
       revealed: true,
     }));
 
-    return { nodes: revealedNodes, edges: revealedEdges };
+    // Fetch adjacent unrevealed nodes (name: null, description: null)
+    let unrevealedNodes: GraphNode[] = [];
+    if (adjacentNodeIds.size > 0) {
+      const { data: adjData } = await this.client
+        .from('conspiracy_nodes')
+        .select('id, kind')
+        .in('id', Array.from(adjacentNodeIds));
+
+      unrevealedNodes = (adjData || []).map((n) => ({
+        id: n.id,
+        kind: n.kind,
+        name: null,
+        description: null,
+        revealed: false,
+      }));
+    }
+
+    return {
+      nodes: [...revealedNodes, ...unrevealedNodes],
+      edges: revealedEdges,
+    };
   }
 
   async grantGraphReveals(userId: string, caseId: string): Promise<void> {
