@@ -1,4 +1,4 @@
-# The Broken Alibi of Alistair Finch (case_fa_3562)
+# The Silent Hours at The Vesper Chronicle Newsroom (case_fa_8979)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at The Grand Vesper Hotel under cover of evening routines.
 
 ## Briefing
-Freight Turnstile Scanner was compromised at The Grand Vesper Hotel. Suspect Alistair Finch claims to have been at The Vesper Chronicle Newsroom throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Freight Turnstile Scanner was compromised at The Grand Vesper Hotel under cover of evening routines. Access logs indicate three individuals were present in the sector: Alistair Finch, Cassian Calloway, and Orion Grayson. Each has presented an account of their whereabouts; correlate timestamps and logs to uncover whose alibi fails.
 
 ## Cast of Characters
 - **Alistair Finch** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ Freight Turnstile Scanner was compromised at The Grand Vesper Hotel. Suspect Ali
   > "[20:15] CCTV_FEED · THE_GRAND_VESPER_HOTEL · subject: Alistair Finch"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Alistair Finch took Freight Turnstile Scanner from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Cassian Calloway was present at The Grand Vesper Hotel during the incident.
-- **hyp_suspect2_guilty**: Orion Grayson was present at The Grand Vesper Hotel during the incident.
-- **hyp_culprit_innocent**: Alistair Finch was at The Vesper Chronicle Newsroom and did not enter The Grand Vesper Hotel.
+- **hyp_suspect2_guilty**: Orion Grayson entered The Grand Vesper Hotel and took Freight Turnstile Scanner.
+- **hyp_culprit_innocent**: Alistair Finch remained at The Vesper Chronicle Newsroom and did not enter The Grand Vesper Hotel.
+- **hyp_culprit_guilty**: Alistair Finch entered The Grand Vesper Hotel and took Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_suspect1_guilty**: Cassian Calloway entered The Grand Vesper Hotel and took Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_alistair

@@ -1,4 +1,4 @@
-# Disappearance of the High-Speed Rotary Press (case_mi_1577)
+# The Empty Handover at The Grand Vesper Hotel (case_mi_7667)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from North Freight Dock during evening shifts.
 
 ## Briefing
-High-Speed Rotary Press disappeared from North Freight Dock. Staff member Damian Althaus claims to have been working in The Grand Vesper Hotel and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+Custodial logs at North Freight Dock show an unrecorded removal of High-Speed Rotary Press. Access was restricted to four staff members: Damian Althaus, Beatrix Ward, Celeste Althaus, and Silas Ibrahim. Evaluate their testimonies against physical evidence to identify the perpetrator.
 
 ## Cast of Characters
 - **Damian Althaus** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ High-Speed Rotary Press disappeared from North Freight Dock. Staff member Damian
   > "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Silas Ibrahim"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Damian Althaus took High-Speed Rotary Press from North Freight Dock. **[SOLUTION]**
-- **hyp_custodian_took**: Beatrix Ward took High-Speed Rotary Press from North Freight Dock after hours.
-- **hyp_suspect2_took**: Celeste Althaus took High-Speed Rotary Press from North Freight Dock.
+- **hyp_custodian_took**: Beatrix Ward took High-Speed Rotary Press from North Freight Dock.
 - **hyp_suspect3_took**: Silas Ibrahim took High-Speed Rotary Press from North Freight Dock.
+- **hyp_suspect2_took**: Celeste Althaus took High-Speed Rotary Press from North Freight Dock.
+- **hyp_culprit_stole**: Damian Althaus took High-Speed Rotary Press from North Freight Dock. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

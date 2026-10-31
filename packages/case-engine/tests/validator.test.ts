@@ -531,8 +531,8 @@ describe('Case Validator Core & Checks (V1-V13)', () => {
     expect(metrics.measuredDifficulty).toBe(1);
   });
 
-  it('ALL_CHECKS exports all 15 checks', () => {
-    expect(ALL_CHECKS).toHaveLength(15);
+  it('ALL_CHECKS exports all 16 checks', () => {
+    expect(ALL_CHECKS).toHaveLength(16);
     const checkIds = ALL_CHECKS.map((c) => c.checkId);
     expect(checkIds).toContain('schema');
     expect(checkIds).toContain('refs');

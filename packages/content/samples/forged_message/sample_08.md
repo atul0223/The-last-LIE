@@ -1,4 +1,4 @@
-# The Phantom Message from High-Speed Rotary Press (case_fm_1577)
+# Deception on the Wire at The Grand Vesper Hotel Before Dawn (case_fm_7667)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from North Freight Dock to disrupt operations at The Grand Vesper Hotel.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Suspect Damian Althaus claims Beatrix Ward was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A bogus transmission was logged on High-Speed Rotary Press before the evening print run. Clearance was limited to four individuals: Damian Althaus, Beatrix Ward, Celeste Althaus, and Silas Ibrahim. Analyze system logs to expose whose account hides the forgery.
 
 ## Cast of Characters
 - **Damian Althaus** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Susp
   > "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Silas Ibrahim"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Damian Althaus transmitted the forged dispatch from High-Speed Rotary Press. **[SOLUTION]**
-- **hyp_victim_sent**: Beatrix Ward sent the message from North Freight Dock.
-- **hyp_recipient_sent**: Celeste Althaus was present in North Freight Dock and sent the message.
-- **hyp_suspect3_sent**: Silas Ibrahim was present in North Freight Dock and sent the message.
+- **hyp_victim_sent**: Beatrix Ward transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_suspect3_sent**: Silas Ibrahim transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_recipient_sent**: Celeste Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_culprit_forged**: Damian Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

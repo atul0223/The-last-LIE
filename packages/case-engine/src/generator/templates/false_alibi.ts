@@ -58,6 +58,7 @@ import type {
 import type { Rng } from '../../rng.js';
 import type { CaseTemplate, FilledSlots, TemplateParams } from '../core/types.js';
 import { injectRedHerrings } from '../core/helpers.js';
+import { formatNameList, generateFalseAlibiTitle } from './helpers.js';
 
 export const tpl_false_alibi: CaseTemplate = {
   id: 'tpl_false_alibi_v1',
@@ -385,7 +386,7 @@ export const tpl_false_alibi: CaseTemplate = {
     // Solution hypothesis: culprit committed the crime at locCrime
     const solutionHypothesis = {
       id: 'hyp_culprit_guilty',
-      label: `${culprit.name} took ${targetItem.name} from ${locCrime.name}.`,
+      label: `${culprit.name} entered ${locCrime.name} and took ${targetItem.name}.`,
       claims: [
         {
           kind: 'action' as const,
@@ -402,7 +403,7 @@ export const tpl_false_alibi: CaseTemplate = {
     // Decoy 1: suspect 1 took the item / was at locCrime
     const decoy1 = {
       id: 'hyp_suspect1_guilty',
-      label: `${suspect1.name} was present at ${locCrime.name} during the incident.`,
+      label: `${suspect1.name} entered ${locCrime.name} and took ${targetItem.name}.`,
       claims: [
         {
           kind: 'at' as const,
@@ -422,7 +423,7 @@ export const tpl_false_alibi: CaseTemplate = {
       // Decoy 2: Culprit was innocently at locAlibi
       const decoy2 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} was at ${locAlibi.name} and did not enter ${locCrime.name}.`,
+        label: `${culprit.name} remained at ${locAlibi.name} and did not enter ${locCrime.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -444,7 +445,7 @@ export const tpl_false_alibi: CaseTemplate = {
       // Decoy 2: suspect 2 was at locCrime
       const decoy2 = {
         id: 'hyp_suspect2_guilty',
-        label: `${suspect2.name} was present at ${locCrime.name} during the incident.`,
+        label: `${suspect2.name} entered ${locCrime.name} and took ${targetItem.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -460,7 +461,7 @@ export const tpl_false_alibi: CaseTemplate = {
       // Decoy 3: Culprit innocent alibi
       const decoy3 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} was at ${locAlibi.name} and did not enter ${locCrime.name}.`,
+        label: `${culprit.name} remained at ${locAlibi.name} and did not enter ${locCrime.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -485,7 +486,7 @@ export const tpl_false_alibi: CaseTemplate = {
       // Diff 4: 4 hypotheses, keyEvidence size 4
       const decoy2 = {
         id: 'hyp_suspect2_guilty',
-        label: `${suspect2.name} was present at ${locCrime.name} during the incident.`,
+        label: `${suspect2.name} entered ${locCrime.name} and took ${targetItem.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -500,7 +501,7 @@ export const tpl_false_alibi: CaseTemplate = {
 
       const decoy3 = {
         id: 'hyp_suspect3_guilty',
-        label: `${suspect3.name} was present at ${locCrime.name} during the incident.`,
+        label: `${suspect3.name} entered ${locCrime.name} and took ${targetItem.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -528,6 +529,9 @@ export const tpl_false_alibi: CaseTemplate = {
         ],
       ];
     }
+
+    // Shuffle hypotheses so the solution is not always first
+    hypotheses = rng.shuffle(hypotheses);
 
     // Explanation beats for reveal
     const explanation = [
@@ -566,18 +570,25 @@ export const tpl_false_alibi: CaseTemplate = {
       },
     ];
 
-    const caseTitles = [
-      `The Broken Alibi of ${culprit.name}`,
-      `The ${targetItem.name} Conspiracy`,
-      `Shadows Over ${locCrime.name}`,
-      `Contradiction at ${locAlibi.name}`,
+    const title = generateFalseAlibiTitle(rng, targetItem, locCrime, locAlibi, locTransit);
+
+    const suspects = diff >= 3 ? [culprit, suspect1, suspect2, suspect3] : [culprit, suspect1, suspect2];
+    const shuffledSuspects = rng.shuffle(suspects);
+    const suspectNames = formatNameList(shuffledSuspects.map((s) => s.name));
+    const countWord = suspects.length === 4 ? 'four' : 'three';
+
+    const briefingOptions = [
+      `${targetItem.name} was compromised at ${locCrime.name} under cover of evening routines. Access logs indicate ${countWord} individuals were present in the sector: ${suspectNames}. Each has presented an account of their whereabouts; correlate timestamps and logs to uncover whose alibi fails.`,
+      `An unauthorized breach at ${locCrime.name} resulted in the loss of ${targetItem.name}. Electronic records place ${suspectNames} in the vicinity during the critical window. Analyze the evidence to determine whose alibi contradicts the facts.`,
+      `Following the incident involving ${targetItem.name} at ${locCrime.name}, investigators identified ${countWord} persons of interest: ${suspectNames}. Each claims to have been elsewhere during the evening. Identify which account is fabricated.`,
+      `Security at ${locCrime.name} reported ${targetItem.name} missing from its station. ${suspectNames} were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.`,
     ];
 
     return {
       id: `case_fa_${rng.int(1000, 9999)}`,
       version: 1,
       kind: 'procedural',
-      title: rng.pick(caseTitles),
+      title,
       difficulty: diff,
       estimatedMinutes: 5 + diff * 2,
       mysteryType: 'false_alibi',
@@ -586,7 +597,7 @@ export const tpl_false_alibi: CaseTemplate = {
         date: '2026-11-04',
         summary: `An unauthorized incident occurred at ${locCrime.name} under cover of evening routines.`,
       },
-      briefing: `${targetItem.name} was compromised at ${locCrime.name}. Suspect ${culprit.name} claims to have been at ${locAlibi.name} throughout the entire evening. Unravel the contradictions to identify the perpetrator.`,
+      briefing: rng.pick(briefingOptions),
       characters,
       locations,
       objects: [targetItem],

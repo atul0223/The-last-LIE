@@ -1,4 +1,4 @@
-# Deception on the Wire at North Gate Print Shop (case_fm_2852)
+# The Case of the Counterfeit Dispatch (case_fm_8818)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at North Gate Print Shop.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Transit Cipher Ledger. Suspect Damian Ramsay claims Nadia Grayson was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+An unauthorized dispatch msg_dispatch was transmitted from Transit Cipher Ledger to North Gate Print Shop. four staff members were on duty across the network: Damian Ramsay, Nadia Grayson, Beatrix Sterling, and Eleanor Belmont. Inspect terminal session logs and carrier records to unmask the imposter.
 
 ## Cast of Characters
 - **Damian Ramsay** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ An unauthorized message msg_dispatch was sent from Transit Cipher Ledger. Suspec
   > "[20:17] ACCESS_LOG · NEWSROOM_PRESS · badge: Beatrix Sterling"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Damian Ramsay transmitted the forged dispatch from Transit Cipher Ledger. **[SOLUTION]**
-- **hyp_victim_sent**: Nadia Grayson sent the message from The Grand Vesper Hotel.
-- **hyp_recipient_sent**: Eleanor Belmont was present in The Grand Vesper Hotel and sent the message.
-- **hyp_culprit_innocent**: Damian Ramsay was at North Gate Print Shop and did not operate Transit Cipher Ledger.
+- **hyp_victim_sent**: Nadia Grayson transmitted the unauthorized dispatch from Transit Cipher Ledger.
+- **hyp_culprit_innocent**: Damian Ramsay remained at North Gate Print Shop and did not operate Transit Cipher Ledger.
+- **hyp_recipient_sent**: Eleanor Belmont transmitted the unauthorized dispatch from Transit Cipher Ledger.
+- **hyp_culprit_forged**: Damian Ramsay transmitted the unauthorized dispatch from Transit Cipher Ledger. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

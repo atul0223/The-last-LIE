@@ -1,4 +1,4 @@
-# The Broken Alibi of Damian Althaus (case_fa_6262)
+# The North Freight Dock Conspiracy in the Fog (case_fa_7667)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at North Freight Dock under cover of evening routines.
 
 ## Briefing
-High-Speed Rotary Press was compromised at North Freight Dock. Suspect Damian Althaus claims to have been at The Grand Vesper Hotel throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at North Freight Dock reported High-Speed Rotary Press missing from its station. Damian Althaus, Beatrix Ward, Celeste Althaus, and Silas Ibrahim were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Damian Althaus** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ High-Speed Rotary Press was compromised at North Freight Dock. Suspect Damian Al
   > "[20:06] ENTRY_GATE · STATION_GATE · authorized: Celeste Althaus"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Damian Althaus took High-Speed Rotary Press from North Freight Dock. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Beatrix Ward was present at North Freight Dock during the incident.
-- **hyp_suspect2_guilty**: Celeste Althaus was present at North Freight Dock during the incident.
-- **hyp_suspect3_guilty**: Silas Ibrahim was present at North Freight Dock during the incident.
+- **hyp_suspect3_guilty**: Silas Ibrahim entered North Freight Dock and took High-Speed Rotary Press.
+- **hyp_suspect1_guilty**: Beatrix Ward entered North Freight Dock and took High-Speed Rotary Press.
+- **hyp_culprit_guilty**: Damian Althaus entered North Freight Dock and took High-Speed Rotary Press. **[SOLUTION]**
+- **hyp_suspect2_guilty**: Celeste Althaus entered North Freight Dock and took High-Speed Rotary Press.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

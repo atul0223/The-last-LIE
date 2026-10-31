@@ -1,4 +1,4 @@
-# The Transit Cipher Ledger Conspiracy (case_fa_6807)
+# Incident at North Gate Print Shop (case_fa_4294)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at North Gate Print Shop under cover of evening routines.
 
 ## Briefing
-Transit Cipher Ledger was compromised at North Gate Print Shop. Suspect Dorian Mercer claims to have been at North Freight Dock throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Following the incident involving Transit Cipher Ledger at North Gate Print Shop, investigators identified four persons of interest: Yvaine Chen, Astrid Whitman, Dorian Mercer, and Lenore Castile. Each claims to have been elsewhere during the evening. Identify which account is fabricated.
 
 ## Cast of Characters
 - **Dorian Mercer** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ Transit Cipher Ledger was compromised at North Gate Print Shop. Suspect Dorian M
   > "[20:17] ACCESS_LOG · NEWSROOM_PRESS · badge: Lenore Castile"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Dorian Mercer took Transit Cipher Ledger from North Gate Print Shop. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Yvaine Chen was present at North Gate Print Shop during the incident.
-- **hyp_suspect2_guilty**: Astrid Whitman was present at North Gate Print Shop during the incident.
-- **hyp_culprit_innocent**: Dorian Mercer was at North Freight Dock and did not enter North Gate Print Shop.
+- **hyp_culprit_innocent**: Dorian Mercer remained at North Freight Dock and did not enter North Gate Print Shop.
+- **hyp_suspect1_guilty**: Yvaine Chen entered North Gate Print Shop and took Transit Cipher Ledger.
+- **hyp_culprit_guilty**: Dorian Mercer entered North Gate Print Shop and took Transit Cipher Ledger. **[SOLUTION]**
+- **hyp_suspect2_guilty**: Astrid Whitman entered North Gate Print Shop and took Transit Cipher Ledger.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_dorian

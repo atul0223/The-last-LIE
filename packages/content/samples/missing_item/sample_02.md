@@ -1,4 +1,4 @@
-# The Vault Breach at The Grand Vesper Hotel (case_mi_8534)
+# The The Grand Vesper Hotel Handover (case_mi_9295)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from The Grand Vesper Hotel during evening shifts.
 
 ## Briefing
-High-Speed Rotary Press disappeared from The Grand Vesper Hotel. Staff member Octavia Brauer claims to have been working in Vesper Central Station and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+A secured repository in The Grand Vesper Hotel was breached, and High-Speed Rotary Press is missing. Inquiries center on Alistair Wainwright, Octavia Brauer, and Corin Cross, each of whom reported routine activity near the scene. Track the movement logs to pinpoint the thief.
 
 ## Cast of Characters
 - **Octavia Brauer** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -36,9 +36,9 @@ High-Speed Rotary Press disappeared from The Grand Vesper Hotel. Staff member Oc
   > "[20:28] PRINTSHOP_DOCK · badge: Corin Cross"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Octavia Brauer took High-Speed Rotary Press from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_custodian_took**: Alistair Wainwright took High-Speed Rotary Press from The Grand Vesper Hotel after hours.
 - **hyp_suspect2_took**: Corin Cross took High-Speed Rotary Press from The Grand Vesper Hotel.
+- **hyp_custodian_took**: Alistair Wainwright took High-Speed Rotary Press from The Grand Vesper Hotel.
+- **hyp_culprit_stole**: Octavia Brauer took High-Speed Rotary Press from The Grand Vesper Hotel. **[SOLUTION]**
 - **hyp_culprit_innocent**: Octavia Brauer remained in Vesper Central Station and never entered The Grand Vesper Hotel.
 
 ## Truth & Reveal Explanation

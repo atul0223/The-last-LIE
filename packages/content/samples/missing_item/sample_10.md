@@ -1,4 +1,4 @@
-# The Missing Freight Turnstile Scanner (case_mi_8085)
+# Disappearance of the Freight Turnstile Scanner Under Curfew (case_mi_7197)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from North Gate Print Shop during evening shifts.
 
 ## Briefing
-Freight Turnstile Scanner disappeared from North Gate Print Shop. Staff member Sebastian Thorne claims to have been working in Vesper Central Station and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+A secured repository in North Gate Print Shop was breached, and Freight Turnstile Scanner is missing. Inquiries center on Octavia Harrington, Cassian Ashford, Sebastian Thorne, and Yvaine Calloway, each of whom reported routine activity near the scene. Track the movement logs to pinpoint the thief.
 
 ## Cast of Characters
 - **Sebastian Thorne** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -37,9 +37,9 @@ Freight Turnstile Scanner disappeared from North Gate Print Shop. Staff member S
   > "[20:20] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Yvaine Calloway"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Sebastian Thorne took Freight Turnstile Scanner from North Gate Print Shop. **[SOLUTION]**
-- **hyp_custodian_took**: Yvaine Calloway took Freight Turnstile Scanner from North Gate Print Shop after hours.
 - **hyp_suspect2_took**: Cassian Ashford took Freight Turnstile Scanner from North Gate Print Shop.
+- **hyp_custodian_took**: Yvaine Calloway took Freight Turnstile Scanner from North Gate Print Shop.
+- **hyp_culprit_stole**: Sebastian Thorne took Freight Turnstile Scanner from North Gate Print Shop. **[SOLUTION]**
 - **hyp_culprit_innocent**: Sebastian Thorne remained in Vesper Central Station and never entered North Gate Print Shop.
 
 ## Truth & Reveal Explanation

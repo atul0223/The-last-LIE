@@ -1,4 +1,4 @@
-# The Broken Alibi of Damian Ramsay (case_fa_6182)
+# The Compromise of the Transit Cipher Ledger Behind Closed Doors (case_fa_8632)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at The Grand Vesper Hotel under cover of evening routines.
 
 ## Briefing
-Transit Cipher Ledger was compromised at The Grand Vesper Hotel. Suspect Damian Ramsay claims to have been at North Gate Print Shop throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at The Grand Vesper Hotel reported Transit Cipher Ledger missing from its station. Beatrix Sterling, Eleanor Belmont, Nadia Grayson, and Damian Ramsay were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Damian Ramsay** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ Transit Cipher Ledger was compromised at The Grand Vesper Hotel. Suspect Damian 
   > "[20:29] ACCESS_LOG · NEWSROOM_PRESS · badge: Eleanor Belmont"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Damian Ramsay took Transit Cipher Ledger from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Nadia Grayson was present at The Grand Vesper Hotel during the incident.
-- **hyp_suspect2_guilty**: Eleanor Belmont was present at The Grand Vesper Hotel during the incident.
-- **hyp_culprit_innocent**: Damian Ramsay was at North Gate Print Shop and did not enter The Grand Vesper Hotel.
+- **hyp_culprit_innocent**: Damian Ramsay remained at North Gate Print Shop and did not enter The Grand Vesper Hotel.
+- **hyp_suspect1_guilty**: Nadia Grayson entered The Grand Vesper Hotel and took Transit Cipher Ledger.
+- **hyp_culprit_guilty**: Damian Ramsay entered The Grand Vesper Hotel and took Transit Cipher Ledger. **[SOLUTION]**
+- **hyp_suspect2_guilty**: Eleanor Belmont entered The Grand Vesper Hotel and took Transit Cipher Ledger.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

@@ -1,4 +1,4 @@
-# The Handover at North Freight Dock (case_mi_3790)
+# The Vault Breach at North Gate Print Shop at Shift Change (case_mi_5566)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from North Gate Print Shop during evening shifts.
 
 ## Briefing
-Transit Cipher Ledger disappeared from North Gate Print Shop. Staff member Dorian Mercer claims to have been working in North Freight Dock and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+The scheduled transfer of Transit Cipher Ledger failed when it was discovered missing from North Gate Print Shop. Yvaine Chen, Astrid Whitman, Lenore Castile, and Dorian Mercer were present in the facility during the shift. Examine the access records to discover who seized the item.
 
 ## Cast of Characters
 - **Dorian Mercer** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -38,9 +38,9 @@ Transit Cipher Ledger disappeared from North Gate Print Shop. Staff member Doria
 
 ## Hypotheses
 - **hyp_culprit_stole**: Dorian Mercer took Transit Cipher Ledger from North Gate Print Shop. **[SOLUTION]**
-- **hyp_custodian_took**: Yvaine Chen took Transit Cipher Ledger from North Gate Print Shop after hours.
-- **hyp_suspect2_took**: Astrid Whitman took Transit Cipher Ledger from North Gate Print Shop.
 - **hyp_culprit_innocent**: Dorian Mercer remained in North Freight Dock and never entered North Gate Print Shop.
+- **hyp_suspect2_took**: Astrid Whitman took Transit Cipher Ledger from North Gate Print Shop.
+- **hyp_custodian_took**: Yvaine Chen took Transit Cipher Ledger from North Gate Print Shop.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_dorian

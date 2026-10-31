@@ -1,4 +1,4 @@
-# Deception on the Wire at North Freight Dock (case_fm_3790)
+# The Clandestine Dispatch from Transit Cipher Ledger (case_fm_5566)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at North Freight Dock.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Transit Cipher Ledger. Suspect Dorian Mercer claims Yvaine Chen was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+Operations at North Freight Dock were disrupted by a fraudulent message sent from Transit Cipher Ledger. Terminal records place Yvaine Chen, Astrid Whitman, Lenore Castile, and Dorian Mercer in proximity to network consoles. Correlate access times to determine who authored the message.
 
 ## Cast of Characters
 - **Dorian Mercer** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ An unauthorized message msg_dispatch was sent from Transit Cipher Ledger. Suspec
   > "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Astrid Whitman"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Dorian Mercer transmitted the forged dispatch from Transit Cipher Ledger. **[SOLUTION]**
-- **hyp_victim_sent**: Yvaine Chen sent the message from North Gate Print Shop.
-- **hyp_recipient_sent**: Astrid Whitman was present in North Gate Print Shop and sent the message.
-- **hyp_culprit_innocent**: Dorian Mercer was at North Freight Dock and did not operate Transit Cipher Ledger.
+- **hyp_culprit_forged**: Dorian Mercer transmitted the unauthorized dispatch from Transit Cipher Ledger. **[SOLUTION]**
+- **hyp_culprit_innocent**: Dorian Mercer remained at North Freight Dock and did not operate Transit Cipher Ledger.
+- **hyp_recipient_sent**: Astrid Whitman transmitted the unauthorized dispatch from Transit Cipher Ledger.
+- **hyp_victim_sent**: Yvaine Chen transmitted the unauthorized dispatch from Transit Cipher Ledger.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_dorian

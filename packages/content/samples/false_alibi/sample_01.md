@@ -1,4 +1,4 @@
-# Shadows Over Vesper Central Station (case_fa_4086)
+# The Broken Timeline at The Grand Vesper Hotel in the Rain (case_fa_7882)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at Vesper Central Station under cover of evening routines.
 
 ## Briefing
-Freight Turnstile Scanner was compromised at Vesper Central Station. Suspect Lenore Oakhaven claims to have been at North Freight Dock throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at Vesper Central Station reported Freight Turnstile Scanner missing from its station. Victor Kessler, Lenore Oakhaven, and Stella Sterling were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Lenore Oakhaven** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -31,9 +31,9 @@ Freight Turnstile Scanner was compromised at Vesper Central Station. Suspect Len
   > "[20:15] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Lenore Oakhaven"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Lenore Oakhaven took Freight Turnstile Scanner from Vesper Central Station. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Stella Sterling was present at Vesper Central Station during the incident.
-- **hyp_culprit_innocent**: Lenore Oakhaven was at North Freight Dock and did not enter Vesper Central Station.
+- **hyp_culprit_guilty**: Lenore Oakhaven entered Vesper Central Station and took Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_culprit_innocent**: Lenore Oakhaven remained at North Freight Dock and did not enter Vesper Central Station.
+- **hyp_suspect1_guilty**: Stella Sterling entered Vesper Central Station and took Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_lenore

@@ -59,6 +59,7 @@ import type {
 import type { Rng } from '../../rng.js';
 import type { CaseTemplate, FilledSlots, TemplateParams } from '../core/types.js';
 import { injectRedHerrings } from '../core/helpers.js';
+import { formatNameList, generateMissingItemTitle } from './helpers.js';
 
 export const tpl_missing_item: CaseTemplate = {
   id: 'tpl_missing_item_v1',
@@ -419,10 +420,10 @@ export const tpl_missing_item: CaseTemplate = {
       culpritIds: [culprit.id],
     };
 
-    // Decoy 1: custodian took the item after hours
+    // Decoy 1: custodian took the item
     const decoy1 = {
       id: 'hyp_custodian_took',
-      label: `${custodian.name} took ${targetItem.name} from ${locVault.name} after hours.`,
+      label: `${custodian.name} took ${targetItem.name} from ${locVault.name}.`,
       claims: [
         {
           kind: 'at' as const,
@@ -549,6 +550,9 @@ export const tpl_missing_item: CaseTemplate = {
       ];
     }
 
+    // Shuffle hypotheses so the solution is not always first
+    hypotheses = rng.shuffle(hypotheses);
+
     // Explanation beats for reveal
     const explanation = [
       {
@@ -586,18 +590,25 @@ export const tpl_missing_item: CaseTemplate = {
       },
     ];
 
-    const caseTitles = [
-      `The Missing ${targetItem.name}`,
-      `The Vault Breach at ${locVault.name}`,
-      `Disappearance of the ${targetItem.name}`,
-      `The Handover at ${locOffice.name}`,
+    const title = generateMissingItemTitle(rng, targetItem, locVault, locOffice, locTransit);
+
+    const suspects = diff >= 3 ? [culprit, custodian, suspect2, suspect3] : [culprit, custodian, suspect2];
+    const shuffledSuspects = rng.shuffle(suspects);
+    const suspectNames = formatNameList(shuffledSuspects.map((s) => s.name));
+    const countWord = suspects.length === 4 ? 'four' : 'three';
+
+    const briefingOptions = [
+      `${targetItem.name} disappeared from ${locVault.name} during the evening custodial window. Records confirm ${countWord} individuals held access to the area: ${suspectNames}. Compare custody registers and badge scans to expose who took the artifact.`,
+      `A secured repository in ${locVault.name} was breached, and ${targetItem.name} is missing. Inquiries center on ${suspectNames}, each of whom reported routine activity near the scene. Track the movement logs to pinpoint the thief.`,
+      `The scheduled transfer of ${targetItem.name} failed when it was discovered missing from ${locVault.name}. ${suspectNames} were present in the facility during the shift. Examine the access records to discover who seized the item.`,
+      `Custodial logs at ${locVault.name} show an unrecorded removal of ${targetItem.name}. Access was restricted to ${countWord} staff members: ${suspectNames}. Evaluate their testimonies against physical evidence to identify the perpetrator.`,
     ];
 
     return {
       id: `case_mi_${rng.int(1000, 9999)}`,
       version: 1,
       kind: 'procedural',
-      title: rng.pick(caseTitles),
+      title,
       difficulty: diff,
       estimatedMinutes: 5 + diff * 2,
       mysteryType: 'missing_item',
@@ -606,7 +617,7 @@ export const tpl_missing_item: CaseTemplate = {
         date: '2026-11-05',
         summary: `A high-value object went missing from ${locVault.name} during evening shifts.`,
       },
-      briefing: `${targetItem.name} disappeared from ${locVault.name}. Staff member ${culprit.name} claims to have been working in ${locOffice.name} and denies entering the vault. Correlate custody logs and entry records to expose the thief.`,
+      briefing: rng.pick(briefingOptions),
       characters,
       locations,
       objects: [targetItem],
