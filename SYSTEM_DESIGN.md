@@ -478,6 +478,13 @@ interface GameService {
 - `LocalGameService` (Phases 1–3): bundles authored cases from `packages/content` and runs the engine on the device. The truth ships in the bundle. **That is fine for prototypes only**, so the app shows a dev badge while it is in use.
 - `RemoteGameService` (Phase 4+): calls the Hono API. A feature flag switches between the two. Remote is the only option in production builds.
 
+#### Offline Starter Pack Decision
+In production APK/AAB builds, the client bundles **ONLY an offline starter pack** (`case_0001`–`case_0004` + an optional tutorial case if provided). These cases allow first-time players and offline users to experience the onboarding investigation without network access.
+
+All other cases — including daily rotation cases, weekly competitive cases, challenge cases, canonical narrative cases (`case_c101`..`c103`), and the 120+ server case pool — are **strictly server-only**. Their full definitions, truths, culprit IDs, and contradiction solutions are stored on the server / database and served exclusively through redacted API payloads (`POST /sessions`, `POST /sessions/:id/unlock`, `POST /sessions/:id/submit`). Solutions for these cases never ship inside the production APK bundle, guaranteeing complete fair-play integrity and preventing binary decompilation leaks.
+
+In development/prototype builds (`EXPO_PUBLIC_GAME_SERVICE=local`), local fixtures and test packs may be loaded for offline developer iteration.
+
 ### 9.3 Navigation (5 tabs)
 
 | Tab | Screens |
