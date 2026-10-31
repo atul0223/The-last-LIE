@@ -62,7 +62,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - → WP-51s (Conspiracy graph server endpoints & player graph state)
 - **Agent 3 (Mobile Queue):**
   - [x] WP-32c (Template variety & fingerprint collision fix) — MERGED
-  - → WP-43 (RemoteGameService + feature flag + query sync)
+  - [x] WP-43 (RemoteGameService + feature flag + query sync) — MERGED
   - → WP-44 (Auth & profile UI screens)
   - → WP-45 (Challenge creation, share cards, and compare UI)
   - → WP-50 / WP-55 UI (Daily & weekly challenge screens)
@@ -198,6 +198,7 @@ export interface CaseSlotProps {
 | 42      | B    | Agent 2| `wp/42-submit-publish`      | ✅ merged (submit idempotency, publisher CLI)       |
 | 45s     | B    | Agent 2| `wp/45s-challenges-backend` | ✅ merged (challenges backend, HMAC guest tokens)   |
 | 44s     | B    | Agent 2| `wp/44s-account-routes`     | ✅ merged (account deletion, local migration, push)  |
+| 43      | MS   | Agent 3| `wp/43-remote-game-service` | ✅ merged (RemoteGameService, offline queue, guards) |
 | 46      | T/MU | Agent 3| `wp/46-analytics`           | ✅ merged (PostHog & Sentry monitoring)              |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
