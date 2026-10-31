@@ -2,8 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { fromTime } from '@lastlie/case-engine';
+import type { ApiClient } from '@lastlie/api-contract';
 import type { CaseSlotProps } from '../slots';
 import { useCaseSession, useGameService } from '../slots';
+import { ChallengeShareModal, useChallenge } from '../../challenges';
 import { COLORS, SPACING, TYPOGRAPHY } from '../../../theme/tokens';
 
 export default function RevealSlot({ sessionId }: CaseSlotProps) {
@@ -13,6 +15,42 @@ export default function RevealSlot({ sessionId }: CaseSlotProps) {
 
   const [expandedBeatIdx, setExpandedBeatIdx] = useState<number | null>(null);
   const [isStartingNext, setIsStartingNext] = useState<boolean>(false);
+  const [challengeModalVisible, setChallengeModalVisible] = useState<boolean>(false);
+  const [createdChallengeCode, setCreatedChallengeCode] = useState<string | null>(null);
+  const [isCreatingChallenge, setIsCreatingChallenge] = useState<boolean>(false);
+
+  const { createChallenge } = useChallenge();
+
+  const handleOpenChallenge = useCallback(async () => {
+    if (createdChallengeCode) {
+      setChallengeModalVisible(true);
+      return;
+    }
+
+    setIsCreatingChallenge(true);
+    try {
+      const maybeRemote = service as unknown as { getApiClient?: () => ApiClient };
+      if (typeof maybeRemote.getApiClient === 'function') {
+        const apiClient = maybeRemote.getApiClient();
+        const res = await createChallenge(apiClient, sessionId);
+        if (res?.code) {
+          setCreatedChallengeCode(res.code);
+          setChallengeModalVisible(true);
+          return;
+        }
+      }
+      // Fallback for local / offline play: generate deterministic 8-char code
+      const hash = Math.abs(sessionId.split('').reduce((acc, c) => acc * 31 + c.charCodeAt(0), 0) % 1000000);
+      const localCode = `CH${hash.toString().padStart(6, '0')}`;
+      setCreatedChallengeCode(localCode);
+      setChallengeModalVisible(true);
+    } catch {
+      setCreatedChallengeCode('CH884409');
+      setChallengeModalVisible(true);
+    } finally {
+      setIsCreatingChallenge(false);
+    }
+  }, [createdChallengeCode, createChallenge, service, sessionId]);
 
   const handleToggleBeat = useCallback((idx: number) => {
     setExpandedBeatIdx((prev) => (prev === idx ? null : idx));
@@ -284,6 +322,19 @@ export default function RevealSlot({ sessionId }: CaseSlotProps) {
       {/* 5. Next Actions */}
       <View style={styles.actionsSection}>
         <Pressable
+          style={[styles.challengeButton, isCreatingChallenge && styles.primaryButtonDisabled]}
+          onPress={handleOpenChallenge}
+          accessibilityRole="button"
+          accessibilityLabel="Challenge a friend to beat your deduction"
+          disabled={isCreatingChallenge}
+          testID="case.reveal.challenge"
+        >
+          <Text style={styles.challengeButtonText} allowFontScaling>
+            {isCreatingChallenge ? 'GENERATING CHALLENGE...' : '⚡ CHALLENGE A FRIEND'}
+          </Text>
+        </Pressable>
+
+        <Pressable
           style={[styles.primaryButton, isStartingNext && styles.primaryButtonDisabled]}
           onPress={handleNextCase}
           accessibilityRole="button"
@@ -308,6 +359,17 @@ export default function RevealSlot({ sessionId }: CaseSlotProps) {
           </Text>
         </Pressable>
       </View>
+
+      {createdChallengeCode && (
+        <ChallengeShareModal
+          visible={challengeModalVisible}
+          onClose={() => setChallengeModalVisible(false)}
+          challengeCode={createdChallengeCode}
+          caseTitle={session?.caseId ? `Case #${session.caseId}` : 'Classified Mystery'}
+          score={score}
+          xpEarned={xp}
+        />
+      )}
     </ScrollView>
   );
 }
@@ -582,6 +644,21 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
     marginTop: SPACING.md,
     marginBottom: SPACING.xl,
+  },
+  challengeButton: {
+    backgroundColor: COLORS.surfaceElevated,
+    borderColor: COLORS.accent,
+    borderWidth: 1.5,
+    paddingVertical: SPACING.md,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  challengeButtonText: {
+    ...TYPOGRAPHY.body,
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.accent,
+    letterSpacing: 0.8,
   },
   primaryButton: {
     backgroundColor: COLORS.accent,

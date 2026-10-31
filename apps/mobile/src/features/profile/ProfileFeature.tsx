@@ -387,12 +387,14 @@ export function ProfileFeature() {
       </View>
 
       {/* Upgrade Modal */}
-      <UpgradeModal
-        visible={upgradeModalVisible}
-        onClose={() => setUpgradeModalVisible(false)}
-        onSendOtp={sendUpgradeOtp}
-        onVerifyOtp={verifyUpgradeOtp}
-      />
+      {upgradeModalVisible && (
+        <UpgradeModal
+          visible={upgradeModalVisible}
+          onClose={() => setUpgradeModalVisible(false)}
+          onSendOtp={sendUpgradeOtp}
+          onVerifyOtp={verifyUpgradeOtp}
+        />
+      )}
     </ScrollView>
   );
 }
