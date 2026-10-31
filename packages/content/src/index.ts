@@ -49,3 +49,7 @@ export const GENERATED_CASES = [
   case_mi_5883,
   case_mi_8137,
 ];
+
+// Conspiracy graph content model (WP-53a)
+export * from './conspiracy/index.js';
+
