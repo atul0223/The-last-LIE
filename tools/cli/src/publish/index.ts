@@ -1,5 +1,6 @@
 import type { Command } from 'commander';
-import { publishCases } from './publisher.js';
+import { publishCases, publishConspiracyGraph } from './publisher.js';
+export * from './publisher.js';
 
 export function registerPublishCommand(program: Command): void {
   program
@@ -45,6 +46,41 @@ export function registerPublishCommand(program: Command): void {
 
       if (!res.success) {
         process.exitCode = 1;
+      }
+    });
+
+  program
+    .command('publish-graph <nodesPath> <edgesPath>')
+    .description('Validate and publish conspiracy graph nodes and edges to remote game backend')
+    .requiredOption(
+      '--env <environment>',
+      'Target deployment environment: local, staging, or prod',
+      'local',
+    )
+    .option('--dry-run', 'Validate and display publish plan without writing to database', false)
+    .option('--yes', 'Skip confirmation prompt for prod deployments', false)
+    .action(async (nodesPath: string, edgesPath: string, options: { env: string; dryRun: boolean; yes: boolean }) => {
+      const env = options.env.toLowerCase();
+      if (!['local', 'staging', 'prod'].includes(env)) {
+        console.error(`Invalid environment '${options.env}'. Must be local, staging, or prod.`);
+        process.exitCode = 1;
+        return;
+      }
+
+      console.log(`Publishing conspiracy graph (${nodesPath}, ${edgesPath}) to ${env}...`);
+      const res = await publishConspiracyGraph({
+        nodesPath,
+        edgesPath,
+        env: env as 'local' | 'staging' | 'prod',
+        dryRun: options.dryRun,
+        confirmProd: options.yes,
+      });
+
+      if (!res.success) {
+        console.error(`[FAIL] Graph validation failed: ${res.errors?.join(', ')}`);
+        process.exitCode = 1;
+      } else {
+        console.log(`[OK] Successfully processed ${res.nodesCount} nodes and ${res.edgesCount} edges.`);
       }
     });
 }

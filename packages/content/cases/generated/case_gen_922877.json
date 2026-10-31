@@ -1,0 +1,433 @@
+{
+  "id": "case_gen_922877",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Clandestine Impostor at The Vesper Chronicle Newsroom",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_north_dock",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Freight Dock, Vesper Central Station."
+  },
+  "briefing": "At 20:20, High-Speed Rotary Press was intercepted at The Vesper Chronicle Newsroom. Authorities suspect an infiltrator among four individuals: Percival Montgomery, Magnus Sutherland, Eliza Wainwright, and Dorian Keene. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_dorian",
+      "name": "Dorian Keene",
+      "role": "Visiting Archivist",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eliza",
+      "name": "Eliza Wainwright",
+      "role": "Commercial Agent",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_percival",
+      "name": "Percival Montgomery",
+      "role": "Undercover Operative",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_magnus",
+      "name": "Magnus Sutherland",
+      "role": "Special Envoy",
+      "publicDescription": "Station Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_eliza"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_dorian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Dorian Keene stated: 'I remained in my suite at North Freight Dock from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eliza",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Eliza Wainwright checked through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Concourse Camera: Optical feed captured Dorian Keene inside The Vesper Chronicle Newsroom between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_percival",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Percival Montgomery verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eliza",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ENTRY_GATE · DOCK_TURNSTILE · authorized: Eliza Wainwright"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_dorian",
+          "door": "door_newsroom_press",
+          "at": 1218
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:18] ENTRY_GATE · NEWSROOM_PRESS · authorized: Dorian Keene"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Percival Montgomery entered The Vesper Chronicle Newsroom and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_percival"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Dorian Keene remained in North Freight Dock and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_eliza"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Dorian Keene infiltrated The Vesper Chronicle Newsroom and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_dorian",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_dorian"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Eliza Wainwright entered The Vesper Chronicle Newsroom and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_eliza"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_dorian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_dorian",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_eliza",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_percival",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_magnus",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_dorian"
+    ],
+    "liars": [
+      {
+        "who": "char_dorian",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Eliza Wainwright badged into door_dock_turnstile at 20:15, proving their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Physical tracking records exposed Dorian Keene's fabricated hotel alibi and placed them at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Percival Montgomery badged through door_station_gate at 20:16, ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Dorian Keene intercepted High-Speed Rotary Press at The Vesper Chronicle Newsroom under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}

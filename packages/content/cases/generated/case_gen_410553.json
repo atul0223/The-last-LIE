@@ -1,0 +1,459 @@
+{
+  "id": "case_gen_410553",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Tampered Wire of Freight Turnstile Scanner at the Evening Edition",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, The Vesper Chronicle Newsroom, The Grand Vesper Hotel."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from Freight Turnstile Scanner inside North Gate Print Shop. An investigation focuses on four individuals: Emil Ramsay, Cassian Kendrick, Lucian Webb, and Theodore Fitzgerald. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_emil",
+      "name": "Emil Ramsay",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lucian",
+      "name": "Lucian Webb",
+      "role": "Wire Editor",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cassian",
+      "name": "Cassian Kendrick",
+      "role": "Communications Officer",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_theodore",
+      "name": "Theodore Fitzgerald",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_lucian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_cassian",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sender": "char_lucian",
+          "recipient": "char_cassian",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Cassian Kendrick stated: 'The wire transmission from Freight Turnstile Scanner at 20:15 was authorized and sent directly by Lucian Webb.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_emil",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_emil",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Emil Ramsay at 20:15 inside North Gate Print Shop.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lucian",
+          "door": "door_newsroom_press",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Lucian Webb badged into door_newsroom_press at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cassian",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Cassian Kendrick checked in at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cassian",
+          "door": "door_hotel_lobby",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ENTRY_GATE · HOTEL_LOBBY · authorized: Cassian Kendrick"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lucian",
+          "door": "door_newsroom_press",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · NEWSROOM_PRESS · authorized: Lucian Webb"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Lucian Webb transmitted the dispatch from Freight Turnstile Scanner in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Emil Ramsay remained in The Vesper Chronicle Newsroom and did not use Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_emil",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Emil Ramsay transmitted the forged dispatch from Freight Turnstile Scanner in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_emil",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_emil"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Cassian Kendrick transmitted the dispatch from Freight Turnstile Scanner in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_cassian",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_cassian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_emil",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_printshop_dock",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_emil",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_cassian"
+      },
+      {
+        "kind": "action",
+        "who": "char_emil",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_lucian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_newsroom_press",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_cassian",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_cassian",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_hotel_lobby",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_cassian",
+        "door": "door_hotel_lobby",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_cassian",
+        "door": "door_hotel_lobby",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_emil"
+    ],
+    "liars": [
+      {
+        "who": "char_cassian",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Lucian Webb badged into door_newsroom_press at 20:14, proving they were not present in North Gate Print Shop to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Emil Ramsay was logged into Freight Turnstile Scanner at 20:15, shattering claims that Lucian Webb sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Cassian Kendrick was badged into door_hotel_lobby at 20:16, ruling them out as the transmitter at North Gate Print Shop.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Emil Ramsay completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

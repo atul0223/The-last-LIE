@@ -8,6 +8,7 @@ import type {
 import type {
   GraphEdge,
   GraphNode,
+  GraphNodeKind,
   WeeklyAggregateResponse,
 } from '@lastlie/api-contract';
 import type {
@@ -17,6 +18,10 @@ import type {
   Repository,
   WeeklyCaseRow,
 } from './types.js';
+import {
+  FIXTURE_CONSPIRACY_EDGES,
+  FIXTURE_CONSPIRACY_NODES,
+} from './conspiracy_fixture.js';
 
 export class InMemoryRepository implements Repository {
   private cases = new Map<string, CaseRow>();
@@ -31,9 +36,13 @@ export class InMemoryRepository implements Repository {
   private challenges = new Map<string, ChallengeRow>();
   private challengeAttempts = new Map<string, ChallengeAttemptRow[]>();
   private pushTokens = new Map<string, { token: string; platform?: string }>();
-  private graphNodes = new Map<string, GraphNode>();
+  private graphNodes = new Map<string, { id: string; kind: GraphNodeKind; name: string; description?: string | null }>();
   private graphEdges = new Map<string, GraphEdge>();
   private playerRevealedEdges = new Map<string, Set<string>>(); // userId -> Set<edgeId>
+
+  constructor() {
+    this.setGraphData(FIXTURE_CONSPIRACY_NODES, FIXTURE_CONSPIRACY_EDGES as GraphEdge[]);
+  }
 
   // Cases
   async getPublishedCase(caseId: string): Promise<CaseRow | null> {
@@ -392,9 +401,17 @@ export class InMemoryRepository implements Repository {
     }
   }
 
-  setGraphData(nodes: GraphNode[], edges: GraphEdge[]): void {
+  setGraphData(
+    nodes: Array<{ id: string; kind: GraphNodeKind; name: string; description?: string | null }>,
+    edges: GraphEdge[],
+  ): void {
     for (const n of nodes) {
-      this.graphNodes.set(n.id, n);
+      this.graphNodes.set(n.id, {
+        id: n.id,
+        kind: n.kind,
+        name: n.name,
+        description: n.description ?? null,
+      });
     }
     for (const e of edges) {
       this.graphEdges.set(e.id, e);

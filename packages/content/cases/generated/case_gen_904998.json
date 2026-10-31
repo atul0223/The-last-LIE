@@ -1,62 +1,62 @@
 {
-  "id": "case_fa_4231",
+  "id": "case_gen_904998",
   "version": 1,
   "kind": "procedural",
-  "title": "Deception at North Freight Dock in the Fog",
+  "title": "A Study in Discrepancy at Vesper Central Station in the Fog",
   "difficulty": 4,
-  "estimatedMinutes": 13,
+  "estimatedMinutes": 18,
   "mysteryType": "false_alibi",
   "setting": {
     "locationIds": [
-      "loc_grand_hotel",
+      "loc_central_station",
       "loc_north_dock",
-      "loc_central_station"
+      "loc_chronicle_newsroom"
     ],
-    "date": "2026-11-04",
-    "summary": "An unauthorized incident occurred at The Grand Vesper Hotel under cover of evening routines."
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Freight Dock, The Vesper Chronicle Newsroom."
   },
-  "briefing": "Following the incident involving High-Speed Rotary Press at The Grand Vesper Hotel, investigators identified four persons of interest: Thaddeus Ellington, Percival Preston, Theodore Eisen, and Ingrid Harrington. Each claims to have been elsewhere during the evening. Identify which account is fabricated.",
+  "briefing": "At 20:20, High-Speed Rotary Press was taken from Vesper Central Station. Physical evidence refutes an alibi fabricated by one of four individuals: Bram Godfrey, Yvaine Sterling, Thaddeus Chen, and Eliza Whitman. Examine the timeline to identify the culprit.",
   "characters": [
     {
-      "id": "char_percival",
-      "name": "Percival Preston",
-      "role": "Primary Suspect",
+      "id": "char_eliza",
+      "name": "Eliza Whitman",
+      "role": "Associate",
       "publicDescription": "Primary Suspect in Vesper City involved in the incident."
     },
     {
-      "id": "char_theodore",
-      "name": "Theodore Eisen",
-      "role": "Staff Member",
+      "id": "char_bram",
+      "name": "Bram Godfrey",
+      "role": "Staff Specialist",
       "publicDescription": "Staff Member in Vesper City involved in the incident."
     },
     {
       "id": "char_thaddeus",
-      "name": "Thaddeus Ellington",
-      "role": "Associate",
+      "name": "Thaddeus Chen",
+      "role": "Night Supervisor",
       "publicDescription": "Associate in Vesper City involved in the incident."
     },
     {
-      "id": "char_ingrid",
-      "name": "Ingrid Harrington",
-      "role": "Night Supervisor",
+      "id": "char_yvaine",
+      "name": "Yvaine Sterling",
+      "role": "Chief Auditor",
       "publicDescription": "Night Supervisor in Vesper City involved in the incident."
     }
   ],
   "locations": [
     {
-      "id": "loc_grand_hotel",
-      "name": "The Grand Vesper Hotel",
-      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
       "doorIds": [
-        "door_hotel_lobby"
+        "door_station_gate"
       ],
       "adjacency": [
         {
           "to": "loc_north_dock",
-          "travelMinutes": 20
+          "travelMinutes": 25
         },
         {
-          "to": "loc_central_station",
+          "to": "loc_chronicle_newsroom",
           "travelMinutes": 10
         }
       ]
@@ -70,25 +70,25 @@
       ],
       "adjacency": [
         {
-          "to": "loc_grand_hotel",
-          "travelMinutes": 20
+          "to": "loc_central_station",
+          "travelMinutes": 25
         },
         {
-          "to": "loc_central_station",
+          "to": "loc_chronicle_newsroom",
           "travelMinutes": 15
         }
       ]
     },
     {
-      "id": "loc_central_station",
-      "name": "Vesper Central Station",
-      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
       "doorIds": [
-        "door_station_gate"
+        "door_newsroom_press"
       ],
       "adjacency": [
         {
-          "to": "loc_grand_hotel",
+          "to": "loc_central_station",
           "travelMinutes": 10
         },
         {
@@ -104,25 +104,25 @@
       "name": "High-Speed Rotary Press",
       "description": "Industrial steam printing press fitted with optical alignment sensors.",
       "type": "device",
-      "ownerId": "char_percival"
+      "ownerId": "char_eliza"
     }
   ],
   "clues": [
     {
-      "id": "clue_culprit_testimony",
+      "id": "clue_alibi_testimony",
       "type": "testimony",
       "reliability": "testimony",
-      "source": "char_percival",
+      "source": "char_eliza",
       "asserts": [
         {
           "kind": "at",
-          "who": "char_percival",
+          "who": "char_eliza",
           "where": "loc_north_dock",
           "from": 1210,
           "to": 1230
         }
       ],
-      "text": "Percival Preston stated: 'I spent the entire evening from 20:10 to 20:30 at North Freight Dock attending to routine matters.'",
+      "text": "Eliza Whitman stated: 'I spent the entire evening from 20:10 to 20:30 at North Freight Dock attending to routine matters.'",
       "unlock": {
         "kind": "default"
       }
@@ -131,17 +131,17 @@
       "id": "clue_suspect1_testimony",
       "type": "testimony",
       "reliability": "testimony",
-      "source": "char_theodore",
+      "source": "char_bram",
       "asserts": [
         {
           "kind": "at",
-          "who": "char_theodore",
+          "who": "char_bram",
           "where": "loc_north_dock",
           "from": 1210,
           "to": 1230
         }
       ],
-      "text": "Theodore Eisen stated: 'I was present in North Freight Dock between 20:10 and 20:30. I did not see any unauthorized activity.'",
+      "text": "Bram Godfrey stated: 'I was present in North Freight Dock between 20:10 and 20:30. I did not see Eliza Whitman anywhere nearby.'",
       "unlock": {
         "kind": "default"
       }
@@ -153,39 +153,33 @@
       "asserts": [
         {
           "kind": "access",
-          "who": "char_theodore",
+          "who": "char_bram",
           "door": "door_dock_turnstile",
           "at": 1215
         }
       ],
-      "text": "Access Reader: Theodore Eisen badged through door_dock_turnstile at 20:15.",
+      "text": "Access Reader: Bram Godfrey badged through door_dock_turnstile at 20:15.",
       "unlock": {
         "kind": "default"
       }
     },
     {
-      "id": "clue_culprit_crime_access",
-      "type": "access_log",
+      "id": "clue_decisive_refutation",
+      "type": "cctv",
       "reliability": "physical",
       "asserts": [
         {
-          "kind": "access",
-          "who": "char_percival",
-          "door": "door_hotel_lobby",
-          "at": 1218
-        },
-        {
           "kind": "at",
-          "who": "char_percival",
-          "where": "loc_grand_hotel",
+          "who": "char_eliza",
+          "where": "loc_central_station",
           "from": 1215,
           "to": 1235
         }
       ],
-      "text": "Security Terminal: Percival Preston scanned access badge at door_hotel_lobby at 20:18.",
+      "text": "Surveillance Still: High-resolution camera recorded Eliza Whitman inside Vesper Central Station between 20:15 and 20:35.",
       "unlock": {
         "kind": "after_clue",
-        "clueId": "clue_culprit_testimony"
+        "clueId": "clue_alibi_testimony"
       }
     },
     {
@@ -196,14 +190,14 @@
         {
           "kind": "access",
           "who": "char_thaddeus",
-          "door": "door_station_gate",
+          "door": "door_newsroom_press",
           "at": 1216
         }
       ],
-      "text": "Turnstile Log: Thaddeus Ellington verified entry at door_station_gate at 20:16.",
+      "text": "Turnstile Log: Thaddeus Chen verified entry at door_newsroom_press at 20:16.",
       "unlock": {
         "kind": "after_clue",
-        "clueId": "clue_suspect1_testimony"
+        "clueId": "clue_suspect1_alibi_access"
       }
     },
     {
@@ -213,25 +207,45 @@
       "asserts": [
         {
           "kind": "access",
-          "who": "char_ingrid",
-          "door": "door_station_gate",
+          "who": "char_yvaine",
+          "door": "door_newsroom_press",
           "at": 1217
         }
       ],
-      "text": "Turnstile Log: Ingrid Harrington verified entry at door_station_gate at 20:17.",
+      "text": "Turnstile Log: Yvaine Sterling verified entry at door_newsroom_press at 20:17.",
       "unlock": {
         "kind": "default"
       }
     },
     {
       "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_thaddeus",
+          "door": "door_newsroom_press",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ENTRY_GATE · NEWSROOM_PRESS · authorized: Thaddeus Chen"
+    },
+    {
+      "id": "clue_redherring_2",
       "type": "cctv",
       "reliability": "physical",
       "asserts": [
         {
           "kind": "at",
-          "who": "char_thaddeus",
-          "where": "loc_central_station",
+          "who": "char_yvaine",
+          "where": "loc_chronicle_newsroom",
           "from": 1210,
           "to": 1230
         }
@@ -242,70 +256,18 @@
       "tags": [
         "red_herring"
       ],
-      "text": "[20:10] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Thaddeus Ellington"
-    },
-    {
-      "id": "clue_redherring_2",
-      "type": "access_log",
-      "reliability": "physical",
-      "asserts": [
-        {
-          "kind": "access",
-          "who": "char_theodore",
-          "door": "door_dock_turnstile",
-          "at": 1205
-        }
-      ],
-      "unlock": {
-        "kind": "default"
-      },
-      "tags": [
-        "red_herring"
-      ],
-      "text": "[20:05] DOCK_TURNSTILE · badge: Theodore Eisen"
+      "text": "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Yvaine Sterling"
     }
   ],
   "hypotheses": [
     {
-      "id": "hyp_suspect1_guilty",
-      "label": "Theodore Eisen entered The Grand Vesper Hotel and took High-Speed Rotary Press.",
-      "claims": [
-        {
-          "kind": "at",
-          "who": "char_theodore",
-          "where": "loc_grand_hotel",
-          "from": 1212,
-          "to": 1225
-        }
-      ],
-      "culpritIds": [
-        "char_theodore"
-      ]
-    },
-    {
-      "id": "hyp_suspect3_guilty",
-      "label": "Ingrid Harrington entered The Grand Vesper Hotel and took High-Speed Rotary Press.",
-      "claims": [
-        {
-          "kind": "at",
-          "who": "char_ingrid",
-          "where": "loc_grand_hotel",
-          "from": 1212,
-          "to": 1225
-        }
-      ],
-      "culpritIds": [
-        "char_ingrid"
-      ]
-    },
-    {
       "id": "hyp_suspect2_guilty",
-      "label": "Thaddeus Ellington entered The Grand Vesper Hotel and took High-Speed Rotary Press.",
+      "label": "Thaddeus Chen entered Vesper Central Station and took High-Speed Rotary Press.",
       "claims": [
         {
           "kind": "at",
           "who": "char_thaddeus",
-          "where": "loc_grand_hotel",
+          "where": "loc_central_station",
           "from": 1212,
           "to": 1225
         }
@@ -316,19 +278,51 @@
     },
     {
       "id": "hyp_culprit_guilty",
-      "label": "Percival Preston entered The Grand Vesper Hotel and took High-Speed Rotary Press.",
+      "label": "Eliza Whitman entered Vesper Central Station and took High-Speed Rotary Press.",
       "claims": [
         {
           "kind": "action",
-          "who": "char_percival",
+          "who": "char_eliza",
           "verb": "took",
           "target": "obj_rotary_press",
           "at": 1220,
-          "where": "loc_grand_hotel"
+          "where": "loc_central_station"
         }
       ],
       "culpritIds": [
-        "char_percival"
+        "char_eliza"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Yvaine Sterling entered Vesper Central Station and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Bram Godfrey entered Vesper Central Station and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_bram"
       ]
     }
   ],
@@ -336,151 +330,150 @@
     "timeline": [
       {
         "kind": "at",
-        "who": "char_percival",
-        "where": "loc_grand_hotel",
+        "who": "char_eliza",
+        "where": "loc_central_station",
         "from": 1215,
         "to": 1235
       },
       {
         "kind": "access",
-        "who": "char_percival",
-        "door": "door_hotel_lobby",
+        "who": "char_eliza",
+        "door": "door_station_gate",
         "at": 1218
       },
       {
         "kind": "action",
-        "who": "char_percival",
+        "who": "char_eliza",
         "verb": "took",
         "target": "obj_rotary_press",
         "at": 1220,
-        "where": "loc_grand_hotel"
+        "where": "loc_central_station"
       },
       {
         "kind": "at",
-        "who": "char_theodore",
+        "who": "char_bram",
         "where": "loc_north_dock",
         "from": 1210,
         "to": 1230
       },
       {
         "kind": "access",
-        "who": "char_theodore",
+        "who": "char_bram",
         "door": "door_dock_turnstile",
         "at": 1215
       },
       {
         "kind": "at",
         "who": "char_thaddeus",
-        "where": "loc_central_station",
+        "where": "loc_chronicle_newsroom",
         "from": 1210,
         "to": 1230
       },
       {
         "kind": "access",
         "who": "char_thaddeus",
-        "door": "door_station_gate",
+        "door": "door_newsroom_press",
         "at": 1216
       },
       {
         "kind": "at",
-        "who": "char_ingrid",
-        "where": "loc_central_station",
+        "who": "char_yvaine",
+        "where": "loc_chronicle_newsroom",
         "from": 1210,
         "to": 1230
       },
       {
         "kind": "access",
-        "who": "char_ingrid",
-        "door": "door_station_gate",
+        "who": "char_yvaine",
+        "door": "door_newsroom_press",
         "at": 1217
       },
       {
         "kind": "access",
-        "who": "char_theodore",
+        "who": "char_bram",
         "door": "door_dock_turnstile",
         "at": 1205
       },
       {
         "kind": "access",
         "who": "char_thaddeus",
-        "door": "door_station_gate",
+        "door": "door_newsroom_press",
         "at": 1206
       },
       {
         "kind": "access",
-        "who": "char_theodore",
+        "who": "char_bram",
         "door": "door_dock_turnstile",
         "at": 1228
       },
       {
         "kind": "access",
         "who": "char_thaddeus",
-        "door": "door_station_gate",
+        "door": "door_newsroom_press",
         "at": 1229
       }
     ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
     "culpritIds": [
-      "char_percival"
+      "char_eliza"
     ],
     "liars": [
       {
-        "who": "char_percival",
+        "who": "char_eliza",
         "statementClueIds": [
-          "clue_culprit_testimony"
+          "clue_alibi_testimony"
         ]
       }
     ],
-    "solutionHypothesisId": "hyp_culprit_guilty",
     "keyEvidence": [
       [
         "clue_suspect1_alibi_access",
         "clue_suspect2_alibi_access",
         "clue_suspect3_alibi_access",
-        "clue_culprit_crime_access"
+        "clue_decisive_refutation"
       ]
     ],
     "explanation": [
       {
         "time": 1215,
-        "text": "Theodore Eisen was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at The Grand Vesper Hotel.",
+        "text": "Bram Godfrey was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at Vesper Central Station.",
         "clueIds": [
           "clue_suspect1_alibi_access"
         ]
       },
       {
         "time": 1216,
-        "text": "Thaddeus Ellington badged through door_station_gate at 20:16, establishing their presence at Vesper Central Station.",
+        "text": "Thaddeus Chen badged through door_newsroom_press at 20:16, establishing their presence at The Vesper Chronicle Newsroom.",
         "clueIds": [
           "clue_suspect2_alibi_access"
         ]
       },
       {
         "time": 1217,
-        "text": "Ingrid Harrington badged through door_station_gate at 20:17, ruling out their presence at The Grand Vesper Hotel.",
+        "text": "Yvaine Sterling badged through door_newsroom_press at 20:17, ruling out their presence at Vesper Central Station.",
         "clueIds": [
           "clue_suspect3_alibi_access"
         ]
       },
       {
         "time": 1218,
-        "text": "Percival Preston was captured scanning their badge at door_hotel_lobby at 20:18, completely shattering their fabricated alibi.",
+        "text": "Eliza Whitman's presence was definitively established at Vesper Central Station, shattering the fabricated alibi testimony.",
         "clueIds": [
-          "clue_culprit_crime_access",
-          "clue_culprit_testimony"
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
         ]
       },
       {
         "time": 1220,
-        "text": "Percival Preston took High-Speed Rotary Press from The Grand Vesper Hotel at 20:20 before departing.",
+        "text": "Eliza Whitman took High-Speed Rotary Press from Vesper Central Station before departing.",
         "clueIds": [
-          "clue_culprit_crime_access"
+          "clue_decisive_refutation"
         ]
       }
     ]
   },
   "meta": {
-    "status": "validated",
-    "author": "Procedural Case Engine",
-    "templateId": "tpl_false_alibi_v1"
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
   }
 }

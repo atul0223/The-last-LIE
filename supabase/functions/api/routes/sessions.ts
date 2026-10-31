@@ -316,6 +316,11 @@ export function createSessionsRouter(deps: { repo: Repository; clock: Clock; con
       },
     });
 
+    // Grant conspiracy graph reveals if case solved correctly
+    if (scoreResult.breakdown.correctHypothesis) {
+      await repo.grantGraphReveals(userId, session.caseId);
+    }
+
     return c.json(
       SubmitSessionResponseSchema.parse({
         result: txResult.result,

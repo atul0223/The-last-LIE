@@ -11,6 +11,6 @@ describe('content', () => {
   });
 
   it('exports generated cases catalog', () => {
-    expect(GENERATED_CASES).toHaveLength(18);
+    expect(GENERATED_CASES).toHaveLength(24);
   });
 });

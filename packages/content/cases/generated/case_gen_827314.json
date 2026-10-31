@@ -1,0 +1,472 @@
+{
+  "id": "case_gen_827314",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Classified Transit Cipher Ledger After Hours",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, The Vesper Chronicle Newsroom, Vesper Central Station."
+  },
+  "briefing": "At 20:20, Transit Cipher Ledger went missing from North Gate Print Shop. A custodial discrepancy involves four individuals: Sebastian Calloway, Octavia Ibrahim, Leander Preston, and Quentin Lattimore. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_leander",
+      "name": "Leander Preston",
+      "role": "Vault Curator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_octavia",
+      "name": "Octavia Ibrahim",
+      "role": "Visiting Researcher",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_quentin",
+      "name": "Quentin Lattimore",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_sebastian",
+      "name": "Sebastian Calloway",
+      "role": "Archive Clerk",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_octavia"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_leander",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_quentin",
+          "what": "obj_cipher_ledger",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Leander Preston stated: 'I saw Quentin Lattimore holding Transit Cipher Ledger in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_octavia",
+          "what": "obj_cipher_ledger",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Octavia Ibrahim verified registered custody of Transit Cipher Ledger in North Gate Print Shop until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_octavia",
+          "door": "door_newsroom_press",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Octavia Ibrahim badged through door_newsroom_press at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_leander",
+          "door": "door_printshop_dock",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_leander",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Leander Preston scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quentin",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Quentin Lattimore verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quentin",
+          "door": "door_station_gate",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ACCESS_LOG · STATION_GATE · badge: Quentin Lattimore"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_octavia",
+          "where": "loc_chronicle_newsroom",
+          "from": 1220,
+          "to": 1240
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:20] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Octavia Ibrahim"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Octavia Ibrahim entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_octavia",
+          "where": "loc_northgate_printshop",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_octavia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Leander Preston remained in The Vesper Chronicle Newsroom and never approached North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_leander",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_octavia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Leander Preston entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_leander",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_leander"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Quentin Lattimore entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_quentin",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_quentin"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_octavia",
+        "what": "obj_cipher_ledger",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_octavia",
+        "where": "loc_chronicle_newsroom",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_newsroom_press",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_leander",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_leander",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "possess",
+        "who": "char_leander",
+        "what": "obj_cipher_ledger",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_quentin",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_sebastian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_sebastian",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_newsroom_press",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_newsroom_press",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_station_gate",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_leander"
+    ],
+    "liars": [
+      {
+        "who": "char_leander",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Octavia Ibrahim held exclusive custody of Transit Cipher Ledger until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Leander Preston accessed door_printshop_dock at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Quentin Lattimore badged into door_station_gate at 20:16, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Leander Preston took Transit Cipher Ledger from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}
