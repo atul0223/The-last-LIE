@@ -1,4 +1,4 @@
-# The Handover at The Grand Vesper Hotel (case_mi_2177)
+# The Cold Handover at The Grand Vesper Hotel (case_mi_8661)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from Vesper Central Station during evening shifts.
 
 ## Briefing
-Freight Turnstile Scanner disappeared from Vesper Central Station. Staff member Marcel Frost claims to have been working in The Grand Vesper Hotel and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+Custodial logs at Vesper Central Station show an unrecorded removal of Freight Turnstile Scanner. Access was restricted to three staff members: Marcel Frost, Sebastian Mercer, and Lucas Vaughn. Evaluate their testimonies against physical evidence to identify the perpetrator.
 
 ## Cast of Characters
 - **Marcel Frost** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ Freight Turnstile Scanner disappeared from Vesper Central Station. Staff member 
   > "[20:15] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Marcel Frost"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Marcel Frost took Freight Turnstile Scanner from Vesper Central Station. **[SOLUTION]**
-- **hyp_custodian_took**: Lucas Vaughn took Freight Turnstile Scanner from Vesper Central Station after hours.
-- **hyp_suspect2_took**: Sebastian Mercer took Freight Turnstile Scanner from Vesper Central Station.
 - **hyp_culprit_innocent**: Marcel Frost remained in The Grand Vesper Hotel and never entered Vesper Central Station.
+- **hyp_custodian_took**: Lucas Vaughn took Freight Turnstile Scanner from Vesper Central Station.
+- **hyp_suspect2_took**: Sebastian Mercer took Freight Turnstile Scanner from Vesper Central Station.
+- **hyp_culprit_stole**: Marcel Frost took Freight Turnstile Scanner from Vesper Central Station. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_marcel

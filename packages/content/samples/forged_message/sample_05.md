@@ -1,4 +1,4 @@
-# The Forged Wire at North Gate Print Shop (case_fm_6507)
+# The Intercepted Wire at North Gate Print Shop in the Pressroom (case_fm_8137)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at The Grand Vesper Hotel.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Suspect Walter Althaus claims Sebastian Mercer was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+Operations at The Grand Vesper Hotel were disrupted by a fraudulent message sent from High-Speed Rotary Press. Terminal records place Bram Preston, Walter Althaus, and Sebastian Mercer in proximity to network consoles. Correlate access times to determine who authored the message.
 
 ## Cast of Characters
 - **Walter Althaus** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -31,9 +31,9 @@ An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Susp
   > "[20:10] CCTV_FEED · THE_GRAND_VESPER_HOTEL · subject: Sebastian Mercer"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Walter Althaus transmitted the forged dispatch from High-Speed Rotary Press. **[SOLUTION]**
-- **hyp_victim_sent**: Sebastian Mercer sent the message from North Gate Print Shop.
-- **hyp_culprit_innocent**: Walter Althaus was at The Grand Vesper Hotel and did not operate High-Speed Rotary Press.
+- **hyp_culprit_innocent**: Walter Althaus remained at The Grand Vesper Hotel and did not operate High-Speed Rotary Press.
+- **hyp_culprit_forged**: Walter Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press. **[SOLUTION]**
+- **hyp_victim_sent**: Sebastian Mercer transmitted the unauthorized dispatch from High-Speed Rotary Press.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_walter

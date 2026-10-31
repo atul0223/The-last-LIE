@@ -1,4 +1,4 @@
-# Disappearance of the Freight Turnstile Scanner (case_mi_7078)
+# The Midnight Handover at North Freight Dock (case_mi_9949)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from Vesper Central Station during evening shifts.
 
 ## Briefing
-Freight Turnstile Scanner disappeared from Vesper Central Station. Staff member Lenore Oakhaven claims to have been working in North Freight Dock and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+Freight Turnstile Scanner disappeared from Vesper Central Station during the evening custodial window. Records confirm three individuals held access to the area: Lenore Oakhaven, Victor Kessler, and Stella Sterling. Compare custody registers and badge scans to expose who took the artifact.
 
 ## Cast of Characters
 - **Lenore Oakhaven** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -32,7 +32,7 @@ Freight Turnstile Scanner disappeared from Vesper Central Station. Staff member 
 
 ## Hypotheses
 - **hyp_culprit_stole**: Lenore Oakhaven took Freight Turnstile Scanner from Vesper Central Station. **[SOLUTION]**
-- **hyp_custodian_took**: Stella Sterling took Freight Turnstile Scanner from Vesper Central Station after hours.
+- **hyp_custodian_took**: Stella Sterling took Freight Turnstile Scanner from Vesper Central Station.
 - **hyp_culprit_innocent**: Lenore Oakhaven remained in North Freight Dock and never entered Vesper Central Station.
 
 ## Truth & Reveal Explanation

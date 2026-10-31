@@ -1,4 +1,4 @@
-# The Phantom Message from Freight Turnstile Scanner (case_fm_7078)
+# Deception on the Wire at North Freight Dock at the Deadline (case_fm_9949)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from Vesper Central Station to disrupt operations at North Freight Dock.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Suspect Lenore Oakhaven claims Stella Sterling was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+An unauthorized dispatch msg_dispatch was transmitted from Freight Turnstile Scanner to North Freight Dock. three staff members were on duty across the network: Lenore Oakhaven, Victor Kessler, and Stella Sterling. Inspect terminal session logs and carrier records to unmask the imposter.
 
 ## Cast of Characters
 - **Lenore Oakhaven** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -31,9 +31,9 @@ An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Su
   > "[20:10] CCTV_FEED · NORTH_FREIGHT_DOCK · subject: Stella Sterling"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Lenore Oakhaven transmitted the forged dispatch from Freight Turnstile Scanner. **[SOLUTION]**
-- **hyp_victim_sent**: Stella Sterling sent the message from Vesper Central Station.
-- **hyp_culprit_innocent**: Lenore Oakhaven was at North Freight Dock and did not operate Freight Turnstile Scanner.
+- **hyp_culprit_forged**: Lenore Oakhaven transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_victim_sent**: Stella Sterling transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_culprit_innocent**: Lenore Oakhaven remained at North Freight Dock and did not operate Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_lenore

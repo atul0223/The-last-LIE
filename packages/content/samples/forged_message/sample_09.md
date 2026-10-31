@@ -1,4 +1,4 @@
-# Deception on the Wire at The Grand Vesper Hotel (case_fm_2177)
+# Deception on the Wire at The Grand Vesper Hotel Over the Wire (case_fm_8661)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from Vesper Central Station to disrupt operations at The Grand Vesper Hotel.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Suspect Marcel Frost claims Lucas Vaughn was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A bogus transmission was logged on Freight Turnstile Scanner before the evening print run. Clearance was limited to three individuals: Marcel Frost, Sebastian Mercer, and Lucas Vaughn. Analyze system logs to expose whose account hides the forgery.
 
 ## Cast of Characters
 - **Marcel Frost** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Su
   > "[20:10] CCTV_FEED · THE_GRAND_VESPER_HOTEL · subject: Lucas Vaughn"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Marcel Frost transmitted the forged dispatch from Freight Turnstile Scanner. **[SOLUTION]**
-- **hyp_victim_sent**: Lucas Vaughn sent the message from Vesper Central Station.
-- **hyp_recipient_sent**: Sebastian Mercer was present in Vesper Central Station and sent the message.
-- **hyp_culprit_innocent**: Marcel Frost was at The Grand Vesper Hotel and did not operate Freight Turnstile Scanner.
+- **hyp_culprit_innocent**: Marcel Frost remained at The Grand Vesper Hotel and did not operate Freight Turnstile Scanner.
+- **hyp_victim_sent**: Lucas Vaughn transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_recipient_sent**: Sebastian Mercer transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_culprit_forged**: Marcel Frost transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_marcel

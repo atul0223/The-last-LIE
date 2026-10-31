@@ -1,4 +1,4 @@
-# Shadows Over North Gate Print Shop (case_fa_1236)
+# The High-Speed Rotary Press Discrepancy (case_fa_1855)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at North Gate Print Shop under cover of evening routines.
 
 ## Briefing
-High-Speed Rotary Press was compromised at North Gate Print Shop. Suspect Walter Althaus claims to have been at The Grand Vesper Hotel throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at North Gate Print Shop reported High-Speed Rotary Press missing from its station. Walter Althaus, Sebastian Mercer, and Bram Preston were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Walter Althaus** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -31,9 +31,9 @@ High-Speed Rotary Press was compromised at North Gate Print Shop. Suspect Walter
   > "[20:28] HOTEL_LOBBY · badge: Sebastian Mercer"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Walter Althaus took High-Speed Rotary Press from North Gate Print Shop. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Sebastian Mercer was present at North Gate Print Shop during the incident.
-- **hyp_culprit_innocent**: Walter Althaus was at The Grand Vesper Hotel and did not enter North Gate Print Shop.
+- **hyp_culprit_innocent**: Walter Althaus remained at The Grand Vesper Hotel and did not enter North Gate Print Shop.
+- **hyp_suspect1_guilty**: Sebastian Mercer entered North Gate Print Shop and took High-Speed Rotary Press.
+- **hyp_culprit_guilty**: Walter Althaus entered North Gate Print Shop and took High-Speed Rotary Press. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_walter

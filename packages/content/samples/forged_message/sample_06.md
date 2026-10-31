@@ -1,4 +1,4 @@
-# The Phantom Message from Freight Turnstile Scanner (case_fm_1998)
+# The Untraceable Dispatch from Freight Turnstile Scanner (case_fm_1132)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at The Vesper Chronicle Newsroom.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Suspect Alistair Finch claims Cassian Calloway was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A forged wire instruction was relayed through Freight Turnstile Scanner during the deadline rush. Investigative inquiries focus on Alistair Finch, Cassian Calloway, and Orion Grayson, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.
 
 ## Cast of Characters
 - **Alistair Finch** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Su
   > "[20:05] NEWSROOM_PRESS · badge: Cassian Calloway"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Alistair Finch transmitted the forged dispatch from Freight Turnstile Scanner. **[SOLUTION]**
-- **hyp_victim_sent**: Cassian Calloway sent the message from The Grand Vesper Hotel.
-- **hyp_recipient_sent**: Orion Grayson was present in The Grand Vesper Hotel and sent the message.
-- **hyp_culprit_innocent**: Alistair Finch was at The Vesper Chronicle Newsroom and did not operate Freight Turnstile Scanner.
+- **hyp_recipient_sent**: Orion Grayson transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_culprit_innocent**: Alistair Finch remained at The Vesper Chronicle Newsroom and did not operate Freight Turnstile Scanner.
+- **hyp_victim_sent**: Cassian Calloway transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_culprit_forged**: Alistair Finch transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_alistair

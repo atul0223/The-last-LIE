@@ -1,4 +1,4 @@
-# The Missing Naval Brass Chronometer (case_mi_3089)
+# Incident of the Disputed Naval Brass Chronometer (case_mi_9066)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from North Freight Dock during evening shifts.
 
 ## Briefing
-Naval Brass Chronometer disappeared from North Freight Dock. Staff member Damian Volkov claims to have been working in The Vesper Chronicle Newsroom and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+Naval Brass Chronometer disappeared from North Freight Dock during the evening custodial window. Records confirm four individuals held access to the area: Miriam Vance, Valerie Vance, Katrina Chambers, and Damian Volkov. Compare custody registers and badge scans to expose who took the artifact.
 
 ## Cast of Characters
 - **Damian Volkov** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ Naval Brass Chronometer disappeared from North Freight Dock. Staff member Damian
   > "[20:28] ACCESS_LOG · HOTEL_LOBBY · badge: Valerie Vance"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Damian Volkov took Naval Brass Chronometer from North Freight Dock. **[SOLUTION]**
-- **hyp_custodian_took**: Miriam Vance took Naval Brass Chronometer from North Freight Dock after hours.
+- **hyp_custodian_took**: Miriam Vance took Naval Brass Chronometer from North Freight Dock.
 - **hyp_suspect2_took**: Valerie Vance took Naval Brass Chronometer from North Freight Dock.
 - **hyp_suspect3_took**: Katrina Chambers took Naval Brass Chronometer from North Freight Dock.
+- **hyp_culprit_stole**: Damian Volkov took Naval Brass Chronometer from North Freight Dock. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

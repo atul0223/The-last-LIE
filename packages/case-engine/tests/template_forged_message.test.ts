@@ -167,4 +167,36 @@ describe('Template: forged_message (tpl_forged_message_v1)', () => {
       expect(fs.existsSync(filePath)).toBe(true);
     }
   });
+
+  it('across 200 seeds: solution position in hypotheses is roughly uniform (<= 60%) and title uniqueness >= 70%', () => {
+    const positionCounts: Record<number, number> = {};
+    const titles = new Set<string>();
+
+    for (let seed = 1; seed <= 200; seed++) {
+      const diff = ((seed % 4) + 1) as 1 | 2 | 3 | 4;
+      const res = generateCase({
+        templateId: tpl_forged_message.id,
+        seed: 70000 + seed,
+        difficulty: diff,
+      });
+
+      titles.add(res.case.title);
+
+      const solutionIdx = res.case.hypotheses.findIndex(
+        (h) => h.id === res.case.truth.solutionHypothesisId,
+      );
+      expect(solutionIdx).toBeGreaterThanOrEqual(0);
+      positionCounts[solutionIdx] = (positionCounts[solutionIdx] ?? 0) + 1;
+    }
+
+    // No position should hold > 60% of solutions
+    for (const [_pos, count] of Object.entries(positionCounts)) {
+      const proportion = count / 200;
+      expect(proportion).toBeLessThanOrEqual(0.6);
+    }
+
+    // Title uniqueness >= 70%
+    const uniqueness = titles.size / 200;
+    expect(uniqueness).toBeGreaterThanOrEqual(0.7);
+  });
 });

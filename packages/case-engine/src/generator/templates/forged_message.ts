@@ -60,6 +60,7 @@ import type {
 import type { Rng } from '../../rng.js';
 import type { CaseTemplate, FilledSlots, TemplateParams } from '../core/types.js';
 import { injectRedHerrings } from '../core/helpers.js';
+import { formatNameList, generateForgedMessageTitle } from './helpers.js';
 
 export const tpl_forged_message: CaseTemplate = {
   id: 'tpl_forged_message_v1',
@@ -416,7 +417,7 @@ export const tpl_forged_message: CaseTemplate = {
     // Solution hypothesis: culprit transmitted the forged dispatch
     const solutionHypothesis = {
       id: 'hyp_culprit_forged',
-      label: `${culprit.name} transmitted the forged dispatch from ${deviceA.name}.`,
+      label: `${culprit.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
       claims: [
         {
           kind: 'action' as const,
@@ -433,7 +434,7 @@ export const tpl_forged_message: CaseTemplate = {
     // Decoy 1: victim was in locNewsroom transmitting the message
     const decoy1 = {
       id: 'hyp_victim_sent',
-      label: `${victim.name} sent the message from ${locNewsroom.name}.`,
+      label: `${victim.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
       claims: [
         {
           kind: 'at' as const,
@@ -453,7 +454,7 @@ export const tpl_forged_message: CaseTemplate = {
       // Decoy 2: Culprit remained innocently at locPrintshop
       const decoy2 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} was at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
+        label: `${culprit.name} remained at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -475,7 +476,7 @@ export const tpl_forged_message: CaseTemplate = {
       // Decoy 2: recipient sent the message from locNewsroom
       const decoy2 = {
         id: 'hyp_recipient_sent',
-        label: `${recipient.name} was present in ${locNewsroom.name} and sent the message.`,
+        label: `${recipient.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -491,7 +492,7 @@ export const tpl_forged_message: CaseTemplate = {
       // Decoy 3: Culprit innocent in printshop
       const decoy3 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} was at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
+        label: `${culprit.name} remained at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -516,7 +517,7 @@ export const tpl_forged_message: CaseTemplate = {
       // Diff 4: 4 hypotheses, keyEvidence size 4
       const decoy2 = {
         id: 'hyp_recipient_sent',
-        label: `${recipient.name} was present in ${locNewsroom.name} and sent the message.`,
+        label: `${recipient.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -531,7 +532,7 @@ export const tpl_forged_message: CaseTemplate = {
 
       const decoy3 = {
         id: 'hyp_suspect3_sent',
-        label: `${suspect3.name} was present in ${locNewsroom.name} and sent the message.`,
+        label: `${suspect3.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -559,6 +560,9 @@ export const tpl_forged_message: CaseTemplate = {
         ],
       ];
     }
+
+    // Shuffle hypotheses so the solution is not always first
+    hypotheses = rng.shuffle(hypotheses);
 
     // Explanation beats for reveal
     const explanation = [
@@ -597,18 +601,25 @@ export const tpl_forged_message: CaseTemplate = {
       },
     ];
 
-    const caseTitles = [
-      `The Forged Wire at ${locNewsroom.name}`,
-      `The Midnight Dispatch of ${culprit.name}`,
-      `The Phantom Message from ${deviceA.name}`,
-      `Deception on the Wire at ${locPrintshop.name}`,
+    const title = generateForgedMessageTitle(rng, deviceA, targetDoc, locNewsroom, locPrintshop);
+
+    const suspects = diff >= 3 ? [culprit, victim, recipient, suspect3] : [culprit, victim, recipient];
+    const shuffledSuspects = rng.shuffle(suspects);
+    const suspectNames = formatNameList(shuffledSuspects.map((s) => s.name));
+    const countWord = suspects.length === 4 ? 'four' : 'three';
+
+    const briefingOptions = [
+      `An unauthorized dispatch msg_dispatch was transmitted from ${deviceA.name} to ${locPrintshop.name}. ${countWord} staff members were on duty across the network: ${suspectNames}. Inspect terminal session logs and carrier records to unmask the imposter.`,
+      `A forged wire instruction was relayed through ${deviceA.name} during the deadline rush. Investigative inquiries focus on ${suspectNames}, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.`,
+      `Operations at ${locPrintshop.name} were disrupted by a fraudulent message sent from ${deviceA.name}. Terminal records place ${suspectNames} in proximity to network consoles. Correlate access times to determine who authored the message.`,
+      `A bogus transmission was logged on ${deviceA.name} before the evening print run. Clearance was limited to ${countWord} individuals: ${suspectNames}. Analyze system logs to expose whose account hides the forgery.`,
     ];
 
     return {
       id: `case_fm_${rng.int(1000, 9999)}`,
       version: 1,
       kind: 'procedural',
-      title: rng.pick(caseTitles),
+      title,
       difficulty: diff,
       estimatedMinutes: 5 + diff * 2,
       mysteryType: 'forged_message',
@@ -617,7 +628,7 @@ export const tpl_forged_message: CaseTemplate = {
         date: '2026-11-06',
         summary: `A forged telegraph dispatch was transmitted from ${locNewsroom.name} to disrupt operations at ${locPrintshop.name}.`,
       },
-      briefing: `An unauthorized message msg_dispatch was sent from ${deviceA.name}. Suspect ${culprit.name} claims ${victim.name} was the sender. Inspect carrier headers and terminal sessions to expose the imposter.`,
+      briefing: rng.pick(briefingOptions),
       characters,
       locations,
       objects: [deviceA, targetDoc],

@@ -15,6 +15,7 @@ import { v12HooksCanonicalCheck } from './checks/v12_hooks_canonical.js';
 import { v13AmbiguityCheck } from './checks/v13_ambiguity.js';
 import { v14LieContradictableCheck } from './checks/v14_lie_contradictable.js';
 import { v15SolutionPositiveEvidenceCheck } from './checks/v15_solution_positive_evidence.js';
+import { v16PresentationNeutralCheck } from './checks/v16_presentation_neutral.js';
 import { computeDifficultyMetrics } from './config.js';
 import { getObtainableClueIds } from './obtainable.js';
 import type {
@@ -44,6 +45,7 @@ export const ALL_CHECKS: ValidatorCheck[] = [
   v13AmbiguityCheck,
   v14LieContradictableCheck,
   v15SolutionPositiveEvidenceCheck,
+  v16PresentationNeutralCheck,
 ];
 
 /**

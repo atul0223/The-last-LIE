@@ -1,4 +1,4 @@
-# Contradiction at Vesper Central Station (case_fa_4805)
+# The Broken Timeline at North Freight Dock in the Rain (case_fa_1408)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at North Gate Print Shop under cover of evening routines.
 
 ## Briefing
-Freight Turnstile Scanner was compromised at North Gate Print Shop. Suspect Sebastian Thorne claims to have been at Vesper Central Station throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Following the incident involving Freight Turnstile Scanner at North Gate Print Shop, investigators identified four persons of interest: Octavia Harrington, Sebastian Thorne, Yvaine Calloway, and Cassian Ashford. Each claims to have been elsewhere during the evening. Identify which account is fabricated.
 
 ## Cast of Characters
 - **Sebastian Thorne** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ Freight Turnstile Scanner was compromised at North Gate Print Shop. Suspect Seba
   > "[20:29] ENTRY_GATE · DOCK_TURNSTILE · authorized: Cassian Ashford"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Sebastian Thorne took Freight Turnstile Scanner from North Gate Print Shop. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Yvaine Calloway was present at North Gate Print Shop during the incident.
-- **hyp_suspect2_guilty**: Cassian Ashford was present at North Gate Print Shop during the incident.
-- **hyp_culprit_innocent**: Sebastian Thorne was at Vesper Central Station and did not enter North Gate Print Shop.
+- **hyp_culprit_innocent**: Sebastian Thorne remained at Vesper Central Station and did not enter North Gate Print Shop.
+- **hyp_culprit_guilty**: Sebastian Thorne entered North Gate Print Shop and took Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_suspect2_guilty**: Cassian Ashford entered North Gate Print Shop and took Freight Turnstile Scanner.
+- **hyp_suspect1_guilty**: Yvaine Calloway entered North Gate Print Shop and took Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_sebastian

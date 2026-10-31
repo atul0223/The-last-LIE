@@ -1,4 +1,4 @@
-# The Forged Wire at North Gate Print Shop (case_fm_8085)
+# The Phantom Message from Freight Turnstile Scanner Over the Wire (case_fm_7197)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at Vesper Central Station.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Suspect Sebastian Thorne claims Yvaine Calloway was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A forged wire instruction was relayed through Freight Turnstile Scanner during the deadline rush. Investigative inquiries focus on Octavia Harrington, Cassian Ashford, Sebastian Thorne, and Yvaine Calloway, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.
 
 ## Cast of Characters
 - **Sebastian Thorne** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ An unauthorized message msg_dispatch was sent from Freight Turnstile Scanner. Su
   > "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Yvaine Calloway"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Sebastian Thorne transmitted the forged dispatch from Freight Turnstile Scanner. **[SOLUTION]**
-- **hyp_victim_sent**: Yvaine Calloway sent the message from North Gate Print Shop.
-- **hyp_recipient_sent**: Cassian Ashford was present in North Gate Print Shop and sent the message.
-- **hyp_culprit_innocent**: Sebastian Thorne was at Vesper Central Station and did not operate Freight Turnstile Scanner.
+- **hyp_recipient_sent**: Cassian Ashford transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_victim_sent**: Yvaine Calloway transmitted the unauthorized dispatch from Freight Turnstile Scanner.
+- **hyp_culprit_forged**: Sebastian Thorne transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_culprit_innocent**: Sebastian Thorne remained at Vesper Central Station and did not operate Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_sebastian

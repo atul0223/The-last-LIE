@@ -1,4 +1,4 @@
-# The Broken Alibi of Marcel Frost (case_fa_6429)
+# The Broken Timeline at North Gate Print Shop After Hours (case_fa_7176)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at Vesper Central Station under cover of evening routines.
 
 ## Briefing
-Freight Turnstile Scanner was compromised at Vesper Central Station. Suspect Marcel Frost claims to have been at The Grand Vesper Hotel throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at Vesper Central Station reported Freight Turnstile Scanner missing from its station. Sebastian Mercer, Marcel Frost, and Lucas Vaughn were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Marcel Frost** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ Freight Turnstile Scanner was compromised at Vesper Central Station. Suspect Mar
   > "[20:06] ACCESS_LOG · PRINTSHOP_DOCK · badge: Sebastian Mercer"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Marcel Frost took Freight Turnstile Scanner from Vesper Central Station. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Lucas Vaughn was present at Vesper Central Station during the incident.
-- **hyp_suspect2_guilty**: Sebastian Mercer was present at Vesper Central Station during the incident.
-- **hyp_culprit_innocent**: Marcel Frost was at The Grand Vesper Hotel and did not enter Vesper Central Station.
+- **hyp_culprit_innocent**: Marcel Frost remained at The Grand Vesper Hotel and did not enter Vesper Central Station.
+- **hyp_suspect1_guilty**: Lucas Vaughn entered Vesper Central Station and took Freight Turnstile Scanner.
+- **hyp_culprit_guilty**: Marcel Frost entered Vesper Central Station and took Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_suspect2_guilty**: Sebastian Mercer entered Vesper Central Station and took Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_marcel

@@ -1,4 +1,4 @@
-# Disappearance of the Freight Turnstile Scanner (case_mi_1998)
+# The Vault Breach at The Grand Vesper Hotel at Shift Change (case_mi_1132)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from The Grand Vesper Hotel during evening shifts.
 
 ## Briefing
-Freight Turnstile Scanner disappeared from The Grand Vesper Hotel. Staff member Alistair Finch claims to have been working in The Vesper Chronicle Newsroom and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+A secured repository in The Grand Vesper Hotel was breached, and Freight Turnstile Scanner is missing. Inquiries center on Alistair Finch, Cassian Calloway, and Orion Grayson, each of whom reported routine activity near the scene. Track the movement logs to pinpoint the thief.
 
 ## Cast of Characters
 - **Alistair Finch** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ Freight Turnstile Scanner disappeared from The Grand Vesper Hotel. Staff member 
   > "[20:02] NEWSROOM_PRESS · badge: Cassian Calloway"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Alistair Finch took Freight Turnstile Scanner from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_custodian_took**: Cassian Calloway took Freight Turnstile Scanner from The Grand Vesper Hotel after hours.
 - **hyp_suspect2_took**: Orion Grayson took Freight Turnstile Scanner from The Grand Vesper Hotel.
 - **hyp_culprit_innocent**: Alistair Finch remained in The Vesper Chronicle Newsroom and never entered The Grand Vesper Hotel.
+- **hyp_custodian_took**: Cassian Calloway took Freight Turnstile Scanner from The Grand Vesper Hotel.
+- **hyp_culprit_stole**: Alistair Finch took Freight Turnstile Scanner from The Grand Vesper Hotel. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_alistair

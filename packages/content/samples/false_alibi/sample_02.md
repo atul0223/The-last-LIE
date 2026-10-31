@@ -1,4 +1,4 @@
-# Contradiction at Vesper Central Station (case_fa_1298)
+# The Hidden Inquiry at The Grand Vesper Hotel (case_fa_4554)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at The Grand Vesper Hotel under cover of evening routines.
 
 ## Briefing
-High-Speed Rotary Press was compromised at The Grand Vesper Hotel. Suspect Octavia Brauer claims to have been at Vesper Central Station throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+Security at The Grand Vesper Hotel reported High-Speed Rotary Press missing from its station. Corin Cross, Alistair Wainwright, and Octavia Brauer were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.
 
 ## Cast of Characters
 - **Octavia Brauer** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ High-Speed Rotary Press was compromised at The Grand Vesper Hotel. Suspect Octav
   > "[20:05] STATION_GATE · badge: Alistair Wainwright"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Octavia Brauer took High-Speed Rotary Press from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Alistair Wainwright was present at The Grand Vesper Hotel during the incident.
-- **hyp_suspect2_guilty**: Corin Cross was present at The Grand Vesper Hotel during the incident.
-- **hyp_culprit_innocent**: Octavia Brauer was at Vesper Central Station and did not enter The Grand Vesper Hotel.
+- **hyp_suspect1_guilty**: Alistair Wainwright entered The Grand Vesper Hotel and took High-Speed Rotary Press.
+- **hyp_culprit_innocent**: Octavia Brauer remained at Vesper Central Station and did not enter The Grand Vesper Hotel.
+- **hyp_suspect2_guilty**: Corin Cross entered The Grand Vesper Hotel and took High-Speed Rotary Press.
+- **hyp_culprit_guilty**: Octavia Brauer entered The Grand Vesper Hotel and took High-Speed Rotary Press. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_octavia

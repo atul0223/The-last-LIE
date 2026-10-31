@@ -1,4 +1,4 @@
-# The Broken Alibi of Damian Volkov (case_fa_1314)
+# The Altered Hours at The Vesper Chronicle Newsroom (case_fa_1836)
 
 - **Mystery Type:** false_alibi
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** An unauthorized incident occurred at North Freight Dock under cover of evening routines.
 
 ## Briefing
-Naval Brass Chronometer was compromised at North Freight Dock. Suspect Damian Volkov claims to have been at The Vesper Chronicle Newsroom throughout the entire evening. Unravel the contradictions to identify the perpetrator.
+An unauthorized breach at North Freight Dock resulted in the loss of Naval Brass Chronometer. Electronic records place Katrina Chambers, Valerie Vance, Damian Volkov, and Miriam Vance in the vicinity during the critical window. Analyze the evidence to determine whose alibi contradicts the facts.
 
 ## Cast of Characters
 - **Damian Volkov** (Primary Suspect): Primary Suspect in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ Naval Brass Chronometer was compromised at North Freight Dock. Suspect Damian Vo
   > "[20:10] SECURITY_CAMERA · THE_GRAND_VESPER_HOTEL · visual: Katrina Chambers"
 
 ## Hypotheses
-- **hyp_culprit_guilty**: Damian Volkov took Naval Brass Chronometer from North Freight Dock. **[SOLUTION]**
-- **hyp_suspect1_guilty**: Miriam Vance was present at North Freight Dock during the incident.
-- **hyp_suspect2_guilty**: Valerie Vance was present at North Freight Dock during the incident.
-- **hyp_suspect3_guilty**: Katrina Chambers was present at North Freight Dock during the incident.
+- **hyp_suspect1_guilty**: Miriam Vance entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_suspect2_guilty**: Valerie Vance entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_suspect3_guilty**: Katrina Chambers entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_culprit_guilty**: Damian Volkov entered North Freight Dock and took Naval Brass Chronometer. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

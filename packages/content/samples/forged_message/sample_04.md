@@ -1,4 +1,4 @@
-# The Forged Wire at North Freight Dock (case_fm_3089)
+# The Case of the Ghost Dispatch (case_fm_5254)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from North Freight Dock to disrupt operations at The Vesper Chronicle Newsroom.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from Naval Brass Chronometer. Suspect Damian Volkov claims Miriam Vance was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A bogus transmission was logged on Naval Brass Chronometer before the evening print run. Clearance was limited to four individuals: Katrina Chambers, Valerie Vance, Damian Volkov, and Miriam Vance. Analyze system logs to expose whose account hides the forgery.
 
 ## Cast of Characters
 - **Damian Volkov** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -39,10 +39,10 @@ An unauthorized message msg_dispatch was sent from Naval Brass Chronometer. Susp
   > "[20:29] ACCESS_LOG · HOTEL_LOBBY · badge: Valerie Vance"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Damian Volkov transmitted the forged dispatch from Naval Brass Chronometer. **[SOLUTION]**
-- **hyp_victim_sent**: Miriam Vance sent the message from North Freight Dock.
-- **hyp_recipient_sent**: Valerie Vance was present in North Freight Dock and sent the message.
-- **hyp_suspect3_sent**: Katrina Chambers was present in North Freight Dock and sent the message.
+- **hyp_victim_sent**: Miriam Vance transmitted the unauthorized dispatch from Naval Brass Chronometer.
+- **hyp_recipient_sent**: Valerie Vance transmitted the unauthorized dispatch from Naval Brass Chronometer.
+- **hyp_suspect3_sent**: Katrina Chambers transmitted the unauthorized dispatch from Naval Brass Chronometer.
+- **hyp_culprit_forged**: Damian Volkov transmitted the unauthorized dispatch from Naval Brass Chronometer. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

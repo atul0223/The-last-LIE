@@ -1,4 +1,4 @@
-# The Midnight Dispatch of Octavia Brauer (case_fm_8534)
+# The Intercepted Wire at The Grand Vesper Hotel at the Deadline (case_fm_9295)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
@@ -7,7 +7,7 @@
 - **Setting:** A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at Vesper Central Station.
 
 ## Briefing
-An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Suspect Octavia Brauer claims Alistair Wainwright was the sender. Inspect carrier headers and terminal sessions to expose the imposter.
+A forged wire instruction was relayed through High-Speed Rotary Press during the deadline rush. Investigative inquiries focus on Alistair Wainwright, Octavia Brauer, and Corin Cross, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.
 
 ## Cast of Characters
 - **Octavia Brauer** (Wire Editor): Wire Editor in Vesper City involved in the incident.
@@ -36,10 +36,10 @@ An unauthorized message msg_dispatch was sent from High-Speed Rotary Press. Susp
   > "[20:29] PRINTSHOP_DOCK · badge: Corin Cross"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Octavia Brauer transmitted the forged dispatch from High-Speed Rotary Press. **[SOLUTION]**
-- **hyp_victim_sent**: Alistair Wainwright sent the message from The Grand Vesper Hotel.
-- **hyp_recipient_sent**: Corin Cross was present in The Grand Vesper Hotel and sent the message.
-- **hyp_culprit_innocent**: Octavia Brauer was at Vesper Central Station and did not operate High-Speed Rotary Press.
+- **hyp_recipient_sent**: Corin Cross transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_victim_sent**: Alistair Wainwright transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_culprit_forged**: Octavia Brauer transmitted the unauthorized dispatch from High-Speed Rotary Press. **[SOLUTION]**
+- **hyp_culprit_innocent**: Octavia Brauer remained at Vesper Central Station and did not operate High-Speed Rotary Press.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_octavia

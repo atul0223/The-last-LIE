@@ -1,4 +1,4 @@
-# The Handover at North Gate Print Shop (case_mi_2852)
+# Handover of the Hidden Transit Cipher Ledger (case_mi_2784)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from The Grand Vesper Hotel during evening shifts.
 
 ## Briefing
-Transit Cipher Ledger disappeared from The Grand Vesper Hotel. Staff member Damian Ramsay claims to have been working in North Gate Print Shop and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+A secured repository in The Grand Vesper Hotel was breached, and Transit Cipher Ledger is missing. Inquiries center on Damian Ramsay, Nadia Grayson, Eleanor Belmont, and Beatrix Sterling, each of whom reported routine activity near the scene. Track the movement logs to pinpoint the thief.
 
 ## Cast of Characters
 - **Damian Ramsay** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -37,10 +37,10 @@ Transit Cipher Ledger disappeared from The Grand Vesper Hotel. Staff member Dami
   > "[20:17] ACCESS_LOG · NEWSROOM_PRESS · badge: Beatrix Sterling"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Damian Ramsay took Transit Cipher Ledger from The Grand Vesper Hotel. **[SOLUTION]**
-- **hyp_custodian_took**: Nadia Grayson took Transit Cipher Ledger from The Grand Vesper Hotel after hours.
-- **hyp_suspect2_took**: Eleanor Belmont took Transit Cipher Ledger from The Grand Vesper Hotel.
+- **hyp_custodian_took**: Nadia Grayson took Transit Cipher Ledger from The Grand Vesper Hotel.
 - **hyp_culprit_innocent**: Damian Ramsay remained in North Gate Print Shop and never entered The Grand Vesper Hotel.
+- **hyp_suspect2_took**: Eleanor Belmont took Transit Cipher Ledger from The Grand Vesper Hotel.
+- **hyp_culprit_stole**: Damian Ramsay took Transit Cipher Ledger from The Grand Vesper Hotel. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian

@@ -1,4 +1,4 @@
-# The Missing High-Speed Rotary Press (case_mi_6507)
+# The North Gate Print Shop Affair (case_mi_8137)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
@@ -7,7 +7,7 @@
 - **Setting:** A high-value object went missing from North Gate Print Shop during evening shifts.
 
 ## Briefing
-High-Speed Rotary Press disappeared from North Gate Print Shop. Staff member Walter Althaus claims to have been working in The Grand Vesper Hotel and denies entering the vault. Correlate custody logs and entry records to expose the thief.
+The scheduled transfer of High-Speed Rotary Press failed when it was discovered missing from North Gate Print Shop. Bram Preston, Walter Althaus, and Sebastian Mercer were present in the facility during the shift. Examine the access records to discover who seized the item.
 
 ## Cast of Characters
 - **Walter Althaus** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
@@ -31,9 +31,9 @@ High-Speed Rotary Press disappeared from North Gate Print Shop. Staff member Wal
   > "[20:15] CCTV_FEED · NORTH_GATE_PRINT_SHOP · subject: Walter Althaus"
 
 ## Hypotheses
-- **hyp_culprit_stole**: Walter Althaus took High-Speed Rotary Press from North Gate Print Shop. **[SOLUTION]**
-- **hyp_custodian_took**: Sebastian Mercer took High-Speed Rotary Press from North Gate Print Shop after hours.
 - **hyp_culprit_innocent**: Walter Althaus remained in The Grand Vesper Hotel and never entered North Gate Print Shop.
+- **hyp_culprit_stole**: Walter Althaus took High-Speed Rotary Press from North Gate Print Shop. **[SOLUTION]**
+- **hyp_custodian_took**: Sebastian Mercer took High-Speed Rotary Press from North Gate Print Shop.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_walter
