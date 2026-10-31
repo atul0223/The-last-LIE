@@ -57,7 +57,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - [x] WP-41 (Functions core: sessions, unlock, board, daily) — MERGED
   - [x] WP-42 (Submit + publish transactions, idempotent scoring) — MERGED
   - [x] WP-45s (Challenge server routes & guest tokens) — MERGED
-  - → WP-44s (Auth server hooks & profile sync)
+  - [x] WP-44s (Auth server hooks & profile sync) — MERGED
   - → WP-50s / WP-55s (Daily case rotation & weekly competitive case server support)
   - → WP-51s (Conspiracy graph server endpoints & player graph state)
 - **Agent 3 (Mobile Queue):**
@@ -197,6 +197,7 @@ export interface CaseSlotProps {
 | 32c     | E    | Agent 3| `wp/32c-template-variety`   | ✅ merged (variety, hidden_identity, <=14% coll)    |
 | 42      | B    | Agent 2| `wp/42-submit-publish`      | ✅ merged (submit idempotency, publisher CLI)       |
 | 45s     | B    | Agent 2| `wp/45s-challenges-backend` | ✅ merged (challenges backend, HMAC guest tokens)   |
+| 44s     | B    | Agent 2| `wp/44s-account-routes`     | ✅ merged (account deletion, local migration, push)  |
 | 46      | T/MU | Agent 3| `wp/46-analytics`           | ✅ merged (PostHog & Sentry monitoring)              |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
