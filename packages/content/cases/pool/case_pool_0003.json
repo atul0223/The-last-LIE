@@ -1,0 +1,335 @@
+{
+  "id": "case_pool_0003",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The North Freight Dock Inquiry in the Rain",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop."
+  },
+  "briefing": "The theft of Freight Turnstile Scanner from North Freight Dock occurred under cover of evening. One of the three individuals present—Percival Godfrey, Eliza Waverly, and Tobias Talbot—has fabricated their movements. Reconstruct the logs to expose the true culprit.",
+  "characters": [
+    {
+      "id": "char_eliza",
+      "name": "Eliza Waverly",
+      "role": "Chief Auditor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_percival",
+      "name": "Percival Godfrey",
+      "role": "Night Supervisor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_tobias",
+      "name": "Tobias Talbot",
+      "role": "Staff Specialist",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_eliza"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_eliza",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Eliza Waverly stated: 'I spent the entire evening from 20:10 to 20:30 at North Gate Print Shop attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_percival",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Percival Godfrey stated: 'I was present in North Gate Print Shop between 20:10 and 20:30. I did not see Eliza Waverly anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_percival",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Percival Godfrey badged through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Surveillance Still: High-resolution camera recorded Eliza Waverly inside North Freight Dock between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_GATE_PRINT_SHOP · subject: Tobias Talbot"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Eliza Waverly entered North Freight Dock and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_eliza",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_eliza"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Percival Godfrey entered North Freight Dock and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_percival"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Eliza Waverly remained at North Gate Print Shop and did not enter North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_percival"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_eliza",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_eliza",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_percival",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_tobias",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_eliza"
+    ],
+    "liars": [
+      {
+        "who": "char_eliza",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Percival Godfrey was logged badging into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop and ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Eliza Waverly's presence was definitively established at North Freight Dock, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Eliza Waverly took Freight Turnstile Scanner from North Freight Dock before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

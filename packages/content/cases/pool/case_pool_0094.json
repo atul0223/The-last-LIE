@@ -1,0 +1,487 @@
+{
+  "id": "case_pool_0094",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Altered Dispatch from Freight Turnstile Scanner",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, The Vesper Chronicle Newsroom, North Gate Print Shop."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from Freight Turnstile Scanner inside The Grand Vesper Hotel. An investigation focuses on four individuals: Esther Navarro, Rosalind Strand, Thaddeus Cross, and Eleanor Halloway. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_thaddeus",
+      "name": "Thaddeus Cross",
+      "role": "Lead Reporter",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Strand",
+      "role": "Telegraph Operator",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_esther",
+      "name": "Esther Navarro",
+      "role": "Desk Assistant",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Halloway",
+      "role": "Wire Editor",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_rosalind"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_thaddeus",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sender": "char_rosalind",
+          "recipient": "char_esther",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Thaddeus Cross stated: 'The wire transmission from Freight Turnstile Scanner at 20:15 was authorized and sent directly by Rosalind Strand.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_thaddeus",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_thaddeus",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Thaddeus Cross at 20:15 inside The Grand Vesper Hotel.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rosalind",
+          "door": "door_newsroom_press",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Rosalind Strand badged into door_newsroom_press at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_esther",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Esther Navarro checked in at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Archive Reader: Eleanor Halloway badged through door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_GATE_PRINT_SHOP · subject: Eleanor Halloway"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_esther",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Esther Navarro"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Eleanor Halloway transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Rosalind Strand transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rosalind",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_rosalind"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Thaddeus Cross transmitted the forged dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_thaddeus",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_thaddeus"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Esther Navarro transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_esther",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_esther"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_thaddeus",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_thaddeus",
+        "door": "door_hotel_lobby",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_thaddeus",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_esther"
+      },
+      {
+        "kind": "action",
+        "who": "char_thaddeus",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_esther",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_thaddeus"
+    ],
+    "liars": [
+      {
+        "who": "char_thaddeus",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Rosalind Strand badged into door_newsroom_press at 20:14, proving they were not present in The Grand Vesper Hotel to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Thaddeus Cross was logged into Freight Turnstile Scanner at 20:15, shattering claims that Rosalind Strand sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Esther Navarro was badged into door_printshop_dock at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Eleanor Halloway was logged badging into door_printshop_dock at 20:17, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Thaddeus Cross completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

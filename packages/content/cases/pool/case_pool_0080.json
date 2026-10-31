@@ -1,0 +1,437 @@
+{
+  "id": "case_pool_0080",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Deception on the Wire at Vesper Central Station at the Evening Edition",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_central_station",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, Vesper Central Station, The Grand Vesper Hotel."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Gate Print Shop. Accounts given by Walter Preston, Rowan Bancroft, and Tobias Garrick contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_rowan",
+      "name": "Rowan Bancroft",
+      "role": "Telegraph Operator",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_walter",
+      "name": "Walter Preston",
+      "role": "Lead Reporter",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_tobias",
+      "name": "Tobias Garrick",
+      "role": "Wire Editor",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_walter"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_tobias",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1225,
+          "recipient": "char_tobias"
+        }
+      ],
+      "text": "Tobias Garrick claimed: 'The electronic dispatch msg_dispatch was sent from High-Speed Rotary Press during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_tobias"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from High-Speed Rotary Press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_rowan",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_rowan",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: High-Speed Rotary Press was actively operated by Rowan Bancroft at 20:15 inside North Gate Print Shop.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_walter",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Walter Preston badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_tobias",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Tobias Garrick checked in at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_tobias",
+          "door": "door_hotel_lobby",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ENTRY_GATE · HOTEL_LOBBY · authorized: Tobias Garrick"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rowan",
+          "door": "door_printshop_dock",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] ACCESS_LOG · PRINTSHOP_DOCK · badge: Rowan Bancroft"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Tobias Garrick transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_tobias"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Walter Preston transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_walter",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_walter"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Rowan Bancroft transmitted the forged dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_rowan",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_rowan"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Rowan Bancroft remained in Vesper Central Station and did not use High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rowan",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_walter"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_rowan",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rowan",
+        "door": "door_printshop_dock",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_rowan",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_tobias"
+      },
+      {
+        "kind": "action",
+        "who": "char_rowan",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_walter",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_tobias",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_hotel_lobby",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_hotel_lobby",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_rowan"
+    ],
+    "liars": [
+      {
+        "who": "char_tobias",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Walter Preston badged into door_station_gate at 20:14, proving they were not present in North Gate Print Shop to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Rowan Bancroft was the operator at High-Speed Rotary Press when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Tobias Garrick was badged into door_hotel_lobby at 20:16, ruling them out as the transmitter at North Gate Print Shop.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Rowan Bancroft completed the forged transmission of Naval Brass Chronometer before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

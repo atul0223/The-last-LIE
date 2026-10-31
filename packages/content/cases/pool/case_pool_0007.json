@@ -1,0 +1,333 @@
+{
+  "id": "case_pool_0007",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vanishing Presence at The Vesper Chronicle Newsroom in the Fog",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "Security authorities discovered a breach at Vesper Central Station involving Freight Turnstile Scanner. Statements from Victor Preston, Reginald Fitzgerald, and Fabian Dunbar contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_victor",
+      "name": "Victor Preston",
+      "role": "Primary Suspect",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_reginald",
+      "name": "Reginald Fitzgerald",
+      "role": "Chief Auditor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_fabian",
+      "name": "Fabian Dunbar",
+      "role": "Associate",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_victor"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_reginald",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        },
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Reginald Fitzgerald stated: 'I was in North Gate Print Shop from 20:10 to 20:30 with Victor Preston the entire time discussing routine administrative records.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_statement",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_victor",
+      "asserts": [],
+      "text": "Victor Preston stated: 'I decline to make any formal statement without departmental review.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_reginald",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Reginald Fitzgerald badged through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Surveillance Still: High-resolution camera recorded Victor Preston inside Vesper Central Station between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_victor",
+          "door": "door_station_gate",
+          "at": 1218
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:18] STATION_GATE · badge: Victor Preston"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Victor Preston remained at North Gate Print Shop and did not enter Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_reginald"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Victor Preston entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_victor",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_victor"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Reginald Fitzgerald entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_reginald"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_victor",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_victor",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_reginald",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_victor"
+    ],
+    "liars": [
+      {
+        "who": "char_reginald",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Reginald Fitzgerald was logged badging into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop and ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Victor Preston's presence was definitively established at Vesper Central Station, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Victor Preston took Freight Turnstile Scanner from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

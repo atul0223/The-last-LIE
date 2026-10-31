@@ -1,0 +1,497 @@
+{
+  "id": "case_pool_0050",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Classified High-Speed Rotary Press After Hours",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "The disappearance of High-Speed Rotary Press from North Freight Dock triggered an audit. Conflicting accounts from Yvaine Fitzgerald, Kieran Vaughn, Katrina Danforth, and Marcel Cross contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_yvaine",
+      "name": "Yvaine Fitzgerald",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_marcel",
+      "name": "Marcel Cross",
+      "role": "Visiting Researcher",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_kieran",
+      "name": "Kieran Vaughn",
+      "role": "Vault Curator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_katrina",
+      "name": "Katrina Danforth",
+      "role": "Chief Conservator",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_marcel"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_yvaine",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "seal",
+          "at": 1218,
+          "value": "intact"
+        }
+      ],
+      "text": "Yvaine Fitzgerald stated: 'I personally inspected the display mounting of High-Speed Rotary Press at 20:18; the security seal was completely intact.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_marcel",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Marcel Cross verified registered custody of High-Speed Rotary Press in North Freight Dock until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_marcel",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Marcel Cross badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_yvaine",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Yvaine Fitzgerald scanned access badge at door_dock_turnstile at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_seal_sensor",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "seal",
+          "at": 1218,
+          "value": "broken"
+        }
+      ],
+      "text": "Sensor Diagnostic: Automated mount recorded the security seal on High-Speed Rotary Press was broken at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_kieran",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Kieran Vaughn verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_central_station",
+          "from": 1220,
+          "to": 1240
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:20] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Marcel Cross"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_kieran",
+          "door": "door_printshop_dock",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ACCESS_LOG · PRINTSHOP_DOCK · badge: Kieran Vaughn"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Kieran Vaughn entered North Freight Dock and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_kieran",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_kieran"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Marcel Cross entered North Freight Dock and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_north_dock",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_marcel"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Yvaine Fitzgerald entered North Freight Dock and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_yvaine",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Yvaine Fitzgerald remained in Vesper Central Station and never approached North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_marcel"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_marcel",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_marcel",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_yvaine",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_yvaine",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "possess",
+        "who": "char_yvaine",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_kieran",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_kieran",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "state",
+        "what": "obj_rotary_press",
+        "property": "seal",
+        "at": 1218,
+        "value": "broken"
+      },
+      {
+        "kind": "at",
+        "who": "char_katrina",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_kieran",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_kieran",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_yvaine"
+    ],
+    "liars": [
+      {
+        "who": "char_yvaine",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Digital sensor diagnostics showed the security seal on High-Speed Rotary Press was broken at 20:18, contradicting testimony that it remained intact.",
+        "clueIds": [
+          "clue_seal_sensor",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Yvaine Fitzgerald accessed door_dock_turnstile at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Kieran Vaughn badged into door_printshop_dock at 20:16, ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Yvaine Fitzgerald took High-Speed Rotary Press from North Freight Dock before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

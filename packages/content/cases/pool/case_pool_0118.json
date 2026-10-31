@@ -1,0 +1,433 @@
+{
+  "id": "case_pool_0118",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Substituted Infiltration at North Freight Dock",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop, The Grand Vesper Hotel."
+  },
+  "briefing": "At 20:20, Transit Cipher Ledger was intercepted at North Freight Dock. Authorities suspect an infiltrator among four individuals: Corin Frost, Cassian Preston, Maren Oakhaven, and Octavia Webb. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_corin",
+      "name": "Corin Frost",
+      "role": "Special Envoy",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_octavia",
+      "name": "Octavia Webb",
+      "role": "Visiting Archivist",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_maren",
+      "name": "Maren Oakhaven",
+      "role": "Foreign Attache",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cassian",
+      "name": "Cassian Preston",
+      "role": "Commercial Agent",
+      "publicDescription": "Station Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_octavia"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_corin",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_corin",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Corin Frost stated: 'I remained in my suite at North Gate Print Shop from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_octavia",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Octavia Webb checked through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_corin",
+          "door": "door_dock_turnstile",
+          "at": 1233
+        }
+      ],
+      "text": "Transit Gate: Corin Frost badged through door_dock_turnstile at 20:33, just three minutes after claimed lodging at North Gate Print Shop.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maren",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Maren Oakhaven verified entry at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maren",
+          "door": "door_hotel_lobby",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ENTRY_GATE · HOTEL_LOBBY · authorized: Maren Oakhaven"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_octavia",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Octavia Webb"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Octavia Webb entered North Freight Dock and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_octavia",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_octavia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Corin Frost infiltrated North Freight Dock and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_corin",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_corin"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Corin Frost remained in North Gate Print Shop and did not enter North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_corin",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_octavia"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Maren Oakhaven entered North Freight Dock and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_maren",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_maren"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_corin",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_dock_turnstile",
+        "at": 1233
+      },
+      {
+        "kind": "action",
+        "who": "char_corin",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_octavia",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_maren",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_maren",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_cassian",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_cassian",
+        "door": "door_hotel_lobby",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_maren",
+        "door": "door_hotel_lobby",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_octavia",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_maren",
+        "door": "door_hotel_lobby",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_corin"
+    ],
+    "liars": [
+      {
+        "who": "char_corin",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Octavia Webb badged into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1233,
+        "text": "Physical tracking records exposed Corin Frost's fabricated hotel alibi and placed them at North Freight Dock.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Maren Oakhaven badged through door_hotel_lobby at 20:16, ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Corin Frost intercepted Transit Cipher Ledger at North Freight Dock under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}

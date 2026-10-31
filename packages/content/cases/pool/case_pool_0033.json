@@ -1,0 +1,346 @@
+{
+  "id": "case_pool_0033",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Breach in North Gate Print Shop: The Naval Brass Chronometer",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, North Freight Dock."
+  },
+  "briefing": "An inventory audit revealed the theft of Naval Brass Chronometer from North Gate Print Shop. Statements from Roland Zimmerman, Damian Pike, and Celeste Waverly contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_roland",
+      "name": "Roland Zimmerman",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_damian",
+      "name": "Damian Pike",
+      "role": "Visiting Researcher",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_celeste",
+      "name": "Celeste Waverly",
+      "role": "Chief Conservator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_damian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_roland",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Roland Zimmerman stated: 'I remained in North Freight Dock from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_damian",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Damian Pike verified registered custody of Naval Brass Chronometer in North Gate Print Shop until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_damian",
+          "door": "door_dock_turnstile",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Damian Pike badged through door_dock_turnstile at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_printshop_dock",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Roland Zimmerman scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_damian",
+          "door": "door_dock_turnstile",
+          "at": 1238
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:38] ACCESS_LOG · DOCK_TURNSTILE · badge: Damian Pike"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Roland Zimmerman remained in North Freight Dock and never approached North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_damian"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Damian Pike entered North Gate Print Shop and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_northgate_printshop",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_damian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Roland Zimmerman entered North Gate Print Shop and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_roland",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_damian",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_damian",
+        "where": "loc_north_dock",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_dock_turnstile",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_roland",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "possess",
+        "who": "char_roland",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_celeste",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_dock_turnstile",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_dock_turnstile",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_roland"
+    ],
+    "liars": [
+      {
+        "who": "char_roland",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_printshop_dock proved Roland Zimmerman entered the vault at 20:18, shattering claims of staying in North Freight Dock.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Roland Zimmerman accessed door_printshop_dock at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Roland Zimmerman took Naval Brass Chronometer from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

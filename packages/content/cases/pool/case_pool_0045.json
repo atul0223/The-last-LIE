@@ -1,0 +1,444 @@
+{
+  "id": "case_pool_0045",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Theft at North Gate Print Shop in the Archives",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_north_dock",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, North Freight Dock, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An inventory audit revealed the theft of Naval Brass Chronometer from North Gate Print Shop. Statements from Jasper Calloway, Eleanor Ellington, and Ingrid Faulkner contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Ellington",
+      "role": "Visiting Researcher",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_jasper",
+      "name": "Jasper Calloway",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_ingrid",
+      "name": "Ingrid Faulkner",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_jasper"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_eleanor",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_brass_chronometer",
+          "property": "seal",
+          "at": 1218,
+          "value": "intact"
+        }
+      ],
+      "text": "Eleanor Ellington stated: 'I personally inspected the display mounting of Naval Brass Chronometer at 20:18; the security seal was completely intact.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_jasper",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Jasper Calloway verified registered custody of Naval Brass Chronometer in North Gate Print Shop until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_jasper",
+          "door": "door_dock_turnstile",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Jasper Calloway badged through door_dock_turnstile at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Eleanor Ellington scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_seal_sensor",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_brass_chronometer",
+          "property": "seal",
+          "at": 1218,
+          "value": "broken"
+        }
+      ],
+      "text": "Sensor Diagnostic: Automated mount recorded the security seal on Naval Brass Chronometer was broken at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_ingrid",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Ingrid Faulkner verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_jasper",
+          "door": "door_dock_turnstile",
+          "at": 1202
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:02] ACCESS_LOG · DOCK_TURNSTILE · badge: Jasper Calloway"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_jasper",
+          "where": "loc_north_dock",
+          "from": 1220,
+          "to": 1240
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:20] CCTV_FEED · NORTH_FREIGHT_DOCK · subject: Jasper Calloway"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Eleanor Ellington entered North Gate Print Shop and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_eleanor",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Ingrid Faulkner entered North Gate Print Shop and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_ingrid",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_ingrid"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Jasper Calloway entered North Gate Print Shop and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_jasper",
+          "where": "loc_northgate_printshop",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_jasper"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Eleanor Ellington remained in North Freight Dock and never approached North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_jasper"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_jasper",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_jasper",
+        "where": "loc_north_dock",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_dock_turnstile",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_eleanor",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "possess",
+        "who": "char_eleanor",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_ingrid",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "state",
+        "what": "obj_brass_chronometer",
+        "property": "seal",
+        "at": 1218,
+        "value": "broken"
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_dock_turnstile",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_dock_turnstile",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_newsroom_press",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_eleanor"
+    ],
+    "liars": [
+      {
+        "who": "char_eleanor",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Digital sensor diagnostics showed the security seal on Naval Brass Chronometer was broken at 20:18, contradicting testimony that it remained intact.",
+        "clueIds": [
+          "clue_seal_sensor",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Eleanor Ellington accessed door_printshop_dock at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Ingrid Faulkner badged into door_newsroom_press at 20:16, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Eleanor Ellington took Naval Brass Chronometer from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,486 @@
+{
+  "id": "case_pool_0095",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Case of the Counterfeit Transmission Before Dawn",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_northgate_printshop",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, North Gate Print Shop, Vesper Central Station."
+  },
+  "briefing": "An illicit wire communication was detected originating from The Grand Vesper Hotel. Accounts given by Silas Blackwood, Milo Wainwright, Magnus Fitzgerald, and Julian Castile contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_milo",
+      "name": "Milo Wainwright",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_magnus",
+      "name": "Magnus Fitzgerald",
+      "role": "Desk Assistant",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_julian",
+      "name": "Julian Castile",
+      "role": "Telegraph Operator",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_silas",
+      "name": "Silas Blackwood",
+      "role": "Lead Reporter",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_magnus"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_julian",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_cipher_ledger",
+          "sender": "char_magnus",
+          "recipient": "char_julian",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Julian Castile stated: 'The wire transmission from Transit Cipher Ledger at 20:15 was authorized and sent directly by Magnus Fitzgerald.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_milo",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_milo",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Milo Wainwright at 20:15 inside The Grand Vesper Hotel.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Magnus Fitzgerald badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_julian",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Julian Castile checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_silas",
+          "door": "door_station_gate",
+          "at": 1217
+        }
+      ],
+      "text": "Archive Reader: Silas Blackwood badged through door_station_gate at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_printshop_dock",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Magnus Fitzgerald"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Julian Castile"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Julian Castile transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_julian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Milo Wainwright transmitted the forged dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_milo",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_milo"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Silas Blackwood transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_silas",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Magnus Fitzgerald transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_milo",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_milo",
+        "door": "door_hotel_lobby",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_milo",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_julian"
+      },
+      {
+        "kind": "action",
+        "who": "char_milo",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_magnus",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_julian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_silas",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_milo"
+    ],
+    "liars": [
+      {
+        "who": "char_julian",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Magnus Fitzgerald badged into door_printshop_dock at 20:14, proving they were not present in The Grand Vesper Hotel to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Milo Wainwright was logged into Transit Cipher Ledger at 20:15, shattering claims that Magnus Fitzgerald sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Julian Castile was badged into door_station_gate at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Silas Blackwood was logged badging into door_station_gate at 20:17, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Milo Wainwright completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

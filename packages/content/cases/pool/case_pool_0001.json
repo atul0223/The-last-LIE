@@ -1,0 +1,333 @@
+{
+  "id": "case_pool_0001",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Incident at The Vesper Chronicle Newsroom",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, Vesper Central Station."
+  },
+  "briefing": "Security authorities discovered a breach at The Vesper Chronicle Newsroom involving Transit Cipher Ledger. Statements from Walter Volkov, Evander Keene, and Lillian Godfrey contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_walter",
+      "name": "Walter Volkov",
+      "role": "Staff Specialist",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lillian",
+      "name": "Lillian Godfrey",
+      "role": "Chief Auditor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_evander",
+      "name": "Evander Keene",
+      "role": "Primary Suspect",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_walter"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_walter",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_walter",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Walter Volkov stated: 'I spent the entire evening from 20:10 to 20:30 at Vesper Central Station attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lillian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Lillian Godfrey stated: 'I was present in Vesper Central Station between 20:10 and 20:30. I did not see Walter Volkov anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_station_gate",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Lillian Godfrey badged through door_station_gate at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_walter",
+          "door": "door_newsroom_press",
+          "at": 1218
+        }
+      ],
+      "text": "Security Terminal: Walter Volkov scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_station_gate",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · STATION_GATE · badge: Lillian Godfrey"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Walter Volkov entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_walter",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_walter"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Walter Volkov remained at Vesper Central Station and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_walter",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Lillian Godfrey entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_walter",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_walter",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_lillian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_evander",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_walter"
+    ],
+    "liars": [
+      {
+        "who": "char_walter",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Lillian Godfrey was logged badging into door_station_gate at 20:15, proving their presence at Vesper Central Station and ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Walter Volkov's presence was definitively established at The Vesper Chronicle Newsroom, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Walter Volkov took Transit Cipher Ledger from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

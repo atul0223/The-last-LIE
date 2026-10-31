@@ -1,0 +1,341 @@
+{
+  "id": "case_pool_0067",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Encrypted Dispatch at North Freight Dock",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Freight Dock. Accounts given by Theodore Radcliffe, Rosalind Hawthorne, and Fabian Harrington contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_theodore",
+      "name": "Theodore Radcliffe",
+      "role": "Telegraph Operator",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_fabian",
+      "name": "Fabian Harrington",
+      "role": "Lead Reporter",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Hawthorne",
+      "role": "Desk Assistant",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_fabian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_theodore",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_cipher_ledger",
+          "sender": "char_fabian",
+          "recipient": "char_rosalind",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Theodore Radcliffe stated: 'The wire transmission from Transit Cipher Ledger at 20:15 was authorized and sent directly by Fabian Harrington.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_theodore",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Theodore Radcliffe at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_newsroom_press",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Fabian Harrington badged into door_newsroom_press at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_newsroom_press",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · NEWSROOM_PRESS · badge: Fabian Harrington"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Fabian Harrington transmitted the dispatch from Transit Cipher Ledger in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Theodore Radcliffe remained in The Vesper Chronicle Newsroom and did not use Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Theodore Radcliffe transmitted the forged dispatch from Transit Cipher Ledger in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_theodore",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_theodore"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_theodore",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_rosalind"
+      },
+      {
+        "kind": "action",
+        "who": "char_theodore",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_newsroom_press",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_theodore"
+    ],
+    "liars": [
+      {
+        "who": "char_theodore",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Fabian Harrington badged into door_newsroom_press at 20:14, proving they were not present in North Freight Dock to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Theodore Radcliffe was logged into Transit Cipher Ledger at 20:15, shattering claims that Fabian Harrington sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Theodore Radcliffe completed the forged transmission of Freight Turnstile Scanner before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

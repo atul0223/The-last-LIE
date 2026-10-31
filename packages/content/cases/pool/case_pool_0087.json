@@ -1,0 +1,459 @@
+{
+  "id": "case_pool_0087",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Dispatches from Nowhere: The Naval Brass Chronometer Affair",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_grand_hotel",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, The Grand Vesper Hotel, Vesper Central Station."
+  },
+  "briefing": "The transmission of an unauthorized cable from Naval Brass Chronometer caused immediate disruption. Statements from Adrian Bancroft, Celeste Vance, Milo Brauer, and Valerie Lattimore contradict electronic carrier records. Trace the dispatch to identify the perpetrator.",
+  "characters": [
+    {
+      "id": "char_milo",
+      "name": "Milo Brauer",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_adrian",
+      "name": "Adrian Bancroft",
+      "role": "Wire Editor",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_celeste",
+      "name": "Celeste Vance",
+      "role": "Telegraph Operator",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_valerie",
+      "name": "Valerie Lattimore",
+      "role": "Communications Officer",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_adrian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_milo",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_brass_chronometer",
+          "sender": "char_adrian",
+          "recipient": "char_celeste",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Milo Brauer stated: 'The wire transmission from Naval Brass Chronometer at 20:15 was authorized and sent directly by Adrian Bancroft.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_brass_chronometer",
+          "by": "char_milo",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_milo",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Naval Brass Chronometer was actively operated by Milo Brauer at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_adrian",
+          "door": "door_hotel_lobby",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Adrian Bancroft badged into door_hotel_lobby at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_celeste",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Celeste Vance checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_celeste",
+          "door": "door_station_gate",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ACCESS_LOG · STATION_GATE · badge: Celeste Vance"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_milo",
+          "door": "door_dock_turnstile",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] DOCK_TURNSTILE · badge: Milo Brauer"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Milo Brauer transmitted the forged dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_milo",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_milo"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Milo Brauer remained in The Grand Vesper Hotel and did not use Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_milo",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_adrian"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Celeste Vance transmitted the dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_celeste"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Adrian Bancroft transmitted the dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_adrian",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_adrian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_milo",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_milo",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_brass_chronometer",
+        "by": "char_milo",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_brass_chronometer",
+        "sentAt": 1215,
+        "recipient": "char_celeste"
+      },
+      {
+        "kind": "action",
+        "who": "char_milo",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_adrian",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_hotel_lobby",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_celeste",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_valerie",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_valerie",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_milo"
+    ],
+    "liars": [
+      {
+        "who": "char_milo",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Adrian Bancroft badged into door_hotel_lobby at 20:14, proving they were not present in North Freight Dock to operate Naval Brass Chronometer.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Milo Brauer was logged into Naval Brass Chronometer at 20:15, shattering claims that Adrian Bancroft sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Celeste Vance was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Milo Brauer completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

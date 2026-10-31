@@ -1,0 +1,432 @@
+{
+  "id": "case_pool_0009",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Shadows Over Vesper Central Station in the Rain",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Vesper Chronicle Newsroom, North Gate Print Shop."
+  },
+  "briefing": "Security authorities discovered a breach at Vesper Central Station involving High-Speed Rotary Press. Statements from Fabian Whitman, Amara Sterling, and Gideon Delgado contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_fabian",
+      "name": "Fabian Whitman",
+      "role": "Night Supervisor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_amara",
+      "name": "Amara Sterling",
+      "role": "Primary Suspect",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_gideon",
+      "name": "Gideon Delgado",
+      "role": "Associate",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_fabian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_fabian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Fabian Whitman stated: 'I spent the entire evening from 20:10 to 20:30 at The Vesper Chronicle Newsroom attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_amara",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Amara Sterling stated: 'I was present in The Vesper Chronicle Newsroom between 20:10 and 20:30. I did not see Fabian Whitman anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_amara",
+          "door": "door_newsroom_press",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Amara Sterling badged through door_newsroom_press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_station_gate",
+          "at": 1233
+        }
+      ],
+      "text": "Gate Reader: Fabian Whitman scanned access badge at door_station_gate at 20:33, only three minutes after alleged presence at The Vesper Chronicle Newsroom.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Gideon Delgado verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_amara",
+          "door": "door_newsroom_press",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] NEWSROOM_PRESS · badge: Amara Sterling"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_printshop_dock",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] PRINTSHOP_DOCK · badge: Gideon Delgado"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Fabian Whitman remained at The Vesper Chronicle Newsroom and did not enter Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_amara"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Amara Sterling entered Vesper Central Station and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_amara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Fabian Whitman entered Vesper Central Station and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_fabian",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1235,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Gideon Delgado entered Vesper Central Station and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_gideon",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_gideon"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_central_station",
+        "from": 1230,
+        "to": 1250
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_station_gate",
+        "at": 1233
+      },
+      {
+        "kind": "action",
+        "who": "char_fabian",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1235,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_gideon",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_fabian"
+    ],
+    "liars": [
+      {
+        "who": "char_fabian",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Amara Sterling was logged badging into door_newsroom_press at 20:15, proving their presence at The Vesper Chronicle Newsroom and ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Gideon Delgado badged through door_printshop_dock at 20:16, establishing their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1233,
+        "text": "Fabian Whitman's presence was definitively established at Vesper Central Station, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1235,
+        "text": "Fabian Whitman took High-Speed Rotary Press from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

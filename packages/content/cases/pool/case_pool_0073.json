@@ -1,0 +1,413 @@
+{
+  "id": "case_pool_0073",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Untraceable Dispatch from Freight Turnstile Scanner",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_central_station",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, Vesper Central Station, North Freight Dock."
+  },
+  "briefing": "The transmission of an unauthorized cable from Freight Turnstile Scanner caused immediate disruption. Statements from Hugo Haywood, Roland Eisen, and Lillian Winter contradict electronic carrier records. Trace the dispatch to identify the perpetrator.",
+  "characters": [
+    {
+      "id": "char_hugo",
+      "name": "Hugo Haywood",
+      "role": "Communications Officer",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lillian",
+      "name": "Lillian Winter",
+      "role": "Lead Reporter",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Eisen",
+      "role": "Telegraph Operator",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_lillian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_hugo",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sender": "char_lillian",
+          "recipient": "char_roland",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Hugo Haywood stated: 'The wire transmission from Freight Turnstile Scanner at 20:15 was authorized and sent directly by Lillian Winter.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_hugo",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_hugo",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Hugo Haywood at 20:15 inside The Grand Vesper Hotel.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Lillian Winter badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Roland Eisen checked in at door_dock_turnstile at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ACCESS_LOG · DOCK_TURNSTILE · badge: Roland Eisen"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_hugo",
+          "door": "door_hotel_lobby",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] ACCESS_LOG · HOTEL_LOBBY · badge: Hugo Haywood"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Roland Eisen transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Hugo Haywood remained in Vesper Central Station and did not use Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_hugo",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Hugo Haywood transmitted the forged dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_hugo",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_hugo"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Lillian Winter transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_hugo",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_hugo",
+        "door": "door_hotel_lobby",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_hugo",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_roland"
+      },
+      {
+        "kind": "action",
+        "who": "char_hugo",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_lillian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_hugo"
+    ],
+    "liars": [
+      {
+        "who": "char_hugo",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Lillian Winter badged into door_station_gate at 20:14, proving they were not present in The Grand Vesper Hotel to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Hugo Haywood was logged into Freight Turnstile Scanner at 20:15, shattering claims that Lillian Winter sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Roland Eisen was badged into door_dock_turnstile at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Hugo Haywood completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

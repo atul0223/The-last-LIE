@@ -1,0 +1,432 @@
+{
+  "id": "case_pool_0010",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Silent Alibi at Vesper Central Station",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_central_station",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, Vesper Central Station, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "At 20:35, Transit Cipher Ledger was taken from North Gate Print Shop. Physical evidence refutes an alibi fabricated by one of three individuals: Vera Halloway, Lucian Danforth, and Nora Strand. Examine the timeline to identify the culprit.",
+  "characters": [
+    {
+      "id": "char_lucian",
+      "name": "Lucian Danforth",
+      "role": "Chief Auditor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nora",
+      "name": "Nora Strand",
+      "role": "Primary Suspect",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_vera",
+      "name": "Vera Halloway",
+      "role": "Night Supervisor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_lucian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lucian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Lucian Danforth stated: 'I spent the entire evening from 20:10 to 20:30 at Vesper Central Station attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_nora",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_nora",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Nora Strand stated: 'I was present in Vesper Central Station between 20:10 and 20:30. I did not see Lucian Danforth anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nora",
+          "door": "door_station_gate",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Nora Strand badged through door_station_gate at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lucian",
+          "door": "door_printshop_dock",
+          "at": 1233
+        }
+      ],
+      "text": "Gate Reader: Lucian Danforth scanned access badge at door_printshop_dock at 20:33, only three minutes after alleged presence at Vesper Central Station.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_vera",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Vera Halloway verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_vera",
+          "door": "door_newsroom_press",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ACCESS_LOG · NEWSROOM_PRESS · badge: Vera Halloway"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nora",
+          "door": "door_station_gate",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ACCESS_LOG · STATION_GATE · badge: Nora Strand"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Lucian Danforth entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lucian",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1235,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lucian Danforth remained at Vesper Central Station and did not enter North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_nora"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Vera Halloway entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_vera"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Nora Strand entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nora",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_nora"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_lucian",
+        "where": "loc_northgate_printshop",
+        "from": 1230,
+        "to": 1250
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_printshop_dock",
+        "at": 1233
+      },
+      {
+        "kind": "action",
+        "who": "char_lucian",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1235,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_nora",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_station_gate",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_vera",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_lucian"
+    ],
+    "liars": [
+      {
+        "who": "char_lucian",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Nora Strand was logged badging into door_station_gate at 20:15, proving their presence at Vesper Central Station and ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Vera Halloway badged through door_newsroom_press at 20:16, establishing their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1233,
+        "text": "Lucian Danforth's presence was definitively established at North Gate Print Shop, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1235,
+        "text": "Lucian Danforth took Transit Cipher Ledger from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "id": "case_pool_0120",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Conspiracy at Vesper Central Station",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Vesper Chronicle Newsroom, North Gate Print Shop."
+  },
+  "briefing": "At 20:20, Freight Turnstile Scanner was intercepted at Vesper Central Station. Authorities suspect an infiltrator among four individuals: Felicity Lancaster, Eleanor Radcliffe, Clara Sterling, and Cassian Ward. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_cassian",
+      "name": "Cassian Ward",
+      "role": "Foreign Attache",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_felicity",
+      "name": "Felicity Lancaster",
+      "role": "Visiting Archivist",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Radcliffe",
+      "role": "Special Envoy",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_clara",
+      "name": "Clara Sterling",
+      "role": "Undercover Operative",
+      "publicDescription": "Station Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_felicity"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_cassian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_cassian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Cassian Ward stated: 'I remained in my suite at The Vesper Chronicle Newsroom from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_felicity",
+          "door": "door_newsroom_press",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Felicity Lancaster checked through door_newsroom_press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cassian",
+          "door": "door_station_gate",
+          "at": 1218
+        }
+      ],
+      "text": "Station Gate Scanner: Cassian Ward scanned access credentials at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Eleanor Radcliffe verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] PRINTSHOP_DOCK · badge: Eleanor Radcliffe"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_clara",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Clara Sterling"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Cassian Ward infiltrated Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_cassian",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_cassian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Cassian Ward remained in The Vesper Chronicle Newsroom and did not enter Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_cassian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_felicity"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Felicity Lancaster entered Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_felicity",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_felicity"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Eleanor Radcliffe entered Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_cassian",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_cassian",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_cassian",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_felicity",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_newsroom_press",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_clara",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_cassian"
+    ],
+    "liars": [
+      {
+        "who": "char_cassian",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Felicity Lancaster badged into door_newsroom_press at 20:15, proving their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Physical tracking records exposed Cassian Ward's fabricated hotel alibi and placed them at Vesper Central Station.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Eleanor Radcliffe badged through door_printshop_dock at 20:16, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Cassian Ward intercepted Freight Turnstile Scanner at Vesper Central Station under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}

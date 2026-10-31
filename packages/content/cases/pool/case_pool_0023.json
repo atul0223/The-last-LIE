@@ -1,0 +1,451 @@
+{
+  "id": "case_pool_0023",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Compromise of the Transit Cipher Ledger After Hours",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_north_dock",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Freight Dock, North Gate Print Shop."
+  },
+  "briefing": "Security authorities discovered a breach at The Vesper Chronicle Newsroom involving Transit Cipher Ledger. Statements from Edgar Chen, Lillian Godfrey, Soren Leclair, and Damian Adler contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_damian",
+      "name": "Damian Adler",
+      "role": "Associate",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_soren",
+      "name": "Soren Leclair",
+      "role": "Night Supervisor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lillian",
+      "name": "Lillian Godfrey",
+      "role": "Primary Suspect",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_edgar",
+      "name": "Edgar Chen",
+      "role": "Chief Auditor",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_damian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_soren",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        },
+        {
+          "kind": "at",
+          "who": "char_soren",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Soren Leclair stated: 'I was in North Freight Dock from 20:10 to 20:30 with Damian Adler the entire time discussing routine administrative records.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_statement",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_damian",
+      "asserts": [],
+      "text": "Damian Adler stated: 'I decline to make any formal statement without departmental review.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_soren",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Soren Leclair badged through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Surveillance Still: High-resolution camera recorded Damian Adler inside The Vesper Chronicle Newsroom between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Lillian Godfrey verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_printshop_dock",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] PRINTSHOP_DOCK · badge: Lillian Godfrey"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_soren",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] DOCK_TURNSTILE · badge: Soren Leclair"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Damian Adler entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_damian",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_damian"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Lillian Godfrey entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Soren Leclair entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_soren",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_soren"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Damian Adler remained at North Freight Dock and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_soren"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_damian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_damian",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_soren",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_soren",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_lillian",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_edgar",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_edgar",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_soren",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_soren",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_damian"
+    ],
+    "liars": [
+      {
+        "who": "char_soren",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Soren Leclair was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Lillian Godfrey badged through door_printshop_dock at 20:16, establishing their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Damian Adler's presence was definitively established at The Vesper Chronicle Newsroom, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Damian Adler took Transit Cipher Ledger from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

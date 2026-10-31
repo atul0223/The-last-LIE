@@ -1,0 +1,510 @@
+{
+  "id": "case_pool_0089",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Tampered Wire of High-Speed Rotary Press Before the Morning Edition",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_grand_hotel",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, The Grand Vesper Hotel, Vesper Central Station."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from High-Speed Rotary Press inside North Gate Print Shop. An investigation focuses on four individuals: Ingrid Calloway, Astrid Harrington, Theodore Chen, and Quentin Thorne. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_ingrid",
+      "name": "Ingrid Calloway",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_quentin",
+      "name": "Quentin Thorne",
+      "role": "Telegraph Operator",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_theodore",
+      "name": "Theodore Chen",
+      "role": "Communications Officer",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_astrid",
+      "name": "Astrid Harrington",
+      "role": "Wire Editor",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_quentin"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_ingrid",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1225,
+          "recipient": "char_theodore"
+        }
+      ],
+      "text": "Ingrid Calloway claimed: 'The electronic dispatch msg_dispatch was sent from High-Speed Rotary Press during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_theodore"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from High-Speed Rotary Press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_ingrid",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_ingrid",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: High-Speed Rotary Press was actively operated by Ingrid Calloway at 20:15 inside North Gate Print Shop.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quentin",
+          "door": "door_hotel_lobby",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Quentin Thorne badged into door_hotel_lobby at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_theodore",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Theodore Chen checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_station_gate",
+          "at": 1217
+        }
+      ],
+      "text": "Archive Reader: Astrid Harrington badged through door_station_gate at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Astrid Harrington"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quentin",
+          "door": "door_hotel_lobby",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ACCESS_LOG · HOTEL_LOBBY · badge: Quentin Thorne"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Theodore Chen transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_theodore"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Astrid Harrington transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Quentin Thorne transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_quentin",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_quentin"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Ingrid Calloway transmitted the forged dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_ingrid",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_ingrid"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_ingrid",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_printshop_dock",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_ingrid",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_theodore"
+      },
+      {
+        "kind": "action",
+        "who": "char_ingrid",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_quentin",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_hotel_lobby",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_astrid",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_ingrid"
+    ],
+    "liars": [
+      {
+        "who": "char_ingrid",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Quentin Thorne badged into door_hotel_lobby at 20:14, proving they were not present in North Gate Print Shop to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Ingrid Calloway was the operator at High-Speed Rotary Press when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Theodore Chen was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Gate Print Shop.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Astrid Harrington was logged badging into door_station_gate at 20:17, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Ingrid Calloway completed the forged transmission of Naval Brass Chronometer before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

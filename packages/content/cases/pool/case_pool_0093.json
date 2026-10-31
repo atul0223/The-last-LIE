@@ -1,0 +1,510 @@
+{
+  "id": "case_pool_0093",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Broadcast That Never Was: North Freight Dock",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_grand_hotel",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, The Grand Vesper Hotel, North Gate Print Shop."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from Freight Turnstile Scanner inside North Freight Dock. An investigation focuses on four individuals: Magnus Garrick, Vera Whitman, Julian Navarro, and Dorian Chambers. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_dorian",
+      "name": "Dorian Chambers",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_magnus",
+      "name": "Magnus Garrick",
+      "role": "Communications Officer",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_vera",
+      "name": "Vera Whitman",
+      "role": "Wire Editor",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_julian",
+      "name": "Julian Navarro",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "item",
+      "ownerId": "char_magnus"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_vera",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sentAt": 1225,
+          "recipient": "char_vera"
+        }
+      ],
+      "text": "Vera Whitman claimed: 'The electronic dispatch msg_dispatch was sent from Freight Turnstile Scanner during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sentAt": 1215,
+          "recipient": "char_vera"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from Freight Turnstile Scanner at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_dorian",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Dorian Chambers at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_hotel_lobby",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Magnus Garrick badged into door_hotel_lobby at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_vera",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Vera Whitman checked in at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_julian",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Archive Reader: Julian Navarro badged through door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_GATE_PRINT_SHOP · subject: Vera Whitman"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_dorian",
+          "door": "door_dock_turnstile",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] ENTRY_GATE · DOCK_TURNSTILE · authorized: Dorian Chambers"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Dorian Chambers transmitted the forged dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_dorian",
+          "verb": "sent",
+          "target": "obj_rotary_press",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_dorian"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Julian Navarro transmitted the dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_julian"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Magnus Garrick transmitted the dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Vera Whitman transmitted the dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_vera"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_dorian",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_dorian",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_vera"
+      },
+      {
+        "kind": "action",
+        "who": "char_dorian",
+        "verb": "sent",
+        "target": "obj_rotary_press",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_magnus",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_hotel_lobby",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_vera",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_julian",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_dorian"
+    ],
+    "liars": [
+      {
+        "who": "char_vera",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Magnus Garrick badged into door_hotel_lobby at 20:14, proving they were not present in North Freight Dock to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Dorian Chambers was the operator at Freight Turnstile Scanner when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Vera Whitman was badged into door_printshop_dock at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Julian Navarro was logged badging into door_printshop_dock at 20:17, ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Dorian Chambers completed the forged transmission of High-Speed Rotary Press before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

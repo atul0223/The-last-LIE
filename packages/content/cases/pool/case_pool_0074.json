@@ -1,0 +1,439 @@
+{
+  "id": "case_pool_0074",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Untraceable Signal at North Freight Dock",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_central_station",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, Vesper Central Station, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Freight Dock. Accounts given by Vera Sterling, Astrid Haywood, and Damian Cross contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_vera",
+      "name": "Vera Sterling",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_astrid",
+      "name": "Astrid Haywood",
+      "role": "Telegraph Operator",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_damian",
+      "name": "Damian Cross",
+      "role": "Lead Reporter",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_astrid"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_vera",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_astrid",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "text": "Vera Sterling stated: 'I saw Astrid Haywood operating the transmitter High-Speed Rotary Press in North Freight Dock at 20:15.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_presence",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1225
+        }
+      ],
+      "text": "Printshop CCTV: Optical feed confirmed Astrid Haywood was inside Vesper Central Station from 20:10 to 20:25.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_vera",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: High-Speed Rotary Press was actively operated by Vera Sterling at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Astrid Haywood badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_damian",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Damian Cross checked in at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_station_gate",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ENTRY_GATE · STATION_GATE · authorized: Astrid Haywood"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Damian Cross"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Damian Cross transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_damian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Vera Sterling remained in Vesper Central Station and did not use High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Astrid Haywood transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Vera Sterling transmitted the forged dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_vera",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_vera"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_vera",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_vera",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_damian"
+      },
+      {
+        "kind": "action",
+        "who": "char_vera",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_astrid",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_damian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_vera"
+    ],
+    "liars": [
+      {
+        "who": "char_vera",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Astrid Haywood badged into door_station_gate at 20:14, proving they were not present in North Freight Dock to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Printshop surveillance footage confirmed Astrid Haywood was inside Vesper Central Station at 20:15, completely contradicting claims that they operated High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_presence",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Vera Sterling was the operator at High-Speed Rotary Press when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Damian Cross was badged into door_newsroom_press at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Vera Sterling completed the forged transmission of Freight Turnstile Scanner before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

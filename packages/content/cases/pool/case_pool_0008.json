@@ -1,0 +1,333 @@
+{
+  "id": "case_pool_0008",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Whispering Alibi of The Vesper Chronicle Newsroom in the Fog",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Gate Print Shop."
+  },
+  "briefing": "Security authorities discovered a breach at The Vesper Chronicle Newsroom involving Freight Turnstile Scanner. Statements from Gideon Ashford, Reginald Finch, and Cynthia Radcliffe contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_reginald",
+      "name": "Reginald Finch",
+      "role": "Associate",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_gideon",
+      "name": "Gideon Ashford",
+      "role": "Primary Suspect",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cynthia",
+      "name": "Cynthia Radcliffe",
+      "role": "Chief Auditor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_reginald"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_gideon",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        },
+        {
+          "kind": "at",
+          "who": "char_gideon",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Gideon Ashford stated: 'I was in North Gate Print Shop from 20:10 to 20:30 with Reginald Finch the entire time discussing routine administrative records.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_statement",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_reginald",
+      "asserts": [],
+      "text": "Reginald Finch stated: 'I decline to make any formal statement without departmental review.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Gideon Ashford badged through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Surveillance Still: High-resolution camera recorded Reginald Finch inside The Vesper Chronicle Newsroom between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cynthia",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:16] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Cynthia Radcliffe"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Reginald Finch remained at North Gate Print Shop and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_gideon"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Reginald Finch entered The Vesper Chronicle Newsroom and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_reginald",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_reginald"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Gideon Ashford entered The Vesper Chronicle Newsroom and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_gideon",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_gideon"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_reginald",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_reginald",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_gideon",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_cynthia",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_reginald"
+    ],
+    "liars": [
+      {
+        "who": "char_gideon",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Gideon Ashford was logged badging into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop and ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Reginald Finch's presence was definitively established at The Vesper Chronicle Newsroom, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Reginald Finch took Freight Turnstile Scanner from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

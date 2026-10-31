@@ -1,0 +1,438 @@
+{
+  "id": "case_pool_0077",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Phantom Cable from North Freight Dock",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, The Vesper Chronicle Newsroom, Vesper Central Station."
+  },
+  "briefing": "The transmission of an unauthorized cable from Naval Brass Chronometer caused immediate disruption. Statements from Wilhelm Yeats, Astrid Preston, and Magnus Halloway contradict electronic carrier records. Trace the dispatch to identify the perpetrator.",
+  "characters": [
+    {
+      "id": "char_wilhelm",
+      "name": "Wilhelm Yeats",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_magnus",
+      "name": "Magnus Halloway",
+      "role": "Lead Reporter",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_astrid",
+      "name": "Astrid Preston",
+      "role": "Wire Editor",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "device"
+    },
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_magnus"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_astrid",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_brass_chronometer",
+          "sentAt": 1225,
+          "recipient": "char_astrid"
+        }
+      ],
+      "text": "Astrid Preston claimed: 'The electronic dispatch msg_dispatch was sent from Naval Brass Chronometer during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_brass_chronometer",
+          "sentAt": 1215,
+          "recipient": "char_astrid"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from Naval Brass Chronometer at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_brass_chronometer",
+          "by": "char_wilhelm",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_wilhelm",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Naval Brass Chronometer was actively operated by Wilhelm Yeats at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_newsroom_press",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Magnus Halloway badged into door_newsroom_press at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Astrid Preston checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Magnus Halloway"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_newsroom_press",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] NEWSROOM_PRESS · badge: Magnus Halloway"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Wilhelm Yeats remained in The Vesper Chronicle Newsroom and did not use Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_wilhelm",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Wilhelm Yeats transmitted the forged dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_wilhelm",
+          "verb": "sent",
+          "target": "obj_cipher_ledger",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_wilhelm"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Magnus Halloway transmitted the dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Astrid Preston transmitted the dispatch from Naval Brass Chronometer in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_wilhelm",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_brass_chronometer",
+        "by": "char_wilhelm",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_brass_chronometer",
+        "sentAt": 1215,
+        "recipient": "char_astrid"
+      },
+      {
+        "kind": "action",
+        "who": "char_wilhelm",
+        "verb": "sent",
+        "target": "obj_cipher_ledger",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_magnus",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_newsroom_press",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_astrid",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_wilhelm"
+    ],
+    "liars": [
+      {
+        "who": "char_astrid",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Magnus Halloway badged into door_newsroom_press at 20:14, proving they were not present in North Freight Dock to operate Naval Brass Chronometer.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Wilhelm Yeats was the operator at Naval Brass Chronometer when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Astrid Preston was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Wilhelm Yeats completed the forged transmission of Transit Cipher Ledger before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

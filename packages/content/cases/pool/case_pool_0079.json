@@ -1,0 +1,438 @@
+{
+  "id": "case_pool_0079",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The High-Speed Rotary Press Discrepancy Before the Morning Edition",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Freight Dock. Accounts given by Amara Adler, Percival Fitzgerald, and Elias Monroe contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_amara",
+      "name": "Amara Adler",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_elias",
+      "name": "Elias Monroe",
+      "role": "Wire Editor",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_percival",
+      "name": "Percival Fitzgerald",
+      "role": "Lead Reporter",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_elias"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_amara",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1225,
+          "recipient": "char_percival"
+        }
+      ],
+      "text": "Amara Adler claimed: 'The electronic dispatch msg_dispatch was sent from High-Speed Rotary Press during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_percival"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from High-Speed Rotary Press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_amara",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: High-Speed Rotary Press was actively operated by Amara Adler at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_elias",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Elias Monroe badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_percival",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Percival Fitzgerald checked in at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_percival",
+          "door": "door_newsroom_press",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ENTRY_GATE · NEWSROOM_PRESS · authorized: Percival Fitzgerald"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Percival Fitzgerald"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Amara Adler transmitted the forged dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_amara",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_amara"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Percival Fitzgerald transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_percival"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Elias Monroe transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_elias",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_elias"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Amara Adler remained in North Gate Print Shop and did not use High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_elias"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_amara",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_percival"
+      },
+      {
+        "kind": "action",
+        "who": "char_amara",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_elias",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_percival",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_amara"
+    ],
+    "liars": [
+      {
+        "who": "char_amara",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Elias Monroe badged into door_printshop_dock at 20:14, proving they were not present in North Freight Dock to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Amara Adler was the operator at High-Speed Rotary Press when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Percival Fitzgerald was badged into door_newsroom_press at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Amara Adler completed the forged transmission of Freight Turnstile Scanner before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "id": "case_pool_0088",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Splice Transmission at North Freight Dock",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_central_station",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, Vesper Central Station, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Freight Dock. Accounts given by Bram Oakhaven, Reginald Corbett, Theodore Navarro, and Wilhelm Ashford contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_reginald",
+      "name": "Reginald Corbett",
+      "role": "Lead Reporter",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_bram",
+      "name": "Bram Oakhaven",
+      "role": "Wire Editor",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_wilhelm",
+      "name": "Wilhelm Ashford",
+      "role": "Communications Officer",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_theodore",
+      "name": "Theodore Navarro",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_bram"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_reginald",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sender": "char_bram",
+          "recipient": "char_wilhelm",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Reginald Corbett stated: 'The wire transmission from Freight Turnstile Scanner at 20:15 was authorized and sent directly by Bram Oakhaven.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_reginald",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Reginald Corbett at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_bram",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Bram Oakhaven badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_wilhelm",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Wilhelm Ashford checked in at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_reginald",
+          "door": "door_dock_turnstile",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] DOCK_TURNSTILE · badge: Reginald Corbett"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Bram Oakhaven"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Wilhelm Ashford transmitted the dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_wilhelm",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_wilhelm"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Bram Oakhaven transmitted the dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_bram"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Reginald Corbett transmitted the forged dispatch from Freight Turnstile Scanner in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_reginald",
+          "verb": "sent",
+          "target": "obj_cipher_ledger",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_reginald"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Reginald Corbett remained in Vesper Central Station and did not use Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_bram"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_reginald",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_reginald",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_wilhelm"
+      },
+      {
+        "kind": "action",
+        "who": "char_reginald",
+        "verb": "sent",
+        "target": "obj_cipher_ledger",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_bram",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_wilhelm",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_newsroom_press",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_reginald"
+    ],
+    "liars": [
+      {
+        "who": "char_reginald",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Bram Oakhaven badged into door_station_gate at 20:14, proving they were not present in North Freight Dock to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Reginald Corbett was logged into Freight Turnstile Scanner at 20:15, shattering claims that Bram Oakhaven sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Wilhelm Ashford was badged into door_newsroom_press at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Reginald Corbett completed the forged transmission of Transit Cipher Ledger before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "id": "case_pool_0085",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Case of the Sub Rosa Transmission Before the Morning Edition",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_northgate_printshop",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, North Gate Print Shop, Vesper Central Station."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from Transit Cipher Ledger inside The Grand Vesper Hotel. An investigation focuses on four individuals: Leander Kendrick, Nathaniel Monroe, Wilhelm Eisen, and Damian Bancroft. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_nathaniel",
+      "name": "Nathaniel Monroe",
+      "role": "Desk Assistant",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_leander",
+      "name": "Leander Kendrick",
+      "role": "Communications Officer",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_damian",
+      "name": "Damian Bancroft",
+      "role": "Wire Editor",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_wilhelm",
+      "name": "Wilhelm Eisen",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_leander"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_nathaniel",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_cipher_ledger",
+          "sender": "char_leander",
+          "recipient": "char_damian",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Nathaniel Monroe stated: 'The wire transmission from Transit Cipher Ledger at 20:15 was authorized and sent directly by Leander Kendrick.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_nathaniel",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_nathaniel",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Nathaniel Monroe at 20:15 inside The Grand Vesper Hotel.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_leander",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Leander Kendrick badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_damian",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Damian Bancroft checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_leander",
+          "door": "door_printshop_dock",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] PRINTSHOP_DOCK · badge: Leander Kendrick"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_wilhelm",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Wilhelm Eisen"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Nathaniel Monroe remained in North Gate Print Shop and did not use Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nathaniel",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_leander"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Nathaniel Monroe transmitted the forged dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_nathaniel",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_nathaniel"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Damian Bancroft transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_damian"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Leander Kendrick transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_leander",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_leander"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_nathaniel",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nathaniel",
+        "door": "door_hotel_lobby",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_nathaniel",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_damian"
+      },
+      {
+        "kind": "action",
+        "who": "char_nathaniel",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_leander",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_damian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_wilhelm",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_nathaniel"
+    ],
+    "liars": [
+      {
+        "who": "char_nathaniel",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Leander Kendrick badged into door_printshop_dock at 20:14, proving they were not present in The Grand Vesper Hotel to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Nathaniel Monroe was logged into Transit Cipher Ledger at 20:15, shattering claims that Leander Kendrick sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Damian Bancroft was badged into door_station_gate at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Nathaniel Monroe completed the forged transmission of Naval Brass Chronometer before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

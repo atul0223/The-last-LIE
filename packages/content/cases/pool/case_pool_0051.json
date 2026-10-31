@@ -1,0 +1,472 @@
+{
+  "id": "case_pool_0051",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Priceless Shift at The Vesper Chronicle Newsroom",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_north_dock",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Freight Dock, Vesper Central Station."
+  },
+  "briefing": "The disappearance of Naval Brass Chronometer from The Vesper Chronicle Newsroom triggered an audit. Conflicting accounts from Alistair Leclair, Xavier Vance, Ingrid Harrington, and Celeste Belmont contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_xavier",
+      "name": "Xavier Vance",
+      "role": "Chief Conservator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_alistair",
+      "name": "Alistair Leclair",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_celeste",
+      "name": "Celeste Belmont",
+      "role": "Archive Clerk",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_ingrid",
+      "name": "Ingrid Harrington",
+      "role": "Visiting Researcher",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_alistair"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_xavier",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_celeste",
+          "what": "obj_brass_chronometer",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Xavier Vance stated: 'I saw Celeste Belmont holding Naval Brass Chronometer in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_alistair",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Alistair Leclair verified registered custody of Naval Brass Chronometer in The Vesper Chronicle Newsroom until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_alistair",
+          "door": "door_dock_turnstile",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Alistair Leclair badged through door_dock_turnstile at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_xavier",
+          "door": "door_newsroom_press",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_xavier",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Xavier Vance scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_celeste",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Celeste Belmont verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_alistair",
+          "door": "door_dock_turnstile",
+          "at": 1238
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:38] DOCK_TURNSTILE · badge: Alistair Leclair"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Celeste Belmont"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Xavier Vance entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_xavier",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_xavier"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Alistair Leclair entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_alistair",
+          "where": "loc_chronicle_newsroom",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_alistair"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Celeste Belmont entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_celeste"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Xavier Vance remained in North Freight Dock and never approached The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_xavier",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_alistair"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_alistair",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_alistair",
+        "where": "loc_north_dock",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_dock_turnstile",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_xavier",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_xavier",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "possess",
+        "who": "char_xavier",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_celeste",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_ingrid",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_dock_turnstile",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_dock_turnstile",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_xavier"
+    ],
+    "liars": [
+      {
+        "who": "char_xavier",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Alistair Leclair held exclusive custody of Naval Brass Chronometer until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Xavier Vance accessed door_newsroom_press at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Celeste Belmont badged into door_station_gate at 20:16, ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Xavier Vance took Naval Brass Chronometer from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

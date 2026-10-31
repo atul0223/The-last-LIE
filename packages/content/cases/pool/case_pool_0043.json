@@ -1,0 +1,418 @@
+{
+  "id": "case_pool_0043",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Case of the Unrecorded Naval Brass Chronometer",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop, The Grand Vesper Hotel."
+  },
+  "briefing": "At 20:20, Naval Brass Chronometer went missing from North Freight Dock. A custodial discrepancy involves three individuals: Eliza Ashford, Katrina Haywood, and Corin Montgomery. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_katrina",
+      "name": "Katrina Haywood",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_corin",
+      "name": "Corin Montgomery",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eliza",
+      "name": "Eliza Ashford",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_corin"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_katrina",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_eliza",
+          "what": "obj_brass_chronometer",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Katrina Haywood stated: 'I saw Eliza Ashford holding Naval Brass Chronometer in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_corin",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Corin Montgomery verified registered custody of Naval Brass Chronometer in North Freight Dock until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_corin",
+          "door": "door_printshop_dock",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Corin Montgomery badged through door_printshop_dock at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_katrina",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Katrina Haywood scanned access badge at door_dock_turnstile at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eliza",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Eliza Ashford verified entry at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_corin",
+          "door": "door_printshop_dock",
+          "at": 1202
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:02] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Corin Montgomery"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eliza",
+          "door": "door_hotel_lobby",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · HOTEL_LOBBY · authorized: Eliza Ashford"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Eliza Ashford entered North Freight Dock and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_eliza"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Corin Montgomery entered North Freight Dock and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_corin",
+          "where": "loc_north_dock",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_corin"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Katrina Haywood entered North Freight Dock and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_katrina",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_katrina"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Katrina Haywood remained in North Gate Print Shop and never approached North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_katrina",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_corin"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_corin",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_corin",
+        "where": "loc_northgate_printshop",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_printshop_dock",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_katrina",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_katrina",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "possess",
+        "who": "char_katrina",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_eliza",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_printshop_dock",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_printshop_dock",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_katrina"
+    ],
+    "liars": [
+      {
+        "who": "char_katrina",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Corin Montgomery held exclusive custody of Naval Brass Chronometer until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Katrina Haywood accessed door_dock_turnstile at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Eliza Ashford badged into door_hotel_lobby at 20:16, ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Katrina Haywood took Naval Brass Chronometer from North Freight Dock before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

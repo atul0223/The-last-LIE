@@ -1,0 +1,498 @@
+{
+  "id": "case_pool_0063",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vault Breach at Vesper Central Station in the Archives",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Gate Print Shop, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An inventory audit revealed the theft of Freight Turnstile Scanner from Vesper Central Station. Statements from Maren Sterling, Silas Whitman, Roland Sterling, and Soren Chambers contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_soren",
+      "name": "Soren Chambers",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_silas",
+      "name": "Silas Whitman",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Sterling",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_maren",
+      "name": "Maren Sterling",
+      "role": "Visiting Researcher",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_silas"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_soren",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_roland",
+          "what": "obj_dock_scanner",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Soren Chambers stated: 'I saw Roland Sterling holding Freight Turnstile Scanner in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_silas",
+          "what": "obj_dock_scanner",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Silas Whitman verified registered custody of Freight Turnstile Scanner in Vesper Central Station until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_silas",
+          "door": "door_printshop_dock",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Silas Whitman badged through door_printshop_dock at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_soren",
+          "door": "door_station_gate",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_soren",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Soren Chambers scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Roland Sterling verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_custodian_office_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maren",
+          "door": "door_newsroom_press",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Maren Sterling verified entry at door_newsroom_press at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_newsroom_press",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · NEWSROOM_PRESS · authorized: Roland Sterling"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Roland Sterling"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Maren Sterling entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_maren",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_maren"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Roland Sterling entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Silas Whitman entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_silas",
+          "where": "loc_central_station",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Soren Chambers entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_soren",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_soren"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_silas",
+        "what": "obj_dock_scanner",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_silas",
+        "where": "loc_northgate_printshop",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_printshop_dock",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_soren",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_soren",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_soren",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "possess",
+        "who": "char_soren",
+        "what": "obj_dock_scanner",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_maren",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_maren",
+        "door": "door_newsroom_press",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_printshop_dock",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_printshop_dock",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_newsroom_press",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_soren"
+    ],
+    "liars": [
+      {
+        "who": "char_soren",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_suspect3_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Silas Whitman held exclusive custody of Freight Turnstile Scanner until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Soren Chambers accessed door_station_gate at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Roland Sterling badged into door_newsroom_press at 20:16, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Maren Sterling badged into door_newsroom_press at 20:17, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect3_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Soren Chambers took Freight Turnstile Scanner from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

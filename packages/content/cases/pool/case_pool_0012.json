@@ -1,0 +1,405 @@
+{
+  "id": "case_pool_0012",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Deception at North Freight Dock Under Cover of Dark",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_north_dock",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, North Freight Dock, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "At 20:20, Freight Turnstile Scanner was taken from North Gate Print Shop. Physical evidence refutes an alibi fabricated by one of three individuals: Roland Navarro, Rosalind Preston, and Dorian Eisen. Examine the timeline to identify the culprit.",
+  "characters": [
+    {
+      "id": "char_dorian",
+      "name": "Dorian Eisen",
+      "role": "Associate",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Navarro",
+      "role": "Primary Suspect",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Preston",
+      "role": "Staff Specialist",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_dorian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_dorian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Dorian Eisen stated: 'I spent the entire evening from 20:10 to 20:30 at North Freight Dock attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_roland",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Roland Navarro stated: 'I was present in North Freight Dock between 20:10 and 20:30. I did not see Dorian Eisen anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Roland Navarro badged through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_dorian",
+          "door": "door_printshop_dock",
+          "at": 1218
+        }
+      ],
+      "text": "Security Terminal: Dorian Eisen scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rosalind",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Rosalind Preston verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · DOCK_TURNSTILE · badge: Roland Navarro"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rosalind",
+          "door": "door_newsroom_press",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] NEWSROOM_PRESS · badge: Rosalind Preston"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Dorian Eisen remained at North Freight Dock and did not enter North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Roland Navarro entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Dorian Eisen entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_dorian",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_dorian"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Rosalind Preston entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rosalind",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_rosalind"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_dorian",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_dorian",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_dorian"
+    ],
+    "liars": [
+      {
+        "who": "char_dorian",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Roland Navarro was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Rosalind Preston badged through door_newsroom_press at 20:16, establishing their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Dorian Eisen's presence was definitively established at North Gate Print Shop, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Dorian Eisen took Freight Turnstile Scanner from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

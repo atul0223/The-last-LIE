@@ -1,0 +1,523 @@
+{
+  "id": "case_pool_0064",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Lost Inventory of The Vesper Chronicle Newsroom Before the Morning Audit",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "At 20:20, High-Speed Rotary Press went missing from The Vesper Chronicle Newsroom. A custodial discrepancy involves four individuals: Victor Strand, Reginald Ibrahim, Miriam Volkov, and Eliza Wainwright. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_eliza",
+      "name": "Eliza Wainwright",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_miriam",
+      "name": "Miriam Volkov",
+      "role": "Security Officer",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_reginald",
+      "name": "Reginald Ibrahim",
+      "role": "Vault Curator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_victor",
+      "name": "Victor Strand",
+      "role": "Chief Conservator",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_miriam"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_reginald",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "seal",
+          "at": 1218,
+          "value": "intact"
+        }
+      ],
+      "text": "Reginald Ibrahim stated: 'I personally inspected the display mounting of High-Speed Rotary Press at 20:18; the security seal was completely intact.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_miriam",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Miriam Volkov verified registered custody of High-Speed Rotary Press in The Vesper Chronicle Newsroom until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_miriam",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Miriam Volkov badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eliza",
+          "door": "door_newsroom_press",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_eliza",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Eliza Wainwright scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_seal_sensor",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_rotary_press",
+          "property": "seal",
+          "at": 1218,
+          "value": "broken"
+        }
+      ],
+      "text": "Sensor Diagnostic: Automated mount recorded the security seal on High-Speed Rotary Press was broken at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_reginald",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Reginald Ibrahim verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_custodian_office_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_victor",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Victor Strand verified entry at door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_miriam",
+          "where": "loc_central_station",
+          "from": 1220,
+          "to": 1240
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:20] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Miriam Volkov"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_reginald",
+          "door": "door_printshop_dock",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Reginald Ibrahim"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Miriam Volkov entered The Vesper Chronicle Newsroom and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_miriam",
+          "where": "loc_chronicle_newsroom",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_miriam"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Eliza Wainwright entered The Vesper Chronicle Newsroom and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_eliza",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_eliza"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Reginald Ibrahim entered The Vesper Chronicle Newsroom and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_reginald",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_reginald"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Victor Strand entered The Vesper Chronicle Newsroom and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_victor"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_miriam",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_miriam",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_miriam",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_eliza",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_eliza",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_eliza",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "possess",
+        "who": "char_eliza",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_reginald",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "state",
+        "what": "obj_rotary_press",
+        "property": "seal",
+        "at": 1218,
+        "value": "broken"
+      },
+      {
+        "kind": "at",
+        "who": "char_victor",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_miriam",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_miriam",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_reginald",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_eliza"
+    ],
+    "liars": [
+      {
+        "who": "char_reginald",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_suspect3_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Digital sensor diagnostics showed the security seal on High-Speed Rotary Press was broken at 20:18, contradicting testimony that it remained intact.",
+        "clueIds": [
+          "clue_seal_sensor",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Eliza Wainwright accessed door_newsroom_press at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Reginald Ibrahim badged into door_printshop_dock at 20:16, ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Victor Strand badged into door_printshop_dock at 20:17, ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect3_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Eliza Wainwright took High-Speed Rotary Press from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

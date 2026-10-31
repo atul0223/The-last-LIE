@@ -1,0 +1,347 @@
+{
+  "id": "case_pool_0034",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Unrecorded Handover at North Freight Dock",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Freight Dock."
+  },
+  "briefing": "An inventory audit revealed the theft of Freight Turnstile Scanner from Vesper Central Station. Statements from Katrina Waverly, Silas Corbett, and Maxim Yeats contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_katrina",
+      "name": "Katrina Waverly",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_silas",
+      "name": "Silas Corbett",
+      "role": "Chief Conservator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_maxim",
+      "name": "Maxim Yeats",
+      "role": "Vault Curator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_silas"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_katrina",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_maxim",
+          "what": "obj_dock_scanner",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Katrina Waverly stated: 'I saw Maxim Yeats holding Freight Turnstile Scanner in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_silas",
+          "what": "obj_dock_scanner",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Silas Corbett verified registered custody of Freight Turnstile Scanner in Vesper Central Station until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_silas",
+          "door": "door_dock_turnstile",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Silas Corbett badged through door_dock_turnstile at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_katrina",
+          "door": "door_station_gate",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Katrina Waverly scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_maxim",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_FREIGHT_DOCK · visual: Maxim Yeats"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Katrina Waverly entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_katrina",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_katrina"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Silas Corbett entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_silas",
+          "where": "loc_central_station",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Katrina Waverly remained in North Freight Dock and never approached Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_katrina",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_silas",
+        "what": "obj_dock_scanner",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_silas",
+        "where": "loc_north_dock",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_dock_turnstile",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_katrina",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_katrina",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "possess",
+        "who": "char_katrina",
+        "what": "obj_dock_scanner",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_maxim",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_dock_turnstile",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_dock_turnstile",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_katrina"
+    ],
+    "liars": [
+      {
+        "who": "char_katrina",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Silas Corbett held exclusive custody of Freight Turnstile Scanner until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Katrina Waverly accessed door_station_gate at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Katrina Waverly took Freight Turnstile Scanner from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

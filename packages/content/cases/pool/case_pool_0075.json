@@ -1,0 +1,438 @@
+{
+  "id": "case_pool_0075",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Deception on the Wire at North Gate Print Shop Over the Wire",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop, Vesper Central Station."
+  },
+  "briefing": "An illicit wire communication was detected originating from North Freight Dock. Accounts given by Adrian Grayson, Vera Ibrahim, and Isaac Monroe contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_adrian",
+      "name": "Adrian Grayson",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_vera",
+      "name": "Vera Ibrahim",
+      "role": "Telegraph Operator",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_isaac",
+      "name": "Isaac Monroe",
+      "role": "Communications Officer",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_vera"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_adrian",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_vera",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "text": "Adrian Grayson stated: 'I saw Vera Ibrahim operating the transmitter Transit Cipher Ledger in North Freight Dock at 20:15.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_presence",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1225
+        }
+      ],
+      "text": "Printshop CCTV: Optical feed confirmed Vera Ibrahim was inside North Gate Print Shop from 20:10 to 20:25.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_adrian",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_adrian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Adrian Grayson at 20:15 inside North Freight Dock.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_vera",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Vera Ibrahim badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_isaac",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Isaac Monroe checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_adrian",
+          "door": "door_dock_turnstile",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] ENTRY_GATE · DOCK_TURNSTILE · authorized: Adrian Grayson"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_vera",
+          "door": "door_printshop_dock",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · PRINTSHOP_DOCK · badge: Vera Ibrahim"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Vera Ibrahim transmitted the dispatch from Transit Cipher Ledger in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_vera",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_vera"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Isaac Monroe transmitted the dispatch from Transit Cipher Ledger in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_isaac",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_isaac"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Adrian Grayson transmitted the forged dispatch from Transit Cipher Ledger in North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_adrian",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_adrian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Adrian Grayson remained in North Gate Print Shop and did not use Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_adrian",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_vera"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_adrian",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_adrian",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_isaac"
+      },
+      {
+        "kind": "action",
+        "who": "char_adrian",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_vera",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_isaac",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_isaac",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_isaac",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_vera",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_isaac",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_adrian"
+    ],
+    "liars": [
+      {
+        "who": "char_adrian",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Vera Ibrahim badged into door_printshop_dock at 20:14, proving they were not present in North Freight Dock to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Printshop surveillance footage confirmed Vera Ibrahim was inside North Gate Print Shop at 20:15, completely contradicting claims that they operated Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_presence",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Adrian Grayson was the operator at Transit Cipher Ledger when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Isaac Monroe was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Freight Dock.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Adrian Grayson completed the forged transmission of Freight Turnstile Scanner before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

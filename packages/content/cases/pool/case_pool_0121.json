@@ -1,0 +1,460 @@
+{
+  "id": "case_pool_0121",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Case of the Spurious Envoy",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Gate Print Shop, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "At 20:20, Transit Cipher Ledger was intercepted at Vesper Central Station. Authorities suspect an infiltrator among four individuals: Eleanor Oakhaven, Adrian Finch, Victor Monroe, and Soren Bancroft. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_soren",
+      "name": "Soren Bancroft",
+      "role": "Visiting Archivist",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Oakhaven",
+      "role": "Commercial Agent",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_victor",
+      "name": "Victor Monroe",
+      "role": "Special Envoy",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_adrian",
+      "name": "Adrian Finch",
+      "role": "Undercover Operative",
+      "publicDescription": "Station Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_eleanor"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_soren",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_soren",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Soren Bancroft stated: 'I remained in my suite at North Gate Print Shop from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Eleanor Oakhaven checked through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_soren",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Concourse Camera: Optical feed captured Soren Bancroft inside Vesper Central Station between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_victor",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Victor Monroe verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_adrian",
+          "door": "door_newsroom_press",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Adrian Finch verified entry at door_newsroom_press at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_adrian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Adrian Finch"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_victor",
+          "door": "door_newsroom_press",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ACCESS_LOG · NEWSROOM_PRESS · badge: Victor Monroe"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Soren Bancroft infiltrated Vesper Central Station and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_soren",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_soren"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Victor Monroe entered Vesper Central Station and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_victor"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Eleanor Oakhaven entered Vesper Central Station and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Adrian Finch entered Vesper Central Station and intercepted Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_adrian",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_adrian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_soren",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_soren",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_soren",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_victor",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_adrian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_newsroom_press",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_soren"
+    ],
+    "liars": [
+      {
+        "who": "char_soren",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Eleanor Oakhaven badged into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Physical tracking records exposed Soren Bancroft's fabricated hotel alibi and placed them at Vesper Central Station.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Victor Monroe badged through door_newsroom_press at 20:16, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Adrian Finch badged through door_newsroom_press at 20:17, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Soren Bancroft intercepted Transit Cipher Ledger at Vesper Central Station under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,452 @@
+{
+  "id": "case_pool_0021",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Disputed Alibi at The Vesper Chronicle Newsroom",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, The Vesper Chronicle Newsroom, Vesper Central Station."
+  },
+  "briefing": "The theft of Transit Cipher Ledger from The Grand Vesper Hotel occurred under cover of evening. One of the four individuals present—Xavier Bancroft, Maxim Althaus, Clara Winter, and Hugo Webb—has fabricated their movements. Reconstruct the logs to expose the true culprit.",
+  "characters": [
+    {
+      "id": "char_hugo",
+      "name": "Hugo Webb",
+      "role": "Chief Auditor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_clara",
+      "name": "Clara Winter",
+      "role": "Associate",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_maxim",
+      "name": "Maxim Althaus",
+      "role": "Night Supervisor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_xavier",
+      "name": "Xavier Bancroft",
+      "role": "Staff Specialist",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_hugo"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_hugo",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_hugo",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Hugo Webb stated: 'I spent the entire evening from 20:10 to 20:30 at The Vesper Chronicle Newsroom attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_clara",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_clara",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Clara Winter stated: 'I was present in The Vesper Chronicle Newsroom between 20:10 and 20:30. I did not see Hugo Webb anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_clara",
+          "door": "door_newsroom_press",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Clara Winter badged through door_newsroom_press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_hugo",
+          "door": "door_hotel_lobby",
+          "at": 1233
+        }
+      ],
+      "text": "Gate Reader: Hugo Webb scanned access badge at door_hotel_lobby at 20:33, only three minutes after alleged presence at The Vesper Chronicle Newsroom.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maxim",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Maxim Althaus verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_clara",
+          "door": "door_newsroom_press",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · NEWSROOM_PRESS · authorized: Clara Winter"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_maxim",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Maxim Althaus"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Clara Winter entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_clara",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_clara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Hugo Webb remained at The Vesper Chronicle Newsroom and did not enter The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_hugo",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_clara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Hugo Webb entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_hugo",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1235,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_hugo"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Maxim Althaus entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_maxim",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_maxim"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_hugo",
+        "where": "loc_grand_hotel",
+        "from": 1230,
+        "to": 1250
+      },
+      {
+        "kind": "access",
+        "who": "char_hugo",
+        "door": "door_hotel_lobby",
+        "at": 1233
+      },
+      {
+        "kind": "action",
+        "who": "char_hugo",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1235,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_clara",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_newsroom_press",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_maxim",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_xavier",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_hugo"
+    ],
+    "liars": [
+      {
+        "who": "char_hugo",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Clara Winter was logged badging into door_newsroom_press at 20:15, proving their presence at The Vesper Chronicle Newsroom and ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Maxim Althaus badged through door_station_gate at 20:16, establishing their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1233,
+        "text": "Hugo Webb's presence was definitively established at The Grand Vesper Hotel, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1235,
+        "text": "Hugo Webb took Transit Cipher Ledger from The Grand Vesper Hotel before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

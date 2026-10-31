@@ -1,0 +1,459 @@
+{
+  "id": "case_pool_0081",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Dispatches from Nowhere: The High-Speed Rotary Press Affair",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_north_dock",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, North Freight Dock, Vesper Central Station."
+  },
+  "briefing": "At 20:15, a compromised dispatch was routed from High-Speed Rotary Press inside North Gate Print Shop. An investigation focuses on four individuals: Edgar Althaus, Rosalind Belmont, Helena Haywood, and Katrina Orlov. Examine terminal and access logs to uncover the true sender.",
+  "characters": [
+    {
+      "id": "char_edgar",
+      "name": "Edgar Althaus",
+      "role": "Lead Reporter",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_katrina",
+      "name": "Katrina Orlov",
+      "role": "Telegraph Operator",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_helena",
+      "name": "Helena Haywood",
+      "role": "Desk Assistant",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Belmont",
+      "role": "Wire Editor",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_katrina"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_edgar",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sender": "char_katrina",
+          "recipient": "char_helena",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Edgar Althaus stated: 'The wire transmission from High-Speed Rotary Press at 20:15 was authorized and sent directly by Katrina Orlov.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_edgar",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_edgar",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: High-Speed Rotary Press was actively operated by Edgar Althaus at 20:15 inside North Gate Print Shop.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_katrina",
+          "door": "door_dock_turnstile",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Katrina Orlov badged into door_dock_turnstile at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_helena",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Helena Haywood checked in at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_katrina",
+          "door": "door_dock_turnstile",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · DOCK_TURNSTILE · authorized: Katrina Orlov"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_katrina",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · DOCK_TURNSTILE · badge: Katrina Orlov"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Katrina Orlov transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_katrina",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_katrina"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Helena Haywood transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_helena",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_helena"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Edgar Althaus transmitted the forged dispatch from High-Speed Rotary Press in North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_edgar",
+          "verb": "sent",
+          "target": "obj_cipher_ledger",
+          "at": 1215,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_edgar"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Edgar Althaus remained in North Freight Dock and did not use High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_edgar",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_katrina"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_edgar",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_edgar",
+        "door": "door_printshop_dock",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_edgar",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_helena"
+      },
+      {
+        "kind": "action",
+        "who": "char_edgar",
+        "verb": "sent",
+        "target": "obj_cipher_ledger",
+        "at": 1215,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_katrina",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_dock_turnstile",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_helena",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_helena",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_helena",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_katrina",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_helena",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_edgar"
+    ],
+    "liars": [
+      {
+        "who": "char_edgar",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Katrina Orlov badged into door_dock_turnstile at 20:14, proving they were not present in North Gate Print Shop to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Edgar Althaus was logged into High-Speed Rotary Press at 20:15, shattering claims that Katrina Orlov sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Helena Haywood was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Gate Print Shop.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Edgar Althaus completed the forged transmission of Transit Cipher Ledger before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

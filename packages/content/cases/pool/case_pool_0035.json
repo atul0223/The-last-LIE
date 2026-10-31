@@ -1,0 +1,346 @@
+{
+  "id": "case_pool_0035",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Curator's Dilemma at Vesper Central Station Through the Security Gate",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, Vesper Central Station."
+  },
+  "briefing": "An inventory audit revealed the theft of High-Speed Rotary Press from North Freight Dock. Statements from Wilhelm Sutherland, Jasper Ramsay, and Xavier Hawthorne contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_wilhelm",
+      "name": "Wilhelm Sutherland",
+      "role": "Visiting Researcher",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_jasper",
+      "name": "Jasper Ramsay",
+      "role": "Chief Conservator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_xavier",
+      "name": "Xavier Hawthorne",
+      "role": "Archive Clerk",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_jasper"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_xavier",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_xavier",
+          "what": "obj_rotary_press",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Xavier Hawthorne stated: 'I had High-Speed Rotary Press in my personal work tray between 20:12 and 20:25 before returning it.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_jasper",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Jasper Ramsay verified registered custody of High-Speed Rotary Press in North Freight Dock until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_jasper",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Jasper Ramsay badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_wilhelm",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Wilhelm Sutherland scanned access badge at door_dock_turnstile at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_xavier",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:16] ACCESS_LOG · STATION_GATE · badge: Xavier Hawthorne"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Jasper Ramsay entered North Freight Dock and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_jasper",
+          "where": "loc_north_dock",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_jasper"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Wilhelm Sutherland entered North Freight Dock and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_wilhelm",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_wilhelm"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Wilhelm Sutherland remained in Vesper Central Station and never approached North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_wilhelm",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_jasper"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_jasper",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_jasper",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_wilhelm",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_wilhelm",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_wilhelm",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "possess",
+        "who": "char_wilhelm",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_xavier",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_jasper",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_station_gate",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_wilhelm"
+    ],
+    "liars": [
+      {
+        "who": "char_xavier",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Jasper Ramsay held exclusive custody of High-Speed Rotary Press until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Wilhelm Sutherland accessed door_dock_turnstile at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Wilhelm Sutherland took High-Speed Rotary Press from North Freight Dock before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

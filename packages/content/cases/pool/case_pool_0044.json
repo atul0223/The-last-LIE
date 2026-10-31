@@ -1,0 +1,419 @@
+{
+  "id": "case_pool_0044",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Custody Gap of the Twilight High-Speed Rotary Press",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_central_station",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, Vesper Central Station, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "At 20:20, High-Speed Rotary Press went missing from North Gate Print Shop. A custodial discrepancy involves three individuals: Julian Oakhaven, Lenore Bancroft, and Nadia Garrick. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_lenore",
+      "name": "Lenore Bancroft",
+      "role": "Chief Conservator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_julian",
+      "name": "Julian Oakhaven",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nadia",
+      "name": "Nadia Garrick",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_julian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lenore",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_nadia",
+          "what": "obj_rotary_press",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Lenore Bancroft stated: 'I saw Nadia Garrick holding High-Speed Rotary Press in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_julian",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Julian Oakhaven verified registered custody of High-Speed Rotary Press in North Gate Print Shop until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_julian",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Julian Oakhaven badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lenore",
+          "door": "door_printshop_dock",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Lenore Bancroft scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nadia",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Nadia Garrick verified entry at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_nadia",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Nadia Garrick"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_julian",
+          "door": "door_station_gate",
+          "at": 1202
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:02] ACCESS_LOG · STATION_GATE · badge: Julian Oakhaven"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Nadia Garrick entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nadia",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_nadia"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Julian Oakhaven entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_northgate_printshop",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_julian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lenore Bancroft remained in Vesper Central Station and never approached North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lenore",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_julian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Lenore Bancroft entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lenore",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_lenore"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_julian",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_julian",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_lenore",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_lenore",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_lenore",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "possess",
+        "who": "char_lenore",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_nadia",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_julian",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_newsroom_press",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_lenore"
+    ],
+    "liars": [
+      {
+        "who": "char_lenore",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Julian Oakhaven held exclusive custody of High-Speed Rotary Press until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Lenore Bancroft accessed door_printshop_dock at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Nadia Garrick badged into door_newsroom_press at 20:16, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Lenore Bancroft took High-Speed Rotary Press from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

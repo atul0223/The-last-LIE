@@ -1,0 +1,333 @@
+{
+  "id": "case_pool_0005",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vanishing Presence at The Grand Vesper Hotel at the Deadline",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Freight Dock."
+  },
+  "briefing": "Security authorities discovered a breach at The Vesper Chronicle Newsroom involving Naval Brass Chronometer. Statements from Nadia Webb, Lucian Vaughn, and Ingrid Vance contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_lucian",
+      "name": "Lucian Vaughn",
+      "role": "Staff Specialist",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nadia",
+      "name": "Nadia Webb",
+      "role": "Night Supervisor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_ingrid",
+      "name": "Ingrid Vance",
+      "role": "Chief Auditor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_lucian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_nadia",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        },
+        {
+          "kind": "at",
+          "who": "char_nadia",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Nadia Webb stated: 'I was in North Freight Dock from 20:10 to 20:30 with Lucian Vaughn the entire time discussing routine administrative records.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_statement",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lucian",
+      "asserts": [],
+      "text": "Lucian Vaughn stated: 'I decline to make any formal statement without departmental review.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nadia",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Nadia Webb badged through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lucian",
+          "door": "door_newsroom_press",
+          "at": 1218
+        }
+      ],
+      "text": "Security Terminal: Lucian Vaughn scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_ingrid",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_FREIGHT_DOCK · subject: Ingrid Vance"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lucian Vaughn remained at North Freight Dock and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_nadia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Lucian Vaughn entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lucian",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Nadia Webb entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nadia",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_nadia"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_lucian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_lucian",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_nadia",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_ingrid",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_dock_turnstile",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_dock_turnstile",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_lucian"
+    ],
+    "liars": [
+      {
+        "who": "char_nadia",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Nadia Webb was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Lucian Vaughn's presence was definitively established at The Vesper Chronicle Newsroom, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Lucian Vaughn took Naval Brass Chronometer from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

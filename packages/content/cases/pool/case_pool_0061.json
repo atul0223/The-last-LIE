@@ -1,0 +1,498 @@
+{
+  "id": "case_pool_0061",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vanishing of the Confidential Freight Turnstile Scanner",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Vesper Chronicle Newsroom, North Gate Print Shop."
+  },
+  "briefing": "The disappearance of Freight Turnstile Scanner from Vesper Central Station triggered an audit. Conflicting accounts from Amara Faulkner, Celeste Brauer, Rosalind Halloway, and Theodore Kingsley contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_celeste",
+      "name": "Celeste Brauer",
+      "role": "Visiting Researcher",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_amara",
+      "name": "Amara Faulkner",
+      "role": "Archive Clerk",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_theodore",
+      "name": "Theodore Kingsley",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Halloway",
+      "role": "Vault Curator",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_amara"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_celeste",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Celeste Brauer stated: 'I remained in The Vesper Chronicle Newsroom from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_amara",
+          "what": "obj_dock_scanner",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Amara Faulkner verified registered custody of Freight Turnstile Scanner in Vesper Central Station until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_amara",
+          "door": "door_newsroom_press",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Amara Faulkner badged through door_newsroom_press at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_celeste",
+          "door": "door_station_gate",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Celeste Brauer scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_theodore",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Theodore Kingsley verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_custodian_office_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rosalind",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Rosalind Halloway verified entry at door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_theodore",
+          "door": "door_printshop_dock",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · PRINTSHOP_DOCK · badge: Theodore Kingsley"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Theodore Kingsley"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Rosalind Halloway entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rosalind",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_rosalind"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Amara Faulkner entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_central_station",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_amara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Celeste Brauer entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_celeste",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_celeste"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Theodore Kingsley entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_theodore"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_amara",
+        "what": "obj_dock_scanner",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_chronicle_newsroom",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_celeste",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_celeste",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "possess",
+        "who": "char_celeste",
+        "what": "obj_dock_scanner",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_newsroom_press",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_celeste"
+    ],
+    "liars": [
+      {
+        "who": "char_celeste",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_suspect3_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_station_gate proved Celeste Brauer entered the vault at 20:18, shattering claims of staying in The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Celeste Brauer accessed door_station_gate at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Theodore Kingsley badged into door_printshop_dock at 20:16, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Rosalind Halloway badged into door_printshop_dock at 20:17, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect3_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Celeste Brauer took Freight Turnstile Scanner from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

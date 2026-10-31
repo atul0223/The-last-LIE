@@ -1,0 +1,346 @@
+{
+  "id": "case_pool_0038",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Classified Pedestal at Vesper Central Station",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Grand Vesper Hotel."
+  },
+  "briefing": "The disappearance of Freight Turnstile Scanner from Vesper Central Station triggered an audit. Conflicting accounts from Silas Pike, Atticus Althaus, and Ingrid Radcliffe contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_atticus",
+      "name": "Atticus Althaus",
+      "role": "Chief Conservator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_silas",
+      "name": "Silas Pike",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_ingrid",
+      "name": "Ingrid Radcliffe",
+      "role": "Security Officer",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_silas"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_atticus",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_atticus",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Atticus Althaus stated: 'I remained in The Grand Vesper Hotel from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_silas",
+          "what": "obj_dock_scanner",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Silas Pike verified registered custody of Freight Turnstile Scanner in Vesper Central Station until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_silas",
+          "door": "door_hotel_lobby",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Silas Pike badged through door_hotel_lobby at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_atticus",
+          "door": "door_station_gate",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Atticus Althaus scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_silas",
+          "door": "door_hotel_lobby",
+          "at": 1238
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:38] ACCESS_LOG · HOTEL_LOBBY · badge: Silas Pike"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Atticus Althaus entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_atticus",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_atticus"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Silas Pike entered Vesper Central Station and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_silas",
+          "where": "loc_central_station",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Atticus Althaus remained in The Grand Vesper Hotel and never approached Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_atticus",
+          "where": "loc_grand_hotel",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_silas"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_silas",
+        "what": "obj_dock_scanner",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_silas",
+        "where": "loc_grand_hotel",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_hotel_lobby",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_atticus",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_atticus",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_atticus",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "possess",
+        "who": "char_atticus",
+        "what": "obj_dock_scanner",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_ingrid",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_hotel_lobby",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_silas",
+        "door": "door_hotel_lobby",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_ingrid",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_atticus"
+    ],
+    "liars": [
+      {
+        "who": "char_atticus",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_station_gate proved Atticus Althaus entered the vault at 20:18, shattering claims of staying in The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Atticus Althaus accessed door_station_gate at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Atticus Althaus took Freight Turnstile Scanner from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,367 @@
+{
+  "id": "case_pool_0069",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Ghost Dispatch from Transit Cipher Ledger",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "An illicit wire communication was detected originating from Vesper Central Station. Accounts given by Bram Strand, Lillian Leclair, and Lucian Thorne contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_lucian",
+      "name": "Lucian Thorne",
+      "role": "Telegraph Operator",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lillian",
+      "name": "Lillian Leclair",
+      "role": "Lead Reporter",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_bram",
+      "name": "Bram Strand",
+      "role": "Desk Assistant",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_lillian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_bram",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_lillian",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_central_station"
+        }
+      ],
+      "text": "Bram Strand stated: 'I saw Lillian Leclair operating the transmitter Transit Cipher Ledger in Vesper Central Station at 20:15.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_presence",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1225
+        }
+      ],
+      "text": "Printshop CCTV: Optical feed confirmed Lillian Leclair was inside North Gate Print Shop from 20:10 to 20:25.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_lucian",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Lucian Thorne at 20:15 inside Vesper Central Station.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Lillian Leclair badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_bram",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:16] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Bram Strand"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lucian Thorne remained in North Gate Print Shop and did not use Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Lillian Leclair transmitted the dispatch from Transit Cipher Ledger in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lillian",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lillian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Lucian Thorne transmitted the forged dispatch from Transit Cipher Ledger in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lucian",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_lucian",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_station_gate",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_lucian",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_bram"
+      },
+      {
+        "kind": "action",
+        "who": "char_lucian",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_lillian",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_bram",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_lucian"
+    ],
+    "liars": [
+      {
+        "who": "char_bram",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_victim_presence",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Lillian Leclair badged into door_printshop_dock at 20:14, proving they were not present in Vesper Central Station to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Printshop surveillance footage confirmed Lillian Leclair was inside North Gate Print Shop at 20:15, completely contradicting claims that they operated Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_presence",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Lucian Thorne was the operator at Transit Cipher Ledger when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Lucian Thorne completed the forged transmission of Naval Brass Chronometer before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

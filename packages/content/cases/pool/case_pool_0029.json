@@ -1,0 +1,484 @@
+{
+  "id": "case_pool_0029",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Study in Discrepancy at North Gate Print Shop in the Fog",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_grand_hotel",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, The Grand Vesper Hotel, North Freight Dock."
+  },
+  "briefing": "Security authorities discovered a breach at North Gate Print Shop involving Freight Turnstile Scanner. Statements from Tobias Danforth, Astrid Cross, Evander Belmont, and Greta Faulkner contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_tobias",
+      "name": "Tobias Danforth",
+      "role": "Staff Specialist",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_astrid",
+      "name": "Astrid Cross",
+      "role": "Associate",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_evander",
+      "name": "Evander Belmont",
+      "role": "Chief Auditor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_greta",
+      "name": "Greta Faulkner",
+      "role": "Primary Suspect",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_tobias"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_tobias",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Tobias Danforth stated: 'I spent the entire evening from 20:10 to 20:30 at The Grand Vesper Hotel attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_astrid",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Astrid Cross stated: 'I was present in The Grand Vesper Hotel between 20:10 and 20:30. I did not see Tobias Danforth anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_hotel_lobby",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Astrid Cross badged through door_hotel_lobby at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_tobias",
+          "door": "door_printshop_dock",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Security Terminal: Tobias Danforth scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_evander",
+          "door": "door_dock_turnstile",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Evander Belmont verified entry at door_dock_turnstile at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_suspect1_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_greta",
+          "door": "door_dock_turnstile",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Greta Faulkner verified entry at door_dock_turnstile at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_evander",
+          "door": "door_dock_turnstile",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ENTRY_GATE · DOCK_TURNSTILE · authorized: Evander Belmont"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_hotel_lobby",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · HOTEL_LOBBY · badge: Astrid Cross"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Evander Belmont entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_evander",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_evander"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Astrid Cross entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Tobias Danforth entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_tobias",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_tobias"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Greta Faulkner entered North Gate Print Shop and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_greta",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_greta"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_tobias",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_tobias",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_astrid",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_hotel_lobby",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_evander",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_greta",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_greta",
+        "door": "door_dock_turnstile",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_dock_turnstile",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_dock_turnstile",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_tobias"
+    ],
+    "liars": [
+      {
+        "who": "char_tobias",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Astrid Cross was logged badging into door_hotel_lobby at 20:15, proving their presence at The Grand Vesper Hotel and ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Evander Belmont badged through door_dock_turnstile at 20:16, establishing their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Greta Faulkner badged through door_dock_turnstile at 20:17, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Tobias Danforth's presence was definitively established at North Gate Print Shop, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Tobias Danforth took Freight Turnstile Scanner from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

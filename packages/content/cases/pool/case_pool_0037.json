@@ -1,0 +1,372 @@
+{
+  "id": "case_pool_0037",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vault Breach at The Vesper Chronicle Newsroom During Handover",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, The Grand Vesper Hotel."
+  },
+  "briefing": "The disappearance of Naval Brass Chronometer from The Vesper Chronicle Newsroom triggered an audit. Conflicting accounts from Esther Kingsley, Yvaine Waverly, and Tobias Monroe contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_tobias",
+      "name": "Tobias Monroe",
+      "role": "Vault Curator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_esther",
+      "name": "Esther Kingsley",
+      "role": "Visiting Researcher",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_yvaine",
+      "name": "Yvaine Waverly",
+      "role": "Chief Conservator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_esther"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_tobias",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_brass_chronometer",
+          "property": "seal",
+          "at": 1218,
+          "value": "intact"
+        }
+      ],
+      "text": "Tobias Monroe stated: 'I personally inspected the display mounting of Naval Brass Chronometer at 20:18; the security seal was completely intact.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_esther",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Esther Kingsley verified registered custody of Naval Brass Chronometer in The Vesper Chronicle Newsroom until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_esther",
+          "door": "door_hotel_lobby",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Esther Kingsley badged through door_hotel_lobby at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_tobias",
+          "door": "door_newsroom_press",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Tobias Monroe scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_seal_sensor",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_brass_chronometer",
+          "property": "seal",
+          "at": 1218,
+          "value": "broken"
+        }
+      ],
+      "text": "Sensor Diagnostic: Automated mount recorded the security seal on Naval Brass Chronometer was broken at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:15] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Tobias Monroe"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Tobias Monroe remained in The Grand Vesper Hotel and never approached The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_tobias",
+          "where": "loc_grand_hotel",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_esther"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Esther Kingsley entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_esther",
+          "where": "loc_chronicle_newsroom",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_esther"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Tobias Monroe entered The Vesper Chronicle Newsroom and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_tobias",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_tobias"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_esther",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_esther",
+        "where": "loc_grand_hotel",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_hotel_lobby",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_tobias",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_tobias",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_tobias",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "possess",
+        "who": "char_tobias",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_yvaine",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "state",
+        "what": "obj_brass_chronometer",
+        "property": "seal",
+        "at": 1218,
+        "value": "broken"
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_hotel_lobby",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_esther",
+        "door": "door_hotel_lobby",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_tobias"
+    ],
+    "liars": [
+      {
+        "who": "char_tobias",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Digital sensor diagnostics showed the security seal on Naval Brass Chronometer was broken at 20:18, contradicting testimony that it remained intact.",
+        "clueIds": [
+          "clue_seal_sensor",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Tobias Monroe accessed door_newsroom_press at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Tobias Monroe took Naval Brass Chronometer from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

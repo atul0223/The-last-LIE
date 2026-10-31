@@ -1,0 +1,346 @@
+{
+  "id": "case_pool_0036",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Breach in Vesper Central Station: The Naval Brass Chronometer",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An inventory audit revealed the theft of Naval Brass Chronometer from Vesper Central Station. Statements from Xavier Faulkner, Adrian Sterling, and Cynthia Harrington contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_xavier",
+      "name": "Xavier Faulkner",
+      "role": "Chief Conservator",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cynthia",
+      "name": "Cynthia Harrington",
+      "role": "Visiting Researcher",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_adrian",
+      "name": "Adrian Sterling",
+      "role": "Archive Clerk",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_cynthia"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_xavier",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_xavier",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Xavier Faulkner stated: 'I remained in The Vesper Chronicle Newsroom from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_cynthia",
+          "what": "obj_brass_chronometer",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Cynthia Harrington verified registered custody of Naval Brass Chronometer in Vesper Central Station until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cynthia",
+          "door": "door_newsroom_press",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Cynthia Harrington badged through door_newsroom_press at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_xavier",
+          "door": "door_station_gate",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Xavier Faulkner scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_adrian",
+          "door": "door_newsroom_press",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] ENTRY_GATE · NEWSROOM_PRESS · authorized: Adrian Sterling"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Cynthia Harrington entered Vesper Central Station and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_cynthia",
+          "where": "loc_central_station",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_cynthia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Xavier Faulkner entered Vesper Central Station and took Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_xavier",
+          "verb": "took",
+          "target": "obj_brass_chronometer",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_xavier"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Xavier Faulkner remained in The Vesper Chronicle Newsroom and never approached Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_xavier",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_cynthia"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_cynthia",
+        "what": "obj_brass_chronometer",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_cynthia",
+        "where": "loc_chronicle_newsroom",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_xavier",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_xavier",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_xavier",
+        "verb": "took",
+        "target": "obj_brass_chronometer",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "possess",
+        "who": "char_xavier",
+        "what": "obj_brass_chronometer",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_adrian",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_adrian",
+        "door": "door_newsroom_press",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_xavier"
+    ],
+    "liars": [
+      {
+        "who": "char_xavier",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_station_gate proved Xavier Faulkner entered the vault at 20:18, shattering claims of staying in The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Xavier Faulkner accessed door_station_gate at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Xavier Faulkner took Naval Brass Chronometer from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "id": "case_pool_0083",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Unauthorized Signal from Transit Cipher Ledger",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "The transmission of an unauthorized cable from Transit Cipher Ledger caused immediate disruption. Statements from Alistair Calloway, Evander Oakhaven, Amara Cross, and Theodore Leclair contradict electronic carrier records. Trace the dispatch to identify the perpetrator.",
+  "characters": [
+    {
+      "id": "char_evander",
+      "name": "Evander Oakhaven",
+      "role": "Communications Officer",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_theodore",
+      "name": "Theodore Leclair",
+      "role": "Desk Assistant",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_alistair",
+      "name": "Alistair Calloway",
+      "role": "Lead Reporter",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_amara",
+      "name": "Amara Cross",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_theodore"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_alistair",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_cipher_ledger",
+          "sender": "char_theodore",
+          "recipient": "char_alistair",
+          "sentAt": 1215
+        }
+      ],
+      "text": "Alistair Calloway stated: 'The wire transmission from Transit Cipher Ledger at 20:15 was authorized and sent directly by Theodore Leclair.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_cipher_ledger",
+          "by": "char_evander",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_evander",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Transit Cipher Ledger was actively operated by Evander Oakhaven at 20:15 inside The Vesper Chronicle Newsroom.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_theodore",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Theodore Leclair badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_alistair",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Alistair Calloway checked in at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_theodore",
+          "door": "door_station_gate",
+          "at": 1205
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:05] STATION_GATE · badge: Theodore Leclair"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_alistair",
+          "door": "door_printshop_dock",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ACCESS_LOG · PRINTSHOP_DOCK · badge: Alistair Calloway"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Theodore Leclair transmitted the dispatch from Transit Cipher Ledger in The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_theodore",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_theodore"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Evander Oakhaven remained in Vesper Central Station and did not use Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_evander",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_theodore"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Evander Oakhaven transmitted the forged dispatch from Transit Cipher Ledger in The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_evander",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_evander"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Alistair Calloway transmitted the dispatch from Transit Cipher Ledger in The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_alistair",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_alistair"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_evander",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_evander",
+        "door": "door_newsroom_press",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_cipher_ledger",
+        "by": "char_evander",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_cipher_ledger",
+        "sentAt": 1215,
+        "recipient": "char_alistair"
+      },
+      {
+        "kind": "action",
+        "who": "char_evander",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_theodore",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_alistair",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_theodore",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_alistair",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_evander"
+    ],
+    "liars": [
+      {
+        "who": "char_alistair",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Theodore Leclair badged into door_station_gate at 20:14, proving they were not present in The Vesper Chronicle Newsroom to operate Transit Cipher Ledger.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Evander Oakhaven was logged into Transit Cipher Ledger at 20:15, shattering claims that Theodore Leclair sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Alistair Calloway was badged into door_printshop_dock at 20:16, ruling them out as the transmitter at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Evander Oakhaven completed the forged transmission of Freight Turnstile Scanner before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

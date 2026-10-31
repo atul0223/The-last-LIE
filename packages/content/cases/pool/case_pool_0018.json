@@ -1,0 +1,458 @@
+{
+  "id": "case_pool_0018",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Study in Discrepancy at Vesper Central Station at the Eleventh Hour",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_north_dock",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, North Freight Dock, The Grand Vesper Hotel."
+  },
+  "briefing": "Security authorities discovered a breach at Vesper Central Station involving Transit Cipher Ledger. Statements from Gideon Monroe, Nora Adler, Emil Blackwood, and Harold Ibrahim contain contradictions with physical records. Determine who broke their alibi and took the item.",
+  "characters": [
+    {
+      "id": "char_harold",
+      "name": "Harold Ibrahim",
+      "role": "Chief Auditor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nora",
+      "name": "Nora Adler",
+      "role": "Associate",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_gideon",
+      "name": "Gideon Monroe",
+      "role": "Night Supervisor",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_emil",
+      "name": "Emil Blackwood",
+      "role": "Staff Specialist",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_harold"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_harold",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_harold",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Harold Ibrahim stated: 'I spent the entire evening from 20:10 to 20:30 at North Freight Dock attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_nora",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_nora",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Nora Adler stated: 'I was present in North Freight Dock between 20:10 and 20:30. I did not see Harold Ibrahim anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nora",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Nora Adler badged through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_harold",
+          "door": "door_station_gate",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_harold",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Security Terminal: Harold Ibrahim scanned access badge at door_station_gate at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Gideon Monroe verified entry at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_hotel_lobby",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] ENTRY_GATE · HOTEL_LOBBY · authorized: Gideon Monroe"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_hotel_lobby",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] ENTRY_GATE · HOTEL_LOBBY · authorized: Gideon Monroe"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Nora Adler entered Vesper Central Station and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nora",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_nora"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Harold Ibrahim remained at North Freight Dock and did not enter Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_harold",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_nora"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Gideon Monroe entered Vesper Central Station and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_gideon",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_gideon"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Harold Ibrahim entered Vesper Central Station and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_harold",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_harold"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_harold",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_harold",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_harold",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_nora",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_gideon",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_emil",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_hotel_lobby",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_hotel_lobby",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_nora",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_hotel_lobby",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_harold"
+    ],
+    "liars": [
+      {
+        "who": "char_harold",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Nora Adler was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Gideon Monroe badged through door_hotel_lobby at 20:16, establishing their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Harold Ibrahim's presence was definitively established at Vesper Central Station, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Harold Ibrahim took Transit Cipher Ledger from Vesper Central Station before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

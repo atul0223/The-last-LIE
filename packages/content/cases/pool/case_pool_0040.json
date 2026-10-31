@@ -1,0 +1,371 @@
+{
+  "id": "case_pool_0040",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Breach in The Grand Vesper Hotel: The Transit Cipher Ledger",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, North Gate Print Shop."
+  },
+  "briefing": "At 20:20, Transit Cipher Ledger went missing from The Grand Vesper Hotel. A custodial discrepancy involves three individuals: Quentin Preston, Dorian Wyatt, and Rosalind Talbot. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_rosalind",
+      "name": "Rosalind Talbot",
+      "role": "Security Officer",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_dorian",
+      "name": "Dorian Wyatt",
+      "role": "Chief Conservator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_quentin",
+      "name": "Quentin Preston",
+      "role": "Archive Clerk",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_dorian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_rosalind",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_cipher_ledger",
+          "property": "seal",
+          "at": 1218,
+          "value": "intact"
+        }
+      ],
+      "text": "Rosalind Talbot stated: 'I personally inspected the display mounting of Transit Cipher Ledger at 20:18; the security seal was completely intact.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_dorian",
+          "what": "obj_cipher_ledger",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Dorian Wyatt verified registered custody of Transit Cipher Ledger in The Grand Vesper Hotel until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_dorian",
+          "door": "door_printshop_dock",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Dorian Wyatt badged through door_printshop_dock at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rosalind",
+          "door": "door_hotel_lobby",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Terminal: Rosalind Talbot scanned access badge at door_hotel_lobby at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_seal_sensor",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "state",
+          "what": "obj_cipher_ledger",
+          "property": "seal",
+          "at": 1218,
+          "value": "broken"
+        }
+      ],
+      "text": "Sensor Diagnostic: Automated mount recorded the security seal on Transit Cipher Ledger was broken at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_quentin",
+          "door": "door_printshop_dock",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · PRINTSHOP_DOCK · badge: Quentin Preston"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Rosalind Talbot entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_rosalind",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_rosalind"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Rosalind Talbot remained in North Gate Print Shop and never approached The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rosalind",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_dorian"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Dorian Wyatt entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_dorian",
+          "where": "loc_grand_hotel",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_dorian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_dorian",
+        "what": "obj_cipher_ledger",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_dorian",
+        "where": "loc_northgate_printshop",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_printshop_dock",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_rosalind",
+        "where": "loc_grand_hotel",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_rosalind",
+        "door": "door_hotel_lobby",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_rosalind",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "possess",
+        "who": "char_rosalind",
+        "what": "obj_cipher_ledger",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_quentin",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "state",
+        "what": "obj_cipher_ledger",
+        "property": "seal",
+        "at": 1218,
+        "value": "broken"
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_printshop_dock",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_dorian",
+        "door": "door_printshop_dock",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_quentin",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_rosalind"
+    ],
+    "liars": [
+      {
+        "who": "char_rosalind",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Digital sensor diagnostics showed the security seal on Transit Cipher Ledger was broken at 20:18, contradicting testimony that it remained intact.",
+        "clueIds": [
+          "clue_seal_sensor",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Rosalind Talbot accessed door_hotel_lobby at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Rosalind Talbot took Transit Cipher Ledger from The Grand Vesper Hotel before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

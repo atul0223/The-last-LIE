@@ -1,0 +1,497 @@
+{
+  "id": "case_pool_0060",
+  "version": 1,
+  "kind": "procedural",
+  "title": "Disappearance of the Secured Transit Cipher Ledger",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, Vesper Central Station, North Gate Print Shop."
+  },
+  "briefing": "The disappearance of Transit Cipher Ledger from The Grand Vesper Hotel triggered an audit. Conflicting accounts from Percival Strand, Bram Ashford, Gideon MacKenzie, and Fabian Navarro contradict physical registers. Trace the evidence to recover the truth.",
+  "characters": [
+    {
+      "id": "char_fabian",
+      "name": "Fabian Navarro",
+      "role": "Visiting Researcher",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_gideon",
+      "name": "Gideon MacKenzie",
+      "role": "Archive Clerk",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_bram",
+      "name": "Bram Ashford",
+      "role": "Chief Conservator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_percival",
+      "name": "Percival Strand",
+      "role": "Security Officer",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_gideon"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_fabian",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_bram",
+          "what": "obj_cipher_ledger",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Fabian Navarro stated: 'I saw Bram Ashford holding Transit Cipher Ledger in their custody between 20:12 and 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_gideon",
+          "what": "obj_cipher_ledger",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Gideon MacKenzie verified registered custody of Transit Cipher Ledger in The Grand Vesper Hotel until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Gideon MacKenzie badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_hotel_lobby",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_grand_hotel",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Fabian Navarro scanned access badge at door_hotel_lobby at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_bram",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Bram Ashford verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_custodian_office_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_percival",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Turnstile Log: Percival Strand verified entry at door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_station_gate",
+          "at": 1202
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:02] STATION_GATE · badge: Gideon MacKenzie"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_gideon",
+          "door": "door_station_gate",
+          "at": 1238
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:38] ACCESS_LOG · STATION_GATE · badge: Gideon MacKenzie"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Bram Ashford entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_bram"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Gideon MacKenzie entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_gideon",
+          "where": "loc_grand_hotel",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_gideon"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Fabian Navarro entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_fabian",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    },
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Percival Strand entered The Grand Vesper Hotel and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_percival",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_percival"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_gideon",
+        "what": "obj_cipher_ledger",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_gideon",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_grand_hotel",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_hotel_lobby",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_fabian",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "possess",
+        "who": "char_fabian",
+        "what": "obj_cipher_ledger",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_bram",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_percival",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_percival",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_gideon",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_fabian"
+    ],
+    "liars": [
+      {
+        "who": "char_fabian",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_suspect3_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Gideon MacKenzie held exclusive custody of Transit Cipher Ledger until 20:20, disproving false claims of possession.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Fabian Navarro accessed door_hotel_lobby at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Bram Ashford badged into door_printshop_dock at 20:16, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Percival Strand badged into door_printshop_dock at 20:17, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect3_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Fabian Navarro took Transit Cipher Ledger from The Grand Vesper Hotel before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

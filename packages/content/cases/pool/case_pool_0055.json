@@ -1,0 +1,471 @@
+{
+  "id": "case_pool_0055",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Vanishing of the Hidden High-Speed Rotary Press",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_central_station",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, Vesper Central Station, North Freight Dock."
+  },
+  "briefing": "An inventory audit revealed the theft of High-Speed Rotary Press from North Gate Print Shop. Statements from Lillian Chen, Emil Wyatt, Roland Ibrahim, and Orion Corbett contain critical inconsistencies with electronic monitoring. Determine who took the item.",
+  "characters": [
+    {
+      "id": "char_orion",
+      "name": "Orion Corbett",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_emil",
+      "name": "Emil Wyatt",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Ibrahim",
+      "role": "Visiting Researcher",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lillian",
+      "name": "Lillian Chen",
+      "role": "Chief Conservator",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_emil"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_orion",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Orion Corbett stated: 'I remained in Vesper Central Station from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_emil",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Emil Wyatt verified registered custody of High-Speed Rotary Press in North Gate Print Shop until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_emil",
+          "door": "door_station_gate",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Emil Wyatt badged through door_station_gate at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_orion",
+          "door": "door_printshop_dock",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Orion Corbett scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Roland Ibrahim verified entry at door_dock_turnstile at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lillian",
+          "door": "door_dock_turnstile",
+          "at": 1217
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:17] DOCK_TURNSTILE · badge: Lillian Chen"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · DOCK_TURNSTILE · badge: Roland Ibrahim"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Emil Wyatt entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_emil",
+          "where": "loc_northgate_printshop",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_emil"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Orion Corbett entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_orion",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_orion"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Roland Ibrahim entered North Gate Print Shop and took High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Orion Corbett remained in Vesper Central Station and never approached North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_emil"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_emil",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_emil",
+        "where": "loc_central_station",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_station_gate",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_orion",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_orion",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "possess",
+        "who": "char_orion",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_lillian",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lillian",
+        "door": "door_dock_turnstile",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_station_gate",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_station_gate",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_orion"
+    ],
+    "liars": [
+      {
+        "who": "char_orion",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_printshop_dock proved Orion Corbett entered the vault at 20:18, shattering claims of staying in Vesper Central Station.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Orion Corbett accessed door_printshop_dock at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Roland Ibrahim badged into door_dock_turnstile at 20:16, ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Orion Corbett took High-Speed Rotary Press from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}
