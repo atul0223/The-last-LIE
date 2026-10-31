@@ -26,6 +26,7 @@ A mobile mystery game, mostly single-player, with asynchronous social competitio
 ## 2. High-level architecture
 
 Modular monolith. One repo, one backend, and a shared engine package.
+`supabase/functions/api/` is ONE Hono app (with `routes/` inside), and `supabase/functions/_shared/` houses middleware and the esbuild-bundled engine (`_shared/engine.js`). Deno-only code is isolated in one adapter file, so the app ports to Node/Cloudflare without rewriting application logic.
 
 ```
 ┌────────────────────────────┐        ┌──────────────────────────────────────┐
@@ -75,7 +76,11 @@ Modular monolith. One repo, one backend, and a shared engine package.
 │  └─ api-contract/           Request/response Zod schemas shared by app + functions
 ├─ supabase/
 │  ├─ migrations/             SQL, numbered
-│  ├─ functions/              Edge Functions (one folder each)
+│  ├─ functions/              Edge Functions
+│  │  ├─ api/                 ONE Hono app (routes/ inside, Deno adapter)
+│  │  │  ├─ routes/           session, daily, challenge route handlers
+│  │  │  └─ index.ts          Hono app entry point
+│  │  └─ _shared/             middleware, auth, and esbuild-bundled engine (_shared/engine.js)
 │  └─ seed.sql
 ├─ tools/
 │  └─ cli/                    `lastlie validate|generate|render|publish|playtest`
@@ -417,24 +422,27 @@ game_config(key pk, value jsonb)
 | `profiles` | SELECT/UPDATE own row (display_name, settings only) | all |
 | `daily_cases`, `game_config` | SELECT | all |
 
-Every write that matters goes through Edge Functions running with the service role.
+Every write that matters goes through Edge Functions running with the service role. Authorization is enforced in code on every query (the service role bypasses RLS), and RLS is defense-in-depth.
 
-### 8.2 Edge Functions (API)
+### 8.2 API (Hono app in one Supabase Edge Function `api`)
 
-All request and response bodies are defined in `packages/api-contract` (Zod). Each function validates its input, checks the auth JWT (or a guest token for challenges), and returns typed errors `{ error: { code, message } }`.
+All request and response bodies are defined in `packages/api-contract` (Zod). The backend is structured as ONE Hono app hosted in `supabase/functions/api/` with `routes/` inside, consuming middleware and the esbuild-bundled engine from `supabase/functions/_shared/` (`_shared/engine.js`). Deno-only code is confined to a single adapter file, so the app ports to Node/Cloudflare.
 
-| Function | Input | Behavior |
+Each route validates its input, checks the auth JWT (or a guest token for challenges), and returns typed errors `{ error: { code, message } }`. Authorization is enforced in code on every query (the service role bypasses RLS), and RLS is defense-in-depth.
+
+| Method & Route | Input | Behavior |
 |---|---|---|
-| `start-session` | `{ caseId? , mode, challengeId? }` | Picks a case if none is given (next unplayed case at the right difficulty, fingerprint dedupe). Creates a session and returns `CasePublic` with default clues. |
-| `unlock-clue` | `{ sessionId, clueId, via }` | `clueId` is the public placeholder (`locked_<n>`), and the server maps it to the real id within the session. Checks the unlock rule against the session state. Adds the clue to the session and returns its public form. |
-| `save-board` | `{ sessionId, board }` | Saves the evidence-board state (debounced from the client). |
-| `check-link` | `{ sessionId, a, b }` | *Optional hint mode.* Returns only `valid: boolean` and is rate-limited. Off by default for competitive modes. |
-| `submit` | `Submission` | Requires the session to be unsubmitted. Loads `case_private`, runs `scoreSubmission`, writes the result, updates progress/unlocks, and returns `ScoreResult` + `Reveal` (the full explanation and every clue). |
-| `get-daily` | `{}` | Returns today's daily case id (UTC date). |
-| † `create-challenge` | `{ sessionId }` | Must come after the creator has submitted. Returns a short code + share URL. |
-| † `challenge-compare` | `{ challengeId }` | Only for people who have submitted. Returns everyone's hypothesis choices + clue usage (aggregated, no PII). |
+| `POST /sessions` | `{ caseId?, mode, challengeId? }` | Picks a case if none is given (next unplayed case at the right difficulty, fingerprint dedupe). Creates a session and returns `CasePublic` with default clues. |
+| `POST /sessions/:id/unlock` | `{ clueId, via }` | `clueId` is the public placeholder (`locked_<n>`), and the server maps it to the real id within the session. Checks the unlock rule against the session state. Adds the clue to the session and returns its public form. |
+| `PUT /sessions/:id/board` | `{ board }` | Saves the evidence-board state (debounced from the client). |
+| `POST /sessions/:id/submit` | `Submission` | Requires the session to be unsubmitted. Loads `case_private`, runs `scoreSubmission`, writes the result, updates progress/unlocks, and returns `ScoreResult` + `Reveal` (the full explanation and every clue). |
+| `GET /daily` | `{}` | Returns today's daily case id (UTC date). |
+| `POST /challenges` | `{ sessionId }` | Must come after the creator has submitted. Returns a short code + share URL. |
+| `GET /challenges/:code` | `{}` | Returns challenge metadata and case public payload. |
+| `POST /challenges/:code/guest` | `{}` | Generates a signed guest session token for playing a challenge without an account. |
+| `GET /challenges/:code/compare` | `{}` | Only for people who have submitted. Returns everyone's hypothesis choices + clue usage (aggregated, no PII). |
 
-Rate limits: per user, per function (e.g. 60/min), stored in a small Postgres table or Upstash. `submit` is idempotent per session.
+Rate limits: per user, per route (e.g. 60/min), stored in a small Postgres table or Upstash. `POST /sessions/:id/submit` is idempotent per session.
 
 ### 8.3 Anti-cheat (proportionate)
 
@@ -468,7 +476,7 @@ interface GameService {
 ```
 
 - `LocalGameService` (Phases 1–3): bundles authored cases from `packages/content` and runs the engine on the device. The truth ships in the bundle. **That is fine for prototypes only**, so the app shows a dev badge while it is in use.
-- `RemoteGameService` (Phase 4+): uses the Edge Functions. A feature flag switches between the two. Remote is the only option in production builds.
+- `RemoteGameService` (Phase 4+): calls the Hono API. A feature flag switches between the two. Remote is the only option in production builds.
 
 ### 9.3 Navigation (5 tabs)
 
@@ -565,7 +573,8 @@ Key funnels: first-case completion, second-case start, D1/D7 retention, referral
 
 | Decision | Choice | Why |
 |---|---|---|
-| Backend shape | Supabase + Edge Functions (modular monolith) | Managed auth/DB, low ops, TS everywhere |
+| Backend shape | Hybrid (Option C: Supabase + Hono Edge Function) | Managed auth/DB, portable Hono app, low ops, TS everywhere |
+| Media | Supabase Storage now, Cloudflare R2 later | Fast prototype on Supabase, easy CDN migration when bandwidth grows |
 | Engine location | Shared pure-TS package | One source of logic for app, server, and CLI |
 | Case truth representation | Typed Facts + contradiction rules | Makes the validator deterministic. Text stays a presentation detail |
 | Procedural serving | Pre-generated & published batches | Every served case can be inspected, functions stay cheap, and analytics are per case |

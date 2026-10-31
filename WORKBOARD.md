@@ -30,6 +30,7 @@ Recommended total: **4–6 agents at once**. More than that and merge work outgr
 ## 2. Waves (what can run together, starting from WP-10)
 
 Team: 3 agents. Agent 1 = integrator (main folder), Agents 2 and 3 = builders reusing new worktrees.
+Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
 
 A wave starts only after the previous wave is **merged to `main`** and `main` is green.
 
