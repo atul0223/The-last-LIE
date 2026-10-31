@@ -565,6 +565,15 @@ export class PostgresRepository implements Repository {
     });
   }
 
+  async deletePushToken(userId: string, token?: string): Promise<boolean> {
+    let query = this.client.from('push_tokens').delete().eq('user_id', userId);
+    if (token) {
+      query = query.eq('token', token);
+    }
+    const { error } = await query;
+    return !error;
+  }
+
   // Graph operations
   async getPlayerGraphReveals(userId: string): Promise<{ nodes: GraphNode[]; edges: GraphEdge[] }> {
     const { data: reveals } = await this.client

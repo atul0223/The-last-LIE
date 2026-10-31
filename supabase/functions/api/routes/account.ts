@@ -5,6 +5,8 @@ import {
   MigrateLocalResponseSchema,
   RegisterPushTokenRequestSchema,
   RegisterPushTokenResponseSchema,
+  UnregisterPushTokenRequestSchema,
+  UnregisterPushTokenResponseSchema,
 } from '@lastlie/api-contract';
 import type { AppContextVariables, Repository } from '../../_shared/types.js';
 import { errorResponse } from '../../_shared/middleware.js';
@@ -101,6 +103,30 @@ export function createPushRouter(deps: { repo: Repository }) {
 
     return c.json(
       RegisterPushTokenResponseSchema.parse({
+        success: true,
+      }),
+      200,
+    );
+  });
+
+  // DELETE /push/token
+  router.delete('/token', async (c) => {
+    const userId = c.get('userId');
+    if (!userId) {
+      return errorResponse(c, 'UNAUTHORIZED', 'Missing authenticated user', 401);
+    }
+
+    const rawBody = await c.req.json().catch(() => ({}));
+    const parseResult = UnregisterPushTokenRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return errorResponse(c, 'BAD_REQUEST', parseResult.error.message, 400);
+    }
+
+    const token = parseResult.data?.token || c.req.query('token');
+    await repo.deletePushToken(userId, token);
+
+    return c.json(
+      UnregisterPushTokenResponseSchema.parse({
         success: true,
       }),
       200,
