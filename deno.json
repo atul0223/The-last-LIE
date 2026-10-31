@@ -1,8 +1,16 @@
 {
+  "nodeModulesDir": "none",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "unstable": ["sloppy-imports"],
   "imports": {
-    "hono": "npm:hono@^4.13.14",
-    "@supabase/supabase-js": "npm:@supabase/supabase-js@^2.118.0",
+    "@lastlie/api-contract": "./packages/api-contract/src/index.ts",
     "@lastlie/case-engine": "./packages/case-engine/src/index.ts",
-    "@lastlie/api-contract": "./packages/api-contract/src/index.ts"
+    "hono": "npm:hono@4.13.14",
+    "hono/": "npm:/hono@4.13.14/",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.118.0",
+    "zod": "npm:zod@3.23.8"
   }
 }

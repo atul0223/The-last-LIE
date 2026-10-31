@@ -153,7 +153,7 @@ export function createSessionsRouter(deps: { repo: Repository; clock: Clock; con
     });
 
     const publicCase = toPublicCase(def, newUnlockedIds);
-    const unlockedPublicClue = publicCase.clues.find((cl) => cl.id === realClueId);
+    const unlockedPublicClue = publicCase.clues.find((cl: { id: string }) => cl.id === realClueId);
     if (!unlockedPublicClue) {
       return errorResponse(c, 'INTERNAL_SERVER_ERROR', 'Failed to render unlocked clue', 500);
     }

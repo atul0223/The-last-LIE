@@ -45,5 +45,6 @@
     "overrides": {
       "@types/estree": "1.0.6"
     }
-  }
+  },
+  "workspaces": ["packages/*", "tools/*", "apps/*"]
 }
