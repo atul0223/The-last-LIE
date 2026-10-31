@@ -27,6 +27,8 @@ import type { GraphResponse } from './graph.js';
 import type {
   RegisterPushTokenRequest,
   RegisterPushTokenResponse,
+  UnregisterPushTokenRequest,
+  UnregisterPushTokenResponse,
 } from './push.js';
 import type {
   CaseReportRequest,
@@ -60,6 +62,7 @@ export interface ApiClient {
 
   // Push notifications
   registerPushToken(req: RegisterPushTokenRequest): Promise<RegisterPushTokenResponse>;
+  unregisterPushToken?(req?: UnregisterPushTokenRequest): Promise<UnregisterPushTokenResponse>;
 
   // Moderation (optional for backwards compatibility across unmerged lanes)
   reportCase?(caseId: string, req: CaseReportRequest): Promise<CaseReportResponse>;
