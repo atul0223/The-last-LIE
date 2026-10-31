@@ -4,16 +4,24 @@ import {
   CreateSessionResponseSchema,
   SaveBoardRequestSchema,
   SaveBoardResponseSchema,
+  SubmitSessionRequestSchema,
+  SubmitSessionResponseSchema,
   UnlockClueRequestSchema,
   UnlockClueResponseSchema,
 } from '@lastlie/api-contract';
-import { canUnlock, toPublicCase } from '@lastlie/case-engine';
-import type { AppContextVariables, Clock, Repository } from '../../_shared/types.js';
+import {
+  applyResult,
+  buildReveal,
+  canUnlock,
+  scoreSubmission,
+  toPublicCase,
+} from '@lastlie/case-engine';
+import type { AppConfig, AppContextVariables, Clock, Repository } from '../../_shared/types.js';
 import { errorResponse } from '../../_shared/middleware.js';
 
-export function createSessionsRouter(deps: { repo: Repository; clock: Clock }) {
+export function createSessionsRouter(deps: { repo: Repository; clock: Clock; config: AppConfig }) {
   const router = new Hono<{ Variables: AppContextVariables }>();
-  const { repo, clock } = deps;
+  const { repo, clock, config } = deps;
 
   // POST /sessions
   router.post('/', async (c) => {
@@ -190,6 +198,130 @@ export function createSessionsRouter(deps: { repo: Repository; clock: Clock }) {
       SaveBoardResponseSchema.parse({
         success: true,
         updatedAt: clock.now().toISOString(),
+      }),
+      200,
+    );
+  });
+
+  // POST /sessions/:id/submit
+  router.post('/:id/submit', async (c) => {
+    const userId = c.get('userId');
+    if (!userId) {
+      return errorResponse(c, 'UNAUTHORIZED', 'Missing authenticated user', 401);
+    }
+
+    const sessionId = c.req.param('id');
+    const session = await repo.getSession(sessionId, userId);
+    if (!session) {
+      return errorResponse(c, 'SESSION_NOT_FOUND', `Session '${sessionId}' not found`, 404);
+    }
+
+    const rawBody = await c.req.json().catch(() => null);
+    const parseResult = SubmitSessionRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return errorResponse(c, 'BAD_REQUEST', parseResult.error.message, 400);
+    }
+
+    const { hypothesisId, supportingClueIds, contradictions } = parseResult.data;
+
+    // Check if session was already submitted (idempotency)
+    if (session.status === 'submitted') {
+      const def = await repo.getCasePrivate(session.caseId, session.caseVersion);
+      if (!def) {
+        return errorResponse(c, 'INTERNAL_SERVER_ERROR', 'Case definition not found', 500);
+      }
+      const submission = {
+        sessionId,
+        hypothesisId,
+        supportingClueIds,
+        contradictions,
+      };
+      const scoreResult = scoreSubmission(def, session, submission);
+      const reveal = buildReveal(def, submission);
+      const progress = (await repo.getPlayerProgress(userId)) ?? {
+        userId,
+        xp: 0,
+        rank: 'Trainee',
+        solvedCount: 1,
+        correctCount: 1,
+        mastery: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        solvedCaseIds: [session.caseId],
+        unlockedDossierIds: [],
+      };
+
+      return c.json(
+        SubmitSessionResponseSchema.parse({
+          result: scoreResult,
+          reveal,
+          progress,
+          tooFast: false,
+        }),
+        200,
+      );
+    }
+
+    const def = await repo.getCasePrivate(session.caseId, session.caseVersion);
+    if (!def) {
+      return errorResponse(c, 'INTERNAL_SERVER_ERROR', 'Case definition not found', 500);
+    }
+
+    const submission = {
+      sessionId,
+      hypothesisId,
+      supportingClueIds,
+      contradictions,
+    };
+
+    // Duration timing check
+    const now = clock.now();
+    const startedAtMs = new Date(session.startedAt).getTime();
+    const durationSeconds = Math.max(0, (now.getTime() - startedAtMs) / 1000);
+    const tooFast = durationSeconds < config.minSubmitDurationSeconds;
+
+    const scoreResult = scoreSubmission(def, session, submission);
+    const reveal = buildReveal(def, submission);
+
+    const currentProgress = (await repo.getPlayerProgress(userId)) ?? {
+      userId,
+      xp: 0,
+      rank: 'Trainee',
+      solvedCount: 0,
+      correctCount: 0,
+      mastery: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      solvedCaseIds: [],
+      unlockedDossierIds: [],
+    };
+
+    const { progress: updatedProgress } = applyResult(
+      currentProgress,
+      scoreResult,
+      {
+        id: def.id,
+        difficulty: def.difficulty,
+        mode: session.mode,
+        characters: def.characters,
+      },
+    );
+
+    const txResult = await repo.saveSubmitTransaction({
+      session,
+      result: scoreResult,
+      reveal,
+      progress: updatedProgress,
+      tooFast,
+      submission: {
+        hypothesisId,
+        supportingClueIds,
+        contradictions,
+      },
+    });
+
+    return c.json(
+      SubmitSessionResponseSchema.parse({
+        result: txResult.result,
+        reveal: txResult.reveal,
+        progress: txResult.progress,
+        tooFast,
       }),
       200,
     );
