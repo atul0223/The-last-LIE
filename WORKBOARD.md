@@ -61,7 +61,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - → WP-50s / WP-55s (Daily case rotation & weekly competitive case server support)
   - → WP-51s (Conspiracy graph server endpoints & player graph state)
 - **Agent 3 (Mobile Queue):**
-  - WP-32c (Template variety & fingerprint collision fix)
+  - [x] WP-32c (Template variety & fingerprint collision fix) — MERGED
   - → WP-43 (RemoteGameService + feature flag + query sync)
   - → WP-44 (Auth & profile UI screens)
   - → WP-45 (Challenge creation, share cards, and compare UI)
