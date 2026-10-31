@@ -55,7 +55,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
 - **Agent 2 (Backend Queue):**
   - [x] WP-41a (API contract & Hono route schemas) — MERGED
   - [x] WP-41 (Functions core: sessions, unlock, board, daily) — MERGED
-  - → WP-42 (Submit + publish transactions, idempotent scoring)
+  - [x] WP-42 (Submit + publish transactions, idempotent scoring) — MERGED
   - → WP-45s (Challenge server routes & guest tokens)
   - → WP-44s (Auth server hooks & profile sync)
   - → WP-50s / WP-55s (Daily case rotation & weekly competitive case server support)
@@ -192,6 +192,10 @@ export interface CaseSlotProps {
 | 32b     | E    | Agent 2| `wp/32b-template-neutrality`| ✅ merged (neutrality fix + V16)                     |
 | 36      | E    | Agent 3| `wp/36-fingerprint-calibration` | ✅ merged (fingerprint dedupe & calibration)         |
 | 40      | B    | Agent 2| `wp/40-db-schema`           | ✅ merged (DB schema, RLS, triggers, seed)          |
+| 41a     | B    | Agent 2| `wp/41a-api-contract`       | ✅ merged (strict Zod API schemas)                  |
+| 41      | B    | Agent 2| `wp/41-api-core`            | ✅ merged (Hono API core, middlewares, leak test)   |
+| 32c     | E    | Agent 3| `wp/32c-template-variety`   | ✅ merged (variety, hidden_identity, <=14% coll)    |
+| 42      | B    | Agent 2| `wp/42-submit-publish`      | ✅ merged (submit idempotency, publisher CLI)       |
 | 46      | T/MU | Agent 3| `wp/46-analytics`           | ✅ merged (PostHog & Sentry monitoring)              |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
