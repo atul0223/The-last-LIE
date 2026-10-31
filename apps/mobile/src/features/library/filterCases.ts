@@ -3,11 +3,13 @@ import type { CaseCatalogItem } from './catalog';
 export type DifficultyFilter = 'all' | 1 | 2 | 3 | 4 | 5;
 export type MysteryTypeFilter = 'all' | string;
 export type StatusFilter = 'all' | 'solved' | 'unsolved';
+export type OriginFilter = 'all' | 'authored' | 'generated';
 
 export interface CaseFilterOptions {
   difficulty?: DifficultyFilter;
   mysteryType?: MysteryTypeFilter;
   status?: StatusFilter;
+  origin?: OriginFilter;
   searchQuery?: string;
 }
 
@@ -47,7 +49,15 @@ export function filterCases(
       }
     }
 
-    // 4. Text search query
+    // 4. Origin filter (authored vs generated)
+    if (filters.origin && filters.origin !== 'all') {
+      const itemOrigin = item.kind ?? 'authored';
+      if (itemOrigin !== filters.origin) {
+        return false;
+      }
+    }
+
+    // 5. Text search query
     if (filters.searchQuery && filters.searchQuery.trim().length > 0) {
       const q = filters.searchQuery.toLowerCase().trim();
       const matchTitle = item.title.toLowerCase().includes(q);

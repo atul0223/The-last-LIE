@@ -1,4 +1,5 @@
 import { AUTHORED_CASES } from '@lastlie/content';
+import * as contentModule from '@lastlie/content';
 import {
   toPublicCase,
   canUnlock,
@@ -34,9 +35,21 @@ export class LocalGameService implements GameService {
   private readonly caseDefinitions: Map<string, CaseDefinition> = new Map();
   private awardedSessions = new Set<string>();
 
-  constructor() {
+  constructor(options?: { generatedCases?: CaseDefinition[] }) {
     // Load static authored case definitions into memory (NEVER persisted to disk)
     for (const rawCase of AUTHORED_CASES) {
+      const parsed = CaseDefinitionSchema.parse(rawCase);
+      this.caseDefinitions.set(parsed.id, parsed);
+    }
+
+    // Safely load GENERATED_CASES from @lastlie/content if present (added after pack regeneration)
+    const content = contentModule as Record<string, unknown>;
+    const contentGenerated = Array.isArray(content.GENERATED_CASES)
+      ? (content.GENERATED_CASES as CaseDefinition[])
+      : [];
+
+    const allGenerated = [...contentGenerated, ...(options?.generatedCases ?? [])];
+    for (const rawCase of allGenerated) {
       const parsed = CaseDefinitionSchema.parse(rawCase);
       this.caseDefinitions.set(parsed.id, parsed);
     }
@@ -63,7 +76,7 @@ export class LocalGameService implements GameService {
     if (!def) {
       throw new GameServiceError(
         'CASE_NOT_FOUND',
-        `Case '${caseId}' was not found in local authored cases`,
+        `Case '${caseId}' was not found in local cases`,
       );
     }
 
