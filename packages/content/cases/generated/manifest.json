@@ -1,0 +1,186 @@
+{
+  "version": "1.0.0",
+  "count": 18,
+  "cases": [
+    {
+      "id": "case_fa_2190",
+      "file": "case_fa_2190.json",
+      "title": "The Unrecorded Alibi at North Freight Dock",
+      "mysteryType": "false_alibi",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fa_3727",
+      "file": "case_fa_3727.json",
+      "title": "Deception at North Freight Dock in the Fog",
+      "mysteryType": "false_alibi",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fa_4231",
+      "file": "case_fa_4231.json",
+      "title": "Deception at North Freight Dock in the Fog",
+      "mysteryType": "false_alibi",
+      "difficulty": 4,
+      "cluesCount": 8,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fa_5598",
+      "file": "case_fa_5598.json",
+      "title": "Affair at The Vesper Chronicle Newsroom",
+      "mysteryType": "false_alibi",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fa_9457",
+      "file": "case_fa_9457.json",
+      "title": "The Compromised Alibi at The Vesper Chronicle Newsroom",
+      "mysteryType": "false_alibi",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fa_9913",
+      "file": "case_fa_9913.json",
+      "title": "The Compromise of the Transit Cipher Ledger Before Dawn",
+      "mysteryType": "false_alibi",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_2982",
+      "file": "case_fm_2982.json",
+      "title": "The Broken Transmission at North Gate Print Shop Across the Network",
+      "mysteryType": "forged_message",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_3429",
+      "file": "case_fm_3429.json",
+      "title": "Deception on the Wire at The Vesper Chronicle Newsroom in the Pressroom",
+      "mysteryType": "forged_message",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_5462",
+      "file": "case_fm_5462.json",
+      "title": "The False Transmission at The Vesper Chronicle Newsroom",
+      "mysteryType": "forged_message",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_6162",
+      "file": "case_fm_6162.json",
+      "title": "The Intercepted Wire at Vesper Central Station Over the Wire",
+      "mysteryType": "forged_message",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_7469",
+      "file": "case_fm_7469.json",
+      "title": "The Phantom Message from High-Speed Rotary Press Across the Network",
+      "mysteryType": "forged_message",
+      "difficulty": 4,
+      "cluesCount": 8,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_fm_7578",
+      "file": "case_fm_7578.json",
+      "title": "False Dispatches from Naval Brass Chronometer in the Pressroom",
+      "mysteryType": "forged_message",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_1492",
+      "file": "case_mi_1492.json",
+      "title": "The Vault Freight Turnstile Scanner in the Fog",
+      "mysteryType": "missing_item",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_2511",
+      "file": "case_mi_2511.json",
+      "title": "The Custody Gap at North Gate Print Shop",
+      "mysteryType": "missing_item",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_5239",
+      "file": "case_mi_5239.json",
+      "title": "The Theft at North Gate Print Shop Before Dawn",
+      "mysteryType": "missing_item",
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_5298",
+      "file": "case_mi_5298.json",
+      "title": "The Silent Transit Cipher Ledger in the Archives",
+      "mysteryType": "missing_item",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_5883",
+      "file": "case_mi_5883.json",
+      "title": "The Transit Cipher Ledger Puzzle at The Grand Vesper Hotel",
+      "mysteryType": "missing_item",
+      "difficulty": 4,
+      "cluesCount": 8,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    },
+    {
+      "id": "case_mi_8137",
+      "file": "case_mi_8137.json",
+      "title": "The High-Speed Rotary Press Custody Gap at North Freight Dock",
+      "mysteryType": "missing_item",
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1
+    }
+  ]
+}

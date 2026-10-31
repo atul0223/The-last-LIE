@@ -1,0 +1,356 @@
+{
+  "id": "case_mi_2511",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Custody Gap at North Gate Print Shop",
+  "difficulty": 1,
+  "estimatedMinutes": 7,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-11-05",
+    "summary": "A high-value object went missing from North Freight Dock during evening shifts."
+  },
+  "briefing": "Custodial logs at North Freight Dock show an unrecorded removal of High-Speed Rotary Press. Access was restricted to three staff members: Daphne Graves, Emil Sterling, and Fabian Winter. Evaluate their testimonies against physical evidence to identify the perpetrator.",
+  "characters": [
+    {
+      "id": "char_daphne",
+      "name": "Daphne Graves",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_fabian",
+      "name": "Fabian Winter",
+      "role": "Vault Curator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_emil",
+      "name": "Emil Sterling",
+      "role": "Visiting Researcher",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_fabian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_fabian",
+          "what": "obj_rotary_press",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Fabian Winter verified registered custody of High-Speed Rotary Press in North Freight Dock until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_daphne",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_daphne",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        },
+        {
+          "kind": "possess",
+          "who": "char_emil",
+          "what": "obj_rotary_press",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "text": "Daphne Graves stated: 'I remained in North Gate Print Shop from 20:10 to 20:30. In fact, Emil Sterling was already holding High-Speed Rotary Press earlier around 20:12.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_printshop_dock",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Fabian Winter badged through door_printshop_dock at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_daphne",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Vault Security Gate: Daphne Graves scanned access badge at door_dock_turnstile at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_emil",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Emil Sterling"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_stole",
+      "label": "Daphne Graves took High-Speed Rotary Press from North Freight Dock.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_daphne",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_daphne"
+      ]
+    },
+    {
+      "id": "hyp_custodian_took",
+      "label": "Fabian Winter took High-Speed Rotary Press from North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_north_dock",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Daphne Graves remained in North Gate Print Shop and never entered North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_daphne",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_emil"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_fabian",
+        "what": "obj_rotary_press",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_northgate_printshop",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_daphne",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_daphne",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_daphne",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "possess",
+        "who": "char_daphne",
+        "what": "obj_rotary_press",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_emil",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_printshop_dock",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_emil",
+        "door": "door_printshop_dock",
+        "at": 1228
+      }
+    ],
+    "culpritIds": [
+      "char_daphne"
+    ],
+    "liars": [
+      {
+        "who": "char_daphne",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_stole",
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Official custody records proved Fabian Winter held registered custody of High-Speed Rotary Press until 20:20, disproving claims of earlier possession by others.",
+        "clueIds": [
+          "clue_custody_log",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Daphne Graves was recorded badging into door_dock_turnstile at 20:18, shattering their office alibi and placing them inside North Freight Dock.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Daphne Graves took High-Speed Rotary Press directly from North Freight Dock at 20:20.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_missing_item_v1"
+  }
+}

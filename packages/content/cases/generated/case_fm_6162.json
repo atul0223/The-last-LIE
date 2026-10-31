@@ -1,0 +1,434 @@
+{
+  "id": "case_fm_6162",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Intercepted Wire at Vesper Central Station Over the Wire",
+  "difficulty": 2,
+  "estimatedMinutes": 9,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_northgate_printshop",
+      "loc_chronicle_newsroom"
+    ],
+    "date": "2026-11-06",
+    "summary": "A forged telegraph dispatch was transmitted from Vesper Central Station to disrupt operations at North Gate Print Shop."
+  },
+  "briefing": "A forged wire instruction was relayed through Freight Turnstile Scanner during the deadline rush. Investigative inquiries focus on Arthur Webb, Cynthia Oakhaven, and Daphne Winter, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.",
+  "characters": [
+    {
+      "id": "char_daphne",
+      "name": "Daphne Winter",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_arthur",
+      "name": "Arthur Webb",
+      "role": "Managing Editor",
+      "publicDescription": "Managing Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cynthia",
+      "name": "Cynthia Oakhaven",
+      "role": "Press Foreman",
+      "publicDescription": "Press Foreman in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_arthur"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_carrier_log",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sentAt": 1215,
+          "recipient": "char_cynthia"
+        }
+      ],
+      "text": "Carrier Dispatch Log: Message msg_dispatch routed from Freight Turnstile Scanner to Cynthia Oakhaven at 20:15. (Carrier header records no authenticated sender id).",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_daphne",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "sender": "char_arthur",
+          "device": "obj_dock_scanner",
+          "sentAt": 1215,
+          "recipient": "char_cynthia"
+        }
+      ],
+      "text": "Daphne Winter stated: 'I saw Arthur Webb log into Freight Turnstile Scanner and send message msg_dispatch at 20:15 before leaving.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_arthur",
+          "door": "door_printshop_dock",
+          "at": 1214
+        }
+      ],
+      "text": "Turnstile Log: Arthur Webb badged into door_printshop_dock at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_daphne",
+          "at": 1215
+        },
+        {
+          "kind": "access",
+          "who": "char_daphne",
+          "door": "door_station_gate",
+          "at": 1212
+        }
+      ],
+      "text": "Terminal Audit Trail: Freight Turnstile Scanner authenticated user session for Daphne Winter at 20:15 with badge access at door_station_gate.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_culprit_testimony"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_cynthia",
+          "door": "door_newsroom_press",
+          "at": 1216
+        }
+      ],
+      "text": "Gate Log: Cynthia Oakhaven scanned access badge at door_newsroom_press at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_daphne",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Daphne Winter"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_arthur",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Arthur Webb"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Daphne Winter remained at North Gate Print Shop and did not operate Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_daphne",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_arthur"
+      ]
+    },
+    {
+      "id": "hyp_recipient_sent",
+      "label": "Cynthia Oakhaven transmitted the unauthorized dispatch from Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_cynthia",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_cynthia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_forged",
+      "label": "Daphne Winter transmitted the unauthorized dispatch from Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_daphne",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_daphne"
+      ]
+    },
+    {
+      "id": "hyp_victim_sent",
+      "label": "Arthur Webb transmitted the unauthorized dispatch from Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_arthur",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_arthur"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_daphne",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_daphne",
+        "door": "door_station_gate",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_daphne",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_cynthia"
+      },
+      {
+        "kind": "action",
+        "who": "char_daphne",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_arthur",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_arthur",
+        "door": "door_printshop_dock",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_cynthia",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_arthur",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_arthur",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_newsroom_press",
+        "at": 1229
+      }
+    ],
+    "culpritIds": [
+      "char_daphne"
+    ],
+    "liars": [
+      {
+        "who": "char_daphne",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_forged",
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Arthur Webb badged into door_printshop_dock at 20:14, proving they were not present in Vesper Central Station to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Daphne Winter was logged into Freight Turnstile Scanner at 20:15, shattering their claim that Arthur Webb sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Cynthia Oakhaven was logged at door_newsroom_press at 20:16, confirming their legitimate station.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Daphne Winter transmitted the forged message msg_dispatch from Freight Turnstile Scanner at 20:15.",
+        "clueIds": [
+          "clue_carrier_log",
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_forged_message_v1"
+  }
+}

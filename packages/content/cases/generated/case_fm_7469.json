@@ -1,0 +1,513 @@
+{
+  "id": "case_fm_7469",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Phantom Message from High-Speed Rotary Press Across the Network",
+  "difficulty": 4,
+  "estimatedMinutes": 13,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-11-06",
+    "summary": "A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at Vesper Central Station."
+  },
+  "briefing": "An unauthorized dispatch msg_dispatch was transmitted from High-Speed Rotary Press to Vesper Central Station. four staff members were on duty across the network: Leander Wainwright, Elias Dunbar, Nadia Lockwood, and Roland Holt. Inspect terminal session logs and carrier records to unmask the imposter.",
+  "characters": [
+    {
+      "id": "char_roland",
+      "name": "Roland Holt",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_leander",
+      "name": "Leander Wainwright",
+      "role": "Managing Editor",
+      "publicDescription": "Managing Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_elias",
+      "name": "Elias Dunbar",
+      "role": "Press Foreman",
+      "publicDescription": "Press Foreman in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nadia",
+      "name": "Nadia Lockwood",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "item",
+      "ownerId": "char_leander"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_carrier_log",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_elias"
+        }
+      ],
+      "text": "Carrier Dispatch Log: Message msg_dispatch routed from High-Speed Rotary Press to Elias Dunbar at 20:15. (Carrier header records no authenticated sender id).",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_roland",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "sender": "char_leander",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_elias"
+        }
+      ],
+      "text": "Roland Holt stated: 'I saw Leander Wainwright log into High-Speed Rotary Press and send message msg_dispatch at 20:15 before leaving.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_leander",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Turnstile Log: Leander Wainwright badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_roland",
+          "at": 1215
+        },
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_hotel_lobby",
+          "at": 1212
+        },
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Audit Trail: High-Speed Rotary Press authenticated user session for Roland Holt at 20:15 with badge access at door_hotel_lobby.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_culprit_testimony"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_elias",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Gate Log: Elias Dunbar scanned access badge at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_carrier_log"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nadia",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "text": "Security Log: Nadia Lockwood logged badge at door_printshop_dock at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_leander",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · VESPER_CENTRAL_STATION · subject: Leander Wainwright"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_elias",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_GATE_PRINT_SHOP · subject: Elias Dunbar"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect3_sent",
+      "label": "Nadia Lockwood transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nadia",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_nadia"
+      ]
+    },
+    {
+      "id": "hyp_culprit_forged",
+      "label": "Roland Holt transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_roland",
+          "verb": "sent",
+          "target": "obj_dock_scanner",
+          "at": 1215,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_recipient_sent",
+      "label": "Elias Dunbar transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_elias",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_elias"
+      ]
+    },
+    {
+      "id": "hyp_victim_sent",
+      "label": "Leander Wainwright transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_leander",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_leander"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_hotel_lobby",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_roland",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_elias"
+      },
+      {
+        "kind": "action",
+        "who": "char_roland",
+        "verb": "sent",
+        "target": "obj_dock_scanner",
+        "at": 1215,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_leander",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_elias",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_nadia",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nadia",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_leander",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_elias",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "culpritIds": [
+      "char_roland"
+    ],
+    "liars": [
+      {
+        "who": "char_roland",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_forged",
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Leander Wainwright badged into door_station_gate at 20:14, proving they were not present in The Grand Vesper Hotel to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Roland Holt was logged into High-Speed Rotary Press at 20:15, shattering their claim that Leander Wainwright sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Elias Dunbar was logged at door_printshop_dock at 20:16, confirming their legitimate station.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Nadia Lockwood was badged into door_printshop_dock at 20:17, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Roland Holt transmitted the forged message msg_dispatch from High-Speed Rotary Press at 20:15.",
+        "clueIds": [
+          "clue_carrier_log",
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_forged_message_v1"
+  }
+}

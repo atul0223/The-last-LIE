@@ -1,0 +1,485 @@
+{
+  "id": "case_fm_7578",
+  "version": 1,
+  "kind": "procedural",
+  "title": "False Dispatches from Naval Brass Chronometer in the Pressroom",
+  "difficulty": 3,
+  "estimatedMinutes": 11,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-11-06",
+    "summary": "A forged telegraph dispatch was transmitted from North Freight Dock to disrupt operations at The Vesper Chronicle Newsroom."
+  },
+  "briefing": "An unauthorized dispatch msg_dispatch was transmitted from Naval Brass Chronometer to The Vesper Chronicle Newsroom. four staff members were on duty across the network: Thaddeus Yeats, Orion Vance, Astrid Sterling, and Corin Oakhaven. Inspect terminal session logs and carrier records to unmask the imposter.",
+  "characters": [
+    {
+      "id": "char_astrid",
+      "name": "Astrid Sterling",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_orion",
+      "name": "Orion Vance",
+      "role": "Managing Editor",
+      "publicDescription": "Managing Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_corin",
+      "name": "Corin Oakhaven",
+      "role": "Press Foreman",
+      "publicDescription": "Press Foreman in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_thaddeus",
+      "name": "Thaddeus Yeats",
+      "role": "Telegraph Operator",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "device"
+    },
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_orion"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_carrier_log",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_brass_chronometer",
+          "sentAt": 1215,
+          "recipient": "char_corin"
+        }
+      ],
+      "text": "Carrier Dispatch Log: Message msg_dispatch routed from Naval Brass Chronometer to Corin Oakhaven at 20:15. (Carrier header records no authenticated sender id).",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_astrid",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "sender": "char_orion",
+          "device": "obj_brass_chronometer",
+          "sentAt": 1215,
+          "recipient": "char_corin"
+        }
+      ],
+      "text": "Astrid Sterling stated: 'I saw Orion Vance log into Naval Brass Chronometer and send message msg_dispatch at 20:15 before leaving.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_orion",
+          "door": "door_newsroom_press",
+          "at": 1214
+        }
+      ],
+      "text": "Turnstile Log: Orion Vance badged into door_newsroom_press at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_brass_chronometer",
+          "by": "char_astrid",
+          "at": 1215
+        },
+        {
+          "kind": "access",
+          "who": "char_astrid",
+          "door": "door_dock_turnstile",
+          "at": 1212
+        },
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Audit Trail: Naval Brass Chronometer authenticated user session for Astrid Sterling at 20:15 with badge access at door_dock_turnstile.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_culprit_testimony"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_corin",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Gate Log: Corin Oakhaven scanned access badge at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_thaddeus",
+          "door": "door_station_gate",
+          "at": 1217
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:17] STATION_GATE · badge: Thaddeus Yeats"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_corin",
+          "door": "door_station_gate",
+          "at": 1206
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:06] STATION_GATE · badge: Corin Oakhaven"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victim_sent",
+      "label": "Orion Vance transmitted the unauthorized dispatch from Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_orion"
+      ]
+    },
+    {
+      "id": "hyp_culprit_forged",
+      "label": "Astrid Sterling transmitted the unauthorized dispatch from Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_astrid",
+          "verb": "sent",
+          "target": "obj_cipher_ledger",
+          "at": 1215,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_astrid"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Astrid Sterling remained at The Vesper Chronicle Newsroom and did not operate Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_astrid",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_orion"
+      ]
+    },
+    {
+      "id": "hyp_recipient_sent",
+      "label": "Corin Oakhaven transmitted the unauthorized dispatch from Naval Brass Chronometer.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_corin",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_corin"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_astrid",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_astrid",
+        "door": "door_dock_turnstile",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_brass_chronometer",
+        "by": "char_astrid",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_brass_chronometer",
+        "sentAt": 1215,
+        "recipient": "char_corin"
+      },
+      {
+        "kind": "action",
+        "who": "char_astrid",
+        "verb": "sent",
+        "target": "obj_cipher_ledger",
+        "at": 1215,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_orion",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_newsroom_press",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_corin",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_thaddeus",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_thaddeus",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_corin",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "culpritIds": [
+      "char_astrid"
+    ],
+    "liars": [
+      {
+        "who": "char_astrid",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_forged",
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Orion Vance badged into door_newsroom_press at 20:14, proving they were not present in North Freight Dock to operate Naval Brass Chronometer.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Astrid Sterling was logged into Naval Brass Chronometer at 20:15, shattering their claim that Orion Vance sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Corin Oakhaven was logged at door_station_gate at 20:16, confirming their legitimate station.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Astrid Sterling transmitted the forged message msg_dispatch from Naval Brass Chronometer at 20:15.",
+        "clueIds": [
+          "clue_carrier_log",
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_forged_message_v1"
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "id": "case_fm_5462",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The False Transmission at The Vesper Chronicle Newsroom",
+  "difficulty": 2,
+  "estimatedMinutes": 9,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_central_station",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-11-06",
+    "summary": "A forged telegraph dispatch was transmitted from The Vesper Chronicle Newsroom to disrupt operations at Vesper Central Station."
+  },
+  "briefing": "A forged wire instruction was relayed through High-Speed Rotary Press during the deadline rush. Investigative inquiries focus on Amara Adler, Clara Orlov, and Lenore Kingsley, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.",
+  "characters": [
+    {
+      "id": "char_lenore",
+      "name": "Lenore Kingsley",
+      "role": "Wire Editor",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_clara",
+      "name": "Clara Orlov",
+      "role": "Managing Editor",
+      "publicDescription": "Managing Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_amara",
+      "name": "Amara Adler",
+      "role": "Press Foreman",
+      "publicDescription": "Press Foreman in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_clara"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_carrier_log",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_amara"
+        }
+      ],
+      "text": "Carrier Dispatch Log: Message msg_dispatch routed from High-Speed Rotary Press to Amara Adler at 20:15. (Carrier header records no authenticated sender id).",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lenore",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "sender": "char_clara",
+          "device": "obj_rotary_press",
+          "sentAt": 1215,
+          "recipient": "char_amara"
+        }
+      ],
+      "text": "Lenore Kingsley stated: 'I saw Clara Orlov log into High-Speed Rotary Press and send message msg_dispatch at 20:15 before leaving.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_clara",
+          "door": "door_station_gate",
+          "at": 1214
+        }
+      ],
+      "text": "Turnstile Log: Clara Orlov badged into door_station_gate at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_rotary_press",
+          "by": "char_lenore",
+          "at": 1215
+        },
+        {
+          "kind": "access",
+          "who": "char_lenore",
+          "door": "door_newsroom_press",
+          "at": 1212
+        }
+      ],
+      "text": "Terminal Audit Trail: High-Speed Rotary Press authenticated user session for Lenore Kingsley at 20:15 with badge access at door_newsroom_press.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_culprit_testimony"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_amara",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Gate Log: Amara Adler scanned access badge at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · NORTH_GATE_PRINT_SHOP · visual: Amara Adler"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lenore",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Lenore Kingsley"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_recipient_sent",
+      "label": "Amara Adler transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_amara",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_amara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lenore Kingsley remained at Vesper Central Station and did not operate High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lenore",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_clara"
+      ]
+    },
+    {
+      "id": "hyp_culprit_forged",
+      "label": "Lenore Kingsley transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lenore",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_lenore"
+      ]
+    },
+    {
+      "id": "hyp_victim_sent",
+      "label": "Clara Orlov transmitted the unauthorized dispatch from High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_clara",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_clara"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_lenore",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lenore",
+        "door": "door_newsroom_press",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_rotary_press",
+        "by": "char_lenore",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_rotary_press",
+        "sentAt": 1215,
+        "recipient": "char_amara"
+      },
+      {
+        "kind": "action",
+        "who": "char_lenore",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_clara",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_station_gate",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_station_gate",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_clara",
+        "door": "door_station_gate",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "culpritIds": [
+      "char_lenore"
+    ],
+    "liars": [
+      {
+        "who": "char_lenore",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_forged",
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Clara Orlov badged into door_station_gate at 20:14, proving they were not present in The Vesper Chronicle Newsroom to operate High-Speed Rotary Press.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal session logs verified that Lenore Kingsley was logged into High-Speed Rotary Press at 20:15, shattering their claim that Clara Orlov sent the dispatch.",
+        "clueIds": [
+          "clue_terminal_session",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Amara Adler was logged at door_printshop_dock at 20:16, confirming their legitimate station.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Lenore Kingsley transmitted the forged message msg_dispatch from High-Speed Rotary Press at 20:15.",
+        "clueIds": [
+          "clue_carrier_log",
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_forged_message_v1"
+  }
+}

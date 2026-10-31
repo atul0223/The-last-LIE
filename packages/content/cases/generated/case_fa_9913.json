@@ -1,0 +1,459 @@
+{
+  "id": "case_fa_9913",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Compromise of the Transit Cipher Ledger Before Dawn",
+  "difficulty": 3,
+  "estimatedMinutes": 11,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_grand_hotel",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-11-04",
+    "summary": "An unauthorized incident occurred at The Vesper Chronicle Newsroom under cover of evening routines."
+  },
+  "briefing": "Security at The Vesper Chronicle Newsroom reported Transit Cipher Ledger missing from its station. Harold Calloway, Orion Harrington, Eleanor Faulkner, and Bram Adler were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.",
+  "characters": [
+    {
+      "id": "char_bram",
+      "name": "Bram Adler",
+      "role": "Primary Suspect",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_orion",
+      "name": "Orion Harrington",
+      "role": "Staff Member",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Faulkner",
+      "role": "Associate",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_harold",
+      "name": "Harold Calloway",
+      "role": "Night Supervisor",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_bram"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_culprit_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_bram",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Bram Adler stated: 'I spent the entire evening from 20:10 to 20:30 at The Grand Vesper Hotel attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_orion",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Orion Harrington stated: 'I was present in The Grand Vesper Hotel between 20:10 and 20:30. I did not see any unauthorized activity.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_orion",
+          "door": "door_hotel_lobby",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Orion Harrington badged through door_hotel_lobby at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_crime_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_bram",
+          "door": "door_newsroom_press",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Security Terminal: Bram Adler scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_culprit_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Eleanor Faulkner verified entry at door_printshop_dock at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_orion",
+          "door": "door_hotel_lobby",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ENTRY_GATE · HOTEL_LOBBY · authorized: Orion Harrington"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_harold",
+          "door": "door_printshop_dock",
+          "at": 1217
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:17] ENTRY_GATE · PRINTSHOP_DOCK · authorized: Harold Calloway"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Eleanor Faulkner entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Orion Harrington entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_orion",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_orion"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Bram Adler remained at The Grand Vesper Hotel and did not enter The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_bram",
+          "where": "loc_grand_hotel",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_orion"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Bram Adler entered The Vesper Chronicle Newsroom and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_bram",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_bram"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_bram",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_bram",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_bram",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "at",
+        "who": "char_orion",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_hotel_lobby",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_harold",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_harold",
+        "door": "door_printshop_dock",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_orion",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "culpritIds": [
+      "char_bram"
+    ],
+    "liars": [
+      {
+        "who": "char_bram",
+        "statementClueIds": [
+          "clue_culprit_testimony"
+        ]
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_culprit_crime_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Orion Harrington was logged badging into door_hotel_lobby at 20:15, proving their presence at The Grand Vesper Hotel and ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Eleanor Faulkner badged through door_printshop_dock at 20:16, establishing their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Bram Adler was captured scanning their badge at door_newsroom_press at 20:18, completely shattering their fabricated alibi.",
+        "clueIds": [
+          "clue_culprit_crime_access",
+          "clue_culprit_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Bram Adler took Transit Cipher Ledger from The Vesper Chronicle Newsroom at 20:20 before departing.",
+        "clueIds": [
+          "clue_culprit_crime_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Procedural Case Engine",
+    "templateId": "tpl_false_alibi_v1"
+  }
+}
