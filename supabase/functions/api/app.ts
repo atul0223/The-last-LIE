@@ -19,6 +19,7 @@ import { createDailyRouter } from './routes/daily.js';
 import { createWeeklyRouter } from './routes/weekly.js';
 import { createChallengesRouter } from './routes/challenges.js';
 import { createAccountRouter, createPushRouter } from './routes/account.js';
+import { createGraphRouter } from './routes/graph.js';
 
 export interface AppDeps {
   repo: Repository;
@@ -97,6 +98,15 @@ export function createApp(deps: AppDeps) {
   pushGroup.route('/', pushRouter);
 
   app.route('/push', pushGroup);
+
+  // Conspiracy Graph routes
+  const graphRouter = createGraphRouter({ repo });
+  const graphGroup = new Hono<{ Variables: AppContextVariables }>();
+  graphGroup.use('*', authMiddleware(auth));
+  graphGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
+  graphGroup.route('/', graphRouter);
+
+  app.route('/graph', graphGroup);
 
   // Not Found Handler
   app.notFound((c) => {
