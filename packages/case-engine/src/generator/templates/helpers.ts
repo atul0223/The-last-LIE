@@ -296,3 +296,84 @@ export function generateForgedMessageTitle(
 
   return rng.pick(patterns)();
 }
+
+/**
+ * Generates rich, character-neutral titles for hidden_identity cases.
+ */
+export function generateHiddenIdentityTitle(
+  rng: Rng,
+  item: GameObject,
+  locStation: Location,
+  locHotel: Location,
+  locTransit: Location,
+): string {
+  const descriptors = [
+    'Phantom',
+    'Shadowed',
+    'Veiled',
+    'Substituted',
+    'Disputed',
+    'Cloaked',
+    'Spurious',
+    'Inverted',
+    'Counterfeit',
+    'Unmasked',
+    'Duplicitous',
+    'Spectral',
+    'Obscured',
+    'Secret',
+    'Clandestine',
+    'Silent',
+    'Deceptive',
+    'Furtive',
+  ];
+  const incidentNouns = [
+    'Imposture',
+    'Infiltration',
+    'Intrigue',
+    'Deception',
+    'Cipher',
+    'Conspiracy',
+    'Breach',
+    'Affair',
+    'Occurrence',
+    'Subterfuge',
+    'Discrepancy',
+  ];
+  const atmospheric = [
+    'at Midnight',
+    'in the Fog',
+    'After Hours',
+    'Under Curfew',
+    'at the Platform Gate',
+    'Behind Closed Doors',
+    'in the Cold Rain',
+    'at the Concourse',
+    'Before the Whistle',
+    'Past the Gatehouse',
+  ];
+
+  const patterns = [
+    () => `The ${rng.pick(descriptors)} Impostor at ${locStation.name}`,
+    () => `The ${locHotel.name} ${rng.pick(incidentNouns)} ${rng.pick(atmospheric)}`,
+    () => `The ${item.name} ${rng.pick(incidentNouns)}`,
+    () => `Shadows Over ${locStation.name} ${rng.pick(atmospheric)}`,
+    () => `The ${rng.pick(descriptors)} Attache at ${locHotel.name}`,
+    () => `The Interception of the ${item.name} ${rng.pick(atmospheric)}`,
+    () => `The Disputed Identity at ${locTransit.name} ${rng.pick(atmospheric)}`,
+    () => `${rng.pick(incidentNouns)} at ${locStation.name}`,
+    () => `The ${rng.pick(descriptors)} Infiltration at ${locStation.name}`,
+    () => `Subterfuge at ${locHotel.name} ${rng.pick(atmospheric)}`,
+    () => `The Case of the ${rng.pick(descriptors)} Envoy`,
+    () => `The ${rng.pick(descriptors)} Cipher at ${locStation.name}`,
+    () => `A Phantom at ${locTransit.name} ${rng.pick(atmospheric)}`,
+    () => `The False Persona at ${locHotel.name}`,
+    () => `The Vanished Operative of ${locStation.name}`,
+    () => `The ${item.name} Intrigue at ${locTransit.name}`,
+    () => `The Secret Credentials of ${locHotel.name} ${rng.pick(atmospheric)}`,
+    () => `The Man from ${locStation.name} ${rng.pick(atmospheric)}`,
+  ];
+
+  return rng.pick(patterns)();
+}
+

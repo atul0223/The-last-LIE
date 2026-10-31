@@ -19,7 +19,7 @@ import type {
 import type { Rng } from '../../rng.js';
 import type { CaseTemplate, FilledSlots, TemplateParams } from '../core/types.js';
 import { injectRedHerrings } from '../core/helpers.js';
-import { formatNameList } from './helpers.js';
+import { formatNameList, generateHiddenIdentityTitle } from './helpers.js';
 
 export const tpl_hidden_identity: CaseTemplate = {
   id: 'tpl_hidden_identity_v1',
@@ -114,7 +114,7 @@ export const tpl_hidden_identity: CaseTemplate = {
         kind: 'access',
         who: culprit.id,
         door: doorStation,
-        at: 1218,
+        at: variant === 2 ? 1233 : 1218,
       },
       {
         kind: 'action',
@@ -492,17 +492,7 @@ export const tpl_hidden_identity: CaseTemplate = {
       },
     ];
 
-    const descriptors = [
-      'The Chameleon of',
-      'The Phantom Attache at',
-      'Impostor at',
-      'The False Identity of',
-      'The Man from',
-      'Shadow Over',
-      'The Infiltrator at',
-      'The Cipher Theft at',
-    ];
-    const title = `${rng.pick(descriptors)} ${locStation.name}`;
+    const title = generateHiddenIdentityTitle(rng, targetItem, locStation, locHotel, locTransit);
 
     const suspects = diff >= 3 ? [culprit, victim, suspect2, suspect3] : [culprit, victim, suspect2];
     const shuffledSuspects = rng.shuffle(suspects);
