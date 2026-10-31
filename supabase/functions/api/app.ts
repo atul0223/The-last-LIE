@@ -17,6 +17,7 @@ import {
 import { createSessionsRouter } from './routes/sessions.js';
 import { createDailyRouter } from './routes/daily.js';
 import { createChallengesRouter } from './routes/challenges.js';
+import { createAccountRouter, createPushRouter } from './routes/account.js';
 
 export interface AppDeps {
   repo: Repository;
@@ -76,6 +77,24 @@ export function createApp(deps: AppDeps) {
   challengesGroup.route('/', challengesRouter);
 
   app.route('/challenges', challengesGroup);
+
+  // Account routes
+  const accountRouter = createAccountRouter({ repo });
+  const accountGroup = new Hono<{ Variables: AppContextVariables }>();
+  accountGroup.use('*', authMiddleware(auth));
+  accountGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
+  accountGroup.route('/', accountRouter);
+
+  app.route('/account', accountGroup);
+
+  // Push token routes
+  const pushRouter = createPushRouter({ repo });
+  const pushGroup = new Hono<{ Variables: AppContextVariables }>();
+  pushGroup.use('*', authMiddleware(auth));
+  pushGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
+  pushGroup.route('/', pushRouter);
+
+  app.route('/push', pushGroup);
 
   // Not Found Handler
   app.notFound((c) => {
