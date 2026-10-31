@@ -37,3 +37,18 @@ vi.mock('@shopify/react-native-skia', () => {
     vec: (x: number, y: number) => ({ x, y }),
   };
 });
+
+vi.mock('expo-notifications', () => {
+  return {
+    getPermissionsAsync: vi.fn().mockResolvedValue({ status: 'granted' }),
+    requestPermissionsAsync: vi.fn().mockResolvedValue({ status: 'granted' }),
+    getExpoPushTokenAsync: vi.fn().mockResolvedValue({ data: 'ExponentPushToken[mock-test-token]' }),
+    scheduleNotificationAsync: vi.fn().mockResolvedValue('mock-notification-id-123'),
+    cancelAllScheduledNotificationsAsync: vi.fn().mockResolvedValue(undefined),
+    getAllScheduledNotificationsAsync: vi.fn().mockResolvedValue([]),
+    setNotificationHandler: vi.fn(),
+    SchedulableTriggerInputTypes: {
+      DAILY: 'daily',
+    },
+  };
+});
