@@ -1,3 +1,8 @@
+import * as contentModule from '@lastlie/content';
+import type { CaseDefinition } from '@lastlie/case-engine';
+
+export type CaseOrigin = 'authored' | 'generated' | 'canonical' | 'procedural';
+
 export interface CaseCatalogItem {
   id: string;
   code: string;
@@ -9,9 +14,10 @@ export interface CaseCatalogItem {
   estimatedMinutes: number;
   hypothesesCount: number;
   cluesCount: number;
+  kind?: CaseOrigin;
 }
 
-export const CASE_CATALOG: CaseCatalogItem[] = [
+export const AUTHORED_CASE_CATALOG: CaseCatalogItem[] = [
   {
     id: 'case_0001',
     code: 'CASE-0001',
@@ -24,6 +30,7 @@ export const CASE_CATALOG: CaseCatalogItem[] = [
     estimatedMinutes: 6,
     hypothesesCount: 3,
     cluesCount: 7,
+    kind: 'authored',
   },
   {
     id: 'case_0002',
@@ -38,6 +45,7 @@ export const CASE_CATALOG: CaseCatalogItem[] = [
     estimatedMinutes: 4,
     hypothesesCount: 3,
     cluesCount: 8,
+    kind: 'authored',
   },
   {
     id: 'case_0003',
@@ -52,6 +60,7 @@ export const CASE_CATALOG: CaseCatalogItem[] = [
     estimatedMinutes: 10,
     hypothesesCount: 3,
     cluesCount: 9,
+    kind: 'authored',
   },
   {
     id: 'case_0004',
@@ -66,6 +75,7 @@ export const CASE_CATALOG: CaseCatalogItem[] = [
     estimatedMinutes: 15,
     hypothesesCount: 4,
     cluesCount: 11,
+    kind: 'authored',
   },
   {
     id: 'case_0005',
@@ -80,5 +90,48 @@ export const CASE_CATALOG: CaseCatalogItem[] = [
     estimatedMinutes: 20,
     hypothesesCount: 4,
     cluesCount: 14,
+    kind: 'authored',
   },
 ];
+
+/**
+ * Converts a raw CaseDefinition into a CaseCatalogItem representation.
+ */
+export function caseDefinitionToCatalogItem(def: CaseDefinition): CaseCatalogItem {
+  const isAuthored = def.kind === 'authored';
+  const tplId = def.meta?.templateId ?? '';
+  const cleanType = tplId
+    ? tplId.replace(/^tpl_/, '').replace(/_v\d+$/, '')
+    : (def.mysteryType ?? 'procedural');
+
+  return {
+    id: def.id,
+    code: def.id.toUpperCase().replace('_', '-'),
+    title: def.title,
+    briefing: def.briefing,
+    summary: def.setting?.summary ?? def.briefing,
+    difficulty: (def.difficulty ?? 1) as 1 | 2 | 3 | 4 | 5,
+    mysteryType: cleanType,
+    estimatedMinutes: def.estimatedMinutes ?? (def.difficulty ? def.difficulty * 4 + 2 : 10),
+    hypothesesCount: def.hypotheses?.length ?? 3,
+    cluesCount: def.clues?.length ?? 8,
+    kind: isAuthored ? 'authored' : 'generated',
+  };
+}
+
+/**
+ * Returns the combined catalog of authored cases and any available generated cases.
+ */
+export function getCaseCatalog(customGenerated?: CaseDefinition[]): CaseCatalogItem[] {
+  const content = contentModule as Record<string, unknown>;
+  const contentGenerated: CaseDefinition[] = Array.isArray(content.GENERATED_CASES)
+    ? (content.GENERATED_CASES as CaseDefinition[])
+    : [];
+
+  const allGenerated = [...contentGenerated, ...(customGenerated ?? [])];
+  const generatedItems = allGenerated.map(caseDefinitionToCatalogItem);
+
+  return [...AUTHORED_CASE_CATALOG, ...generatedItems];
+}
+
+export const CASE_CATALOG: CaseCatalogItem[] = getCaseCatalog();

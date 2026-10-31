@@ -8,6 +8,7 @@ import {
   type DifficultyFilter,
   type MysteryTypeFilter,
   type StatusFilter,
+  type OriginFilter,
 } from './filterCases';
 
 import { navigateTo } from '../home/navigation';
@@ -51,6 +52,12 @@ const STATUS_OPTIONS: { id: StatusFilter; label: string }[] = [
   { id: 'solved', label: 'SOLVED' },
 ];
 
+const ORIGIN_OPTIONS: { id: OriginFilter; label: string }[] = [
+  { id: 'all', label: 'ALL SOURCES' },
+  { id: 'authored', label: 'AUTHORED' },
+  { id: 'generated', label: 'GENERATED' },
+];
+
 export default function LibraryFeature() {
   const gameService = useGameService();
   const sessions = useSessionStore((state) => state.sessions);
@@ -59,6 +66,7 @@ export default function LibraryFeature() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyFilter>('all');
   const [selectedType, setSelectedType] = useState<MysteryTypeFilter>('all');
   const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('all');
+  const [selectedOrigin, setSelectedOrigin] = useState<OriginFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [startingCaseId, setStartingCaseId] = useState<string | null>(null);
 
@@ -91,11 +99,12 @@ export default function LibraryFeature() {
         difficulty: selectedDifficulty,
         mysteryType: selectedType,
         status: selectedStatus,
+        origin: selectedOrigin,
         searchQuery,
       },
       solvedCaseIds,
     );
-  }, [selectedDifficulty, selectedType, selectedStatus, searchQuery, solvedCaseIds]);
+  }, [selectedDifficulty, selectedType, selectedStatus, selectedOrigin, searchQuery, solvedCaseIds]);
 
   // 3. Handle opening/starting case
   const handleOpenCase = async (item: CaseCatalogItem) => {
@@ -255,6 +264,35 @@ export default function LibraryFeature() {
         </View>
       </View>
 
+      {/* Origin (Source) Filter Chips */}
+      <View style={styles.filterSection}>
+        <Text style={styles.filterSectionLabel} allowFontScaling>
+          SOURCE
+        </Text>
+        <View style={styles.filterRow}>
+          {ORIGIN_OPTIONS.map((opt) => {
+            const isActive = selectedOrigin === opt.id;
+            return (
+              <Pressable
+                key={opt.id}
+                style={[styles.filterChip, isActive && styles.filterChipActive]}
+                onPress={() => setSelectedOrigin(opt.id)}
+                accessibilityRole="button"
+                accessibilityLabel={`Filter source: ${opt.label}`}
+                testID={`library.filter.origin.${opt.id}`}
+              >
+                <Text
+                  style={[styles.filterText, isActive && styles.filterTextActive]}
+                  allowFontScaling
+                >
+                  {opt.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+
       {/* Case Count Indicator */}
       <View style={styles.countRow}>
         <Text style={styles.countText} allowFontScaling>
@@ -277,6 +315,7 @@ export default function LibraryFeature() {
               setSelectedDifficulty('all');
               setSelectedType('all');
               setSelectedStatus('all');
+              setSelectedOrigin('all');
               setSearchQuery('');
             }}
             accessibilityRole="button"
@@ -316,6 +355,19 @@ export default function LibraryFeature() {
                     <Text style={styles.tutorialBadge} allowFontScaling>
                       TUTORIAL
                     </Text>
+                  )}
+                  {item.kind === 'generated' && (
+                    <View
+                      style={styles.generatedBadgeContainer}
+                      testID={`case.badge.generated.${item.id}`}
+                    >
+                      <Text style={styles.generatedBadgeIcon} allowFontScaling>
+                        ⚙
+                      </Text>
+                      <Text style={styles.generatedBadgeText} allowFontScaling>
+                        GENERATED
+                      </Text>
+                    </View>
                   )}
                   {isSolved ? (
                     <View style={styles.solvedBadgeContainer}>
@@ -588,6 +640,27 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     borderRadius: 3,
     fontSize: 10,
+    fontWeight: '700',
+  },
+  generatedBadgeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: '#261b0d',
+    borderColor: '#5c3d18',
+    borderWidth: 1,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 3,
+  },
+  generatedBadgeIcon: {
+    fontSize: 9,
+    color: '#e59c38',
+  },
+  generatedBadgeText: {
+    ...TYPOGRAPHY.caption,
+    fontSize: 10,
+    color: '#e59c38',
     fontWeight: '700',
   },
   solvedBadgeContainer: {
