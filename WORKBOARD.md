@@ -67,7 +67,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - [x] WP-45 (Challenge creation, share cards, and compare UI) — MERGED
   - [x] WP-50 / WP-55 UI (Daily & weekly challenge screens) — MERGED
   - [x] WP-52 (Conspiracy graph map canvas UI) — MERGED
-  - → WP-54 (Push notifications & reminders)
+  - [x] WP-54 (Push notifications & reminders) — MERGED
 - **Agent 1 (Integrator Queue):**
   - Continuous merge loop: R1 verify + INT-MERGE incoming READY branches
   - (a) WP-53a Conspiracy content model (schemas, loader, validation tests)
