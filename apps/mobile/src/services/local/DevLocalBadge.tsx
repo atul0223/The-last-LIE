@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from '../../theme/tokens';
-import { isLocalServiceActive } from '../config';
+import { isDevBadgeVisible } from '../config';
 
 export function DevLocalBadge() {
-  if (!isLocalServiceActive()) {
+  if (!isDevBadgeVisible()) {
     return null;
   }
 
