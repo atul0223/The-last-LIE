@@ -1,0 +1,333 @@
+{
+  "id": "case_gen_184394",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Disputed Breach at North Freight Dock",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_north_dock",
+      "loc_northgate_printshop"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Freight Dock, North Gate Print Shop."
+  },
+  "briefing": "The theft of Transit Cipher Ledger from North Freight Dock occurred under cover of evening. One of the three individuals present—Maxim Whitman, Celeste Corbett, and Lucian Montgomery—has fabricated their movements. Reconstruct the logs to expose the true culprit.",
+  "characters": [
+    {
+      "id": "char_lucian",
+      "name": "Lucian Montgomery",
+      "role": "Night Supervisor",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_celeste",
+      "name": "Celeste Corbett",
+      "role": "Associate",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_maxim",
+      "name": "Maxim Whitman",
+      "role": "Primary Suspect",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_lucian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lucian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Lucian Montgomery stated: 'I spent the entire evening from 20:10 to 20:30 at North Gate Print Shop attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_celeste",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Celeste Corbett stated: 'I was present in North Gate Print Shop between 20:10 and 20:30. I did not see Lucian Montgomery anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_celeste",
+          "door": "door_printshop_dock",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Celeste Corbett badged through door_printshop_dock at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lucian",
+          "door": "door_dock_turnstile",
+          "at": 1218
+        }
+      ],
+      "text": "Security Terminal: Lucian Montgomery scanned access badge at door_dock_turnstile at 20:18.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_maxim",
+          "door": "door_printshop_dock",
+          "at": 1216
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:16] ACCESS_LOG · PRINTSHOP_DOCK · badge: Maxim Whitman"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Celeste Corbett entered North Freight Dock and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_celeste",
+          "where": "loc_north_dock",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_celeste"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Lucian Montgomery entered North Freight Dock and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lucian",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_north_dock"
+        }
+      ],
+      "culpritIds": [
+        "char_lucian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Lucian Montgomery remained at North Gate Print Shop and did not enter North Freight Dock.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lucian",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_celeste"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_lucian",
+        "where": "loc_north_dock",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_lucian",
+        "door": "door_dock_turnstile",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_lucian",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_north_dock"
+      },
+      {
+        "kind": "at",
+        "who": "char_celeste",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_printshop_dock",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_maxim",
+        "where": "loc_northgate_printshop",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_printshop_dock",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_printshop_dock",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_printshop_dock",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_celeste",
+        "door": "door_printshop_dock",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_maxim",
+        "door": "door_printshop_dock",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_lucian"
+    ],
+    "liars": [
+      {
+        "who": "char_lucian",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Celeste Corbett was logged badging into door_printshop_dock at 20:15, proving their presence at North Gate Print Shop and ruling out their presence at North Freight Dock.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Lucian Montgomery's presence was definitively established at North Freight Dock, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Lucian Montgomery took Transit Cipher Ledger from North Freight Dock before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "id": "case_gen_268016",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Obscured Impostor at The Grand Vesper Hotel",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_grand_hotel",
+      "loc_chronicle_newsroom",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Grand Vesper Hotel, The Vesper Chronicle Newsroom, Vesper Central Station."
+  },
+  "briefing": "At 20:20, High-Speed Rotary Press was intercepted at The Grand Vesper Hotel. Authorities suspect an infiltrator among three individuals: Yvaine Radcliffe, Nathaniel Haywood, and Fabian Sutherland. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_fabian",
+      "name": "Fabian Sutherland",
+      "role": "Commercial Agent",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_yvaine",
+      "name": "Yvaine Radcliffe",
+      "role": "Visiting Archivist",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_nathaniel",
+      "name": "Nathaniel Haywood",
+      "role": "Special Envoy",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": []
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": []
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_rotary_press",
+      "name": "High-Speed Rotary Press",
+      "description": "Industrial steam printing press fitted with optical alignment sensors.",
+      "type": "device",
+      "ownerId": "char_yvaine"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_fabian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Fabian Sutherland stated: 'I remained in my suite at The Vesper Chronicle Newsroom from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_yvaine",
+          "door": "door_newsroom_press",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Yvaine Radcliffe checked through door_newsroom_press at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_fabian",
+          "door": "door_hotel_lobby",
+          "at": 1218
+        }
+      ],
+      "text": "Station Gate Scanner: Fabian Sutherland scanned access credentials at door_hotel_lobby at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_nathaniel",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Nathaniel Haywood verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_yvaine",
+          "door": "door_newsroom_press",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] NEWSROOM_PRESS · badge: Yvaine Radcliffe"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_chronicle_newsroom",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Yvaine Radcliffe"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Nathaniel Haywood entered The Grand Vesper Hotel and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_nathaniel",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_nathaniel"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Fabian Sutherland remained in The Vesper Chronicle Newsroom and did not enter The Grand Vesper Hotel.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_fabian",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Yvaine Radcliffe entered The Grand Vesper Hotel and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_grand_hotel",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Fabian Sutherland infiltrated The Grand Vesper Hotel and intercepted High-Speed Rotary Press.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_fabian",
+          "verb": "took",
+          "target": "obj_rotary_press",
+          "at": 1220,
+          "where": "loc_grand_hotel"
+        }
+      ],
+      "culpritIds": [
+        "char_fabian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_fabian",
+        "where": "loc_grand_hotel",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_fabian",
+        "door": "door_hotel_lobby",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_fabian",
+        "verb": "took",
+        "target": "obj_rotary_press",
+        "at": 1220,
+        "where": "loc_grand_hotel"
+      },
+      {
+        "kind": "at",
+        "who": "char_yvaine",
+        "where": "loc_chronicle_newsroom",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_newsroom_press",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_nathaniel",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_nathaniel",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_newsroom_press",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_nathaniel",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_newsroom_press",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_nathaniel",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_fabian"
+    ],
+    "liars": [
+      {
+        "who": "char_fabian",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Yvaine Radcliffe badged into door_newsroom_press at 20:15, proving their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Physical tracking records exposed Fabian Sutherland's fabricated hotel alibi and placed them at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Nathaniel Haywood badged through door_station_gate at 20:16, ruling out their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Fabian Sutherland intercepted High-Speed Rotary Press at The Grand Vesper Hotel under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}

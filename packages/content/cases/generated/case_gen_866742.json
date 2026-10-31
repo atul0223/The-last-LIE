@@ -1,0 +1,458 @@
+{
+  "id": "case_gen_866742",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Fabricated Window at North Freight Dock",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": [
+      "loc_northgate_printshop",
+      "loc_north_dock",
+      "loc_central_station"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across North Gate Print Shop, North Freight Dock, Vesper Central Station."
+  },
+  "briefing": "At 20:20, Transit Cipher Ledger was taken from North Gate Print Shop. Physical evidence refutes an alibi fabricated by one of four individuals: Marcel Haywood, Magnus Volkov, Atticus Grayson, and Amara Wainwright. Examine the timeline to identify the culprit.",
+  "characters": [
+    {
+      "id": "char_atticus",
+      "name": "Atticus Grayson",
+      "role": "Associate",
+      "publicDescription": "Primary Suspect in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_magnus",
+      "name": "Magnus Volkov",
+      "role": "Night Supervisor",
+      "publicDescription": "Staff Member in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_marcel",
+      "name": "Marcel Haywood",
+      "role": "Staff Specialist",
+      "publicDescription": "Associate in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_amara",
+      "name": "Amara Wainwright",
+      "role": "Primary Suspect",
+      "publicDescription": "Night Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 25
+        },
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_cipher_ledger",
+      "name": "Transit Cipher Ledger",
+      "description": "An encrypted dispatch notebook containing railway junction codes.",
+      "type": "item",
+      "ownerId": "char_atticus"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_alibi_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_atticus",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_atticus",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Atticus Grayson stated: 'I spent the entire evening from 20:10 to 20:30 at North Freight Dock attending to routine matters.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_magnus",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Magnus Volkov stated: 'I was present in North Freight Dock between 20:10 and 20:30. I did not see Atticus Grayson anywhere nearby.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_suspect1_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_dock_turnstile",
+          "at": 1215
+        }
+      ],
+      "text": "Access Reader: Magnus Volkov badged through door_dock_turnstile at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_refutation",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_atticus",
+          "door": "door_printshop_dock",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_atticus",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Security Terminal: Atticus Grayson scanned access badge at door_printshop_dock at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_alibi_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_marcel",
+          "door": "door_station_gate",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Marcel Haywood verified entry at door_station_gate at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_magnus",
+          "door": "door_dock_turnstile",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] DOCK_TURNSTILE · badge: Magnus Volkov"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_marcel",
+          "door": "door_station_gate",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] STATION_GATE · badge: Marcel Haywood"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Marcel Haywood entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_marcel"
+      ]
+    },
+    {
+      "id": "hyp_suspect1_guilty",
+      "label": "Magnus Volkov entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_magnus",
+          "where": "loc_northgate_printshop",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Atticus Grayson entered North Gate Print Shop and took Transit Cipher Ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_atticus",
+          "verb": "took",
+          "target": "obj_cipher_ledger",
+          "at": 1220,
+          "where": "loc_northgate_printshop"
+        }
+      ],
+      "culpritIds": [
+        "char_atticus"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Atticus Grayson remained at North Freight Dock and did not enter North Gate Print Shop.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_atticus",
+          "where": "loc_north_dock",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_magnus"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_atticus",
+        "where": "loc_northgate_printshop",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_atticus",
+        "door": "door_printshop_dock",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_atticus",
+        "verb": "took",
+        "target": "obj_cipher_ledger",
+        "at": 1220,
+        "where": "loc_northgate_printshop"
+      },
+      {
+        "kind": "at",
+        "who": "char_magnus",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_dock_turnstile",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_marcel",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_amara",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_amara",
+        "door": "door_station_gate",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_dock_turnstile",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_magnus",
+        "door": "door_dock_turnstile",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_station_gate",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_atticus"
+    ],
+    "liars": [
+      {
+        "who": "char_atticus",
+        "statementClueIds": [
+          "clue_alibi_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_suspect1_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Magnus Volkov was logged badging into door_dock_turnstile at 20:15, proving their presence at North Freight Dock and ruling out their presence at North Gate Print Shop.",
+        "clueIds": [
+          "clue_suspect1_alibi_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Marcel Haywood badged through door_station_gate at 20:16, establishing their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Atticus Grayson's presence was definitively established at North Gate Print Shop, shattering the fabricated alibi testimony.",
+        "clueIds": [
+          "clue_decisive_refutation",
+          "clue_alibi_testimony"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Atticus Grayson took Transit Cipher Ledger from North Gate Print Shop before departing.",
+        "clueIds": [
+          "clue_decisive_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_false_alibi_v1",
+    "status": "validated"
+  }
+}

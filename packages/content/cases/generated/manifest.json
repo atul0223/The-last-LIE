@@ -1,186 +1,270 @@
 {
   "version": "1.0.0",
-  "count": 18,
+  "count": 24,
   "cases": [
     {
-      "id": "case_fa_2190",
-      "file": "case_fa_2190.json",
-      "title": "The Unrecorded Alibi at North Freight Dock",
-      "mysteryType": "false_alibi",
-      "difficulty": 2,
-      "cluesCount": 7,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fa_3727",
-      "file": "case_fa_3727.json",
-      "title": "Deception at North Freight Dock in the Fog",
+      "id": "case_gen_184394",
+      "file": "case_gen_184394.json",
+      "title": "The Disputed Breach at North Freight Dock",
       "mysteryType": "false_alibi",
       "difficulty": 1,
       "cluesCount": 5,
       "hypothesesCount": 3,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_344422802c6d18d01d9aa63905b39c69"
     },
     {
-      "id": "case_fa_4231",
-      "file": "case_fa_4231.json",
-      "title": "Deception at North Freight Dock in the Fog",
-      "mysteryType": "false_alibi",
-      "difficulty": 4,
-      "cluesCount": 8,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fa_5598",
-      "file": "case_fa_5598.json",
-      "title": "Affair at The Vesper Chronicle Newsroom",
+      "id": "case_gen_969819",
+      "file": "case_gen_969819.json",
+      "title": "Shadows Over North Freight Dock Under Curfew",
       "mysteryType": "false_alibi",
       "difficulty": 2,
       "cluesCount": 7,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_3076f9bb1719f26bceea9da6e9859676"
     },
     {
-      "id": "case_fa_9457",
-      "file": "case_fa_9457.json",
-      "title": "The Compromised Alibi at The Vesper Chronicle Newsroom",
+      "id": "case_gen_680145",
+      "file": "case_gen_680145.json",
+      "title": "Deception at The Grand Vesper Hotel During the Blackout",
       "mysteryType": "false_alibi",
-      "difficulty": 1,
-      "cluesCount": 5,
-      "hypothesesCount": 3,
-      "keyEvidenceSets": 1
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_a1bdb28d688bc402be6fc50c7759b383"
     },
     {
-      "id": "case_fa_9913",
-      "file": "case_fa_9913.json",
-      "title": "The Compromise of the Transit Cipher Ledger Before Dawn",
+      "id": "case_gen_866742",
+      "file": "case_gen_866742.json",
+      "title": "The Fabricated Window at North Freight Dock",
       "mysteryType": "false_alibi",
       "difficulty": 3,
       "cluesCount": 7,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_eee6db95841f9ec7b185f362db7cb630"
     },
     {
-      "id": "case_fm_2982",
-      "file": "case_fm_2982.json",
-      "title": "The Broken Transmission at North Gate Print Shop Across the Network",
-      "mysteryType": "forged_message",
-      "difficulty": 1,
-      "cluesCount": 5,
-      "hypothesesCount": 3,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fm_3429",
-      "file": "case_fm_3429.json",
-      "title": "Deception on the Wire at The Vesper Chronicle Newsroom in the Pressroom",
-      "mysteryType": "forged_message",
-      "difficulty": 1,
-      "cluesCount": 5,
-      "hypothesesCount": 3,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fm_5462",
-      "file": "case_fm_5462.json",
-      "title": "The False Transmission at The Vesper Chronicle Newsroom",
-      "mysteryType": "forged_message",
-      "difficulty": 2,
-      "cluesCount": 7,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fm_6162",
-      "file": "case_fm_6162.json",
-      "title": "The Intercepted Wire at Vesper Central Station Over the Wire",
-      "mysteryType": "forged_message",
-      "difficulty": 2,
-      "cluesCount": 7,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fm_7469",
-      "file": "case_fm_7469.json",
-      "title": "The Phantom Message from High-Speed Rotary Press Across the Network",
-      "mysteryType": "forged_message",
-      "difficulty": 4,
-      "cluesCount": 8,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_fm_7578",
-      "file": "case_fm_7578.json",
-      "title": "False Dispatches from Naval Brass Chronometer in the Pressroom",
-      "mysteryType": "forged_message",
+      "id": "case_gen_215312",
+      "file": "case_gen_215312.json",
+      "title": "Affair at North Gate Print Shop",
+      "mysteryType": "false_alibi",
       "difficulty": 3,
       "cluesCount": 7,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_0f78a1372f006c5196dcf67ab6a43b1c"
     },
     {
-      "id": "case_mi_1492",
-      "file": "case_mi_1492.json",
-      "title": "The Vault Freight Turnstile Scanner in the Fog",
+      "id": "case_gen_904998",
+      "file": "case_gen_904998.json",
+      "title": "A Study in Discrepancy at Vesper Central Station in the Fog",
+      "mysteryType": "false_alibi",
+      "difficulty": 4,
+      "cluesCount": 8,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_e542f9c9b35f426a84f18958d2ec32fb"
+    },
+    {
+      "id": "case_gen_655581",
+      "file": "case_gen_655581.json",
+      "title": "The Theft at Vesper Central Station Before the Morning Audit",
       "mysteryType": "missing_item",
-      "difficulty": 3,
-      "cluesCount": 7,
-      "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "difficulty": 1,
+      "cluesCount": 5,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_2577ce17ddb4b769d91c68af21df11d1"
     },
     {
-      "id": "case_mi_2511",
-      "file": "case_mi_2511.json",
+      "id": "case_gen_737021",
+      "file": "case_gen_737021.json",
       "title": "The Custody Gap at North Gate Print Shop",
       "mysteryType": "missing_item",
-      "difficulty": 1,
-      "cluesCount": 5,
-      "hypothesesCount": 3,
-      "keyEvidenceSets": 1
+      "difficulty": 2,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_f3256405bf40f279052476c44941e0b8"
     },
     {
-      "id": "case_mi_5239",
-      "file": "case_mi_5239.json",
-      "title": "The Theft at North Gate Print Shop Before Dawn",
-      "mysteryType": "missing_item",
-      "difficulty": 1,
-      "cluesCount": 5,
-      "hypothesesCount": 3,
-      "keyEvidenceSets": 1
-    },
-    {
-      "id": "case_mi_5298",
-      "file": "case_mi_5298.json",
-      "title": "The Silent Transit Cipher Ledger in the Archives",
+      "id": "case_gen_691264",
+      "file": "case_gen_691264.json",
+      "title": "The Vanishing of the Midnight Naval Brass Chronometer",
       "mysteryType": "missing_item",
       "difficulty": 2,
       "cluesCount": 7,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_d2217cd275e5009eb056d2421792ae0e"
     },
     {
-      "id": "case_mi_5883",
-      "file": "case_mi_5883.json",
-      "title": "The Transit Cipher Ledger Puzzle at The Grand Vesper Hotel",
+      "id": "case_gen_827314",
+      "file": "case_gen_827314.json",
+      "title": "The Classified Transit Cipher Ledger After Hours",
+      "mysteryType": "missing_item",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_db31038ed1b7e273e3eeda4be9683bb6"
+    },
+    {
+      "id": "case_gen_130463",
+      "file": "case_gen_130463.json",
+      "title": "A Breach in The Vesper Chronicle Newsroom: The Freight Turnstile Scanner",
+      "mysteryType": "missing_item",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_6b90dbbd4c458517f35b7c2dd48e2287"
+    },
+    {
+      "id": "case_gen_783720",
+      "file": "case_gen_783720.json",
+      "title": "Disappearance of the Freight Turnstile Scanner in the Fog",
       "mysteryType": "missing_item",
       "difficulty": 4,
       "cluesCount": 8,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_24d626e77e2c627a3780fd3f6d7ab9a2"
     },
     {
-      "id": "case_mi_8137",
-      "file": "case_mi_8137.json",
-      "title": "The High-Speed Rotary Press Custody Gap at North Freight Dock",
-      "mysteryType": "missing_item",
+      "id": "case_gen_171506",
+      "file": "case_gen_171506.json",
+      "title": "The Tampered Wire of Freight Turnstile Scanner in the Pressroom",
+      "mysteryType": "forged_message",
+      "difficulty": 1,
+      "cluesCount": 4,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_5399fb52348866b7892bb94aee3a24af"
+    },
+    {
+      "id": "case_gen_857416",
+      "file": "case_gen_857416.json",
+      "title": "The Phantom Message from High-Speed Rotary Press Over the Wire",
+      "mysteryType": "forged_message",
       "difficulty": 2,
       "cluesCount": 7,
       "hypothesesCount": 4,
-      "keyEvidenceSets": 1
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_f8ac43b04c423d29b6cee8e902209670"
+    },
+    {
+      "id": "case_gen_256220",
+      "file": "case_gen_256220.json",
+      "title": "The Sub Rosa Breach at The Grand Vesper Hotel",
+      "mysteryType": "forged_message",
+      "difficulty": 2,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_9092fa9414b1d5e978026187fc214efa"
+    },
+    {
+      "id": "case_gen_410553",
+      "file": "case_gen_410553.json",
+      "title": "The Tampered Wire of Freight Turnstile Scanner at the Evening Edition",
+      "mysteryType": "forged_message",
+      "difficulty": 3,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_d526d9aaf0badab52c8d9b110911980e"
+    },
+    {
+      "id": "case_gen_361747",
+      "file": "case_gen_361747.json",
+      "title": "The Broken Transmission at The Grand Vesper Hotel at the Evening Edition",
+      "mysteryType": "forged_message",
+      "difficulty": 3,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_fb877f7ea38dee9c7e55a6d7265f3735"
+    },
+    {
+      "id": "case_gen_206633",
+      "file": "case_gen_206633.json",
+      "title": "The Phantom Message from Freight Turnstile Scanner at the Deadline",
+      "mysteryType": "forged_message",
+      "difficulty": 4,
+      "cluesCount": 8,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_c49ada138f818f800484bac94f9fef5a"
+    },
+    {
+      "id": "case_gen_577063",
+      "file": "case_gen_577063.json",
+      "title": "Shadows Over North Freight Dock at the Platform Gate",
+      "mysteryType": "hidden_identity",
+      "difficulty": 1,
+      "cluesCount": 4,
+      "hypothesesCount": 3,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_7ead57032bd900fa31a8a15564dcf6ac"
+    },
+    {
+      "id": "case_gen_268016",
+      "file": "case_gen_268016.json",
+      "title": "The Obscured Impostor at The Grand Vesper Hotel",
+      "mysteryType": "hidden_identity",
+      "difficulty": 2,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_7dc1b1e3059c717f37fff7304fa237ac"
+    },
+    {
+      "id": "case_gen_666156",
+      "file": "case_gen_666156.json",
+      "title": "Shadows Over The Vesper Chronicle Newsroom Past the Gatehouse",
+      "mysteryType": "hidden_identity",
+      "difficulty": 2,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_aebaa49c1e710650a1940565115fa7a9"
+    },
+    {
+      "id": "case_gen_405242",
+      "file": "case_gen_405242.json",
+      "title": "The Freight Turnstile Scanner Intrigue at North Freight Dock",
+      "mysteryType": "hidden_identity",
+      "difficulty": 3,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_ff0b8e2ad9c6158e4683ec92604e7736"
+    },
+    {
+      "id": "case_gen_922877",
+      "file": "case_gen_922877.json",
+      "title": "The Clandestine Impostor at The Vesper Chronicle Newsroom",
+      "mysteryType": "hidden_identity",
+      "difficulty": 3,
+      "cluesCount": 6,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_b13b941385ff66c9bd57b9b489934b6e"
+    },
+    {
+      "id": "case_gen_611192",
+      "file": "case_gen_611192.json",
+      "title": "The Man from The Grand Vesper Hotel After Hours",
+      "mysteryType": "hidden_identity",
+      "difficulty": 4,
+      "cluesCount": 7,
+      "hypothesesCount": 4,
+      "keyEvidenceSets": 1,
+      "fingerprint": "fp_52615d31956d5b0812308e1fd53c8826"
     }
   ]
 }

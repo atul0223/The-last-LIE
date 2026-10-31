@@ -1,0 +1,509 @@
+{
+  "id": "case_gen_206633",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Phantom Message from Freight Turnstile Scanner at the Deadline",
+  "difficulty": 4,
+  "estimatedMinutes": 18,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_grand_hotel",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Grand Vesper Hotel, North Freight Dock."
+  },
+  "briefing": "An illicit wire communication was detected originating from Vesper Central Station. Accounts given by Eleanor Blackwood, Lenore Lockwood, Sebastian Kingsley, and Rowan Mercer contain fabricated details regarding device access. Determine who sent the message.",
+  "characters": [
+    {
+      "id": "char_eleanor",
+      "name": "Eleanor Blackwood",
+      "role": "Lead Reporter",
+      "publicDescription": "Wire Editor in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_sebastian",
+      "name": "Sebastian Kingsley",
+      "role": "Desk Assistant",
+      "publicDescription": "Lead Reporter in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_rowan",
+      "name": "Rowan Mercer",
+      "role": "Communications Officer",
+      "publicDescription": "Desk Assistant in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_lenore",
+      "name": "Lenore Lockwood",
+      "role": "Wire Editor",
+      "publicDescription": "Telegraph Operator in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device"
+    },
+    {
+      "id": "obj_brass_chronometer",
+      "name": "Naval Brass Chronometer",
+      "description": "A precision maritime gimbaled clock used for naval charting.",
+      "type": "item",
+      "ownerId": "char_sebastian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_dispatch_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_eleanor",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sentAt": 1225,
+          "recipient": "char_rowan"
+        }
+      ],
+      "text": "Eleanor Blackwood claimed: 'The electronic dispatch msg_dispatch was sent from Freight Turnstile Scanner during the later transmission slot at 20:25.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_switchboard_timestamp",
+      "type": "message",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "message",
+          "msg": "msg_dispatch",
+          "device": "obj_dock_scanner",
+          "sentAt": 1215,
+          "recipient": "char_rowan"
+        }
+      ],
+      "text": "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from Freight Turnstile Scanner at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_terminal_session",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "device_use",
+          "device": "obj_dock_scanner",
+          "by": "char_eleanor",
+          "at": 1215
+        },
+        {
+          "kind": "at",
+          "who": "char_eleanor",
+          "where": "loc_central_station",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Terminal Session Log: Freight Turnstile Scanner was actively operated by Eleanor Blackwood at 20:15 inside Vesper Central Station.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_dispatch_testimony"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_sebastian",
+          "door": "door_hotel_lobby",
+          "at": 1214
+        }
+      ],
+      "text": "Pressroom Card Reader: Sebastian Kingsley badged into door_hotel_lobby at 20:14.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_recipient_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_rowan",
+          "door": "door_dock_turnstile",
+          "at": 1216
+        }
+      ],
+      "text": "Access Log: Rowan Mercer checked in at door_dock_turnstile at 20:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_victim_alibi_access"
+      }
+    },
+    {
+      "id": "clue_suspect3_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lenore",
+          "door": "door_dock_turnstile",
+          "at": 1217
+        }
+      ],
+      "text": "Archive Reader: Lenore Lockwood badged through door_dock_turnstile at 20:17.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_sebastian",
+          "door": "door_hotel_lobby",
+          "at": 1228
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:28] ACCESS_LOG · HOTEL_LOBBY · badge: Sebastian Kingsley"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_eleanor",
+          "door": "door_station_gate",
+          "at": 1212
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:12] STATION_GATE · badge: Eleanor Blackwood"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect3_guilty",
+      "label": "Lenore Lockwood transmitted the dispatch from Freight Turnstile Scanner in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_lenore",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_lenore"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Eleanor Blackwood transmitted the forged dispatch from Freight Turnstile Scanner in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_eleanor",
+          "verb": "sent",
+          "target": "obj_brass_chronometer",
+          "at": 1215,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_eleanor"
+      ]
+    },
+    {
+      "id": "hyp_recipient_guilty",
+      "label": "Rowan Mercer transmitted the dispatch from Freight Turnstile Scanner in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_rowan",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_rowan"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Sebastian Kingsley transmitted the dispatch from Freight Turnstile Scanner in Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_sebastian",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1220
+        }
+      ],
+      "culpritIds": [
+        "char_sebastian"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_eleanor",
+        "where": "loc_central_station",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_eleanor",
+        "door": "door_station_gate",
+        "at": 1212
+      },
+      {
+        "kind": "device_use",
+        "device": "obj_dock_scanner",
+        "by": "char_eleanor",
+        "at": 1215
+      },
+      {
+        "kind": "message",
+        "msg": "msg_dispatch",
+        "device": "obj_dock_scanner",
+        "sentAt": 1215,
+        "recipient": "char_rowan"
+      },
+      {
+        "kind": "action",
+        "who": "char_eleanor",
+        "verb": "sent",
+        "target": "obj_brass_chronometer",
+        "at": 1215,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_sebastian",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_sebastian",
+        "door": "door_hotel_lobby",
+        "at": 1214
+      },
+      {
+        "kind": "at",
+        "who": "char_rowan",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_rowan",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_lenore",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_lenore",
+        "door": "door_dock_turnstile",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_sebastian",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_rowan",
+        "door": "door_dock_turnstile",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_sebastian",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_rowan",
+        "door": "door_dock_turnstile",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_eleanor"
+    ],
+    "liars": [
+      {
+        "who": "char_eleanor",
+        "statementClueIds": [
+          "clue_dispatch_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_recipient_alibi_access",
+        "clue_suspect3_alibi_access",
+        "clue_terminal_session"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1214,
+        "text": "Sebastian Kingsley badged into door_hotel_lobby at 20:14, proving they were not present in Vesper Central Station to operate Freight Turnstile Scanner.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.",
+        "clueIds": [
+          "clue_switchboard_timestamp",
+          "clue_dispatch_testimony"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Terminal authentication records proved Eleanor Blackwood was the operator at Freight Turnstile Scanner when the dispatch was generated.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Rowan Mercer was badged into door_dock_turnstile at 20:16, ruling them out as the transmitter at Vesper Central Station.",
+        "clueIds": [
+          "clue_recipient_alibi_access"
+        ]
+      },
+      {
+        "time": 1217,
+        "text": "Lenore Lockwood was logged badging into door_dock_turnstile at 20:17, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect3_alibi_access"
+        ]
+      },
+      {
+        "time": 1215,
+        "text": "Eleanor Blackwood completed the forged transmission of Naval Brass Chronometer before signing off.",
+        "clueIds": [
+          "clue_terminal_session"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_forged_message_v1",
+    "status": "validated"
+  }
+}

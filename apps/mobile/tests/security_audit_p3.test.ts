@@ -5,7 +5,7 @@ import { deepScanForLeaks } from '../src/store/persist';
 
 describe('R3 Security Audit: Phase 3 Procedural Security & Leak Defense', () => {
   it('A1. Generated cases strictly contain zero forbidden engine keys after redaction', () => {
-    expect(GENERATED_CASES.length).toBe(18);
+    expect(GENERATED_CASES.length).toBe(24);
 
     for (const rawCase of GENERATED_CASES) {
       const def = CaseDefinitionSchema.parse(rawCase);

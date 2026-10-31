@@ -1,0 +1,471 @@
+{
+  "id": "case_gen_130463",
+  "version": 1,
+  "kind": "procedural",
+  "title": "A Breach in The Vesper Chronicle Newsroom: The Freight Turnstile Scanner",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "missing_item",
+  "setting": {
+    "locationIds": [
+      "loc_chronicle_newsroom",
+      "loc_northgate_printshop",
+      "loc_grand_hotel"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across The Vesper Chronicle Newsroom, North Gate Print Shop, The Grand Vesper Hotel."
+  },
+  "briefing": "At 20:20, Freight Turnstile Scanner went missing from The Vesper Chronicle Newsroom. A custodial discrepancy involves four individuals: Felicity Radcliffe, Cynthia Lockwood, Marcel Whitman, and Roland Faulkner. Examine access and custody records to expose the culprit.",
+  "characters": [
+    {
+      "id": "char_marcel",
+      "name": "Marcel Whitman",
+      "role": "Archive Clerk",
+      "publicDescription": "Archive Clerk in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Faulkner",
+      "role": "Chief Conservator",
+      "publicDescription": "Vault Curator in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_felicity",
+      "name": "Felicity Radcliffe",
+      "role": "Vault Curator",
+      "publicDescription": "Visiting Researcher in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_cynthia",
+      "name": "Cynthia Lockwood",
+      "role": "Visiting Researcher",
+      "publicDescription": "Security Guard in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_chronicle_newsroom",
+      "name": "The Vesper Chronicle Newsroom",
+      "description": "Editorial offices, library archives, and news telegraph desks.",
+      "doorIds": [
+        "door_newsroom_press"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_northgate_printshop",
+      "name": "North Gate Print Shop",
+      "description": "Industrial printing press facility with mechanical composing bays and ink tanks.",
+      "doorIds": [
+        "door_printshop_dock"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_chronicle_newsroom",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_northgate_printshop",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_roland"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_missing_item_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_marcel",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_northgate_printshop",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Marcel Whitman stated: 'I remained in North Gate Print Shop from 20:10 to 20:30 attending to administrative filings.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custody_log",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_roland",
+          "what": "obj_dock_scanner",
+          "from": 1200,
+          "to": 1220
+        }
+      ],
+      "text": "Official Register: Roland Faulkner verified registered custody of Freight Turnstile Scanner in The Vesper Chronicle Newsroom until 20:20.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_custodian_office_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_printshop_dock",
+          "at": 1226
+        }
+      ],
+      "text": "Office Reader: Roland Faulkner badged through door_printshop_dock at 20:26.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_culprit_vault_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_marcel",
+          "door": "door_newsroom_press",
+          "at": 1218
+        },
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_chronicle_newsroom",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Vault Terminal: Marcel Whitman scanned access badge at door_newsroom_press at 20:18.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_missing_item_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_transit_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_felicity",
+          "door": "door_hotel_lobby",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Felicity Radcliffe verified entry at door_hotel_lobby at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_printshop_dock",
+          "at": 1202
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:02] PRINTSHOP_DOCK · badge: Roland Faulkner"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_roland",
+          "door": "door_printshop_dock",
+          "at": 1238
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:38] ACCESS_LOG · PRINTSHOP_DOCK · badge: Roland Faulkner"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Felicity Radcliffe entered The Vesper Chronicle Newsroom and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_felicity",
+          "where": "loc_chronicle_newsroom",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_felicity"
+      ]
+    },
+    {
+      "id": "hyp_custodian_guilty",
+      "label": "Roland Faulkner entered The Vesper Chronicle Newsroom and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_chronicle_newsroom",
+          "from": 1222,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    },
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Marcel Whitman entered The Vesper Chronicle Newsroom and took Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_marcel",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_chronicle_newsroom"
+        }
+      ],
+      "culpritIds": [
+        "char_marcel"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Marcel Whitman remained in North Gate Print Shop and never approached The Vesper Chronicle Newsroom.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_marcel",
+          "where": "loc_northgate_printshop",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_roland"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "possess",
+        "who": "char_roland",
+        "what": "obj_dock_scanner",
+        "from": 1200,
+        "to": 1220
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_northgate_printshop",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_printshop_dock",
+        "at": 1226
+      },
+      {
+        "kind": "at",
+        "who": "char_marcel",
+        "where": "loc_chronicle_newsroom",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_marcel",
+        "door": "door_newsroom_press",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_marcel",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_chronicle_newsroom"
+      },
+      {
+        "kind": "possess",
+        "who": "char_marcel",
+        "what": "obj_dock_scanner",
+        "from": 1220,
+        "to": 1240
+      },
+      {
+        "kind": "at",
+        "who": "char_felicity",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_hotel_lobby",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_cynthia",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_cynthia",
+        "door": "door_hotel_lobby",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_printshop_dock",
+        "at": 1202
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_roland",
+        "door": "door_printshop_dock",
+        "at": 1238
+      },
+      {
+        "kind": "access",
+        "who": "char_felicity",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_marcel"
+    ],
+    "liars": [
+      {
+        "who": "char_marcel",
+        "statementClueIds": [
+          "clue_missing_item_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_custodian_office_access",
+        "clue_suspect2_transit_access",
+        "clue_culprit_vault_access"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1216,
+        "text": "Access records at door_newsroom_press proved Marcel Whitman entered the vault at 20:18, shattering claims of staying in North Gate Print Shop.",
+        "clueIds": [
+          "clue_culprit_vault_access",
+          "clue_missing_item_testimony"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Terminal badge logs confirmed Marcel Whitman accessed door_newsroom_press at 20:18, putting them inside the vault during the theft.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Felicity Radcliffe badged into door_hotel_lobby at 20:16, ruling out their presence at The Vesper Chronicle Newsroom.",
+        "clueIds": [
+          "clue_suspect2_transit_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Marcel Whitman took Freight Turnstile Scanner from The Vesper Chronicle Newsroom before departing.",
+        "clueIds": [
+          "clue_culprit_vault_access"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_missing_item_v1",
+    "status": "validated"
+  }
+}

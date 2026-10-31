@@ -1,0 +1,434 @@
+{
+  "id": "case_gen_405242",
+  "version": 1,
+  "kind": "procedural",
+  "title": "The Freight Turnstile Scanner Intrigue at North Freight Dock",
+  "difficulty": 3,
+  "estimatedMinutes": 14,
+  "mysteryType": "hidden_identity",
+  "setting": {
+    "locationIds": [
+      "loc_central_station",
+      "loc_grand_hotel",
+      "loc_north_dock"
+    ],
+    "date": "2026-10-24",
+    "summary": "Vesper City incidents across Vesper Central Station, The Grand Vesper Hotel, North Freight Dock."
+  },
+  "briefing": "At 20:20, Freight Turnstile Scanner was intercepted at Vesper Central Station. Authorities suspect an infiltrator among four individuals: Damian Leclair, Sebastian Waverly, Walter Kendrick, and Yvaine Leclair. Examine credentials and location records to uncover the impostor.",
+  "characters": [
+    {
+      "id": "char_sebastian",
+      "name": "Sebastian Waverly",
+      "role": "Commercial Agent",
+      "publicDescription": "Undercover Operative in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_yvaine",
+      "name": "Yvaine Leclair",
+      "role": "Foreign Attache",
+      "publicDescription": "Diplomatic Attache in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_walter",
+      "name": "Walter Kendrick",
+      "role": "Undercover Operative",
+      "publicDescription": "Platform Technician in Vesper City involved in the incident."
+    },
+    {
+      "id": "char_damian",
+      "name": "Damian Leclair",
+      "role": "Special Envoy",
+      "publicDescription": "Station Supervisor in Vesper City involved in the incident."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_central_station",
+      "name": "Vesper Central Station",
+      "description": "Subterranean rail hub connecting municipal lines to northern freight corridors.",
+      "doorIds": [
+        "door_station_gate"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "loc_grand_hotel",
+      "name": "The Grand Vesper Hotel",
+      "description": "Neoclassical luxury hotel situated north of the central rail terminus.",
+      "doorIds": [
+        "door_hotel_lobby"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 20
+        },
+        {
+          "to": "loc_north_dock",
+          "travelMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "loc_north_dock",
+      "name": "North Freight Dock",
+      "description": "Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.",
+      "doorIds": [
+        "door_dock_turnstile"
+      ],
+      "adjacency": [
+        {
+          "to": "loc_central_station",
+          "travelMinutes": 10
+        },
+        {
+          "to": "loc_grand_hotel",
+          "travelMinutes": 15
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_dock_scanner",
+      "name": "Freight Turnstile Scanner",
+      "description": "Card-reading gate terminal recording personnel scans at the North Dock.",
+      "type": "device",
+      "ownerId": "char_yvaine"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_impostor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_sebastian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_sebastian",
+          "where": "loc_grand_hotel",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "text": "Sebastian Waverly stated: 'I remained in my suite at The Grand Vesper Hotel from 20:10 to 20:30 under official diplomatic lodging.'",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_victim_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_yvaine",
+          "door": "door_hotel_lobby",
+          "at": 1215
+        }
+      ],
+      "text": "Hotel Terminal: Yvaine Leclair checked through door_hotel_lobby at 20:15.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_decisive_identity_refutation",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_sebastian",
+          "where": "loc_central_station",
+          "from": 1215,
+          "to": 1235
+        }
+      ],
+      "text": "Concourse Camera: Optical feed captured Sebastian Waverly inside Vesper Central Station between 20:15 and 20:35.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_impostor_testimony"
+      }
+    },
+    {
+      "id": "clue_suspect2_alibi_access",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_walter",
+          "door": "door_dock_turnstile",
+          "at": 1216
+        }
+      ],
+      "text": "Turnstile Log: Walter Kendrick verified entry at door_dock_turnstile at 20:16.",
+      "unlock": {
+        "kind": "default"
+      }
+    },
+    {
+      "id": "clue_redherring_1",
+      "type": "cctv",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_damian",
+          "where": "loc_north_dock",
+          "from": 1210,
+          "to": 1230
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:10] CCTV_FEED · NORTH_FREIGHT_DOCK · subject: Damian Leclair"
+    },
+    {
+      "id": "clue_redherring_2",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_walter",
+          "door": "door_dock_turnstile",
+          "at": 1229
+        }
+      ],
+      "unlock": {
+        "kind": "default"
+      },
+      "tags": [
+        "red_herring"
+      ],
+      "text": "[20:29] DOCK_TURNSTILE · badge: Walter Kendrick"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_culprit_guilty",
+      "label": "Sebastian Waverly infiltrated Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_sebastian",
+          "verb": "took",
+          "target": "obj_dock_scanner",
+          "at": 1220,
+          "where": "loc_central_station"
+        }
+      ],
+      "culpritIds": [
+        "char_sebastian"
+      ]
+    },
+    {
+      "id": "hyp_culprit_innocent",
+      "label": "Sebastian Waverly remained in The Grand Vesper Hotel and did not enter Vesper Central Station.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_sebastian",
+          "where": "loc_grand_hotel",
+          "from": 1215,
+          "to": 1230
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_victim_guilty",
+      "label": "Yvaine Leclair entered Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_yvaine",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_yvaine"
+      ]
+    },
+    {
+      "id": "hyp_suspect2_guilty",
+      "label": "Walter Kendrick entered Vesper Central Station and intercepted Freight Turnstile Scanner.",
+      "claims": [
+        {
+          "kind": "at",
+          "who": "char_walter",
+          "where": "loc_central_station",
+          "from": 1212,
+          "to": 1225
+        }
+      ],
+      "culpritIds": [
+        "char_walter"
+      ]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_sebastian",
+        "where": "loc_central_station",
+        "from": 1215,
+        "to": 1235
+      },
+      {
+        "kind": "access",
+        "who": "char_sebastian",
+        "door": "door_station_gate",
+        "at": 1218
+      },
+      {
+        "kind": "action",
+        "who": "char_sebastian",
+        "verb": "took",
+        "target": "obj_dock_scanner",
+        "at": 1220,
+        "where": "loc_central_station"
+      },
+      {
+        "kind": "at",
+        "who": "char_yvaine",
+        "where": "loc_grand_hotel",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1215
+      },
+      {
+        "kind": "at",
+        "who": "char_walter",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_dock_turnstile",
+        "at": 1216
+      },
+      {
+        "kind": "at",
+        "who": "char_damian",
+        "where": "loc_north_dock",
+        "from": 1210,
+        "to": 1230
+      },
+      {
+        "kind": "access",
+        "who": "char_damian",
+        "door": "door_dock_turnstile",
+        "at": 1217
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1205
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_dock_turnstile",
+        "at": 1206
+      },
+      {
+        "kind": "access",
+        "who": "char_yvaine",
+        "door": "door_hotel_lobby",
+        "at": 1228
+      },
+      {
+        "kind": "access",
+        "who": "char_walter",
+        "door": "door_dock_turnstile",
+        "at": 1229
+      }
+    ],
+    "solutionHypothesisId": "hyp_culprit_guilty",
+    "culpritIds": [
+      "char_sebastian"
+    ],
+    "liars": [
+      {
+        "who": "char_sebastian",
+        "statementClueIds": [
+          "clue_impostor_testimony"
+        ]
+      }
+    ],
+    "keyEvidence": [
+      [
+        "clue_victim_alibi_access",
+        "clue_suspect2_alibi_access",
+        "clue_decisive_identity_refutation"
+      ]
+    ],
+    "explanation": [
+      {
+        "time": 1215,
+        "text": "Yvaine Leclair badged into door_hotel_lobby at 20:15, proving their presence at The Grand Vesper Hotel.",
+        "clueIds": [
+          "clue_victim_alibi_access"
+        ]
+      },
+      {
+        "time": 1218,
+        "text": "Physical tracking records exposed Sebastian Waverly's fabricated hotel alibi and placed them at Vesper Central Station.",
+        "clueIds": [
+          "clue_decisive_identity_refutation",
+          "clue_impostor_testimony"
+        ]
+      },
+      {
+        "time": 1216,
+        "text": "Walter Kendrick badged through door_dock_turnstile at 20:16, ruling out their presence at Vesper Central Station.",
+        "clueIds": [
+          "clue_suspect2_alibi_access"
+        ]
+      },
+      {
+        "time": 1220,
+        "text": "Sebastian Waverly intercepted Freight Turnstile Scanner at Vesper Central Station under their assumed persona.",
+        "clueIds": [
+          "clue_decisive_identity_refutation"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "templateId": "tpl_hidden_identity_v1",
+    "status": "validated"
+  }
+}
