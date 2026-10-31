@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "hono": "npm:hono@^4.13.14",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@^2.118.0",
+    "@lastlie/case-engine": "./packages/case-engine/src/index.ts",
+    "@lastlie/api-contract": "./packages/api-contract/src/index.ts"
+  }
+}

@@ -41,8 +41,19 @@ jobs:
           node-version-file: .nvmrc
           cache: 'pnpm'
 
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Build engine bundle
+        run: pnpm build:engine
+
+      - name: Deno check Edge Functions
+        run: deno check supabase/functions/api/index.ts
 
       - name: Typecheck
         run: pnpm -r typecheck
@@ -53,6 +64,7 @@ jobs:
       - name: Test & Coverage Gate
         run: |
           pnpm -r test
+          pnpm test:api
           pnpm --filter @lastlie/case-engine test -- --coverage
 
       - name: Content validation
@@ -61,10 +73,53 @@ jobs:
       - name: Dependency audit (critical)
         run: pnpm audit --audit-level=critical
 
+  db-integration:
+    name: Database & RLS Integration
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Start Supabase (Docker)
+        run: supabase start
+
+      - name: Reset Database and Apply Migrations & Seed
+        run: supabase db reset
+
+      - name: Test Database RLS & Schema (pgTAP)
+        run: supabase test db
+
+      - name: Run API tests against local Supabase
+        env:
+          SUPABASE_URL: http://127.0.0.1:54321
+          SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4Mzg3OTYwMH0.local_service_role_key
+          USE_LOCAL_DB: 'true'
+        run: pnpm test:api
+
   preview-build:
     name: EAS Preview Build
     runs-on: ubuntu-latest
-    needs: check
+    needs: [check, db-integration]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout code
@@ -102,7 +157,7 @@ jobs:
 # deploy-backend:
 #   name: Supabase Migrations & Functions Deploy
 #   runs-on: ubuntu-latest
-#   needs: check
+#   needs: [check, db-integration]
 #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 #   env:
 #     SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
