@@ -1,0 +1,440 @@
+{
+  "id": "case_c103",
+  "version": 1,
+  "kind": "canonical",
+  "title": "The Midnight Frequency",
+  "difficulty": 3,
+  "estimatedMinutes": 6,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": ["loc_harbor_radio", "loc_harbor_dock", "loc_harbor_gate"],
+    "date": "2026-11-28",
+    "summary": "North Harbor coastal telegraph station and drydock freight slip on a cold windy night."
+  },
+  "briefing": "At 01:15, an encrypted radio frequency dispatch cleared an unauthorized freighter through the harbor gate without customs inspection. Who transmitted the clearance broadcast, and how was their false alibi exposed?",
+  "characters": [
+    {
+      "id": "char_lydia",
+      "name": "Lydia Cross",
+      "role": "Logistics Coordinator",
+      "publicDescription": "Quiet operative posing as freight broker; claims she was at the harbor gate monitoring truck departures from 01:00 to 01:30."
+    },
+    {
+      "id": "char_quinn",
+      "name": "Quinn Harper",
+      "role": "Senior Investigative Reporter",
+      "publicDescription": "Journalist staking out maritime drydock shipments for the Vesper Chronicle."
+    },
+    {
+      "id": "char_sterling",
+      "name": "Ronald Sterling",
+      "role": "Harbor Master",
+      "publicDescription": "Port administrator conducting navigational log reviews in the drydock office."
+    },
+    {
+      "id": "char_marcus",
+      "name": "Marcus Kane",
+      "role": "Harbor Security Guard",
+      "publicDescription": "Perimeter guard patrolling the coastal seawall and outer gate."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_harbor_radio",
+      "name": "Coastal Telegraph Relay",
+      "description": "Secured radio tower housing maritime high-frequency transmitters.",
+      "doorIds": ["door_radio_tower"],
+      "adjacency": [{ "to": "loc_harbor_dock", "travelMinutes": 2 }]
+    },
+    {
+      "id": "loc_harbor_dock",
+      "name": "North Drydock Slip",
+      "description": "Enclosed repair slip and loading bay equipped with marine cranes.",
+      "doorIds": ["door_dock_portal"],
+      "adjacency": [
+        { "to": "loc_harbor_radio", "travelMinutes": 2 },
+        { "to": "loc_harbor_gate", "travelMinutes": 2 }
+      ]
+    },
+    {
+      "id": "loc_harbor_gate",
+      "name": "Harbor Gatehouse",
+      "description": "Main harbor vehicle barrier and optical security turnstile.",
+      "doorIds": ["door_gate_barrier"],
+      "adjacency": [{ "to": "loc_harbor_dock", "travelMinutes": 2 }]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_radio_tower",
+      "name": "Radio Tower Security Hatch",
+      "connects": ["loc_harbor_dock", "loc_harbor_radio"],
+      "state": "closed"
+    },
+    {
+      "id": "door_dock_portal",
+      "name": "Slip Main Portal",
+      "connects": ["loc_harbor_dock"],
+      "state": "closed"
+    },
+    {
+      "id": "door_gate_barrier",
+      "name": "Gatehouse Barrier",
+      "connects": ["loc_harbor_gate", "loc_harbor_dock"],
+      "state": "closed"
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_clearance_slug",
+      "name": "The Clearance Keycard",
+      "description": "An encoded cryptographic keycard that activates the harbor emergency transmitter.",
+      "type": "item",
+      "ownerId": "char_sterling"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_c103_lydia_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_lydia",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lydia",
+          "where": "loc_harbor_gate",
+          "from": 75,
+          "to": 105
+        }
+      ],
+      "text": "Lydia stated: 'I was in the harbor gatehouse from 01:00 to 01:30 inspecting delivery truck manifests.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_quinn_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_quinn",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_quinn",
+          "where": "loc_harbor_dock",
+          "from": 65,
+          "to": 85
+        }
+      ],
+      "text": "Quinn stated: 'I remained in the drydock slip from 01:05 to 01:25 observing vessel docking lights.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_sterling_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_sterling",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_sterling",
+          "where": "loc_harbor_dock",
+          "from": 60,
+          "to": 90
+        }
+      ],
+      "text": "Sterling stated: 'I was in the drydock slip from 01:00 to 01:30 verifying vessel engine calibrations.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_marcus_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_marcus",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_marcus",
+          "where": "loc_harbor_dock",
+          "from": 65,
+          "to": 90
+        }
+      ],
+      "text": "Marcus stated: 'I was in the drydock slip from 01:05 to 01:30 inspecting mooring lines.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_dock_patrol",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_sterling",
+          "where": "loc_harbor_dock",
+          "from": 60,
+          "to": 90
+        }
+      ],
+      "text": "Drydock workstation sensor: Master Ronald Sterling logged at calibration console from 01:00 to 01:30.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_guard_camera",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_marcus",
+          "where": "loc_harbor_dock",
+          "from": 65,
+          "to": 90
+        }
+      ],
+      "text": "Slip gantry CCTV: Marcus Kane remained in the drydock staging area continuously from 01:05 to 01:30.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c103_manifest_stamp",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_quinn",
+          "where": "loc_harbor_dock",
+          "from": 65,
+          "to": 85
+        }
+      ],
+      "text": "Quinn Harper notebook: Port customs log stamped with Quiet logistics clearance.",
+      "unlock": { "kind": "default" },
+      "tags": ["conspiracy_hook"]
+    },
+    {
+      "id": "clue_c103_radio_card_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_lydia",
+          "door": "door_radio_tower",
+          "at": 75
+        }
+      ],
+      "text": "Radio tower magnetic reader: Lydia Cross badge accessed transmitter room at 01:15.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c103_lydia_testimony"
+      }
+    },
+    {
+      "id": "clue_c103_transmitter_key",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_lydia",
+          "what": "obj_clearance_slug",
+          "from": 75,
+          "to": 88
+        }
+      ],
+      "text": "Console key switch sensor: The Clearance Keycard was engaged by Lydia Cross from 01:15 to 01:28.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c103_radio_card_log"
+      }
+    },
+    {
+      "id": "clue_c103_radio_intercept",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_lydia",
+          "verb": "took",
+          "target": "obj_clearance_slug",
+          "at": 76,
+          "where": "loc_harbor_radio"
+        }
+      ],
+      "text": "Navigational intercept: Clearance transmission signed with Quiet operative cipher broadcast at 01:16.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c103_transmitter_key"
+      },
+      "tags": ["conspiracy_hook"]
+    },
+    {
+      "id": "clue_c103_cargo_slip",
+      "type": "receipt",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_lydia",
+          "where": "loc_harbor_radio",
+          "from": 75,
+          "to": 88
+        }
+      ],
+      "text": "Transmitter waste bin: Freight Bond 8819-B routing contraband for North Shore Maritime Syndicate.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c103_radio_intercept"
+      },
+      "tags": ["conspiracy_hook"]
+    }
+  ],
+  "conspiracyHooks": [
+    {
+      "nodeId": "cnode_lydia_cross",
+      "clueId": "clue_c103_radio_intercept",
+      "leadText": "Radio dispatch confirms Lydia Cross coordinates Quiet maritime shipments."
+    },
+    {
+      "nodeId": "cnode_north_shore_maritime",
+      "clueId": "clue_c103_cargo_slip",
+      "leadText": "Bond 8819-B reveals North Shore Maritime acts as a Quiet transport front."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_lydia",
+      "label": "Lydia Cross accessed the radio tower at 01:15 to broadcast unauthorized vessel clearance.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_lydia",
+          "verb": "took",
+          "target": "obj_clearance_slug",
+          "at": 76,
+          "where": "loc_harbor_radio"
+        }
+      ],
+      "culpritIds": ["char_lydia"]
+    },
+    {
+      "id": "hyp_sterling",
+      "label": "Ronald Sterling used the clearance keycard to let an uninspected vessel dock.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_sterling",
+          "what": "obj_clearance_slug",
+          "from": 70,
+          "to": 80
+        }
+      ],
+      "culpritIds": ["char_sterling"]
+    },
+    {
+      "id": "hyp_marcus",
+      "label": "Marcus Kane obtained the clearance keycard to assist a smuggling vessel.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_marcus",
+          "what": "obj_clearance_slug",
+          "from": 72,
+          "to": 82
+        }
+      ],
+      "culpritIds": ["char_marcus"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_quinn",
+        "where": "loc_harbor_dock",
+        "from": 65,
+        "to": 85
+      },
+      {
+        "kind": "at",
+        "who": "char_sterling",
+        "where": "loc_harbor_dock",
+        "from": 60,
+        "to": 90
+      },
+      {
+        "kind": "at",
+        "who": "char_marcus",
+        "where": "loc_harbor_dock",
+        "from": 65,
+        "to": 90
+      },
+      {
+        "kind": "at",
+        "who": "char_lydia",
+        "where": "loc_harbor_gate",
+        "from": 60,
+        "to": 73
+      },
+      {
+        "kind": "access",
+        "who": "char_lydia",
+        "door": "door_radio_tower",
+        "at": 75
+      },
+      {
+        "kind": "at",
+        "who": "char_lydia",
+        "where": "loc_harbor_radio",
+        "from": 75,
+        "to": 88
+      },
+      {
+        "kind": "possess",
+        "who": "char_lydia",
+        "what": "obj_clearance_slug",
+        "from": 75,
+        "to": 88
+      },
+      {
+        "kind": "action",
+        "who": "char_lydia",
+        "verb": "took",
+        "target": "obj_clearance_slug",
+        "at": 76,
+        "where": "loc_harbor_radio"
+      }
+    ],
+    "culpritIds": ["char_lydia"],
+    "liars": [
+      {
+        "who": "char_lydia",
+        "statementClueIds": ["clue_c103_lydia_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_lydia",
+    "keyEvidence": [["clue_c103_radio_card_log", "clue_c103_transmitter_key", "clue_c103_radio_intercept"]],
+    "explanation": [
+      {
+        "time": 75,
+        "text": "Lydia Cross swiped into the coastal radio tower at 01:15, disproving her claim that she remained at the harbor gatehouse.",
+        "clueIds": ["clue_c103_radio_card_log"]
+      },
+      {
+        "time": 75,
+        "text": "Console logs confirm Lydia engaged the emergency clearance keycard in the transmitter room.",
+        "clueIds": ["clue_c103_transmitter_key"]
+      },
+      {
+        "time": 76,
+        "text": "Radio monitors intercepted the clandestine transmission clearing the contraband vessel under Quiet authorization.",
+        "clueIds": ["clue_c103_radio_intercept"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}

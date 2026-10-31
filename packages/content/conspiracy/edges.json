@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "id": "cedge_kessler_quiet",
+    "from": "cnode_victor_kessler",
+    "to": "cnode_the_quiet",
+    "rel": "operates_for",
+    "revealedBy": {
+      "caseId": "case_c101",
+      "clueId": "clue_c101_telegram_decrypt"
+    },
+    "teaser": "Kessler's decrypted logs show direct orders from Quiet command."
+  },
+  {
+    "id": "cedge_kessler_station",
+    "from": "cnode_victor_kessler",
+    "to": "cnode_central_station",
+    "rel": "infiltrated",
+    "revealedBy": {
+      "caseId": "case_c101",
+      "clueId": "clue_c101_vault_card_log"
+    },
+    "teaser": "Kessler used his inspector badge to breach secure vault sectors."
+  },
+  {
+    "id": "cedge_station_lockbox",
+    "from": "cnode_central_station",
+    "to": "cnode_lockbox_73",
+    "rel": "conceals",
+    "revealedBy": {
+      "caseId": "case_c101",
+      "clueId": "clue_c101_waybill_original"
+    },
+    "teaser": "Vault waybills point directly to Lockbox 73 as an active dead drop."
+  },
+  {
+    "id": "cedge_quiet_ouroboros",
+    "from": "cnode_the_quiet",
+    "to": "cnode_wax_seal_ouroboros",
+    "rel": "marks_with",
+    "revealedBy": {
+      "caseId": "case_c101",
+      "clueId": "clue_c101_waybill_original"
+    },
+    "teaser": "Sealed Quiet documents bear the distinctive ouroboros seal."
+  },
+  {
+    "id": "cedge_drake_astrum_fund",
+    "from": "cnode_evelyn_drake",
+    "to": "cnode_astrum_foundation",
+    "rel": "finances",
+    "revealedBy": {
+      "caseId": "case_c102",
+      "clueId": "clue_c102_wire_receipt"
+    },
+    "teaser": "Drake's private accounts route funding to Astrum accounts."
+  },
+  {
+    "id": "cedge_drake_tx_7702",
+    "from": "cnode_evelyn_drake",
+    "to": "cnode_tx_7702",
+    "rel": "authorized",
+    "revealedBy": {
+      "caseId": "case_c102",
+      "clueId": "clue_c102_wire_receipt"
+    },
+    "teaser": "Signed carbon slips confirm Drake authorized wire 7702-X."
+  },
+  {
+    "id": "cedge_astrum_quiet",
+    "from": "cnode_astrum_foundation",
+    "to": "cnode_the_quiet",
+    "rel": "fronts_for",
+    "revealedBy": {
+      "caseId": "case_c102",
+      "clueId": "clue_c102_ledger_cipher"
+    },
+    "teaser": "Astrum Foundation watermarks conceal hidden Quiet ciphers."
+  },
+  {
+    "id": "cedge_gallery_astrum",
+    "from": "cnode_helios_gallery",
+    "to": "cnode_astrum_foundation",
+    "rel": "curates_for",
+    "revealedBy": {
+      "caseId": "case_c102",
+      "clueId": "clue_c102_donor_manifest"
+    },
+    "teaser": "Helios Gallery preserves and displays Astrum Foundation collections."
+  },
+  {
+    "id": "cedge_cross_quiet",
+    "from": "cnode_lydia_cross",
+    "to": "cnode_the_quiet",
+    "rel": "directs",
+    "revealedBy": {
+      "caseId": "case_c103",
+      "clueId": "clue_c103_radio_intercept"
+    },
+    "teaser": "Radio dispatches prove Cross is a senior Quiet coordinator."
+  },
+  {
+    "id": "cedge_cross_harbor",
+    "from": "cnode_lydia_cross",
+    "to": "cnode_north_harbor",
+    "rel": "controls_docking",
+    "revealedBy": {
+      "caseId": "case_c103",
+      "clueId": "clue_c103_radio_card_log"
+    },
+    "teaser": "Cross holds unauthorized master access to coastal radio facilities."
+  },
+  {
+    "id": "cedge_harbor_maritime",
+    "from": "cnode_north_harbor",
+    "to": "cnode_north_shore_maritime",
+    "rel": "bases",
+    "revealedBy": {
+      "caseId": "case_c103",
+      "clueId": "clue_c103_cargo_slip"
+    },
+    "teaser": "North Shore Maritime docks exclusively at North Harbor Drydock."
+  },
+  {
+    "id": "cedge_cross_tx_8819",
+    "from": "cnode_lydia_cross",
+    "to": "cnode_tx_8819",
+    "rel": "underwrites",
+    "revealedBy": {
+      "caseId": "case_c103",
+      "clueId": "clue_c103_cargo_slip"
+    },
+    "teaser": "Cross personally approved freight bond 8819-B for contraband."
+  }
+]

@@ -1,19 +1,19 @@
-# Incident of the Disputed Naval Brass Chronometer (case_mi_9066)
+# A Breach in North Freight Dock: The Naval Brass Chronometer (case_gen_518122)
 
 - **Mystery Type:** missing_item
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
-- **Estimated Duration:** 13 minutes
-- **Date:** 2026-11-05
-- **Setting:** A high-value object went missing from North Freight Dock during evening shifts.
+- **Estimated Duration:** 18 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across North Freight Dock, The Vesper Chronicle Newsroom, The Grand Vesper Hotel.
 
 ## Briefing
-Naval Brass Chronometer disappeared from North Freight Dock during the evening custodial window. Records confirm four individuals held access to the area: Miriam Vance, Valerie Vance, Katrina Chambers, and Damian Volkov. Compare custody registers and badge scans to expose who took the artifact.
+The disappearance of Naval Brass Chronometer from North Freight Dock triggered an audit. Conflicting accounts from Valerie Vance, Miriam Vance, Katrina Chambers, and Damian Volkov contradict physical registers. Trace the evidence to recover the truth.
 
 ## Cast of Characters
-- **Damian Volkov** (Archive Clerk): Archive Clerk in Vesper City involved in the incident.
+- **Damian Volkov** (Chief Conservator): Archive Clerk in Vesper City involved in the incident.
 - **Miriam Vance** (Vault Curator): Vault Curator in Vesper City involved in the incident.
 - **Valerie Vance** (Visiting Researcher): Visiting Researcher in Vesper City involved in the incident.
-- **Katrina Chambers** (Security Guard): Security Guard in Vesper City involved in the incident.
+- **Katrina Chambers** (Archive Clerk): Security Guard in Vesper City involved in the incident.
 
 ## Locations
 - **North Freight Dock**: Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.
@@ -21,37 +21,39 @@ Naval Brass Chronometer disappeared from North Freight Dock during the evening c
 - **The Grand Vesper Hotel**: Neoclassical luxury hotel situated north of the central rail terminus.
 
 ## Evidence & Clues
+- **[clue_missing_item_testimony]** (testimony, testimony, Default)
+  > "Valerie Vance stated: 'I personally inspected the display mounting of Naval Brass Chronometer at 20:18; the security seal was completely intact.'"
 - **[clue_custody_log]** (document, physical, Default)
   > "Official Register: Miriam Vance verified registered custody of Naval Brass Chronometer in North Freight Dock until 20:20."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Damian Volkov stated: 'I remained in The Vesper Chronicle Newsroom from 20:10 to 20:30. In fact, Valerie Vance was already holding Naval Brass Chronometer earlier around 20:12.'"
 - **[clue_custodian_office_access]** (access_log, physical, Default)
   > "Office Reader: Miriam Vance badged through door_newsroom_press at 20:26."
-- **[clue_culprit_vault_access]** (access_log, physical, Unlocked via clue_culprit_testimony)
-  > "Vault Security Gate: Damian Volkov scanned access badge at door_dock_turnstile at 20:18."
-- **[clue_suspect2_transit_access]** (access_log, physical, Unlocked via clue_custody_log)
-  > "Corridor Turnstile: Valerie Vance scanned access at door_hotel_lobby at 20:16."
+- **[clue_culprit_vault_access]** (access_log, physical, Unlocked via clue_missing_item_testimony)
+  > "Vault Terminal: Damian Volkov scanned access badge at door_dock_turnstile at 20:18."
+- **[clue_seal_sensor]** (document, physical, Default)
+  > "Sensor Diagnostic: Automated mount recorded the security seal on Naval Brass Chronometer was broken at 20:18."
+- **[clue_suspect2_transit_access]** (access_log, physical, Unlocked via clue_custodian_office_access)
+  > "Turnstile Log: Valerie Vance verified entry at door_hotel_lobby at 20:16."
 - **[clue_suspect3_transit_access]** (access_log, physical, Default)
-  > "Security Turnstile: Katrina Chambers logged entry at door_hotel_lobby at 20:17."
+  > "Turnstile Log: Katrina Chambers verified entry at door_hotel_lobby at 20:17."
 - **[clue_redherring_1]** (cctv, physical, Default [tags: red_herring])
   > "[20:10] SECURITY_CAMERA · THE_GRAND_VESPER_HOTEL · visual: Katrina Chambers"
-- **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
-  > "[20:28] ACCESS_LOG · HOTEL_LOBBY · badge: Valerie Vance"
+- **[clue_redherring_2]** (cctv, physical, Default [tags: red_herring])
+  > "[20:20] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Miriam Vance"
 
 ## Hypotheses
-- **hyp_custodian_took**: Miriam Vance took Naval Brass Chronometer from North Freight Dock.
-- **hyp_suspect2_took**: Valerie Vance took Naval Brass Chronometer from North Freight Dock.
-- **hyp_suspect3_took**: Katrina Chambers took Naval Brass Chronometer from North Freight Dock.
-- **hyp_culprit_stole**: Damian Volkov took Naval Brass Chronometer from North Freight Dock. **[SOLUTION]**
+- **hyp_custodian_guilty**: Miriam Vance entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_suspect2_guilty**: Valerie Vance entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_suspect3_guilty**: Katrina Chambers entered North Freight Dock and took Naval Brass Chronometer.
+- **hyp_culprit_guilty**: Damian Volkov entered North Freight Dock and took Naval Brass Chronometer. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian
-- **Liars:** char_damian (clue_culprit_testimony)
+- **Liars:** char_valerie (clue_missing_item_testimony)
 - **Key Evidence Sets:** [clue_custodian_office_access, clue_suspect2_transit_access, clue_suspect3_transit_access, clue_culprit_vault_access]
 
 ### Chronological Explanation
-1. **[1216]** Official custody records proved Miriam Vance held registered custody of Naval Brass Chronometer until 20:20, disproving claims of earlier possession by others. *(Clues: clue_custody_log, clue_culprit_testimony)*
-2. **[1216]** Valerie Vance badged into door_hotel_lobby at 20:16, ruling out their presence at North Freight Dock. *(Clues: clue_suspect2_transit_access)*
-3. **[1217]** Katrina Chambers badged into door_hotel_lobby at 20:17, ruling out their presence at North Freight Dock. *(Clues: clue_suspect3_transit_access)*
-4. **[1218]** Damian Volkov was recorded badging into door_dock_turnstile at 20:18, shattering their office alibi and placing them inside North Freight Dock. *(Clues: clue_culprit_vault_access, clue_culprit_testimony)*
-5. **[1220]** Damian Volkov took Naval Brass Chronometer directly from North Freight Dock at 20:20. *(Clues: clue_culprit_vault_access)*
+1. **[1216]** Digital sensor diagnostics showed the security seal on Naval Brass Chronometer was broken at 20:18, contradicting testimony that it remained intact. *(Clues: clue_seal_sensor, clue_missing_item_testimony)*
+2. **[1218]** Terminal badge logs confirmed Damian Volkov accessed door_dock_turnstile at 20:18, putting them inside the vault during the theft. *(Clues: clue_culprit_vault_access)*
+3. **[1216]** Valerie Vance badged into door_hotel_lobby at 20:16, ruling out their presence at North Freight Dock. *(Clues: clue_suspect2_transit_access)*
+4. **[1217]** Katrina Chambers badged into door_hotel_lobby at 20:17, ruling out their presence at North Freight Dock. *(Clues: clue_suspect3_transit_access)*
+5. **[1220]** Damian Volkov took Naval Brass Chronometer from North Freight Dock before departing. *(Clues: clue_culprit_vault_access)*

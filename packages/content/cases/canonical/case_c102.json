@@ -1,0 +1,423 @@
+{
+  "id": "case_c102",
+  "version": 1,
+  "kind": "canonical",
+  "title": "The Coded Provenance",
+  "difficulty": 2,
+  "estimatedMinutes": 5,
+  "mysteryType": "forged_message",
+  "setting": {
+    "locationIds": ["loc_gallery_archive", "loc_gallery_hall", "loc_conservation_lab"],
+    "date": "2026-11-20",
+    "summary": "Helios Fine Arts Gallery private archival wing and conservation laboratory."
+  },
+  "briefing": "At 21:30, an antique provenance ledger detailing clockwork automaton transfers was replaced with a forged facsimile in the gallery archives. Who substituted the archival ledger, and how was their false alibi exposed?",
+  "characters": [
+    {
+      "id": "char_evelyn",
+      "name": "Evelyn Drake",
+      "role": "Antiquities Collector",
+      "publicDescription": "High-society patron who claims she was in the main exhibition hall viewing sculpture exhibits until 21:45."
+    },
+    {
+      "id": "char_asher",
+      "name": "Asher Vance",
+      "role": "Gallery Curator",
+      "publicDescription": "Curator overseeing donor receptions and private collection access."
+    },
+    {
+      "id": "char_beatrice",
+      "name": "Beatrice Chen",
+      "role": "Archive Registrar",
+      "publicDescription": "Registrar responsible for rare book cataloging and archive security."
+    },
+    {
+      "id": "char_roland",
+      "name": "Roland Finch",
+      "role": "Master Typesetter",
+      "publicDescription": "Antique binder and lithographer consulting on historic manuscript repairs."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_gallery_archive",
+      "name": "Rare Document Archive",
+      "description": "Climate-controlled vault preserving historic collection deeds.",
+      "doorIds": ["door_archive_vault"],
+      "adjacency": [{ "to": "loc_gallery_hall", "travelMinutes": 2 }]
+    },
+    {
+      "id": "loc_gallery_hall",
+      "name": "Helios Main Hall",
+      "description": "Grand exhibition gallery containing permanent sculpture installations.",
+      "doorIds": ["door_hall_entrance"],
+      "adjacency": [
+        { "to": "loc_gallery_archive", "travelMinutes": 2 },
+        { "to": "loc_conservation_lab", "travelMinutes": 2 }
+      ]
+    },
+    {
+      "id": "loc_conservation_lab",
+      "name": "Conservation Laboratory",
+      "description": "Restoration studio with binding presses and chemical analysis benches.",
+      "doorIds": ["door_lab_entry"],
+      "adjacency": [{ "to": "loc_gallery_hall", "travelMinutes": 2 }]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_archive_vault",
+      "name": "Archive Security Door",
+      "connects": ["loc_gallery_hall", "loc_gallery_archive"],
+      "state": "closed"
+    },
+    {
+      "id": "door_hall_entrance",
+      "name": "Main Hall Entry Turnstile",
+      "connects": ["loc_gallery_hall"],
+      "state": "closed"
+    },
+    {
+      "id": "door_lab_entry",
+      "name": "Laboratory Portal",
+      "connects": ["loc_gallery_hall", "loc_conservation_lab"],
+      "state": "closed"
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_provenance_ledger",
+      "name": "The Provenance Ledger",
+      "description": "Master provenance catalog indexing Astrum celestial antiquities.",
+      "type": "item",
+      "ownerId": "char_asher"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_c102_evelyn_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_evelyn",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_evelyn",
+          "where": "loc_gallery_hall",
+          "from": 1275,
+          "to": 1305
+        }
+      ],
+      "text": "Evelyn stated: 'I was in the main exhibition hall from 21:15 to 21:45 admiring classical bronze casts.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_asher_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_asher",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_asher",
+          "where": "loc_conservation_lab",
+          "from": 1280,
+          "to": 1300
+        }
+      ],
+      "text": "Asher stated: 'I remained in the conservation lab from 21:20 to 21:40 reviewing chemical cleaning solvents.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_beatrice_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_beatrice",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_beatrice",
+          "where": "loc_conservation_lab",
+          "from": 1275,
+          "to": 1305
+        }
+      ],
+      "text": "Beatrice stated: 'I was in the conservation lab from 21:15 to 21:45 preparing archival mounting boards.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_roland_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_roland",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_conservation_lab",
+          "from": 1280,
+          "to": 1305
+        }
+      ],
+      "text": "Roland stated: 'I was in the conservation lab from 21:20 to 21:45 examining historic paper watermarks.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_donor_manifest",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_asher",
+          "where": "loc_conservation_lab",
+          "from": 1280,
+          "to": 1300
+        }
+      ],
+      "text": "Conservation studio badge log: Asher Vance logged at chemical bench from 21:20 to 21:40.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_sculpture_cam",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_roland",
+          "where": "loc_conservation_lab",
+          "from": 1280,
+          "to": 1305
+        }
+      ],
+      "text": "Studio surveillance camera: Roland Finch remained at the binding press continuously from 21:20 to 21:45.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c102_archive_card_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_evelyn",
+          "door": "door_archive_vault",
+          "at": 1290
+        }
+      ],
+      "text": "Archive vault access terminal: Evelyn Drake guest pass scanned at 21:30.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c102_evelyn_testimony"
+      }
+    },
+    {
+      "id": "clue_c102_pedestal_sensor",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_evelyn",
+          "what": "obj_provenance_ledger",
+          "from": 1290,
+          "to": 1302
+        }
+      ],
+      "text": "Archival vitrine cradle sensor: The Provenance Ledger was removed from display case by Evelyn Drake at 21:30.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c102_archive_card_log"
+      }
+    },
+    {
+      "id": "clue_c102_ledger_cipher",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_evelyn",
+          "verb": "took",
+          "target": "obj_provenance_ledger",
+          "at": 1291,
+          "where": "loc_gallery_archive"
+        }
+      ],
+      "text": "Substituted ledger inspection: UV fluorescence exposes Astrum Foundation cipher stamp marking replaced page.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c102_pedestal_sensor"
+      },
+      "tags": ["conspiracy_hook"]
+    },
+    {
+      "id": "clue_c102_wire_receipt",
+      "type": "receipt",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_evelyn",
+          "where": "loc_gallery_archive",
+          "from": 1290,
+          "to": 1302
+        }
+      ],
+      "text": "Archive trash receptacle: Carbon receipt for Offshore Wire 7702-X to Astrum Foundation signed by Evelyn Drake.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c102_ledger_cipher"
+      },
+      "tags": ["conspiracy_hook"]
+    }
+  ],
+  "conspiracyHooks": [
+    {
+      "nodeId": "cnode_astrum_foundation",
+      "clueId": "clue_c102_ledger_cipher",
+      "leadText": "Substituted ledger pages match Astrum Foundation registration numbers."
+    },
+    {
+      "nodeId": "cnode_tx_7702",
+      "clueId": "clue_c102_wire_receipt",
+      "leadText": "Wire 7702-X confirms covert financing from Evelyn Drake."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_evelyn",
+      "label": "Evelyn Drake accessed the rare document archive at 21:30 to substitute the provenance ledger.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_evelyn",
+          "verb": "took",
+          "target": "obj_provenance_ledger",
+          "at": 1291,
+          "where": "loc_gallery_archive"
+        }
+      ],
+      "culpritIds": ["char_evelyn"]
+    },
+    {
+      "id": "hyp_asher",
+      "label": "Asher Vance took the provenance ledger to conceal discrepancies in gallery cataloging.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_asher",
+          "what": "obj_provenance_ledger",
+          "from": 1285,
+          "to": 1295
+        }
+      ],
+      "culpritIds": ["char_asher"]
+    },
+    {
+      "id": "hyp_roland",
+      "label": "Roland Finch swapped the provenance ledger with an antique facsimile for private study.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_roland",
+          "what": "obj_provenance_ledger",
+          "from": 1288,
+          "to": 1298
+        }
+      ],
+      "culpritIds": ["char_roland"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_asher",
+        "where": "loc_conservation_lab",
+        "from": 1280,
+        "to": 1300
+      },
+      {
+        "kind": "at",
+        "who": "char_beatrice",
+        "where": "loc_conservation_lab",
+        "from": 1275,
+        "to": 1305
+      },
+      {
+        "kind": "at",
+        "who": "char_roland",
+        "where": "loc_conservation_lab",
+        "from": 1280,
+        "to": 1305
+      },
+      {
+        "kind": "at",
+        "who": "char_evelyn",
+        "where": "loc_gallery_hall",
+        "from": 1275,
+        "to": 1288
+      },
+      {
+        "kind": "access",
+        "who": "char_evelyn",
+        "door": "door_archive_vault",
+        "at": 1290
+      },
+      {
+        "kind": "at",
+        "who": "char_evelyn",
+        "where": "loc_gallery_archive",
+        "from": 1290,
+        "to": 1302
+      },
+      {
+        "kind": "possess",
+        "who": "char_evelyn",
+        "what": "obj_provenance_ledger",
+        "from": 1290,
+        "to": 1302
+      },
+      {
+        "kind": "action",
+        "who": "char_evelyn",
+        "verb": "took",
+        "target": "obj_provenance_ledger",
+        "at": 1291,
+        "where": "loc_gallery_archive"
+      }
+    ],
+    "culpritIds": ["char_evelyn"],
+    "liars": [
+      {
+        "who": "char_evelyn",
+        "statementClueIds": ["clue_c102_evelyn_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_evelyn",
+    "keyEvidence": [["clue_c102_archive_card_log", "clue_c102_pedestal_sensor", "clue_c102_ledger_cipher"]],
+    "explanation": [
+      {
+        "time": 1290,
+        "text": "Evelyn Drake badged into the archive vault at 21:30, directly contradicting her claim that she remained in the main hall.",
+        "clueIds": ["clue_c102_archive_card_log"]
+      },
+      {
+        "time": 1290,
+        "text": "Display vitrine sensors registered Evelyn removing the provenance ledger.",
+        "clueIds": ["clue_c102_pedestal_sensor"]
+      },
+      {
+        "time": 1291,
+        "text": "The substituted document retained an invisible Astrum Foundation cipher stamp, confirming Evelyn Drake replaced the original record.",
+        "clueIds": ["clue_c102_ledger_cipher"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}

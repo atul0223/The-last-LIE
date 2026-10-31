@@ -1,19 +1,19 @@
-# The Clandestine Dispatch from Transit Cipher Ledger (case_fm_5566)
+# The Ghost Signal from Transit Cipher Ledger (case_gen_501610)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
-- **Estimated Duration:** 11 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at North Freight Dock.
+- **Estimated Duration:** 14 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across North Gate Print Shop, North Freight Dock, The Vesper Chronicle Newsroom.
 
 ## Briefing
-Operations at North Freight Dock were disrupted by a fraudulent message sent from Transit Cipher Ledger. Terminal records place Yvaine Chen, Astrid Whitman, Lenore Castile, and Dorian Mercer in proximity to network consoles. Correlate access times to determine who authored the message.
+An illicit wire communication was detected originating from North Gate Print Shop. Accounts given by Lenore Castile, Dorian Mercer, Yvaine Chen, and Astrid Whitman contain fabricated details regarding device access. Determine who sent the message.
 
 ## Cast of Characters
 - **Dorian Mercer** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Yvaine Chen** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Astrid Whitman** (Press Foreman): Press Foreman in Vesper City involved in the incident.
-- **Lenore Castile** (Telegraph Operator): Telegraph Operator in Vesper City involved in the incident.
+- **Yvaine Chen** (Telegraph Operator): Lead Reporter in Vesper City involved in the incident.
+- **Astrid Whitman** (Communications Officer): Desk Assistant in Vesper City involved in the incident.
+- **Lenore Castile** (Desk Assistant): Telegraph Operator in Vesper City involved in the incident.
 
 ## Locations
 - **North Gate Print Shop**: Industrial printing press facility with mechanical composing bays and ink tanks.
@@ -21,34 +21,32 @@ Operations at North Freight Dock were disrupted by a fraudulent message sent fro
 - **The Vesper Chronicle Newsroom**: Editorial offices, library archives, and news telegraph desks.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from Transit Cipher Ledger to Astrid Whitman at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Dorian Mercer stated: 'I saw Yvaine Chen log into Transit Cipher Ledger and send message msg_dispatch at 20:15 before leaving.'"
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Dorian Mercer stated: 'The wire transmission from Transit Cipher Ledger at 20:15 was authorized and sent directly by Yvaine Chen.'"
+- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_dispatch_testimony)
+  > "Terminal Session Log: Transit Cipher Ledger was actively operated by Dorian Mercer at 20:15 inside North Gate Print Shop."
 - **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Yvaine Chen badged into door_dock_turnstile at 20:14."
-- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_culprit_testimony)
-  > "Terminal Audit Trail: Transit Cipher Ledger authenticated user session for Dorian Mercer at 20:15 with badge access at door_printshop_dock."
+  > "Pressroom Card Reader: Yvaine Chen badged into door_dock_turnstile at 20:14."
 - **[clue_recipient_alibi_access]** (access_log, physical, Default)
-  > "Gate Log: Astrid Whitman scanned access badge at door_newsroom_press at 20:16."
+  > "Access Log: Astrid Whitman checked in at door_newsroom_press at 20:16."
 - **[clue_redherring_1]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Lenore Castile"
-- **[clue_redherring_2]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Astrid Whitman"
+  > "[20:10] SECURITY_CAMERA · NORTH_FREIGHT_DOCK · visual: Yvaine Chen"
+- **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
+  > "[20:28] ACCESS_LOG · DOCK_TURNSTILE · badge: Yvaine Chen"
 
 ## Hypotheses
-- **hyp_culprit_forged**: Dorian Mercer transmitted the unauthorized dispatch from Transit Cipher Ledger. **[SOLUTION]**
-- **hyp_culprit_innocent**: Dorian Mercer remained at North Freight Dock and did not operate Transit Cipher Ledger.
-- **hyp_recipient_sent**: Astrid Whitman transmitted the unauthorized dispatch from Transit Cipher Ledger.
-- **hyp_victim_sent**: Yvaine Chen transmitted the unauthorized dispatch from Transit Cipher Ledger.
+- **hyp_culprit_guilty**: Dorian Mercer transmitted the forged dispatch from Transit Cipher Ledger in North Gate Print Shop. **[SOLUTION]**
+- **hyp_recipient_guilty**: Astrid Whitman transmitted the dispatch from Transit Cipher Ledger in North Gate Print Shop.
+- **hyp_culprit_innocent**: Dorian Mercer remained in North Freight Dock and did not use Transit Cipher Ledger.
+- **hyp_victim_guilty**: Yvaine Chen transmitted the dispatch from Transit Cipher Ledger in North Gate Print Shop.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_dorian
-- **Liars:** char_dorian (clue_culprit_testimony)
+- **Liars:** char_dorian (clue_dispatch_testimony)
 - **Key Evidence Sets:** [clue_victim_alibi_access, clue_recipient_alibi_access, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Yvaine Chen badged into door_dock_turnstile at 20:14, proving they were not present in North Gate Print Shop to operate Transit Cipher Ledger. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Dorian Mercer was logged into Transit Cipher Ledger at 20:15, shattering their claim that Yvaine Chen sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1216]** Astrid Whitman was logged at door_newsroom_press at 20:16, confirming their legitimate station. *(Clues: clue_recipient_alibi_access)*
-4. **[1215]** Dorian Mercer transmitted the forged message msg_dispatch from Transit Cipher Ledger at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Terminal session logs verified that Dorian Mercer was logged into Transit Cipher Ledger at 20:15, shattering claims that Yvaine Chen sent the dispatch. *(Clues: clue_terminal_session, clue_dispatch_testimony)*
+3. **[1216]** Astrid Whitman was badged into door_newsroom_press at 20:16, ruling them out as the transmitter at North Gate Print Shop. *(Clues: clue_recipient_alibi_access)*
+4. **[1215]** Dorian Mercer completed the forged transmission of Naval Brass Chronometer before signing off. *(Clues: clue_terminal_session)*

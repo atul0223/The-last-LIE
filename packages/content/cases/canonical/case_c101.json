@@ -1,0 +1,423 @@
+{
+  "id": "case_c101",
+  "version": 1,
+  "kind": "canonical",
+  "title": "The Encrypted Waybill",
+  "difficulty": 2,
+  "estimatedMinutes": 5,
+  "mysteryType": "false_alibi",
+  "setting": {
+    "locationIds": ["loc_station_vault", "loc_station_office", "loc_station_platform"],
+    "date": "2026-11-15",
+    "summary": "Vesper Central Station freight staging vaults on a damp November night."
+  },
+  "briefing": "At 23:45, a sealed transit waybill vanished from the secure station freight vault during courier handoff. Who breached the vault, and how was their false alibi exposed?",
+  "characters": [
+    {
+      "id": "char_victor",
+      "name": "Victor Kessler",
+      "role": "Freight Inspector",
+      "publicDescription": "Claims he remained in the dispatch office completing shift logs until midnight."
+    },
+    {
+      "id": "char_julian",
+      "name": "Julian Croft",
+      "role": "Station Dispatcher",
+      "publicDescription": "Station supervisor overseeing platform departure manifests."
+    },
+    {
+      "id": "char_helena",
+      "name": "Helena Voss",
+      "role": "Telegraph Operator",
+      "publicDescription": "Relay clerk logging wire dispatches in the platform telegraph room."
+    },
+    {
+      "id": "char_daniel",
+      "name": "Daniel Holt",
+      "role": "Transit Courier",
+      "publicDescription": "Courier waiting at the platform gate for vault clearance."
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_station_vault",
+      "name": "Freight Vault 4",
+      "description": "Reinforced luggage vault housing high-value transit packages.",
+      "doorIds": ["door_vault_lock"],
+      "adjacency": [{ "to": "loc_station_office", "travelMinutes": 2 }]
+    },
+    {
+      "id": "loc_station_office",
+      "name": "Dispatch Office",
+      "description": "Central operations room with ledger desks and badged card access.",
+      "doorIds": ["door_office_door"],
+      "adjacency": [
+        { "to": "loc_station_vault", "travelMinutes": 2 },
+        { "to": "loc_station_platform", "travelMinutes": 2 }
+      ]
+    },
+    {
+      "id": "loc_station_platform",
+      "name": "Platform 4 Concourse",
+      "description": "Covered freight platform with telegraph bay and baggage turnstiles.",
+      "doorIds": ["door_platform_turnstile"],
+      "adjacency": [{ "to": "loc_station_office", "travelMinutes": 2 }]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_vault_lock",
+      "name": "Vault 4 Time Lock",
+      "connects": ["loc_station_office", "loc_station_vault"],
+      "state": "closed"
+    },
+    {
+      "id": "door_office_door",
+      "name": "Dispatch Office Security Door",
+      "connects": ["loc_station_office", "loc_station_platform"],
+      "state": "closed"
+    },
+    {
+      "id": "door_platform_turnstile",
+      "name": "Platform 4 Gate",
+      "connects": ["loc_station_platform"],
+      "state": "closed"
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_waybill",
+      "name": "The Encrypted Waybill",
+      "description": "A sealed parchment detailing secret Quiet transit corridors.",
+      "type": "item",
+      "ownerId": "char_julian"
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_c101_victor_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_victor",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_station_office",
+          "from": 1410,
+          "to": 1435
+        }
+      ],
+      "text": "Victor stated: 'I was in the dispatch office from 23:30 to 23:55 reviewing cargo ledgers.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_julian_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_julian",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_station_platform",
+          "from": 1415,
+          "to": 1435
+        }
+      ],
+      "text": "Julian stated: 'I was on Platform 4 from 23:35 to 23:55 supervising freight car couplings.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_daniel_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_daniel",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_daniel",
+          "where": "loc_station_platform",
+          "from": 1420,
+          "to": 1435
+        }
+      ],
+      "text": "Daniel stated: 'I waited on Platform 4 from 23:40 to 23:55 for courier handoff clearance.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_helena_testimony",
+      "type": "testimony",
+      "reliability": "testimony",
+      "source": "char_helena",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_helena",
+          "where": "loc_station_platform",
+          "from": 1410,
+          "to": 1435
+        }
+      ],
+      "text": "Helena stated: 'I was in the platform telegraph room from 23:30 to 23:55 receiving wire relays.'",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_concourse_camera",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_daniel",
+          "where": "loc_station_platform",
+          "from": 1420,
+          "to": 1435
+        }
+      ],
+      "text": "Concourse security camera: Daniel Holt was continuously present on Platform 4 from 23:40 to 23:55.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_platform_camera",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_julian",
+          "where": "loc_station_platform",
+          "from": 1415,
+          "to": 1435
+        }
+      ],
+      "text": "Platform 4 CCTV log: Julian Croft remained on Platform 4 from 23:35 to 23:55.",
+      "unlock": { "kind": "default" }
+    },
+    {
+      "id": "clue_c101_vault_card_log",
+      "type": "access_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "access",
+          "who": "char_victor",
+          "door": "door_vault_lock",
+          "at": 1425
+        }
+      ],
+      "text": "Vault 4 biometric card reader: Victor Kessler badge authenticated at 23:45.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c101_victor_testimony"
+      }
+    },
+    {
+      "id": "clue_c101_waybill_cradle",
+      "type": "device_log",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "possess",
+          "who": "char_victor",
+          "what": "obj_waybill",
+          "from": 1425,
+          "to": 1435
+        }
+      ],
+      "text": "Vault cradle sensor: The Encrypted Waybill was removed from its pedestal by Victor Kessler at 23:45.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c101_vault_card_log"
+      }
+    },
+    {
+      "id": "clue_c101_telegram_decrypt",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "action",
+          "who": "char_victor",
+          "verb": "took",
+          "target": "obj_waybill",
+          "at": 1426,
+          "where": "loc_station_vault"
+        }
+      ],
+      "text": "Decrypted telegraph log: Kessler confirmed receipt of the waybill to an offshore Quiet receiver at 23:46.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c101_waybill_cradle"
+      },
+      "tags": ["conspiracy_hook"]
+    },
+    {
+      "id": "clue_c101_waybill_original",
+      "type": "document",
+      "reliability": "physical",
+      "asserts": [
+        {
+          "kind": "at",
+          "who": "char_victor",
+          "where": "loc_station_vault",
+          "from": 1425,
+          "to": 1435
+        }
+      ],
+      "text": "Station Lockbox 73 inspection: Duplicate parcel marked with the Ouroboros wax seal recovered from locker.",
+      "unlock": {
+        "kind": "after_clue",
+        "clueId": "clue_c101_telegram_decrypt"
+      },
+      "tags": ["conspiracy_hook"]
+    }
+  ],
+  "conspiracyHooks": [
+    {
+      "nodeId": "cnode_the_quiet",
+      "clueId": "clue_c101_telegram_decrypt",
+      "leadText": "Telegraph decrypt mentions Quiet courier frequency."
+    },
+    {
+      "nodeId": "cnode_lockbox_73",
+      "clueId": "clue_c101_waybill_original",
+      "leadText": "Lockbox 73 serves as a Quiet dead drop inside Vesper Central Station."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_victor",
+      "label": "Victor Kessler unlocked Vault 4 and stole the waybill while falsely claiming he was in the office.",
+      "claims": [
+        {
+          "kind": "action",
+          "who": "char_victor",
+          "verb": "took",
+          "target": "obj_waybill",
+          "at": 1426,
+          "where": "loc_station_vault"
+        }
+      ],
+      "culpritIds": ["char_victor"]
+    },
+    {
+      "id": "hyp_julian",
+      "label": "Julian Croft possessed the waybill in Vault 4 during freight staging.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_julian",
+          "what": "obj_waybill",
+          "from": 1424,
+          "to": 1430
+        }
+      ],
+      "culpritIds": ["char_julian"]
+    },
+    {
+      "id": "hyp_daniel",
+      "label": "Daniel Holt concealed the waybill in his courier satchel during staging.",
+      "claims": [
+        {
+          "kind": "possess",
+          "who": "char_daniel",
+          "what": "obj_waybill",
+          "from": 1425,
+          "to": 1432
+        }
+      ],
+      "culpritIds": ["char_daniel"]
+    }
+  ],
+  "truth": {
+    "timeline": [
+      {
+        "kind": "at",
+        "who": "char_julian",
+        "where": "loc_station_platform",
+        "from": 1415,
+        "to": 1435
+      },
+      {
+        "kind": "at",
+        "who": "char_helena",
+        "where": "loc_station_platform",
+        "from": 1410,
+        "to": 1435
+      },
+      {
+        "kind": "at",
+        "who": "char_daniel",
+        "where": "loc_station_platform",
+        "from": 1420,
+        "to": 1435
+      },
+      {
+        "kind": "at",
+        "who": "char_victor",
+        "where": "loc_station_office",
+        "from": 1410,
+        "to": 1423
+      },
+      {
+        "kind": "access",
+        "who": "char_victor",
+        "door": "door_vault_lock",
+        "at": 1425
+      },
+      {
+        "kind": "at",
+        "who": "char_victor",
+        "where": "loc_station_vault",
+        "from": 1425,
+        "to": 1435
+      },
+      {
+        "kind": "possess",
+        "who": "char_victor",
+        "what": "obj_waybill",
+        "from": 1425,
+        "to": 1435
+      },
+      {
+        "kind": "action",
+        "who": "char_victor",
+        "verb": "took",
+        "target": "obj_waybill",
+        "at": 1426,
+        "where": "loc_station_vault"
+      }
+    ],
+    "culpritIds": ["char_victor"],
+    "liars": [
+      {
+        "who": "char_victor",
+        "statementClueIds": ["clue_c101_victor_testimony"]
+      }
+    ],
+    "solutionHypothesisId": "hyp_victor",
+    "keyEvidence": [["clue_c101_vault_card_log", "clue_c101_waybill_cradle", "clue_c101_telegram_decrypt"]],
+    "explanation": [
+      {
+        "time": 1425,
+        "text": "Victor Kessler scanned into Vault 4 at 23:45, refuting his statement that he never left the dispatch office.",
+        "clueIds": ["clue_c101_vault_card_log"]
+      },
+      {
+        "time": 1425,
+        "text": "Pedestal sensors registered Kessler removing the waybill from its secured dock.",
+        "clueIds": ["clue_c101_waybill_cradle"]
+      },
+      {
+        "time": 1426,
+        "text": "Decrypted dispatches show Kessler confirmed theft to a Quiet relay channel.",
+        "clueIds": ["clue_c101_telegram_decrypt"]
+      }
+    ]
+  },
+  "meta": {
+    "status": "validated",
+    "author": "Vesper Narrative Team"
+  }
+}

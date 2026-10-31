@@ -351,5 +351,12 @@
   "meta": {
     "status": "validated",
     "author": "Vesper Narrative Team"
-  }
+  },
+  "conspiracyHooks": [
+    {
+      "nodeId": "cnode_astrum_cipher",
+      "clueId": "clue_pedestal_sensor",
+      "leadText": "The Astrum Seal bears the Astrum Cipher emblem."
+    }
+  ]
 }

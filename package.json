@@ -16,15 +16,20 @@
     "db:stop": "supabase stop",
     "db:test": "supabase test db",
     "db:reset": "supabase db reset",
-    "db:seed": "node tools/cli/node_modules/tsx/dist/cli.mjs supabase/scripts/generate_seed.ts"
+    "db:seed": "node tools/cli/node_modules/tsx/dist/cli.mjs supabase/scripts/generate_seed.ts",
+    "build:engine": "esbuild packages/case-engine/src/index.ts --bundle --format=esm --platform=neutral --outfile=supabase/functions/_shared/engine.js",
+    "test:api": "vitest run --config supabase/vitest.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
+    "@supabase/supabase-js": "^2.118.0",
     "@types/node": "^20.17.6",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",
     "@vitest/coverage-v8": "^2.1.4",
+    "esbuild": "^0.28.2",
     "eslint": "^9.14.0",
+    "hono": "^4.13.14",
     "prettier": "^3.3.3",
     "supabase": "^2.122.0",
     "typescript": "^5.6.3",
