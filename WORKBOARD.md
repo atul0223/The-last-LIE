@@ -153,6 +153,7 @@ export interface CaseSlotProps {
 | 32      | E    | Agent 2| `wp/32-template-false-alibi`| ✅ merged (false_alibi procedural template)           |
 | 33      | E    | Agent 2| `wp/33-template-missing-item`| ✅ merged (missing_item procedural template)         |
 | 34      | E    | Agent 2| `wp/34-template-forged-message`| ✅ merged (forged_message procedural template)        |
+| 26      | MU   | Agent 3| `wp/26-generated-library`  | ✅ merged (generated cases in library & service)     |
 | 35a     | T    | Agent 3| `wp/35a-cli-core`          | ✅ merged (CLI validate, render, playtest)           |
 | 35b     | T    | Agent 3| `wp/35b-cli-generate`      | ✅ merged (CLI generate command)                     |
 | 32b     | E    | Agent 2| `wp/32b-template-neutrality`| ✅ merged (neutrality fix + V16)                     |
