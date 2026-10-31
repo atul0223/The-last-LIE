@@ -138,6 +138,7 @@ export interface Repository {
   migrateLocalProgress(userId: string, solvedCaseIds: string[]): Promise<string[]>;
   deleteUserAccount(userId: string): Promise<boolean>;
   savePushToken(userId: string, token: string, platform?: string): Promise<void>;
+  deletePushToken(userId: string, token?: string): Promise<boolean>;
 
   // Graph operations
   getPlayerGraphReveals(userId: string): Promise<{ nodes: GraphNode[]; edges: GraphEdge[] }>;

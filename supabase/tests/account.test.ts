@@ -196,5 +196,51 @@ describe('WP-44s Account & Push Routes Suite', () => {
 
       expect(res.status).toBe(401);
     });
+
+    it('unregisters push notification token for authenticated user (DELETE /push/token)', async () => {
+      // First register
+      await app.request('/push/token', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer user_migrator',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: 'ExponentPushToken[AbCdEf123456]',
+          platform: 'ios',
+        }),
+      });
+
+      // Now unregister
+      const delRes = await app.request('/push/token', {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer user_migrator',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: 'ExponentPushToken[AbCdEf123456]',
+        }),
+      });
+
+      expect(delRes.status).toBe(200);
+      const data = await delRes.json();
+      expect(data.success).toBe(true);
+      expect(deepScanForLeaks(data)).toEqual([]);
+    });
+
+    it('rejects unauthenticated push token deregistration (401 UNAUTHORIZED)', async () => {
+      const res = await app.request('/push/token', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: 'ExponentPushToken[AbCdEf123456]',
+        }),
+      });
+
+      expect(res.status).toBe(401);
+    });
   });
 });

@@ -26,6 +26,8 @@ import {
   GraphResponseSchema,
   RegisterPushTokenRequestSchema,
   RegisterPushTokenResponseSchema,
+  UnregisterPushTokenRequestSchema,
+  UnregisterPushTokenResponseSchema,
   CaseReportRequestSchema,
   CaseReportResponseSchema,
 } from '../src/index.js';
@@ -367,6 +369,21 @@ describe('API Contract Suite', () => {
       expect(req.platform).toBe('ios');
 
       const res = RegisterPushTokenResponseSchema.parse({
+        success: true,
+      });
+      expect(res.success).toBe(true);
+    });
+
+    it('validates push token deregistration', () => {
+      const req = UnregisterPushTokenRequestSchema.parse({
+        token: 'ExponentPushToken[xxxxxxxxxxxxxx]',
+      });
+      expect(req.token).toBe('ExponentPushToken[xxxxxxxxxxxxxx]');
+
+      const emptyReq = UnregisterPushTokenRequestSchema.parse({});
+      expect(emptyReq.token).toBeUndefined();
+
+      const res = UnregisterPushTokenResponseSchema.parse({
         success: true,
       });
       expect(res.success).toBe(true);

@@ -37,7 +37,7 @@ export class InMemoryRepository implements Repository {
   private weeklyAttempts = new Map<string, Array<{ userId: string; displayName: string; score: number; submittedAt: string; hypothesisId: string; clueIds: string[] }>>();
   private challenges = new Map<string, ChallengeRow>();
   private challengeAttempts = new Map<string, ChallengeAttemptRow[]>();
-  private pushTokens = new Map<string, { token: string; platform?: string }>();
+  private pushTokens = new Map<string, { token: string; platform?: string; userId?: string }>();
   private graphNodes = new Map<string, { id: string; kind: GraphNodeKind; name: string; description?: string | null }>();
   private graphEdges = new Map<string, GraphEdge>();
   private playerRevealedEdges = new Map<string, Set<string>>(); // userId -> Set<edgeId>
@@ -321,13 +321,34 @@ export class InMemoryRepository implements Repository {
     }
     this.progress.delete(userId);
     this.userUnlocks.delete(userId);
-    this.pushTokens.delete(userId);
+    this.deletePushToken(userId);
     this.playerRevealedEdges.delete(userId);
     return true;
   }
 
   async savePushToken(userId: string, token: string, platform?: string): Promise<void> {
-    this.pushTokens.set(userId, { token, platform });
+    this.pushTokens.set(`${userId}:${token}`, { token, platform, userId });
+    this.pushTokens.set(userId, { token, platform, userId });
+  }
+
+  async deletePushToken(userId: string, token?: string): Promise<boolean> {
+    let deleted = false;
+    if (token) {
+      if (this.pushTokens.delete(`${userId}:${token}`)) deleted = true;
+      const direct = this.pushTokens.get(userId);
+      if (direct?.token === token) {
+        this.pushTokens.delete(userId);
+        deleted = true;
+      }
+    } else {
+      for (const [k, v] of this.pushTokens.entries()) {
+        if (k === userId || v.userId === userId) {
+          this.pushTokens.delete(k);
+          deleted = true;
+        }
+      }
+    }
+    return deleted;
   }
 
   // Graph

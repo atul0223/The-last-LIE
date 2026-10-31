@@ -19,3 +19,18 @@ export const RegisterPushTokenResponseSchema = z
   })
   .strict();
 export type RegisterPushTokenResponse = z.infer<typeof RegisterPushTokenResponseSchema>;
+
+// DELETE /push/token
+export const UnregisterPushTokenRequestSchema = z
+  .object({
+    token: z.string().optional(),
+  })
+  .strict();
+export type UnregisterPushTokenRequest = z.infer<typeof UnregisterPushTokenRequestSchema>;
+
+export const UnregisterPushTokenResponseSchema = z
+  .object({
+    success: z.boolean(),
+  })
+  .strict();
+export type UnregisterPushTokenResponse = z.infer<typeof UnregisterPushTokenResponseSchema>;
