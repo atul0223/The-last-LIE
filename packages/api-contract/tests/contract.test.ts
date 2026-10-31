@@ -26,6 +26,8 @@ import {
   GraphResponseSchema,
   RegisterPushTokenRequestSchema,
   RegisterPushTokenResponseSchema,
+  CaseReportRequestSchema,
+  CaseReportResponseSchema,
 } from '../src/index.js';
 import { toPublicCase, type CaseDefinition } from '@lastlie/case-engine';
 import case0001Raw from '../../../packages/content/cases/authored/case_0001.json';
@@ -368,6 +370,48 @@ describe('API Contract Suite', () => {
         success: true,
       });
       expect(res.success).toBe(true);
+    });
+  });
+
+  describe('Case Reports & Moderation Contract', () => {
+    it('validates case report request with allowed reasons', () => {
+      const req = CaseReportRequestSchema.parse({
+        reason: 'broken_logic',
+        note: 'The timestamp contradictions do not match the logs.',
+      });
+      expect(req.reason).toBe('broken_logic');
+      expect(req.note).toBeDefined();
+
+      // Note is optional
+      const reqNoNote = CaseReportRequestSchema.parse({
+        reason: 'typo',
+      });
+      expect(reqNoNote.note).toBeUndefined();
+
+      // Rejects invalid reason
+      expect(() =>
+        CaseReportRequestSchema.parse({
+          reason: 'invalid_reason',
+        }),
+      ).toThrow();
+
+      // Rejects note exceeding 280 chars
+      expect(() =>
+        CaseReportRequestSchema.parse({
+          reason: 'offensive',
+          note: 'x'.repeat(281),
+        }),
+      ).toThrow();
+    });
+
+    it('validates case report response', () => {
+      const res = CaseReportResponseSchema.parse({
+        success: true,
+        reportId: 'rep_12345',
+        caseId: 'case_0001',
+      });
+      expect(res.success).toBe(true);
+      expect(res.reportId).toBe('rep_12345');
     });
   });
 });

@@ -142,6 +142,35 @@ export interface Repository {
   // Graph operations
   getPlayerGraphReveals(userId: string): Promise<{ nodes: GraphNode[]; edges: GraphEdge[] }>;
   grantGraphReveals(userId: string, caseId: string): Promise<void>;
+
+  // Case reports & moderation
+  reportCase(params: {
+    caseId: string;
+    userId: string;
+    reason: 'broken_logic' | 'unfair' | 'typo' | 'offensive' | 'other';
+    note?: string;
+  }): Promise<{ reportId: string; autoFlagged: boolean }>;
+  listFlaggedCases(): Promise<FlaggedCaseSummary[]>;
+  getUserReportCountInWindow(userId: string, windowSeconds: number): Promise<number>;
+}
+
+export interface CaseReportRow {
+  id: string;
+  caseId: string;
+  userId: string;
+  reason: 'broken_logic' | 'unfair' | 'typo' | 'offensive' | 'other';
+  note?: string;
+  createdAt: string;
+}
+
+export interface FlaggedCaseSummary {
+  caseId: string;
+  title: string;
+  status: string;
+  recentReportCount: number;
+  distinctReportingUsers: number;
+  reasons: Record<string, number>;
+  latestReportAt: string;
 }
 
 export interface AppContextVariables {

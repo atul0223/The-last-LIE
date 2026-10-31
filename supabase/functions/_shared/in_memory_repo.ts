@@ -12,9 +12,11 @@ import type {
   WeeklyAggregateResponse,
 } from '@lastlie/api-contract';
 import type {
+  CaseReportRow,
   CaseRow,
   ChallengeAttemptRow,
   ChallengeRow,
+  FlaggedCaseSummary,
   Repository,
   WeeklyCaseRow,
 } from './types.js';
@@ -39,6 +41,7 @@ export class InMemoryRepository implements Repository {
   private graphNodes = new Map<string, { id: string; kind: GraphNodeKind; name: string; description?: string | null }>();
   private graphEdges = new Map<string, GraphEdge>();
   private playerRevealedEdges = new Map<string, Set<string>>(); // userId -> Set<edgeId>
+  private caseReports = new Map<string, CaseReportRow>(); // reportId -> CaseReportRow
 
   constructor() {
     this.setGraphData(FIXTURE_CONSPIRACY_NODES, FIXTURE_CONSPIRACY_EDGES as GraphEdge[]);
@@ -416,5 +419,98 @@ export class InMemoryRepository implements Repository {
     for (const e of edges) {
       this.graphEdges.set(e.id, e);
     }
+  }
+
+  // Moderation & Case Reports
+  async reportCase(params: {
+    caseId: string;
+    userId: string;
+    reason: 'broken_logic' | 'unfair' | 'typo' | 'offensive' | 'other';
+    note?: string;
+  }): Promise<{ reportId: string; autoFlagged: boolean }> {
+    const reportId = `rep_${Math.random().toString(36).substring(2, 10)}`;
+    const nowIso = new Date().toISOString();
+    const row: CaseReportRow = {
+      id: reportId,
+      caseId: params.caseId,
+      userId: params.userId,
+      reason: params.reason,
+      ...(params.note !== undefined ? { note: params.note } : {}),
+      createdAt: nowIso,
+    };
+    this.caseReports.set(reportId, row);
+
+    // Auto-flagging check: >= 5 distinct reporting users within 7 days
+    const sevenDaysAgo = Date.now() - 7 * 86400 * 1000;
+    const recentReportingUsers = new Set<string>();
+
+    for (const rep of this.caseReports.values()) {
+      if (rep.caseId === params.caseId) {
+        const repTime = new Date(rep.createdAt).getTime();
+        if (repTime >= sevenDaysAgo) {
+          recentReportingUsers.add(rep.userId);
+        }
+      }
+    }
+
+    let autoFlagged = false;
+    if (recentReportingUsers.size >= 5) {
+      const caseRow = this.cases.get(params.caseId);
+      if (caseRow && caseRow.status !== 'under_review') {
+        caseRow.status = 'under_review';
+        autoFlagged = true;
+      }
+    }
+
+    return { reportId, autoFlagged };
+  }
+
+  async listFlaggedCases(): Promise<FlaggedCaseSummary[]> {
+    const summaries: FlaggedCaseSummary[] = [];
+    const sevenDaysAgo = Date.now() - 7 * 86400 * 1000;
+
+    for (const c of this.cases.values()) {
+      const reportsForCase = Array.from(this.caseReports.values()).filter(
+        (r) => r.caseId === c.id,
+      );
+      const recentReports = reportsForCase.filter(
+        (r) => new Date(r.createdAt).getTime() >= sevenDaysAgo,
+      );
+      const distinctUsers = new Set(recentReports.map((r) => r.userId));
+
+      if (c.status === 'under_review' || distinctUsers.size >= 5) {
+        const reasons: Record<string, number> = {};
+        let latest = '';
+        for (const r of reportsForCase) {
+          reasons[r.reason] = (reasons[r.reason] || 0) + 1;
+          if (!latest || r.createdAt > latest) {
+            latest = r.createdAt;
+          }
+        }
+
+        summaries.push({
+          caseId: c.id,
+          title: c.title,
+          status: c.status,
+          recentReportCount: recentReports.length,
+          distinctReportingUsers: distinctUsers.size,
+          reasons,
+          latestReportAt: latest,
+        });
+      }
+    }
+
+    return summaries;
+  }
+
+  async getUserReportCountInWindow(userId: string, windowSeconds: number): Promise<number> {
+    const threshold = Date.now() - windowSeconds * 1000;
+    let count = 0;
+    for (const rep of this.caseReports.values()) {
+      if (rep.userId === userId && new Date(rep.createdAt).getTime() >= threshold) {
+        count++;
+      }
+    }
+    return count;
   }
 }
