@@ -54,7 +54,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
 #### Active Agent Queues
 - **Agent 2 (Backend Queue):**
   - [x] WP-41a (API contract & Hono route schemas) — MERGED
-  - → WP-41 (Functions core: sessions, unlock, board, daily)
+  - [x] WP-41 (Functions core: sessions, unlock, board, daily) — MERGED
   - → WP-42 (Submit + publish transactions, idempotent scoring)
   - → WP-45s (Challenge server routes & guest tokens)
   - → WP-44s (Auth server hooks & profile sync)
