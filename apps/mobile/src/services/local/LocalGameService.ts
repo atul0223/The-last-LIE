@@ -27,6 +27,7 @@ import type {
 } from '../GameService';
 import { useSessionStore } from '../../store';
 import { loadPersistedState, savePersistedState } from '../../store/persist';
+import { computeDailyStreak } from '../../features/home/streak';
 import { GameServiceError } from './errors';
 
 let sessionCounter = 1;
@@ -254,14 +255,21 @@ export class LocalGameService implements GameService {
   }
 
   async getProgress(): Promise<PlayerProgress> {
+    const sessions = Object.values(useSessionStore.getState().sessions);
     const results = Object.values(useSessionStore.getState().results);
     const totalScore = results.reduce((sum, o) => sum + o.result.score, 0);
+
+    const dailyDates = sessions
+      .filter((s) => s.mode === 'daily' && s.status === 'submitted' && s.submittedAt)
+      .map((s) => s.submittedAt!);
+
+    const streak = computeDailyStreak(dailyDates).currentStreak;
 
     return {
       rank: totalScore > 1000 ? 'Senior Detective' : 'Detective Inspector',
       masteryPoints: totalScore,
       solvedCasesCount: results.length,
-      streakDays: results.length > 0 ? 1 : 0,
+      streakDays: streak,
       unlockedDossiers: ['char_maya', 'char_arjun'],
     };
   }
@@ -288,17 +296,26 @@ export class LocalGameService implements GameService {
     return entries;
   }
 
-  async getDaily(): Promise<CaseSummary> {
-    const def = this.caseDefinitions.get('case_0001');
-    if (!def) {
-      throw new GameServiceError('CASE_NOT_FOUND', 'Daily case 0001 not found');
+  async getDaily(dateOverride?: string): Promise<CaseSummary> {
+    const today = dateOverride || new Date().toISOString().split('T')[0]!;
+    const allDefs = Array.from(this.caseDefinitions.values());
+    if (allDefs.length === 0) {
+      throw new GameServiceError('CASE_NOT_FOUND', 'No bundled cases available for daily');
     }
+    allDefs.sort((a, b) => a.id.localeCompare(b.id));
+
+    let hash = 0;
+    for (let i = 0; i < today.length; i++) {
+      hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
+    }
+
+    const chosen = allDefs[hash % allDefs.length]!;
     return {
-      caseId: def.id,
-      title: def.title,
-      summary: def.briefing,
-      difficulty: def.difficulty,
-      estimatedMinutes: def.estimatedMinutes,
+      caseId: chosen.id,
+      title: chosen.title,
+      summary: chosen.briefing,
+      difficulty: chosen.difficulty,
+      estimatedMinutes: chosen.estimatedMinutes,
     };
   }
 }
