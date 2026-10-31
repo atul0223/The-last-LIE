@@ -32,50 +32,39 @@ Recommended total: **4–6 agents at once**. More than that and merge work outgr
 Team: 3 agents. Agent 1 = integrator (main folder), Agents 2 and 3 = builders reusing new worktrees.
 Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
 
-### Final Build Batch — Ownership & Active Queues (Team of 3)
+### Round: Hardening & Release Readiness (Team of 3)
 
-#### Ownership Map (Final Build Batch)
+#### Ownership Map (Hardening & Release Readiness)
 - **Agent 1 (Integrator, `main` repo):**
-  - `packages/content/**` (authored cases, generated pack, canonical cases, conspiracy graph)
-  - `docs/**`
-  - `.github/**`
+  - `packages/content/**` (case pool, server exports, starter pack partitioning)
+  - `docs/**` (`docs/legal/**`, `docs/store/**`, `docs/ops/**`, `docs/reports/**`, `docs/setup/**`)
+  - `.github/**` (CI hardening, `db-integration` workflow, deno check)
   - Root configs (`package.json`, `pnpm-lock.yaml`, `tsconfig*.json`, etc.)
   - `.env.example`
   - Hot docs (`SYSTEM_DESIGN.md`, `PLAN.md`, `WORKBOARD.md`, etc.)
 - **Agent 2 (Backend, `lastlie-wt/wp-*`):**
-  - `supabase/**` (migrations, seed, config, functions/api, _shared)
+  - `supabase/**` (migrations, seed, config, functions/api, _shared, DB tests)
   - `packages/api-contract/**`
   - `tools/cli/src/publish/**`
+  - `tools/cli/src/admin/**`
 - **Agent 3 (Mobile & Templates, `lastlie-wt/wp-*`):**
-  - `apps/mobile/**`
-  - `packages/case-engine/src/generator/templates/**` (for WP-32c variety)
-  - *Note: `packages/case-engine/**` outside templates is frozen (changes only through request to Agent 1).*
+  - `apps/mobile/**` (bundle exclusions, assets, production packaging)
+  - `packages/case-engine/src/generator/templates/**`
+  - *Note: `packages/case-engine/**` outside templates is frozen.*
 
 #### Active Agent Queues
-- **Agent 2 (Backend Queue):**
-  - [x] WP-41a (API contract & Hono route schemas) — MERGED
-  - [x] WP-41 (Functions core: sessions, unlock, board, daily) — MERGED
-  - [x] WP-42 (Submit + publish transactions, idempotent scoring) — MERGED
-  - [x] WP-45s (Challenge server routes & guest tokens) — MERGED
-  - [x] WP-44s (Auth server hooks & profile sync) — MERGED
-  - [x] WP-50s / WP-55s (Daily case rotation & weekly competitive case server support) — MERGED
-  - [x] WP-51s (Conspiracy graph server endpoints & player graph state) — MERGED
-- **Agent 3 (Mobile Queue):**
-  - [x] WP-32c (Template variety & fingerprint collision fix) — MERGED
-  - [x] WP-43 (RemoteGameService + feature flag + query sync) — MERGED
-  - [x] WP-44 (Auth & profile UI screens) — MERGED
-  - [x] WP-45 (Challenge creation, share cards, and compare UI) — MERGED
-  - [x] WP-50 / WP-55 UI (Daily & weekly challenge screens) — MERGED
-  - [x] WP-52 (Conspiracy graph map canvas UI) — MERGED
-  - [x] WP-54 (Push notifications & reminders) — MERGED
 - **Agent 1 (Integrator Queue):**
-  - Continuous merge loop: R1 verify + INT-MERGE incoming READY branches
-  - (a) WP-53a Conspiracy content model (schemas, loader, validation tests)
-  - (b) WP-53 Canonical chapter 1 (story doc, 3 canonical cases, 15-25 conspiracy nodes/edges, R6 reviews)
-  - (c) After WP-32c: delete + regenerate generated pack, validate, leak scan, repetition report, R6 review, gate-p3.md to GO
-  - (d) Keep .env.example complete after every merge
-  - (e) After 41, 42, 45s: R3 API security audit -> docs/security/audit-p4a.md
-  - (f) Final wrap-up: WP-48 full security review, R4 gates (P4, P5), docs/setup/HUMAN-SETUP.md, docs/reports/FINAL-STATUS.md
+  - [ ] (a) CI hardening (`.github/workflows/ci.yml`): add `pnpm test:api`, `db-integration` job on ubuntu-latest (Supabase CLI start/reset/test + test:api), `deno check` step.
+  - [ ] (b) Content scale (Server pool): generate ≥120 server cases into `packages/content/cases/pool/` (≥30/template, diff 1-4), validate, leak scan, dedupe, manifest tags, R6 review sample -> `docs/reports/content-pool.md`, server-only export.
+  - [ ] (c) Offline starter pack decision: document in `SYSTEM_DESIGN.md §9.2`, bundle only starter cases (`case_0001`–`0004`) in prod.
+  - [ ] (d) Legal documents in `docs/legal/`: `privacy-policy.md` + `.html`, `terms.md`, `data-inventory.md`, `google-play-data-safety.md`, `apple-app-privacy.md`, `age-rating.md`.
+  - [ ] (e) Store & Ops documents: `docs/store/` (copy, shot-list, specs), `docs/ops/` (`runbook.md`, `backups.md`, `monitoring.md`).
+  - [ ] (f) Final RC audit & gate: R3 security audit (production bundle leak check, push tokens, rate limits), R4 gate -> `docs/reports/gate-rc.md`, update `HUMAN-SETUP.md` and `FINAL-STATUS.md`.
+  - [ ] Continuous merge loop for builder READY branches.
+- **Agent 2 (Backend Queue):**
+  - Standby / support: Admin CLI tooling (`tools/cli/src/admin/**`), DB-backed test suite mode.
+- **Agent 3 (Mobile Queue):**
+  - Standby / support: Production bundle exclusion for server-only cases, offline starter pack assets.
 
 A wave starts only after the previous wave is **merged to `main`** and `main` is green.
 
