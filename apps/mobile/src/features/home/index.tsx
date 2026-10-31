@@ -6,12 +6,19 @@ import { CASE_CATALOG } from '../library/catalog';
 import { selectNextCase } from './selectNextCase';
 import { navigateTo } from './navigation';
 import { computeDailyStreak } from './streak';
+import { useNotifications, PushPermissionPrompt } from '../notifications';
 
 export default function HomeFeature() {
   const gameService = useGameService();
   const sessions = useSessionStore((state) => state.sessions);
   const results = useSessionStore((state) => state.results);
   const [starting, setStarting] = useState(false);
+
+  const {
+    shouldShowPrompt: shouldShowPushPrompt,
+    enable: enablePush,
+    dismiss: dismissPushPrompt,
+  } = useNotifications();
 
   // 1. Identify in-progress session if one exists
   const inProgressSession = useMemo(() => {
@@ -304,6 +311,14 @@ export default function HomeFeature() {
           3 connected cases remain locked. Solve author case 0001 to decrypt lead dossiers.
         </Text>
       </View>
+
+      {/* Opt-in Push Permission Dialog (After 2nd Case) */}
+      {shouldShowPushPrompt && (
+        <PushPermissionPrompt
+          onEnable={enablePush}
+          onDismiss={dismissPushPrompt}
+        />
+      )}
     </ScrollView>
   );
 }

@@ -15,6 +15,7 @@ import { useProfile } from './useProfile';
 import { useAuth } from '../auth/useAuth';
 import { UpgradeModal } from '../auth/UpgradeModal';
 import { SocialAuthButtons } from '../auth/SocialAuthButtons';
+import { useNotifications } from '../notifications';
 import { getGameService } from '../../services';
 import type { RemoteGameService } from '../../services/remote';
 
@@ -36,6 +37,12 @@ export function ProfileFeature() {
     migrateLocal,
   } = useProfile();
 
+  const {
+    isEnabled: notificationsEnabled,
+    enable: enableNotifications,
+    disable: disableNotifications,
+  } = useNotifications();
+
   const { sendUpgradeOtp, verifyUpgradeOtp, signOut } = useAuth();
   const [isEditingName, setIsEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(displayName);
@@ -52,6 +59,14 @@ export function ProfileFeature() {
     const success = await saveDisplayName(nameInput);
     if (success) {
       setIsEditingName(false);
+    }
+  };
+
+  const handleToggleNotifications = async () => {
+    if (notificationsEnabled) {
+      await disableNotifications();
+    } else {
+      await enableNotifications();
     }
   };
 
@@ -329,6 +344,25 @@ export function ProfileFeature() {
             thumbColor={privacy.leaderboardVisible ? COLORS.bg : COLORS.muted}
             accessibilityLabel="Toggle competitive leaderboard visibility"
             testID="profile.privacy.toggle.leaderboardVisible"
+          />
+        </View>
+
+        <View style={styles.toggleRow}>
+          <View style={styles.toggleTextCol}>
+            <Text style={styles.toggleLabel} allowFontScaling>
+              Daily Dispatch Alerts
+            </Text>
+            <Text style={styles.toggleDescription} allowFontScaling>
+              Confidential morning case reminders (09:00 Local). One-tap opt-out.
+            </Text>
+          </View>
+          <Switch
+            value={notificationsEnabled}
+            onValueChange={handleToggleNotifications}
+            trackColor={{ false: COLORS.surfaceBorder, true: COLORS.accent }}
+            thumbColor={notificationsEnabled ? COLORS.bg : COLORS.muted}
+            accessibilityLabel="Toggle daily dispatch alerts"
+            testID="profile.notifications.toggle"
           />
         </View>
       </View>
