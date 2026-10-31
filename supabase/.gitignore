@@ -2,6 +2,9 @@
 .branches
 .temp
 
+# Bundled engine (built via pnpm build:engine)
+functions/_shared/engine.js
+
 # dotenvx
 .env.keys
 .env.local
