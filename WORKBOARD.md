@@ -32,17 +32,50 @@ Recommended total: **4–6 agents at once**. More than that and merge work outgr
 Team: 3 agents. Agent 1 = integrator (main folder), Agents 2 and 3 = builders reusing new worktrees.
 Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
 
-### Active Agent Queues
+### Final Build Batch — Ownership & Active Queues (Team of 3)
+
+#### Ownership Map (Final Build Batch)
 - **Agent 1 (Integrator, `main` repo):**
-  - Continuous merge loop (R1 + INT-MERGE)
-  - Backend decision docs (hybrid Supabase + Hono)
-  - Content pack generation & validation (after WP-32b) + R6 review
-  - Phase 3 Security Audit (R3) & Phase Gate (R4)
-  - WP-47 CI/CD automation
-- **Agent 2 (Builder):**
-  - Queue: WP-32b neutrality fix + V16 → WP-40 prep
-- **Agent 3 (Builder):**
-  - Queue: WP-36 → WP-26 generated cases in library → WP-46 analytics
+  - `packages/content/**` (authored cases, generated pack, canonical cases, conspiracy graph)
+  - `docs/**`
+  - `.github/**`
+  - Root configs (`package.json`, `pnpm-lock.yaml`, `tsconfig*.json`, etc.)
+  - `.env.example`
+  - Hot docs (`SYSTEM_DESIGN.md`, `PLAN.md`, `WORKBOARD.md`, etc.)
+- **Agent 2 (Backend, `lastlie-wt/wp-*`):**
+  - `supabase/**` (migrations, seed, config, functions/api, _shared)
+  - `packages/api-contract/**`
+  - `tools/cli/src/publish/**`
+- **Agent 3 (Mobile & Templates, `lastlie-wt/wp-*`):**
+  - `apps/mobile/**`
+  - `packages/case-engine/src/generator/templates/**` (for WP-32c variety)
+  - *Note: `packages/case-engine/**` outside templates is frozen (changes only through request to Agent 1).*
+
+#### Active Agent Queues
+- **Agent 2 (Backend Queue):**
+  - WP-41a (Hono Edge Function skeleton + Deno adapter)
+  - → WP-41 (Functions core: sessions, unlock, board, daily)
+  - → WP-42 (Submit + publish transactions, idempotent scoring)
+  - → WP-45s (Challenge server routes & guest tokens)
+  - → WP-44s (Auth server hooks & profile sync)
+  - → WP-50s / WP-55s (Daily case rotation & weekly competitive case server support)
+  - → WP-51s (Conspiracy graph server endpoints & player graph state)
+- **Agent 3 (Mobile Queue):**
+  - WP-32c (Template variety & fingerprint collision fix)
+  - → WP-43 (RemoteGameService + feature flag + query sync)
+  - → WP-44 (Auth & profile UI screens)
+  - → WP-45 (Challenge creation, share cards, and compare UI)
+  - → WP-50 / WP-55 UI (Daily & weekly challenge screens)
+  - → WP-52 (Conspiracy graph map canvas UI)
+  - → WP-54 (Push notifications & reminders)
+- **Agent 1 (Integrator Queue):**
+  - Continuous merge loop: R1 verify + INT-MERGE incoming READY branches
+  - (a) WP-53a Conspiracy content model (schemas, loader, validation tests)
+  - (b) WP-53 Canonical chapter 1 (story doc, 3 canonical cases, 15-25 conspiracy nodes/edges, R6 reviews)
+  - (c) After WP-32c: delete + regenerate generated pack, validate, leak scan, repetition report, R6 review, gate-p3.md to GO
+  - (d) Keep .env.example complete after every merge
+  - (e) After 41, 42, 45s: R3 API security audit -> docs/security/audit-p4a.md
+  - (f) Final wrap-up: WP-48 full security review, R4 gates (P4, P5), docs/setup/HUMAN-SETUP.md, docs/reports/FINAL-STATUS.md
 
 A wave starts only after the previous wave is **merged to `main`** and `main` is green.
 

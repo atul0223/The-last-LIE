@@ -3,7 +3,7 @@
 > **Gate Reviewer**: Agent 1 (Integrator)  
 > **Date**: 2026-10-31  
 > **Target Phase**: Phase 3 — Procedural Generation & Authoring Pipeline  
-> **Gate Verdict**: **GO** (Ready for Phase 4)
+> **Gate Verdict**: **GO WITH BLOCKING FOLLOW-UP: WP-32c variety**
 
 ---
 
@@ -69,9 +69,11 @@ Comparison between `SYSTEM_DESIGN.md` and current codebase:
 
 ## 5. Phase Gate Verdict & Recommendations
 
-### Verdict: **GO**
+### Verdict: **GO WITH BLOCKING FOLLOW-UP: WP-32c variety**
 
-Phase 3 is complete and verified. The monorepo is in a clean, stable state with 393 tests passing, zero answer leaks, and full procedural mystery generation pipelines operational.
+Phase 3 is substantively complete and verified across schema, engine, CLI tooling, presentation neutrality, and initial generation pipelines. However, the WP-36 repetition report indicates 80% fingerprint collisions and 44–68% duplicate titles due to narrow pools and static role/rule mappings.
+
+**Blocking Follow-Up**: Agent 3 is assigned WP-32c to expand title formulas, culprit role variation, and location combination breadth. Once WP-32c merges, Agent 1 will delete and regenerate the procedural content pack, verifying <20% collision rate across a 50-seed sample, and promote this gate to an unconditional **GO**.
 
 ### Recommended Next Steps (Phase 4 Start):
 1. **Agent 2 Queue**:
