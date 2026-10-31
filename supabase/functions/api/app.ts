@@ -16,6 +16,7 @@ import {
 } from '../_shared/middleware.js';
 import { createSessionsRouter } from './routes/sessions.js';
 import { createDailyRouter } from './routes/daily.js';
+import { createChallengesRouter } from './routes/challenges.js';
 
 export interface AppDeps {
   repo: Repository;
@@ -66,6 +67,15 @@ export function createApp(deps: AppDeps) {
   authGroup.route('/', sessionsRouter);
 
   app.route('/sessions', authGroup);
+
+  // Challenges routes (hybrid: public get/guest + auth create/attach)
+  const challengesRouter = createChallengesRouter({ repo, clock, config });
+  const challengesGroup = new Hono<{ Variables: AppContextVariables }>();
+  challengesGroup.use('*', authMiddleware(auth, { optional: true }));
+  challengesGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
+  challengesGroup.route('/', challengesRouter);
+
+  app.route('/challenges', challengesGroup);
 
   // Not Found Handler
   app.notFound((c) => {
