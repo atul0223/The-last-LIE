@@ -2,6 +2,30 @@ import { vi } from 'vitest';
 import React from 'react';
 import { View } from 'react-native';
 
+// React 19 test environment setup
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
+
+// Ensure renderer.create mounts synchronously in React 19
+vi.mock('react-test-renderer', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react-test-renderer')>();
+  const customCreate = (...args: Parameters<typeof actual.create>) => {
+    let instance: ReturnType<typeof actual.create>;
+    actual.act(() => {
+      instance = actual.create(...args);
+    });
+    return instance!;
+  };
+  return {
+    ...actual,
+    default: {
+      ...(actual as { default?: object }).default,
+      create: customCreate,
+    },
+    create: customCreate,
+  };
+});
+
 // Vitest setup for React Native Web in Node environment
 if (typeof document === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
