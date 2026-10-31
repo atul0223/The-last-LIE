@@ -248,7 +248,7 @@ class FakeApiClient implements ApiClient {
   async deleteAccount(): Promise<DeleteAccountResponse> { throw new Error('Not implemented'); }
   async getGraph(): Promise<GraphResponse> {
     return {
-      nodes: [{ id: 'char_clerk', name: 'Julian Vance', type: 'character' }],
+      nodes: [{ id: 'char_clerk', name: 'Julian Vance', kind: 'character', revealed: true }],
       edges: [],
     };
   }
