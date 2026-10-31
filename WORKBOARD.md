@@ -64,7 +64,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - [x] WP-32c (Template variety & fingerprint collision fix) — MERGED
   - [x] WP-43 (RemoteGameService + feature flag + query sync) — MERGED
   - [x] WP-44 (Auth & profile UI screens) — MERGED
-  - → WP-45 (Challenge creation, share cards, and compare UI)
+  - [x] WP-45 (Challenge creation, share cards, and compare UI) — MERGED
   - → WP-50 / WP-55 UI (Daily & weekly challenge screens)
   - → WP-52 (Conspiracy graph map canvas UI)
   - → WP-54 (Push notifications & reminders)
