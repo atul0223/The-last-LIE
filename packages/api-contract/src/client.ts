@@ -28,6 +28,10 @@ import type {
   RegisterPushTokenRequest,
   RegisterPushTokenResponse,
 } from './push.js';
+import type {
+  CaseReportRequest,
+  CaseReportResponse,
+} from './reports.js';
 
 export interface ApiClient {
   // Sessions & gameplay
@@ -56,4 +60,7 @@ export interface ApiClient {
 
   // Push notifications
   registerPushToken(req: RegisterPushTokenRequest): Promise<RegisterPushTokenResponse>;
+
+  // Moderation
+  reportCase(caseId: string, req: CaseReportRequest): Promise<CaseReportResponse>;
 }

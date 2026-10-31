@@ -8,4 +8,5 @@ export * from './challenges.js';
 export * from './account.js';
 export * from './graph.js';
 export * from './push.js';
+export * from './reports.js';
 export * from './client.js';
