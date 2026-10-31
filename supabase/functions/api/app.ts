@@ -20,6 +20,7 @@ import { createWeeklyRouter } from './routes/weekly.js';
 import { createChallengesRouter } from './routes/challenges.js';
 import { createAccountRouter, createPushRouter } from './routes/account.js';
 import { createGraphRouter } from './routes/graph.js';
+import { createReportsRouter } from './routes/reports.js';
 
 export interface AppDeps {
   repo: Repository;
@@ -107,6 +108,15 @@ export function createApp(deps: AppDeps) {
   graphGroup.route('/', graphRouter);
 
   app.route('/graph', graphGroup);
+
+  // Cases & Moderation routes
+  const reportsRouter = createReportsRouter({ repo });
+  const casesGroup = new Hono<{ Variables: AppContextVariables }>();
+  casesGroup.use('*', authMiddleware(auth));
+  casesGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
+  casesGroup.route('/', reportsRouter);
+
+  app.route('/cases', casesGroup);
 
   // Not Found Handler
   app.notFound((c) => {

@@ -15,6 +15,7 @@ import type {
   CaseRow,
   ChallengeAttemptRow,
   ChallengeRow,
+  FlaggedCaseSummary,
   Repository,
   WeeklyCaseRow,
 } from './types.js';
@@ -662,5 +663,106 @@ export class PostgresRepository implements Repository {
       }));
       await this.client.from('player_graph_reveals').upsert(records);
     }
+  }
+
+  // Moderation & Case Reports
+  async reportCase(params: {
+    caseId: string;
+    userId: string;
+    reason: 'broken_logic' | 'unfair' | 'typo' | 'offensive' | 'other';
+    note?: string;
+  }): Promise<{ reportId: string; autoFlagged: boolean }> {
+    const { data: inserted, error } = await this.client
+      .from('case_reports')
+      .insert({
+        case_id: params.caseId,
+        user_id: params.userId,
+        reason: params.reason,
+        note: params.note || null,
+        created_at: new Date().toISOString(),
+      })
+      .select('id')
+      .single();
+
+    if (error || !inserted) {
+      throw new Error(`Failed to insert report: ${error?.message || 'unknown error'}`);
+    }
+
+    const reportId = inserted.id;
+
+    // Auto-flagging check: >= 5 distinct reporting users within 7 days
+    const sevenDaysAgo = new Date(Date.now() - 7 * 86400 * 1000).toISOString();
+    const { data: recentReports } = await this.client
+      .from('case_reports')
+      .select('user_id')
+      .eq('case_id', params.caseId)
+      .gte('created_at', sevenDaysAgo);
+
+    const distinctUsers = new Set((recentReports || []).map((r) => r.user_id));
+    let autoFlagged = false;
+
+    if (distinctUsers.size >= 5) {
+      await this.client
+        .from('cases')
+        .update({ status: 'under_review' })
+        .eq('id', params.caseId);
+      autoFlagged = true;
+    }
+
+    return { reportId, autoFlagged };
+  }
+
+  async listFlaggedCases(): Promise<FlaggedCaseSummary[]> {
+    const { data: cases } = await this.client
+      .from('cases')
+      .select('id, title, status')
+      .eq('status', 'under_review');
+
+    if (!cases || cases.length === 0) return [];
+
+    const summaries: FlaggedCaseSummary[] = [];
+    const sevenDaysAgo = new Date(Date.now() - 7 * 86400 * 1000).toISOString();
+
+    for (const c of cases) {
+      const { data: reports } = await this.client
+        .from('case_reports')
+        .select('*')
+        .eq('case_id', c.id);
+
+      const recent = (reports || []).filter((r) => r.created_at >= sevenDaysAgo);
+      const distinctUsers = new Set(recent.map((r) => r.user_id));
+      const reasons: Record<string, number> = {};
+      let latest = '';
+
+      for (const r of reports || []) {
+        reasons[r.reason] = (reasons[r.reason] || 0) + 1;
+        if (!latest || r.created_at > latest) {
+          latest = r.created_at;
+        }
+      }
+
+      summaries.push({
+        caseId: c.id,
+        title: c.title,
+        status: c.status,
+        recentReportCount: recent.length,
+        distinctReportingUsers: distinctUsers.size,
+        reasons,
+        latestReportAt: latest,
+      });
+    }
+
+    return summaries;
+  }
+
+  async getUserReportCountInWindow(userId: string, windowSeconds: number): Promise<number> {
+    const threshold = new Date(Date.now() - windowSeconds * 1000).toISOString();
+    const { count } = await this.client
+      .from('case_reports')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .gte('created_at', threshold);
+
+    return count || 0;
   }
 }

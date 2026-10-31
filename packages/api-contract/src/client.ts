@@ -61,6 +61,6 @@ export interface ApiClient {
   // Push notifications
   registerPushToken(req: RegisterPushTokenRequest): Promise<RegisterPushTokenResponse>;
 
-  // Moderation
-  reportCase(caseId: string, req: CaseReportRequest): Promise<CaseReportResponse>;
+  // Moderation (optional for backwards compatibility across unmerged lanes)
+  reportCase?(caseId: string, req: CaseReportRequest): Promise<CaseReportResponse>;
 }
