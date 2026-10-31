@@ -357,5 +357,12 @@
   "meta": {
     "status": "validated",
     "author": "Vesper Narrative Team"
-  }
+  },
+  "conspiracyHooks": [
+    {
+      "nodeId": "cnode_central_station",
+      "clueId": "clue_luggage_locker_log",
+      "leadText": "Luggage locker log links to freight corridors in Vesper Central Station."
+    }
+  ]
 }

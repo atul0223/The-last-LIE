@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { CANONICAL_CASES } from '../src/index.js';
 import {
   ConspiracyNodeSchema,
   ConspiracyEdgeSchema,
@@ -199,4 +200,30 @@ describe('WP-53a: Conspiracy Content Model', () => {
     });
     expect(result.valid).toBe(true);
   });
+
+  describe('WP-53: Canonical Chapter 1 Graph Integration', () => {
+    it('packaged conspiracy graph contains 15-25 nodes and valid edges', () => {
+      const graph = loadConspiracyGraph();
+      expect(graph.nodes.length).toBeGreaterThanOrEqual(15);
+      expect(graph.nodes.length).toBeLessThanOrEqual(25);
+      expect(graph.edges.length).toBeGreaterThanOrEqual(10);
+    });
+
+    it('packaged conspiracy graph passes validation against CANONICAL_CASES', () => {
+      const graph = loadConspiracyGraph();
+      const result = validateConspiracyGraph(graph, CANONICAL_CASES);
+      expect(result.valid).toBe(true);
+      expect(result.errors).toEqual([]);
+    });
+
+    it('CANONICAL_CASES all have kind canonical and difficulty in range 2-3', () => {
+      expect(CANONICAL_CASES).toHaveLength(3);
+      for (const c of CANONICAL_CASES) {
+        expect(c.kind).toBe('canonical');
+        expect(c.difficulty).toBeGreaterThanOrEqual(2);
+        expect(c.difficulty).toBeLessThanOrEqual(3);
+      }
+    });
+  });
+
 });

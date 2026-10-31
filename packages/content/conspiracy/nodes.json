@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "id": "cnode_the_quiet",
+    "kind": "organization",
+    "name": "The Quiet",
+    "publicSummary": "A clandestine shadow syndicate operating through Vesper City institutions."
+  },
+  {
+    "id": "cnode_astrum_foundation",
+    "kind": "organization",
+    "name": "Astrum Foundation",
+    "publicSummary": "An elite philanthropic foundation accused of laundering Quiet funds and antiquities."
+  },
+  {
+    "id": "cnode_vesper_transit_corp",
+    "kind": "organization",
+    "name": "Vesper Municipal Transit",
+    "publicSummary": "The metropolitan rail operator controlling freight corridors and central vaults."
+  },
+  {
+    "id": "cnode_north_shore_maritime",
+    "kind": "organization",
+    "name": "North Shore Maritime Syndicate",
+    "publicSummary": "A coastal shipping enterprise providing uninspected maritime transport."
+  },
+  {
+    "id": "cnode_victor_kessler",
+    "kind": "character",
+    "name": "Victor Kessler",
+    "publicSummary": "Freight inspector who intercepted encrypted transit waybills for The Quiet."
+  },
+  {
+    "id": "cnode_lydia_cross",
+    "kind": "character",
+    "name": "Lydia Cross",
+    "publicSummary": "Quiet logistics handler orchestrating maritime contraband and vessel clearance."
+  },
+  {
+    "id": "cnode_evelyn_drake",
+    "kind": "character",
+    "name": "Evelyn Drake",
+    "publicSummary": "High-society patron and secret underwriter for Astrum Foundation operations."
+  },
+  {
+    "id": "cnode_julian_croft",
+    "kind": "character",
+    "name": "Julian Croft",
+    "publicSummary": "Station dispatcher who flagged irregularities in freight departures."
+  },
+  {
+    "id": "cnode_asher_vance",
+    "kind": "character",
+    "name": "Asher Vance",
+    "publicSummary": "Helios Gallery curator guarding rare antiquities and collection archives."
+  },
+  {
+    "id": "cnode_beatrice_chen",
+    "kind": "character",
+    "name": "Beatrice Chen",
+    "publicSummary": "Archive registrar who documented discrepancies in historical deeds."
+  },
+  {
+    "id": "cnode_quinn_harper",
+    "kind": "character",
+    "name": "Quinn Harper",
+    "publicSummary": "Senior investigative reporter probing city-wide conspiracy leads."
+  },
+  {
+    "id": "cnode_central_station",
+    "kind": "location",
+    "name": "Vesper Central Station",
+    "publicSummary": "Central nexus of rail corridors, secure vaults, and transit lockers."
+  },
+  {
+    "id": "cnode_helios_gallery",
+    "kind": "location",
+    "name": "Helios Fine Arts Gallery",
+    "publicSummary": "Prestigious private gallery housing celestial clockwork antiquities."
+  },
+  {
+    "id": "cnode_north_harbor",
+    "kind": "location",
+    "name": "North Harbor Drydock",
+    "publicSummary": "Industrial deepwater port used for nocturnal vessel relays."
+  },
+  {
+    "id": "cnode_lockbox_73",
+    "kind": "location",
+    "name": "Station Lockbox 73",
+    "publicSummary": "A clandestine dead-drop locker situated in Platform 4 concourse."
+  },
+  {
+    "id": "cnode_astrum_cipher",
+    "kind": "symbol",
+    "name": "Astrum Cipher Emblem",
+    "publicSummary": "A six-point astronomical emblem stamped on clandestine communications."
+  },
+  {
+    "id": "cnode_wax_seal_ouroboros",
+    "kind": "symbol",
+    "name": "Ouroboros Wax Stamp",
+    "publicSummary": "A violet wax impression used by The Quiet on sealed parcels."
+  },
+  {
+    "id": "cnode_tx_7702",
+    "kind": "transaction",
+    "name": "Offshore Wire 7702-X",
+    "publicSummary": "An encrypted wire transfer routing funds to Astrum Foundation accounts."
+  },
+  {
+    "id": "cnode_tx_8819",
+    "kind": "transaction",
+    "name": "Freight Bond 8819-B",
+    "publicSummary": "A fraudulent marine bond underwriting contraband shipments."
+  },
+  {
+    "id": "cnode_case_c101",
+    "kind": "case",
+    "name": "The Encrypted Waybill",
+    "publicSummary": "Investigation into the theft of secure transit codes from Freight Vault 4."
+  },
+  {
+    "id": "cnode_case_c102",
+    "kind": "case",
+    "name": "The Coded Provenance",
+    "publicSummary": "Investigation into the substitution of the Astrum provenance ledger."
+  },
+  {
+    "id": "cnode_case_c103",
+    "kind": "case",
+    "name": "The Midnight Frequency",
+    "publicSummary": "Investigation into unauthorized radio clearance of an uninspected vessel."
+  }
+]

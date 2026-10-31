@@ -53,3 +53,11 @@ export const GENERATED_CASES = [
 // Conspiracy graph content model (WP-53a)
 export * from './conspiracy/index.js';
 
+
+// Canonical storyline cases (WP-53 Chapter 1)
+import case_c101 from '../cases/canonical/case_c101.json';
+import case_c102 from '../cases/canonical/case_c102.json';
+import case_c103 from '../cases/canonical/case_c103.json';
+
+export const CANONICAL_CASES = [case_c101, case_c102, case_c103];
+export { case_c101, case_c102, case_c103 };
