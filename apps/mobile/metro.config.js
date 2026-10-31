@@ -21,6 +21,13 @@ config.resolver.disableHierarchicalLookup = false;
 // 4. Handle TypeScript ESM relative imports ending in .js in workspace packages
 const defaultResolveRequest = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === '@babel/runtime/regenerator' || moduleName.startsWith('@babel/runtime/regenerator')) {
+    return {
+      filePath: require.resolve('regenerator-runtime'),
+      type: 'sourceFile',
+    };
+  }
+
   if (moduleName.endsWith('.js') && (moduleName.startsWith('./') || moduleName.startsWith('../'))) {
     try {
       const tsModuleName = moduleName.slice(0, -3) + '.ts';
