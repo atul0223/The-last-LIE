@@ -155,6 +155,7 @@ export interface CaseSlotProps {
 | 34      | E    | Agent 2| `wp/34-template-forged-message`| ✅ merged (forged_message procedural template)        |
 | 35a     | T    | Agent 3| `wp/35a-cli-core`          | ✅ merged (CLI validate, render, playtest)           |
 | 35b     | T    | Agent 3| `wp/35b-cli-generate`      | ✅ merged (CLI generate command)                     |
+| 32b     | E    | Agent 2| `wp/32b-template-neutrality`| ✅ merged (neutrality fix + V16)                     |
 | 36      | E    | Agent 3| `wp/36-fingerprint-calibration` | ✅ merged (fingerprint dedupe & calibration)         |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
