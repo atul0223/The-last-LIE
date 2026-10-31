@@ -4,6 +4,7 @@ import { registerRenderCommand } from './render/index.js';
 import { registerPlaytestCommand } from './playtest/index.js';
 import { registerGenerateCommand } from './generate/index.js';
 import { registerPublishCommand } from './publish/index.js';
+import { registerReportCommand } from './report/index.js';
 
 /**
  * Main command registry for the lastlie CLI.
@@ -16,4 +17,5 @@ export function registerCommands(program: Command): void {
   registerPlaytestCommand(program);
   registerGenerateCommand(program);
   registerPublishCommand(program);
+  registerReportCommand(program);
 }

@@ -10,3 +10,4 @@ export * from './rng.js';
 export * from './render/index.js';
 export * from './generator/core/index.js';
 export * from './generator/templates/index.js';
+export * from './generator/fingerprint/index.js';
