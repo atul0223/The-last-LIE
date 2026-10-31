@@ -59,7 +59,7 @@ Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
   - [x] WP-45s (Challenge server routes & guest tokens) — MERGED
   - [x] WP-44s (Auth server hooks & profile sync) — MERGED
   - [x] WP-50s / WP-55s (Daily case rotation & weekly competitive case server support) — MERGED
-  - → WP-51s (Conspiracy graph server endpoints & player graph state)
+  - [x] WP-51s (Conspiracy graph server endpoints & player graph state) — MERGED
 - **Agent 3 (Mobile Queue):**
   - [x] WP-32c (Template variety & fingerprint collision fix) — MERGED
   - [x] WP-43 (RemoteGameService + feature flag + query sync) — MERGED
@@ -200,6 +200,7 @@ export interface CaseSlotProps {
 | 44s     | B    | Agent 2| `wp/44s-account-routes`     | ✅ merged (account deletion, local migration, push)  |
 | 43      | MS   | Agent 3| `wp/43-remote-game-service` | ✅ merged (RemoteGameService, offline queue, guards) |
 | 50s/55s | B    | Agent 2| `wp/50s-55s-daily-weekly`   | ✅ merged (daily rotation, weekly window, aggregates)|
+| 51s     | B    | Agent 2| `wp/51s-conspiracy-graph`   | ✅ merged (conspiracy graph, 1-hop redaction, reveals)|
 | 46      | T/MU | Agent 3| `wp/46-analytics`           | ✅ merged (PostHog & Sentry monitoring)              |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
