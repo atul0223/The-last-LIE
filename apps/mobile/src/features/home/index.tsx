@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Pressable, ScrollView, ActivityIndicator } from 'react-native';
 import { COLORS, SPACING, TYPOGRAPHY } from '../../theme/tokens';
 import { useGameService, useSessionStore } from '../../store';
 import { CASE_CATALOG } from '../library/catalog';
 import { selectNextCase } from './selectNextCase';
 import { navigateTo } from './navigation';
+import { computeDailyStreak } from './streak';
 
 export default function HomeFeature() {
   const gameService = useGameService();
@@ -72,12 +73,57 @@ export default function HomeFeature() {
     }
   };
 
+  const [dailySummary, setDailySummary] = useState<{
+    caseId: string;
+    title: string;
+    summary: string;
+    difficulty: number;
+    estimatedMinutes: number;
+  }>({
+    caseId: 'case_0001',
+    title: 'The Missing Message',
+    summary: 'Encrypted drive breached in Maya Lin’s office. Uncover the contradiction before the trace expires.',
+    difficulty: 1,
+    estimatedMinutes: 6,
+  });
+
+  useEffect(() => {
+    let active = true;
+    if (typeof gameService.getDaily === 'function') {
+      gameService
+        .getDaily()
+        .then((summary) => {
+          if (active && summary) {
+            setDailySummary({
+              caseId: summary.caseId,
+              title: summary.title,
+              summary: summary.summary,
+              difficulty: summary.difficulty,
+              estimatedMinutes: summary.estimatedMinutes,
+            });
+          }
+        })
+        .catch(() => {});
+    }
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const dailyDates = useMemo(() => {
+    return Object.values(sessions)
+      .filter((s) => s.mode === 'daily' && s.status === 'submitted' && s.submittedAt)
+      .map((s) => s.submittedAt!);
+  }, [sessions]);
+
+  const streakInfo = useMemo(() => computeDailyStreak(dailyDates), [dailyDates]);
+
   const handleLaunchDaily = async () => {
     if (starting) return;
     setStarting(true);
     try {
       const { session } = await gameService.startSession({
-        caseId: 'case_0001',
+        caseId: dailySummary.caseId,
         mode: 'daily',
       });
       navigateTo(`/case/${session.id}`);
@@ -197,23 +243,34 @@ export default function HomeFeature() {
         style={styles.card}
         onPress={handleLaunchDaily}
         accessibilityRole="button"
-        accessibilityLabel="Daily Investigation: The Missing Message"
+        accessibilityLabel={`Daily Investigation: ${dailySummary.title}`}
         testID="home.card.daily"
       >
         <View style={styles.cardHeader}>
           <Text style={styles.cardCategory} allowFontScaling>
             DAILY INVESTIGATION
           </Text>
-          <Text style={styles.badge} allowFontScaling>
-            ACTIVE
-          </Text>
+          <View style={styles.badgeRow}>
+            <Text style={styles.streakBadge} allowFontScaling testID="home.daily.streak">
+              🔥 {streakInfo.currentStreak} {streakInfo.currentStreak === 1 ? 'DAY' : 'DAYS'}
+            </Text>
+            <Text
+              style={[
+                styles.badge,
+                streakInfo.playedToday ? styles.badgeSolved : styles.badgeActive,
+              ]}
+              allowFontScaling
+              testID="home.daily.status"
+            >
+              {streakInfo.playedToday ? 'SOLVED' : 'ACTIVE'}
+            </Text>
+          </View>
         </View>
         <Text style={styles.cardTitle} allowFontScaling>
-          The Missing Message
+          {dailySummary.title}
         </Text>
         <Text style={styles.cardDesc} allowFontScaling>
-          Encrypted drive breached in Maya Lin’s office. Uncover the contradiction before the trace
-          expires.
+          {dailySummary.summary}
         </Text>
       </Pressable>
 
@@ -413,6 +470,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.8,
   },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
+  },
+  streakBadge: {
+    ...TYPOGRAPHY.caption,
+    color: COLORS.accent,
+    backgroundColor: COLORS.surfaceElevated,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 2,
+    borderRadius: 4,
+    fontWeight: '700',
+    fontSize: 10,
+  },
   badge: {
     ...TYPOGRAPHY.caption,
     fontSize: 11,
@@ -422,6 +494,14 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 4,
     fontWeight: '700',
+  },
+  badgeSolved: {
+    color: COLORS.success,
+    backgroundColor: '#13281c',
+  },
+  badgeActive: {
+    color: COLORS.accent,
+    backgroundColor: COLORS.surfaceElevated,
   },
   cardTitle: {
     ...TYPOGRAPHY.h2,

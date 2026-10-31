@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { COLORS, SPACING, TYPOGRAPHY } from '../../src/theme/tokens';
 import { validateChallengeCode } from '../../src/features/challenges/codeFormat';
+import { WeeklySection } from '../../src/features/challenges/WeeklySection';
 import { navigateTo } from '../../src/features/home/navigation';
 
 export default function ChallengesScreen() {
@@ -53,6 +54,9 @@ export default function ChallengesScreen() {
           + CREATE NEW CHALLENGE
         </Text>
       </Pressable>
+
+      {/* Weekly Community Dispatch */}
+      <WeeklySection />
 
       {/* Code Input Card */}
       <View style={styles.card}>
