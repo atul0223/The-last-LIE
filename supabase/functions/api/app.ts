@@ -16,6 +16,7 @@ import {
 } from '../_shared/middleware.js';
 import { createSessionsRouter } from './routes/sessions.js';
 import { createDailyRouter } from './routes/daily.js';
+import { createWeeklyRouter } from './routes/weekly.js';
 import { createChallengesRouter } from './routes/challenges.js';
 import { createAccountRouter, createPushRouter } from './routes/account.js';
 
@@ -58,6 +59,7 @@ export function createApp(deps: AppDeps) {
   const publicGroup = new Hono<{ Variables: AppContextVariables }>();
   publicGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
   publicGroup.route('/daily', createDailyRouter({ repo, clock }));
+  publicGroup.route('/weekly', createWeeklyRouter({ repo, clock }));
   app.route('/', publicGroup);
 
   // Authenticated routes
