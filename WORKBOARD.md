@@ -1,7 +1,7 @@
 # WORKBOARD.md — Lanes, waves, ownership, status
 
 > **Maintained only by the integrator (you, or the INT agent).** Agents read it and never edit it.
-> Last updated: 2026-10-29
+> Last updated: 2026-10-31
 
 ---
 
@@ -31,6 +31,18 @@ Recommended total: **4–6 agents at once**. More than that and merge work outgr
 
 Team: 3 agents. Agent 1 = integrator (main folder), Agents 2 and 3 = builders reusing new worktrees.
 Backend: hybrid (Option C), decided 2026-10-29. B0 not needed.
+
+### Active Agent Queues
+- **Agent 1 (Integrator, `main` repo):**
+  - Continuous merge loop (R1 + INT-MERGE)
+  - Backend decision docs (hybrid Supabase + Hono)
+  - Content pack generation & validation (after WP-32b) + R6 review
+  - Phase 3 Security Audit (R3) & Phase Gate (R4)
+  - WP-47 CI/CD automation
+- **Agent 2 (Builder):**
+  - Queue: WP-32b neutrality fix + V16 → WP-40 prep
+- **Agent 3 (Builder):**
+  - Queue: WP-36 → WP-26 generated cases in library → WP-46 analytics
 
 A wave starts only after the previous wave is **merged to `main`** and `main` is green.
 
