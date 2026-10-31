@@ -310,13 +310,13 @@ describe('useCaseSession slot data contract (WP-10b)', () => {
     const hook = renderCustomHook(() => useCaseSession(testSessionId));
 
     await expect(
-      act(async () => {
-        await hook.result.current.unlockClue('clue_locked_01', {
-          kind: 'after_clue',
-          clueId: 'clue_carrier',
-        });
+      hook.result.current.unlockClue('clue_locked_01', {
+        kind: 'after_clue',
+        clueId: 'clue_carrier',
       }),
     ).rejects.toThrowError(GameServiceError);
+
+    await act(async () => {});
 
     expect(hook.result.current.status).toBe('error');
     expect(hook.result.current.error?.code).toBe('CANNOT_UNLOCK');
