@@ -27,7 +27,7 @@ Phase 5 delivers the live-service meta-game architecture for "THE LAST LIE: Infi
 | **WP-50s** | Daily & Weekly Server | Agent 2 (`wp/50s-55s-daily-weekly`) | ✅ Merged | PostgreSQL migrations `20261105000000_daily_weekly.sql`, 14-day fill, UTC date checks, weekly window gate. |
 | **WP-50** | Daily Case UI & Streaks | Agent 3 (`wp/50-55-daily-weekly`) | ✅ Merged | Daily case card on Home, streak counter, no streak penalty. |
 | **WP-51s** | Conspiracy Graph Backend | Agent 2 (`wp/51s-conspiracy-graph`) | ✅ Merged | Migration `20261106000000_conspiracy_graph.sql`, 1-hop neighbor redaction, submit reveal hooks, CLI publisher. |
-| **WP-52** | Conspiracy Map UI | Agent 3 (`wp/52-conspiracy-map`) | ⚪ Queued | Canvas/graph rendering, pan/zoom, '?' neighbor nodes, dossier inspector, accessible list view. |
+| **WP-52** | Conspiracy Map UI | Agent 3 (`wp/52-conspiracy-map`) | ✅ Merged | Canvas/graph rendering, pan/zoom, '?' neighbor nodes, dossier inspector, accessible list view. |
 | **WP-53a** | Conspiracy Content Model | Agent 1 (`main`) | ✅ Merged | Zod schemas for nodes & edges, graph loader, structural validation tests. |
 | **WP-53** | Canonical Chapter 1 | Agent 1 (`main`) | ✅ Merged | Story design `docs/story/chapter-01.md`, cases `case_c101`..`c103`, 17 nodes, 18 edges, R6 reviews. |
 | **WP-54** | Push Notifications | Agent 3 (`wp/54-push-notifications`) | ⚪ Queued | Expo Notifications setup, permission prompt after Case 2, local time reminders, zero spoiler text. |
