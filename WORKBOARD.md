@@ -158,6 +158,7 @@ export interface CaseSlotProps {
 | 35b     | T    | Agent 3| `wp/35b-cli-generate`      | ✅ merged (CLI generate command)                     |
 | 32b     | E    | Agent 2| `wp/32b-template-neutrality`| ✅ merged (neutrality fix + V16)                     |
 | 36      | E    | Agent 3| `wp/36-fingerprint-calibration` | ✅ merged (fingerprint dedupe & calibration)         |
+| 40      | B    | Agent 2| `wp/40-db-schema`           | ✅ merged (DB schema, RLS, triggers, seed)          |
 | NEXT-2  | INT  | A1    | `main`                     | ✅ done (optional message sender)                     |
 | NEXT-3  | INT  | A1    | `main`                     | ✅ done (.gitattributes, .gitignore, CI scope step)   |
 
