@@ -1,18 +1,18 @@
-# The Untraceable Dispatch from Freight Turnstile Scanner (case_fm_1132)
+# The Broadcast That Never Was: The Grand Vesper Hotel (case_gen_928391)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 2 | Measured: 2 (Score: 13.5)
-- **Estimated Duration:** 9 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at The Vesper Chronicle Newsroom.
+- **Estimated Duration:** 10 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across The Grand Vesper Hotel, The Vesper Chronicle Newsroom, Vesper Central Station.
 
 ## Briefing
-A forged wire instruction was relayed through Freight Turnstile Scanner during the deadline rush. Investigative inquiries focus on Alistair Finch, Cassian Calloway, and Orion Grayson, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.
+An illicit wire communication was detected originating from The Grand Vesper Hotel. Accounts given by Cassian Calloway, Alistair Finch, and Orion Grayson contain fabricated details regarding device access. Determine who sent the message.
 
 ## Cast of Characters
-- **Alistair Finch** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Cassian Calloway** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Orion Grayson** (Press Foreman): Press Foreman in Vesper City involved in the incident.
+- **Alistair Finch** (Desk Assistant): Wire Editor in Vesper City involved in the incident.
+- **Cassian Calloway** (Communications Officer): Lead Reporter in Vesper City involved in the incident.
+- **Orion Grayson** (Wire Editor): Desk Assistant in Vesper City involved in the incident.
 
 ## Locations
 - **The Grand Vesper Hotel**: Neoclassical luxury hotel situated north of the central rail terminus.
@@ -20,34 +20,32 @@ A forged wire instruction was relayed through Freight Turnstile Scanner during t
 - **Vesper Central Station**: Subterranean rail hub connecting municipal lines to northern freight corridors.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from Freight Turnstile Scanner to Orion Grayson at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Alistair Finch stated: 'I saw Cassian Calloway log into Freight Turnstile Scanner and send message msg_dispatch at 20:15 before leaving.'"
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Alistair Finch stated: 'The wire transmission from Freight Turnstile Scanner at 20:15 was authorized and sent directly by Cassian Calloway.'"
+- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_dispatch_testimony)
+  > "Terminal Session Log: Freight Turnstile Scanner was actively operated by Alistair Finch at 20:15 inside The Grand Vesper Hotel."
 - **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Cassian Calloway badged into door_newsroom_press at 20:14."
-- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_culprit_testimony)
-  > "Terminal Audit Trail: Freight Turnstile Scanner authenticated user session for Alistair Finch at 20:15 with badge access at door_hotel_lobby."
+  > "Pressroom Card Reader: Cassian Calloway badged into door_newsroom_press at 20:14."
 - **[clue_recipient_alibi_access]** (access_log, physical, Default)
-  > "Gate Log: Orion Grayson scanned access badge at door_station_gate at 20:16."
-- **[clue_redherring_1]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] SECURITY_CAMERA · THE_VESPER_CHRONICLE_NEWSROOM · visual: Cassian Calloway"
+  > "Access Log: Orion Grayson checked in at door_station_gate at 20:16."
+- **[clue_redherring_1]** (access_log, physical, Default [tags: red_herring])
+  > "[20:28] ACCESS_LOG · NEWSROOM_PRESS · badge: Cassian Calloway"
 - **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
-  > "[20:05] NEWSROOM_PRESS · badge: Cassian Calloway"
+  > "[20:06] STATION_GATE · badge: Orion Grayson"
 
 ## Hypotheses
-- **hyp_recipient_sent**: Orion Grayson transmitted the unauthorized dispatch from Freight Turnstile Scanner.
-- **hyp_culprit_innocent**: Alistair Finch remained at The Vesper Chronicle Newsroom and did not operate Freight Turnstile Scanner.
-- **hyp_victim_sent**: Cassian Calloway transmitted the unauthorized dispatch from Freight Turnstile Scanner.
-- **hyp_culprit_forged**: Alistair Finch transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
+- **hyp_victim_guilty**: Cassian Calloway transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.
+- **hyp_recipient_guilty**: Orion Grayson transmitted the dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel.
+- **hyp_culprit_guilty**: Alistair Finch transmitted the forged dispatch from Freight Turnstile Scanner in The Grand Vesper Hotel. **[SOLUTION]**
+- **hyp_culprit_innocent**: Alistair Finch remained in The Vesper Chronicle Newsroom and did not use Freight Turnstile Scanner.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_alistair
-- **Liars:** char_alistair (clue_culprit_testimony)
+- **Liars:** char_alistair (clue_dispatch_testimony)
 - **Key Evidence Sets:** [clue_victim_alibi_access, clue_recipient_alibi_access, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Cassian Calloway badged into door_newsroom_press at 20:14, proving they were not present in The Grand Vesper Hotel to operate Freight Turnstile Scanner. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Alistair Finch was logged into Freight Turnstile Scanner at 20:15, shattering their claim that Cassian Calloway sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1216]** Orion Grayson was logged at door_station_gate at 20:16, confirming their legitimate station. *(Clues: clue_recipient_alibi_access)*
-4. **[1215]** Alistair Finch transmitted the forged message msg_dispatch from Freight Turnstile Scanner at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Terminal session logs verified that Alistair Finch was logged into Freight Turnstile Scanner at 20:15, shattering claims that Cassian Calloway sent the dispatch. *(Clues: clue_terminal_session, clue_dispatch_testimony)*
+3. **[1216]** Orion Grayson was badged into door_station_gate at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel. *(Clues: clue_recipient_alibi_access)*
+4. **[1215]** Alistair Finch completed the forged transmission of High-Speed Rotary Press before signing off. *(Clues: clue_terminal_session)*

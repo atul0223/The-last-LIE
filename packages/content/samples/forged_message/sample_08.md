@@ -1,19 +1,19 @@
-# Deception on the Wire at The Grand Vesper Hotel Before Dawn (case_fm_7667)
+# False Dispatches from High-Speed Rotary Press on the Midnight Circuit (case_gen_296054)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 4 | Measured: 4 (Score: 20)
-- **Estimated Duration:** 13 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from North Freight Dock to disrupt operations at The Grand Vesper Hotel.
+- **Estimated Duration:** 18 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across North Freight Dock, The Grand Vesper Hotel, Vesper Central Station.
 
 ## Briefing
-A bogus transmission was logged on High-Speed Rotary Press before the evening print run. Clearance was limited to four individuals: Damian Althaus, Beatrix Ward, Celeste Althaus, and Silas Ibrahim. Analyze system logs to expose whose account hides the forgery.
+An illicit wire communication was detected originating from North Freight Dock. Accounts given by Silas Ibrahim, Damian Althaus, Beatrix Ward, and Celeste Althaus contain fabricated details regarding device access. Determine who sent the message.
 
 ## Cast of Characters
 - **Damian Althaus** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Beatrix Ward** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Celeste Althaus** (Press Foreman): Press Foreman in Vesper City involved in the incident.
-- **Silas Ibrahim** (Telegraph Operator): Telegraph Operator in Vesper City involved in the incident.
+- **Beatrix Ward** (Lead Reporter): Lead Reporter in Vesper City involved in the incident.
+- **Celeste Althaus** (Telegraph Operator): Desk Assistant in Vesper City involved in the incident.
+- **Silas Ibrahim** (Desk Assistant): Telegraph Operator in Vesper City involved in the incident.
 
 ## Locations
 - **North Freight Dock**: Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.
@@ -21,37 +21,38 @@ A bogus transmission was logged on High-Speed Rotary Press before the evening pr
 - **Vesper Central Station**: Subterranean rail hub connecting municipal lines to northern freight corridors.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from High-Speed Rotary Press to Celeste Althaus at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Damian Althaus stated: 'I saw Beatrix Ward log into High-Speed Rotary Press and send message msg_dispatch at 20:15 before leaving.'"
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Damian Althaus claimed: 'The electronic dispatch msg_dispatch was sent from High-Speed Rotary Press during the later transmission slot at 20:25.'"
+- **[clue_switchboard_timestamp]** (message, physical, Default)
+  > "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from High-Speed Rotary Press at 20:15."
+- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_dispatch_testimony)
+  > "Terminal Session Log: High-Speed Rotary Press was actively operated by Damian Althaus at 20:15 inside North Freight Dock."
 - **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Beatrix Ward badged into door_hotel_lobby at 20:14."
-- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_culprit_testimony)
-  > "Terminal Audit Trail: High-Speed Rotary Press authenticated user session for Damian Althaus at 20:15 with badge access at door_dock_turnstile."
-- **[clue_recipient_alibi_access]** (access_log, physical, Unlocked via clue_carrier_log)
-  > "Gate Log: Celeste Althaus scanned access badge at door_station_gate at 20:16."
+  > "Pressroom Card Reader: Beatrix Ward badged into door_hotel_lobby at 20:14."
+- **[clue_recipient_alibi_access]** (access_log, physical, Unlocked via clue_victim_alibi_access)
+  > "Access Log: Celeste Althaus checked in at door_station_gate at 20:16."
 - **[clue_suspect3_alibi_access]** (access_log, physical, Default)
-  > "Security Log: Silas Ibrahim logged badge at door_station_gate at 20:17."
+  > "Archive Reader: Silas Ibrahim badged through door_station_gate at 20:17."
 - **[clue_redherring_1]** (access_log, physical, Default [tags: red_herring])
-  > "[20:06] STATION_GATE · badge: Celeste Althaus"
-- **[clue_redherring_2]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Silas Ibrahim"
+  > "[20:28] HOTEL_LOBBY · badge: Beatrix Ward"
+- **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
+  > "[20:05] ENTRY_GATE · HOTEL_LOBBY · authorized: Beatrix Ward"
 
 ## Hypotheses
-- **hyp_victim_sent**: Beatrix Ward transmitted the unauthorized dispatch from High-Speed Rotary Press.
-- **hyp_suspect3_sent**: Silas Ibrahim transmitted the unauthorized dispatch from High-Speed Rotary Press.
-- **hyp_recipient_sent**: Celeste Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press.
-- **hyp_culprit_forged**: Damian Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press. **[SOLUTION]**
+- **hyp_culprit_guilty**: Damian Althaus transmitted the forged dispatch from High-Speed Rotary Press in North Freight Dock. **[SOLUTION]**
+- **hyp_victim_guilty**: Beatrix Ward transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.
+- **hyp_suspect3_guilty**: Silas Ibrahim transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.
+- **hyp_recipient_guilty**: Celeste Althaus transmitted the dispatch from High-Speed Rotary Press in North Freight Dock.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian
-- **Liars:** char_damian (clue_culprit_testimony)
+- **Liars:** char_damian (clue_dispatch_testimony)
 - **Key Evidence Sets:** [clue_victim_alibi_access, clue_recipient_alibi_access, clue_suspect3_alibi_access, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Beatrix Ward badged into door_hotel_lobby at 20:14, proving they were not present in North Freight Dock to operate High-Speed Rotary Press. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Damian Althaus was logged into High-Speed Rotary Press at 20:15, shattering their claim that Beatrix Ward sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1216]** Celeste Althaus was logged at door_station_gate at 20:16, confirming their legitimate station. *(Clues: clue_recipient_alibi_access)*
-4. **[1217]** Silas Ibrahim was badged into door_station_gate at 20:17, ruling out their presence at North Freight Dock. *(Clues: clue_suspect3_alibi_access)*
-5. **[1215]** Damian Althaus transmitted the forged message msg_dispatch from High-Speed Rotary Press at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window. *(Clues: clue_switchboard_timestamp, clue_dispatch_testimony)*
+3. **[1215]** Terminal authentication records proved Damian Althaus was the operator at High-Speed Rotary Press when the dispatch was generated. *(Clues: clue_terminal_session)*
+4. **[1216]** Celeste Althaus was badged into door_station_gate at 20:16, ruling them out as the transmitter at North Freight Dock. *(Clues: clue_recipient_alibi_access)*
+5. **[1217]** Silas Ibrahim was logged badging into door_station_gate at 20:17, ruling out their presence at North Freight Dock. *(Clues: clue_suspect3_alibi_access)*
+6. **[1215]** Damian Althaus completed the forged transmission of Freight Turnstile Scanner before signing off. *(Clues: clue_terminal_session)*

@@ -1,19 +1,19 @@
-# The Case of the Counterfeit Dispatch (case_fm_8818)
+# Static Over The Grand Vesper Hotel at Midnight (case_gen_257520)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
-- **Estimated Duration:** 11 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from The Grand Vesper Hotel to disrupt operations at North Gate Print Shop.
+- **Estimated Duration:** 14 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across The Grand Vesper Hotel, North Gate Print Shop, The Vesper Chronicle Newsroom.
 
 ## Briefing
-An unauthorized dispatch msg_dispatch was transmitted from Transit Cipher Ledger to North Gate Print Shop. four staff members were on duty across the network: Damian Ramsay, Nadia Grayson, Beatrix Sterling, and Eleanor Belmont. Inspect terminal session logs and carrier records to unmask the imposter.
+The transmission of an unauthorized cable from Transit Cipher Ledger caused immediate disruption. Statements from Eleanor Belmont, Beatrix Sterling, Damian Ramsay, and Nadia Grayson contradict electronic carrier records. Trace the dispatch to identify the perpetrator.
 
 ## Cast of Characters
-- **Damian Ramsay** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Nadia Grayson** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Eleanor Belmont** (Press Foreman): Press Foreman in Vesper City involved in the incident.
-- **Beatrix Sterling** (Telegraph Operator): Telegraph Operator in Vesper City involved in the incident.
+- **Damian Ramsay** (Telegraph Operator): Wire Editor in Vesper City involved in the incident.
+- **Nadia Grayson** (Communications Officer): Lead Reporter in Vesper City involved in the incident.
+- **Eleanor Belmont** (Wire Editor): Desk Assistant in Vesper City involved in the incident.
+- **Beatrix Sterling** (Lead Reporter): Telegraph Operator in Vesper City involved in the incident.
 
 ## Locations
 - **The Grand Vesper Hotel**: Neoclassical luxury hotel situated north of the central rail terminus.
@@ -21,34 +21,35 @@ An unauthorized dispatch msg_dispatch was transmitted from Transit Cipher Ledger
 - **The Vesper Chronicle Newsroom**: Editorial offices, library archives, and news telegraph desks.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from Transit Cipher Ledger to Eleanor Belmont at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Damian Ramsay stated: 'I saw Nadia Grayson log into Transit Cipher Ledger and send message msg_dispatch at 20:15 before leaving.'"
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Damian Ramsay claimed: 'The electronic dispatch msg_dispatch was sent from Transit Cipher Ledger during the later transmission slot at 20:25.'"
+- **[clue_switchboard_timestamp]** (message, physical, Default)
+  > "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from Transit Cipher Ledger at 20:15."
+- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_dispatch_testimony)
+  > "Terminal Session Log: Transit Cipher Ledger was actively operated by Damian Ramsay at 20:15 inside The Grand Vesper Hotel."
 - **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Nadia Grayson badged into door_printshop_dock at 20:14."
-- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_culprit_testimony)
-  > "Terminal Audit Trail: Transit Cipher Ledger authenticated user session for Damian Ramsay at 20:15 with badge access at door_hotel_lobby."
+  > "Pressroom Card Reader: Nadia Grayson badged into door_printshop_dock at 20:14."
 - **[clue_recipient_alibi_access]** (access_log, physical, Default)
-  > "Gate Log: Eleanor Belmont scanned access badge at door_newsroom_press at 20:16."
-- **[clue_redherring_1]** (access_log, physical, Default [tags: red_herring])
-  > "[20:06] ACCESS_LOG · NEWSROOM_PRESS · badge: Eleanor Belmont"
+  > "Access Log: Eleanor Belmont checked in at door_newsroom_press at 20:16."
+- **[clue_redherring_1]** (cctv, physical, Default [tags: red_herring])
+  > "[20:10] CCTV_FEED · THE_VESPER_CHRONICLE_NEWSROOM · subject: Beatrix Sterling"
 - **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
-  > "[20:17] ACCESS_LOG · NEWSROOM_PRESS · badge: Beatrix Sterling"
+  > "[20:29] ACCESS_LOG · NEWSROOM_PRESS · badge: Eleanor Belmont"
 
 ## Hypotheses
-- **hyp_victim_sent**: Nadia Grayson transmitted the unauthorized dispatch from Transit Cipher Ledger.
-- **hyp_culprit_innocent**: Damian Ramsay remained at North Gate Print Shop and did not operate Transit Cipher Ledger.
-- **hyp_recipient_sent**: Eleanor Belmont transmitted the unauthorized dispatch from Transit Cipher Ledger.
-- **hyp_culprit_forged**: Damian Ramsay transmitted the unauthorized dispatch from Transit Cipher Ledger. **[SOLUTION]**
+- **hyp_victim_guilty**: Nadia Grayson transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.
+- **hyp_culprit_guilty**: Damian Ramsay transmitted the forged dispatch from Transit Cipher Ledger in The Grand Vesper Hotel. **[SOLUTION]**
+- **hyp_recipient_guilty**: Eleanor Belmont transmitted the dispatch from Transit Cipher Ledger in The Grand Vesper Hotel.
+- **hyp_culprit_innocent**: Damian Ramsay remained in North Gate Print Shop and did not use Transit Cipher Ledger.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_damian
-- **Liars:** char_damian (clue_culprit_testimony)
+- **Liars:** char_damian (clue_dispatch_testimony)
 - **Key Evidence Sets:** [clue_victim_alibi_access, clue_recipient_alibi_access, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Nadia Grayson badged into door_printshop_dock at 20:14, proving they were not present in The Grand Vesper Hotel to operate Transit Cipher Ledger. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Damian Ramsay was logged into Transit Cipher Ledger at 20:15, shattering their claim that Nadia Grayson sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1216]** Eleanor Belmont was logged at door_newsroom_press at 20:16, confirming their legitimate station. *(Clues: clue_recipient_alibi_access)*
-4. **[1215]** Damian Ramsay transmitted the forged message msg_dispatch from Transit Cipher Ledger at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window. *(Clues: clue_switchboard_timestamp, clue_dispatch_testimony)*
+3. **[1215]** Terminal authentication records proved Damian Ramsay was the operator at Transit Cipher Ledger when the dispatch was generated. *(Clues: clue_terminal_session)*
+4. **[1216]** Eleanor Belmont was badged into door_newsroom_press at 20:16, ruling them out as the transmitter at The Grand Vesper Hotel. *(Clues: clue_recipient_alibi_access)*
+5. **[1215]** Damian Ramsay completed the forged transmission of High-Speed Rotary Press before signing off. *(Clues: clue_terminal_session)*

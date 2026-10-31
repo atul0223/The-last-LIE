@@ -1,19 +1,19 @@
-# The Phantom Message from Freight Turnstile Scanner Over the Wire (case_fm_7197)
+# Deception on the Wire at Vesper Central Station Before Dawn (case_gen_509248)
 
 - **Mystery Type:** forged_message
 - **Difficulty:** Declared: 3 | Measured: 3 (Score: 16.5)
-- **Estimated Duration:** 11 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at Vesper Central Station.
+- **Estimated Duration:** 14 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across North Gate Print Shop, Vesper Central Station, North Freight Dock.
 
 ## Briefing
-A forged wire instruction was relayed through Freight Turnstile Scanner during the deadline rush. Investigative inquiries focus on Octavia Harrington, Cassian Ashford, Sebastian Thorne, and Yvaine Calloway, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.
+The transmission of an unauthorized cable from Freight Turnstile Scanner caused immediate disruption. Statements from Cassian Ashford, Sebastian Thorne, Yvaine Calloway, and Octavia Harrington contradict electronic carrier records. Trace the dispatch to identify the perpetrator.
 
 ## Cast of Characters
-- **Sebastian Thorne** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Yvaine Calloway** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Cassian Ashford** (Press Foreman): Press Foreman in Vesper City involved in the incident.
-- **Octavia Harrington** (Telegraph Operator): Telegraph Operator in Vesper City involved in the incident.
+- **Sebastian Thorne** (Telegraph Operator): Wire Editor in Vesper City involved in the incident.
+- **Yvaine Calloway** (Wire Editor): Lead Reporter in Vesper City involved in the incident.
+- **Cassian Ashford** (Communications Officer): Desk Assistant in Vesper City involved in the incident.
+- **Octavia Harrington** (Desk Assistant): Telegraph Operator in Vesper City involved in the incident.
 
 ## Locations
 - **North Gate Print Shop**: Industrial printing press facility with mechanical composing bays and ink tanks.
@@ -21,34 +21,35 @@ A forged wire instruction was relayed through Freight Turnstile Scanner during t
 - **North Freight Dock**: Enclosed cargo staging bay equipped with security turnstiles and rolling shutters.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from Freight Turnstile Scanner to Cassian Ashford at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Sebastian Thorne stated: 'I saw Yvaine Calloway log into Freight Turnstile Scanner and send message msg_dispatch at 20:15 before leaving.'"
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Sebastian Thorne claimed: 'The electronic dispatch msg_dispatch was sent from Freight Turnstile Scanner during the later transmission slot at 20:25.'"
+- **[clue_switchboard_timestamp]** (message, physical, Default)
+  > "Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from Freight Turnstile Scanner at 20:15."
+- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_dispatch_testimony)
+  > "Terminal Session Log: Freight Turnstile Scanner was actively operated by Sebastian Thorne at 20:15 inside North Gate Print Shop."
 - **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Yvaine Calloway badged into door_station_gate at 20:14."
-- **[clue_terminal_session]** (device_log, physical, Unlocked via clue_culprit_testimony)
-  > "Terminal Audit Trail: Freight Turnstile Scanner authenticated user session for Sebastian Thorne at 20:15 with badge access at door_printshop_dock."
+  > "Pressroom Card Reader: Yvaine Calloway badged into door_station_gate at 20:14."
 - **[clue_recipient_alibi_access]** (access_log, physical, Default)
-  > "Gate Log: Cassian Ashford scanned access badge at door_dock_turnstile at 20:16."
+  > "Access Log: Cassian Ashford checked in at door_dock_turnstile at 20:16."
 - **[clue_redherring_1]** (access_log, physical, Default [tags: red_herring])
-  > "[20:29] DOCK_TURNSTILE · badge: Cassian Ashford"
-- **[clue_redherring_2]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] SECURITY_CAMERA · VESPER_CENTRAL_STATION · visual: Yvaine Calloway"
+  > "[20:05] STATION_GATE · badge: Yvaine Calloway"
+- **[clue_redherring_2]** (access_log, physical, Default [tags: red_herring])
+  > "[20:17] ENTRY_GATE · DOCK_TURNSTILE · authorized: Octavia Harrington"
 
 ## Hypotheses
-- **hyp_recipient_sent**: Cassian Ashford transmitted the unauthorized dispatch from Freight Turnstile Scanner.
-- **hyp_victim_sent**: Yvaine Calloway transmitted the unauthorized dispatch from Freight Turnstile Scanner.
-- **hyp_culprit_forged**: Sebastian Thorne transmitted the unauthorized dispatch from Freight Turnstile Scanner. **[SOLUTION]**
-- **hyp_culprit_innocent**: Sebastian Thorne remained at Vesper Central Station and did not operate Freight Turnstile Scanner.
+- **hyp_victim_guilty**: Yvaine Calloway transmitted the dispatch from Freight Turnstile Scanner in North Gate Print Shop.
+- **hyp_culprit_innocent**: Sebastian Thorne remained in Vesper Central Station and did not use Freight Turnstile Scanner.
+- **hyp_recipient_guilty**: Cassian Ashford transmitted the dispatch from Freight Turnstile Scanner in North Gate Print Shop.
+- **hyp_culprit_guilty**: Sebastian Thorne transmitted the forged dispatch from Freight Turnstile Scanner in North Gate Print Shop. **[SOLUTION]**
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_sebastian
-- **Liars:** char_sebastian (clue_culprit_testimony)
+- **Liars:** char_sebastian (clue_dispatch_testimony)
 - **Key Evidence Sets:** [clue_victim_alibi_access, clue_recipient_alibi_access, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Yvaine Calloway badged into door_station_gate at 20:14, proving they were not present in North Gate Print Shop to operate Freight Turnstile Scanner. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Sebastian Thorne was logged into Freight Turnstile Scanner at 20:15, shattering their claim that Yvaine Calloway sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1216]** Cassian Ashford was logged at door_dock_turnstile at 20:16, confirming their legitimate station. *(Clues: clue_recipient_alibi_access)*
-4. **[1215]** Sebastian Thorne transmitted the forged message msg_dispatch from Freight Turnstile Scanner at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window. *(Clues: clue_switchboard_timestamp, clue_dispatch_testimony)*
+3. **[1215]** Terminal authentication records proved Sebastian Thorne was the operator at Freight Turnstile Scanner when the dispatch was generated. *(Clues: clue_terminal_session)*
+4. **[1216]** Cassian Ashford was badged into door_dock_turnstile at 20:16, ruling them out as the transmitter at North Gate Print Shop. *(Clues: clue_recipient_alibi_access)*
+5. **[1215]** Sebastian Thorne completed the forged transmission of Transit Cipher Ledger before signing off. *(Clues: clue_terminal_session)*

@@ -1,46 +1,47 @@
-# The Intercepted Wire at North Gate Print Shop in the Pressroom (case_fm_8137)
+# False Dispatches from High-Speed Rotary Press Across the Network (case_gen_936899)
 
 - **Mystery Type:** forged_message
-- **Difficulty:** Declared: 1 | Measured: 1 (Score: 8)
-- **Estimated Duration:** 7 minutes
-- **Date:** 2026-11-06
-- **Setting:** A forged telegraph dispatch was transmitted from North Gate Print Shop to disrupt operations at The Grand Vesper Hotel.
+- **Difficulty:** Declared: 1 | Measured: 2 (Score: 10)
+- **Estimated Duration:** 6 minutes
+- **Date:** 2026-10-24
+- **Setting:** Vesper City incidents across North Gate Print Shop, The Grand Vesper Hotel.
 
 ## Briefing
-Operations at The Grand Vesper Hotel were disrupted by a fraudulent message sent from High-Speed Rotary Press. Terminal records place Bram Preston, Walter Althaus, and Sebastian Mercer in proximity to network consoles. Correlate access times to determine who authored the message.
+At 20:15, a compromised dispatch was routed from High-Speed Rotary Press inside North Gate Print Shop. An investigation focuses on three individuals: Bram Preston, Sebastian Mercer, and Walter Althaus. Examine terminal and access logs to uncover the true sender.
 
 ## Cast of Characters
-- **Walter Althaus** (Wire Editor): Wire Editor in Vesper City involved in the incident.
-- **Sebastian Mercer** (Managing Editor): Managing Editor in Vesper City involved in the incident.
-- **Bram Preston** (Press Foreman): Press Foreman in Vesper City involved in the incident.
+- **Walter Althaus** (Telegraph Operator): Wire Editor in Vesper City involved in the incident.
+- **Sebastian Mercer** (Desk Assistant): Lead Reporter in Vesper City involved in the incident.
+- **Bram Preston** (Communications Officer): Desk Assistant in Vesper City involved in the incident.
 
 ## Locations
 - **North Gate Print Shop**: Industrial printing press facility with mechanical composing bays and ink tanks.
 - **The Grand Vesper Hotel**: Neoclassical luxury hotel situated north of the central rail terminus.
 
 ## Evidence & Clues
-- **[clue_carrier_log]** (message, physical, Default)
-  > "Carrier Dispatch Log: Message msg_dispatch routed from High-Speed Rotary Press to Bram Preston at 20:15. (Carrier header records no authenticated sender id)."
-- **[clue_culprit_testimony]** (testimony, testimony, Default)
-  > "Walter Althaus stated: 'I saw Sebastian Mercer log into High-Speed Rotary Press and send message msg_dispatch at 20:15 before leaving.'"
-- **[clue_victim_alibi_access]** (access_log, physical, Default)
-  > "Turnstile Log: Sebastian Mercer badged into door_hotel_lobby at 20:14."
+- **[clue_dispatch_testimony]** (testimony, testimony, Default)
+  > "Walter Althaus stated: 'I saw Sebastian Mercer operating the transmitter High-Speed Rotary Press in North Gate Print Shop at 20:15.'"
+- **[clue_victim_presence]** (cctv, physical, Default)
+  > "Printshop CCTV: Optical feed confirmed Sebastian Mercer was inside The Grand Vesper Hotel from 20:10 to 20:25."
 - **[clue_terminal_session]** (device_log, physical, Default)
-  > "Terminal Audit Trail: High-Speed Rotary Press authenticated user session for Walter Althaus at 20:15 with badge access at door_printshop_dock."
-- **[clue_redherring_1]** (cctv, physical, Default [tags: red_herring])
-  > "[20:10] CCTV_FEED · THE_GRAND_VESPER_HOTEL · subject: Sebastian Mercer"
+  > "Terminal Session Log: High-Speed Rotary Press was actively operated by Walter Althaus at 20:15 inside North Gate Print Shop."
+- **[clue_victim_alibi_access]** (access_log, physical, Default)
+  > "Pressroom Card Reader: Sebastian Mercer badged into door_hotel_lobby at 20:14."
+- **[clue_redherring_1]** (access_log, physical, Default [tags: red_herring])
+  > "[20:16] HOTEL_LOBBY · badge: Bram Preston"
 
 ## Hypotheses
-- **hyp_culprit_innocent**: Walter Althaus remained at The Grand Vesper Hotel and did not operate High-Speed Rotary Press.
-- **hyp_culprit_forged**: Walter Althaus transmitted the unauthorized dispatch from High-Speed Rotary Press. **[SOLUTION]**
-- **hyp_victim_sent**: Sebastian Mercer transmitted the unauthorized dispatch from High-Speed Rotary Press.
+- **hyp_culprit_guilty**: Walter Althaus transmitted the forged dispatch from High-Speed Rotary Press in North Gate Print Shop. **[SOLUTION]**
+- **hyp_victim_guilty**: Sebastian Mercer transmitted the dispatch from High-Speed Rotary Press in North Gate Print Shop.
+- **hyp_culprit_innocent**: Walter Althaus remained in The Grand Vesper Hotel and did not use High-Speed Rotary Press.
 
 ## Truth & Reveal Explanation
 - **Culprit:** char_walter
-- **Liars:** char_walter (clue_culprit_testimony)
-- **Key Evidence Sets:** [clue_victim_alibi_access, clue_terminal_session]
+- **Liars:** char_walter (clue_dispatch_testimony)
+- **Key Evidence Sets:** [clue_victim_alibi_access, clue_victim_presence, clue_terminal_session]
 
 ### Chronological Explanation
 1. **[1214]** Sebastian Mercer badged into door_hotel_lobby at 20:14, proving they were not present in North Gate Print Shop to operate High-Speed Rotary Press. *(Clues: clue_victim_alibi_access)*
-2. **[1215]** Terminal session logs verified that Walter Althaus was logged into High-Speed Rotary Press at 20:15, shattering their claim that Sebastian Mercer sent the dispatch. *(Clues: clue_terminal_session, clue_culprit_testimony)*
-3. **[1215]** Walter Althaus transmitted the forged message msg_dispatch from High-Speed Rotary Press at 20:15. *(Clues: clue_carrier_log, clue_terminal_session)*
+2. **[1215]** Printshop surveillance footage confirmed Sebastian Mercer was inside The Grand Vesper Hotel at 20:15, completely contradicting claims that they operated High-Speed Rotary Press. *(Clues: clue_victim_presence, clue_dispatch_testimony)*
+3. **[1215]** Terminal authentication records proved Walter Althaus was the operator at High-Speed Rotary Press when the dispatch was generated. *(Clues: clue_terminal_session)*
+4. **[1215]** Walter Althaus completed the forged transmission of Naval Brass Chronometer before signing off. *(Clues: clue_terminal_session)*

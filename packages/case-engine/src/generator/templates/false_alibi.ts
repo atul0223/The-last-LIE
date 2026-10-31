@@ -2,49 +2,18 @@
  * Template: False Alibi (tpl_false_alibi_v1)
  *
  * Story Shape:
- * A high-profile crime (theft of an item, safe breach, or unauthorized access)
- * occurs at a primary crime scene (locCrime) during a specific evening window (20:15 - 20:35).
- * The primary culprit fabricates an alibi, claiming to have been present at a different location
- * (locAlibi) during the entire incident window (20:10 - 20:30).
- * Meanwhile, innocent colleagues and staff members were either legitimately at the alibi location
- * or in transit/peripheral areas (locTransit), corroborated by physical access logs.
+ * A high-profile crime occurs at a primary crime scene (locCrime) during an evening window.
+ * The primary culprit (or a covering associate) fabricates an alibi claiming presence at a different
+ * location (locAlibi) during the critical interval.
  *
- * Slots:
- * - culprit: Primary suspect who fabricated the alibi and committed the crime
- * - suspect1: Associate present at locAlibi (innocent)
- * - suspect2: Staff member present at locTransit (innocent)
- * - suspect3: Peripheral staff member (used in higher difficulties)
- * - locCrime: The crime scene location (e.g. Vault, Archive, Office)
- * - locAlibi: The fabricated alibi location (e.g. Lounge, Diner, Hotel)
- * - locTransit: Peripheral / transit location (e.g. Corridor, Station, Lobby)
- * - targetItem: The compromised object or document
+ * Mechanism Variants (Decisive Contradiction Rules):
+ * 0. access.presence: Culprit scanned electronic access badge at locCrime door during the claimed alibi interval.
+ * 1. presence.two_places: Optical surveillance camera / sensor confirmed culprit present at locCrime during alibi interval.
+ * 2. presence.travel: Culprit appeared at locCrime too quickly after allegedly leaving locAlibi (travel time impossibility).
  *
- * Contradiction Rules (Fair-Play):
- * - access.presence: Culprit's access scan at locCrime directly contradicts their claim
- *   of being at locAlibi during the same time interval.
- * - presence.two_places: Culprit's presence at locCrime contradicts claimed presence at locAlibi.
- * - presence.travel: (Difficulty 3+) Travel time between locAlibi and locCrime is strictly
- *   greater than the interval between culprit's claimed location and their physical scan.
- *
- * Decoy Construction:
- * - Decoy 1 (suspect1): Accuses suspect1 of committing the crime at locCrime. Eliminated by
- *   clue_suspect1_alibi_access (proving suspect1 was badged into locAlibi at that time).
- * - Decoy 2 (suspect2 or innocent alibi): In Diff 1, claims culprit remained at locAlibi
- *   (eliminated by culprit's crime access). In Diff 2-4, accuses suspect2 of committing the crime
- *   at locCrime (eliminated by clue_suspect2_alibi_access at locTransit).
- * - Decoy 3 (suspect3 or culprit alibi claim): Accuses suspect3 (or innocent alibi) of being at locCrime.
- *   Eliminated by physical clue_suspect3_alibi_access or culprit crime access.
- *
- * Difficulty Scaling (1 -> 4):
- * - Diff 1: 3 characters, 2 locations, 3 hypotheses. KeyEvidence size 2, 0 non-default key clues,
- *   1 red herring, no travel time required. Measured difficulty: 1 (rawScore = 8.0).
- * - Diff 2: 3 characters, 3 locations, 4 hypotheses. KeyEvidence size 3, 1 non-default key clue
- *   (after_clue unlock on culprit crime access), 2 red herrings, no travel time required.
- *   Measured difficulty: 2 (rawScore = 13.5).
- * - Diff 3: 4 characters, 3 locations with travel time. 4 hypotheses. KeyEvidence size 3,
- *   1 non-default key clue, 2 red herrings, travel time required. Measured difficulty: 3 (rawScore = 16.5).
- * - Diff 4: 4 characters, 3 locations with travel time. 4 hypotheses. KeyEvidence size 4,
- *   2 non-default key clues, 2 red herrings, travel time required. Measured difficulty: 4 (rawScore = 20.0).
+ * Roles & Diversity:
+ * - Culprit role selected from a rich pool (Primary Suspect, Night Supervisor, Associate, Staff Specialist, Chief Auditor).
+ * - Liar selection: In ~25% of cases, an associate/witness provides false testimony to cover for the culprit (V14/V15 pass).
  */
 
 import type {
@@ -79,10 +48,35 @@ export const tpl_false_alibi: CaseTemplate = {
     const rawDiff = params.difficulty ?? 1;
     const diff = Math.min(4, Math.max(1, rawDiff)) as 1 | 2 | 3 | 4;
 
-    const culprit = slots.culprit as Character;
-    const suspect1 = slots.suspect1 as Character;
-    const suspect2 = slots.suspect2 as Character;
-    const suspect3 = slots.suspect3 as Character;
+    // Mechanism variant:
+    // 0: presence.two_places
+    // 1: access.presence
+    // 2: presence.travel
+    const variantRaw = rng.int(0, 2);
+    const variant: 0 | 1 | 2 = variantRaw === 0 ? 1 : variantRaw === 1 ? 0 : 2;
+
+    const culprit = { ...(slots.culprit as Character) };
+    const suspect1 = { ...(slots.suspect1 as Character) };
+    const suspect2 = { ...(slots.suspect2 as Character) };
+    const suspect3 = { ...(slots.suspect3 as Character) };
+
+    // Dynamically assign varied roles to characters
+    const possibleRoles = [
+      'Primary Suspect',
+      'Night Supervisor',
+      'Associate',
+      'Staff Specialist',
+      'Chief Auditor',
+    ];
+    const shuffledRoles = rng.shuffle(possibleRoles);
+    culprit.role = shuffledRoles[0]!;
+    suspect1.role = shuffledRoles[1]!;
+    suspect2.role = shuffledRoles[2]!;
+    suspect3.role = shuffledRoles[3]!;
+
+    // Liar: ~25% of cases witness covers for culprit
+    const witnessCovers = rng.next() < 0.25;
+    const liar = witnessCovers ? suspect1 : culprit;
 
     const locCrime = { ...(slots.locCrime as Location) };
     const locAlibi = { ...(slots.locAlibi as Location) };
@@ -98,16 +92,17 @@ export const tpl_false_alibi: CaseTemplate = {
     locAlibi.doorIds = [doorAlibi];
     locTransit.doorIds = [doorTransit];
 
-    // Configure adjacency & travel time based on difficulty
-    // For diff 1 & 2: empty adjacency so needsTravelTime is false
-    // For diff 3 & 4: 20 min travel time between locAlibi and locCrime
-    if (diff >= 3) {
+    // Configure adjacency & travel time
+    // Variant 2 requires travel time reasoning across all difficulties;
+    // Diff 3 & 4 also require travel time reasoning.
+    const needsTravel = diff >= 3 || variant === 2;
+    if (needsTravel) {
       locCrime.adjacency = [
-        { to: locAlibi.id, travelMinutes: 20 },
+        { to: locAlibi.id, travelMinutes: 25 },
         { to: locTransit.id, travelMinutes: 10 },
       ];
       locAlibi.adjacency = [
-        { to: locCrime.id, travelMinutes: 20 },
+        { to: locCrime.id, travelMinutes: 25 },
         { to: locTransit.id, travelMinutes: 15 },
       ];
       locTransit.adjacency = [
@@ -126,37 +121,67 @@ export const tpl_false_alibi: CaseTemplate = {
     const locations: Location[] =
       diff === 1 ? [locCrime, locAlibi] : [locCrime, locAlibi, locTransit];
 
-    // Determine secondary suspect location & door for diff 1 vs diff 2+
     const s2LocId = diff === 1 ? locAlibi.id : locTransit.id;
     const s2Door = diff === 1 ? doorAlibi : doorTransit;
 
-    // Build mutually consistent timeline (Ground Truth)
-    // Crime occurs at 1220 (20:20)
-    const timeline: Fact[] = [
-      // Culprit true movements at crime scene
-      {
-        kind: 'at',
-        who: culprit.id,
-        where: locCrime.id,
-        from: 1215,
-        to: 1235,
-      },
-      {
-        kind: 'access',
-        who: culprit.id,
-        door: doorCrime,
-        at: 1218,
-      },
-      {
-        kind: 'action',
-        who: culprit.id,
-        verb: 'took',
-        target: targetItem.id,
-        at: 1220,
-        where: locCrime.id,
-      },
+    // Build timeline facts (Ground Truth)
+    const timeline: Fact[] = [];
 
-      // Suspect 1 legitimate presence at alibi location
+    if (variant === 2) {
+      // Travel variant: culprit badges at crime scene at 1233 (3 min after claimed alibi window 1210-1230)
+      timeline.push(
+        {
+          kind: 'at',
+          who: culprit.id,
+          where: locCrime.id,
+          from: 1230,
+          to: 1250,
+        },
+        {
+          kind: 'access',
+          who: culprit.id,
+          door: doorCrime,
+          at: 1233,
+        },
+        {
+          kind: 'action',
+          who: culprit.id,
+          verb: 'took',
+          target: targetItem.id,
+          at: 1235,
+          where: locCrime.id,
+        },
+      );
+    } else {
+      // Standard variants (access.presence or presence.two_places):
+      // Culprit present and badged inside crime scene during 1215-1235
+      timeline.push(
+        {
+          kind: 'at',
+          who: culprit.id,
+          where: locCrime.id,
+          from: 1215,
+          to: 1235,
+        },
+        {
+          kind: 'access',
+          who: culprit.id,
+          door: doorCrime,
+          at: 1218,
+        },
+        {
+          kind: 'action',
+          who: culprit.id,
+          verb: 'took',
+          target: targetItem.id,
+          at: 1220,
+          where: locCrime.id,
+        },
+      );
+    }
+
+    // Suspect 1 legitimate presence
+    timeline.push(
       {
         kind: 'at',
         who: suspect1.id,
@@ -170,8 +195,10 @@ export const tpl_false_alibi: CaseTemplate = {
         door: doorAlibi,
         at: 1215,
       },
+    );
 
-      // Suspect 2 legitimate presence
+    // Suspect 2 legitimate presence
+    timeline.push(
       {
         kind: 'at',
         who: suspect2.id,
@@ -185,7 +212,7 @@ export const tpl_false_alibi: CaseTemplate = {
         door: s2Door,
         at: 1216,
       },
-    ];
+    );
 
     if (diff >= 3) {
       timeline.push(
@@ -205,7 +232,7 @@ export const tpl_false_alibi: CaseTemplate = {
       );
     }
 
-    // Additional background facts for red herrings (entailed, consistent, not eliminating decoys)
+    // Background red herring facts
     timeline.push(
       {
         kind: 'access',
@@ -233,14 +260,53 @@ export const tpl_false_alibi: CaseTemplate = {
       },
     );
 
-    // Primary Clues
-    const baseClues: Clue[] = [
-      // Culprit's declared lie: claims presence at locAlibi
-      {
-        id: 'clue_culprit_testimony',
+    // Clues Construction
+    const baseClues: Clue[] = [];
+
+    // Liar statement clue
+    const liarClueId = 'clue_alibi_testimony';
+    if (witnessCovers) {
+      baseClues.push({
+        id: liarClueId,
+        type: 'testimony',
+        reliability: 'testimony',
+        source: liar.id,
+        asserts: [
+          {
+            kind: 'at',
+            who: culprit.id,
+            where: locAlibi.id,
+            from: 1210,
+            to: 1230,
+          },
+          {
+            kind: 'at',
+            who: suspect1.id,
+            where: locAlibi.id,
+            from: 1210,
+            to: 1230,
+          },
+        ],
+        text: `${liar.name} stated: 'I was in ${locAlibi.name} from 20:10 to 20:30 with ${culprit.name} the entire time discussing routine administrative records.'`,
+        unlock: { kind: 'default' },
+      });
+
+      // Culprit gives neutral statement
+      baseClues.push({
+        id: 'clue_culprit_statement',
         type: 'testimony',
         reliability: 'testimony',
         source: culprit.id,
+        asserts: [],
+        text: `${culprit.name} stated: 'I decline to make any formal statement without departmental review.'`,
+        unlock: { kind: 'default' },
+      });
+    } else {
+      baseClues.push({
+        id: liarClueId,
+        type: 'testimony',
+        reliability: 'testimony',
+        source: liar.id,
         asserts: [
           {
             kind: 'at',
@@ -250,12 +316,11 @@ export const tpl_false_alibi: CaseTemplate = {
             to: 1230,
           },
         ],
-        text: `${culprit.name} stated: 'I spent the entire evening from 20:10 to 20:30 at ${locAlibi.name} attending to routine matters.'`,
+        text: `${liar.name} stated: 'I spent the entire evening from 20:10 to 20:30 at ${locAlibi.name} attending to routine matters.'`,
         unlock: { kind: 'default' },
-      },
+      });
 
-      // Suspect 1 truthful testimony
-      {
+      baseClues.push({
         id: 'clue_suspect1_testimony',
         type: 'testimony',
         reliability: 'testimony',
@@ -269,31 +334,34 @@ export const tpl_false_alibi: CaseTemplate = {
             to: 1230,
           },
         ],
-        text: `${suspect1.name} stated: 'I was present in ${locAlibi.name} between 20:10 and 20:30. I did not see any unauthorized activity.'`,
+        text: `${suspect1.name} stated: 'I was present in ${locAlibi.name} between 20:10 and 20:30. I did not see ${culprit.name} anywhere nearby.'`,
         unlock: { kind: 'default' },
-      },
+      });
+    }
 
-      // Physical clue placing suspect 1 at locAlibi (eliminates Decoy 1)
-      {
-        id: 'clue_suspect1_alibi_access',
-        type: 'access_log',
-        reliability: 'physical',
-        asserts: [
-          {
-            kind: 'access',
-            who: suspect1.id,
-            door: doorAlibi,
-            at: 1215,
-          },
-        ],
-        text: `Access Reader: ${suspect1.name} badged through ${doorAlibi} at 20:15.`,
-        unlock: { kind: 'default' },
-      },
+    // Physical clue placing suspect 1 at locAlibi (eliminates Decoy 1)
+    baseClues.push({
+      id: 'clue_suspect1_alibi_access',
+      type: 'access_log',
+      reliability: 'physical',
+      asserts: [
+        {
+          kind: 'access',
+          who: suspect1.id,
+          door: doorAlibi,
+          at: 1215,
+        },
+      ],
+      text: `Access Reader: ${suspect1.name} badged through ${doorAlibi} at 20:15.`,
+      unlock: { kind: 'default' },
+    });
 
-      // Physical clue refuting culprit's lie (V14) and positively placing culprit at crime scene (V15)
-      // For diff >= 3, also includes 'at' fact so needsTravelTime is triggered
-      {
-        id: 'clue_culprit_crime_access',
+    // Decisive physical refutation clue (varies by mechanism variant)
+    const decisiveClueId = 'clue_decisive_refutation';
+    if (variant === 0) {
+      // access.presence
+      baseClues.push({
+        id: decisiveClueId,
         type: 'access_log',
         reliability: 'physical',
         asserts:
@@ -327,12 +395,59 @@ export const tpl_false_alibi: CaseTemplate = {
             ? { kind: 'default' }
             : {
                 kind: 'after_clue',
-                clueId: 'clue_culprit_testimony',
+                clueId: liarClueId,
               },
-      },
-    ];
+      });
+    } else if (variant === 1) {
+      // presence.two_places
+      baseClues.push({
+        id: decisiveClueId,
+        type: 'cctv',
+        reliability: 'physical',
+        asserts: [
+          {
+            kind: 'at',
+            who: culprit.id,
+            where: locCrime.id,
+            from: 1215,
+            to: 1235,
+          },
+        ],
+        text: `Surveillance Still: High-resolution camera recorded ${culprit.name} inside ${locCrime.name} between 20:15 and 20:35.`,
+        unlock:
+          diff === 1
+            ? { kind: 'default' }
+            : {
+                kind: 'after_clue',
+                clueId: liarClueId,
+              },
+      });
+    } else {
+      // presence.travel
+      baseClues.push({
+        id: decisiveClueId,
+        type: 'access_log',
+        reliability: 'physical',
+        asserts: [
+          {
+            kind: 'access',
+            who: culprit.id,
+            door: doorCrime,
+            at: 1233,
+          },
+        ],
+        text: `Gate Reader: ${culprit.name} scanned access badge at ${doorCrime} at 20:33, only three minutes after alleged presence at ${locAlibi.name}.`,
+        unlock:
+          diff === 1
+            ? { kind: 'default' }
+            : {
+                kind: 'after_clue',
+                clueId: liarClueId,
+              },
+      });
+    }
 
-    // For diff 2, 3, 4: add physical clue placing suspect 2 at locTransit (eliminates Decoy 2)
+    // Clues for suspect 2 and suspect 3 (diff scaling)
     if (diff >= 2) {
       baseClues.push({
         id: 'clue_suspect2_alibi_access',
@@ -342,22 +457,21 @@ export const tpl_false_alibi: CaseTemplate = {
           {
             kind: 'access',
             who: suspect2.id,
-            door: doorTransit,
+            door: s2Door,
             at: 1216,
           },
         ],
-        text: `Turnstile Log: ${suspect2.name} verified entry at ${doorTransit} at 20:16.`,
+        text: `Turnstile Log: ${suspect2.name} verified entry at ${s2Door} at 20:16.`,
         unlock:
           diff === 4
             ? {
                 kind: 'after_clue',
-                clueId: 'clue_suspect1_testimony',
+                clueId: 'clue_suspect1_alibi_access',
               }
             : { kind: 'default' },
       });
     }
 
-    // For diff 4: add physical clue placing suspect 3 at locTransit (eliminates Decoy 3)
     if (diff === 4) {
       baseClues.push({
         id: 'clue_suspect3_alibi_access',
@@ -376,14 +490,12 @@ export const tpl_false_alibi: CaseTemplate = {
       });
     }
 
-    // Red herrings count:
-    // Diff 1: 1 red herring
-    // Diff 2-4: 2 red herrings
+    // Red herrings
     const redHerringCount = diff === 1 ? 1 : 2;
     const clues = injectRedHerrings(baseClues, timeline, redHerringCount, rng);
 
     // Build Hypotheses
-    // Solution hypothesis: culprit committed the crime at locCrime
+    const crimeTime = variant === 2 ? 1235 : 1220;
     const solutionHypothesis = {
       id: 'hyp_culprit_guilty',
       label: `${culprit.name} entered ${locCrime.name} and took ${targetItem.name}.`,
@@ -393,14 +505,13 @@ export const tpl_false_alibi: CaseTemplate = {
           who: culprit.id,
           verb: 'took' as const,
           target: targetItem.id,
-          at: 1220,
+          at: crimeTime,
           where: locCrime.id,
         },
       ],
       culpritIds: [culprit.id],
     };
 
-    // Decoy 1: suspect 1 took the item / was at locCrime
     const decoy1 = {
       id: 'hyp_suspect1_guilty',
       label: `${suspect1.name} entered ${locCrime.name} and took ${targetItem.name}.`,
@@ -417,10 +528,9 @@ export const tpl_false_alibi: CaseTemplate = {
     };
 
     let hypotheses = [solutionHypothesis, decoy1];
-    let keyEvidence: string[][];
+    let keyEvidence: string[][] = [];
 
     if (diff === 1) {
-      // Decoy 2: Culprit was innocently at locAlibi
       const decoy2 = {
         id: 'hyp_culprit_innocent',
         label: `${culprit.name} remained at ${locAlibi.name} and did not enter ${locCrime.name}.`,
@@ -433,16 +543,11 @@ export const tpl_false_alibi: CaseTemplate = {
             to: 1230,
           },
         ],
-        culpritIds: [suspect2.id],
+        culpritIds: [suspect1.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2];
-
-      // Key evidence size 2 (smallestKeyEvidenceSize = 2)
-      // - clue_suspect1_alibi_access eliminates decoy1
-      // - clue_culprit_crime_access eliminates decoy2
-      keyEvidence = [['clue_suspect1_alibi_access', 'clue_culprit_crime_access']];
+      keyEvidence = [['clue_suspect1_alibi_access', decisiveClueId]];
     } else if (diff === 2 || diff === 3) {
-      // Decoy 2: suspect 2 was at locCrime
       const decoy2 = {
         id: 'hyp_suspect2_guilty',
         label: `${suspect2.name} entered ${locCrime.name} and took ${targetItem.name}.`,
@@ -458,7 +563,6 @@ export const tpl_false_alibi: CaseTemplate = {
         culpritIds: [suspect2.id],
       };
 
-      // Decoy 3: Culprit innocent alibi
       const decoy3 = {
         id: 'hyp_culprit_innocent',
         label: `${culprit.name} remained at ${locAlibi.name} and did not enter ${locCrime.name}.`,
@@ -474,16 +578,11 @@ export const tpl_false_alibi: CaseTemplate = {
         culpritIds: [suspect1.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2, decoy3];
-
-      // Key evidence size 3 (smallestKeyEvidenceSize = 3)
-      // - clue_suspect1_alibi_access eliminates decoy1
-      // - clue_suspect2_alibi_access eliminates decoy2
-      // - clue_culprit_crime_access eliminates decoy3, refutes lie, places culprit
       keyEvidence = [
-        ['clue_suspect1_alibi_access', 'clue_suspect2_alibi_access', 'clue_culprit_crime_access'],
+        ['clue_suspect1_alibi_access', 'clue_suspect2_alibi_access', decisiveClueId],
       ];
     } else {
-      // Diff 4: 4 hypotheses, keyEvidence size 4
+      // Diff 4
       const decoy2 = {
         id: 'hyp_suspect2_guilty',
         label: `${suspect2.name} entered ${locCrime.name} and took ${targetItem.name}.`,
@@ -514,26 +613,19 @@ export const tpl_false_alibi: CaseTemplate = {
         culpritIds: [suspect3.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2, decoy3];
-
-      // Key evidence size 4:
-      // - clue_suspect1_alibi_access eliminates decoy1
-      // - clue_suspect2_alibi_access eliminates decoy2
-      // - clue_suspect3_alibi_access eliminates decoy3
-      // - clue_culprit_crime_access refutes culprit lie, places culprit at crime scene
       keyEvidence = [
         [
           'clue_suspect1_alibi_access',
           'clue_suspect2_alibi_access',
           'clue_suspect3_alibi_access',
-          'clue_culprit_crime_access',
+          decisiveClueId,
         ],
       ];
     }
 
-    // Shuffle hypotheses so the solution is not always first
     hypotheses = rng.shuffle(hypotheses);
 
-    // Explanation beats for reveal
+    // Explanation beats
     const explanation = [
       {
         time: 1215,
@@ -559,14 +651,14 @@ export const tpl_false_alibi: CaseTemplate = {
           ]
         : []),
       {
-        time: 1218,
-        text: `${culprit.name} was captured scanning their badge at ${doorCrime} at 20:18, completely shattering their fabricated alibi.`,
-        clueIds: ['clue_culprit_crime_access', 'clue_culprit_testimony'],
+        time: variant === 2 ? 1233 : 1218,
+        text: `${culprit.name}'s presence was definitively established at ${locCrime.name}, shattering the fabricated alibi testimony.`,
+        clueIds: [decisiveClueId, liarClueId],
       },
       {
-        time: 1220,
-        text: `${culprit.name} took ${targetItem.name} from ${locCrime.name} at 20:20 before departing.`,
-        clueIds: ['clue_culprit_crime_access'],
+        time: crimeTime,
+        text: `${culprit.name} took ${targetItem.name} from ${locCrime.name} before departing.`,
+        clueIds: [decisiveClueId],
       },
     ];
 
@@ -578,26 +670,26 @@ export const tpl_false_alibi: CaseTemplate = {
     const countWord = suspects.length === 4 ? 'four' : 'three';
 
     const briefingOptions = [
-      `${targetItem.name} was compromised at ${locCrime.name} under cover of evening routines. Access logs indicate ${countWord} individuals were present in the sector: ${suspectNames}. Each has presented an account of their whereabouts; correlate timestamps and logs to uncover whose alibi fails.`,
-      `An unauthorized breach at ${locCrime.name} resulted in the loss of ${targetItem.name}. Electronic records place ${suspectNames} in the vicinity during the critical window. Analyze the evidence to determine whose alibi contradicts the facts.`,
-      `Following the incident involving ${targetItem.name} at ${locCrime.name}, investigators identified ${countWord} persons of interest: ${suspectNames}. Each claims to have been elsewhere during the evening. Identify which account is fabricated.`,
-      `Security at ${locCrime.name} reported ${targetItem.name} missing from its station. ${suspectNames} were on site during the evening hours, each offering an explanation. Review the movement logs to expose the false alibi.`,
+      `At ${variant === 2 ? '20:35' : '20:20'}, ${targetItem.name} was taken from ${locCrime.name}. Physical evidence refutes an alibi fabricated by one of ${countWord} individuals: ${suspectNames}. Examine the timeline to identify the culprit.`,
+      `The theft of ${targetItem.name} from ${locCrime.name} occurred under cover of evening. One of the ${countWord} individuals present—${suspectNames}—has fabricated their movements. Reconstruct the logs to expose the true culprit.`,
+      `Security authorities discovered a breach at ${locCrime.name} involving ${targetItem.name}. Statements from ${suspectNames} contain contradictions with physical records. Determine who broke their alibi and took the item.`,
     ];
+    const briefing = rng.pick(briefingOptions);
 
     return {
-      id: `case_fa_${rng.int(1000, 9999)}`,
+      id: `case_gen_${rng.int(100000, 999999)}`,
       version: 1,
       kind: 'procedural',
       title,
       difficulty: diff,
-      estimatedMinutes: 5 + diff * 2,
+      estimatedMinutes: diff * 4 + 2,
       mysteryType: 'false_alibi',
       setting: {
         locationIds: locations.map((l) => l.id),
-        date: '2026-11-04',
-        summary: `An unauthorized incident occurred at ${locCrime.name} under cover of evening routines.`,
+        date: '2026-10-24',
+        summary: `Vesper City incidents across ${locations.map((l) => l.name).join(', ')}.`,
       },
-      briefing: rng.pick(briefingOptions),
+      briefing,
       characters,
       locations,
       objects: [targetItem],
@@ -605,21 +697,16 @@ export const tpl_false_alibi: CaseTemplate = {
       hypotheses,
       truth: {
         timeline,
-        culpritIds: [culprit.id],
-        liars: [
-          {
-            who: culprit.id,
-            statementClueIds: ['clue_culprit_testimony'],
-          },
-        ],
         solutionHypothesisId: 'hyp_culprit_guilty',
+        culpritIds: [culprit.id],
+        liars: [{ who: liar.id, statementClueIds: [liarClueId] }],
         keyEvidence,
         explanation,
       },
       meta: {
-        status: 'validated',
-        author: 'Procedural Case Engine',
+        seed: typeof params.seed === 'number' ? params.seed : undefined,
         templateId: 'tpl_false_alibi_v1',
+        status: 'validated',
       },
     };
   },
