@@ -6,6 +6,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../theme/tokens';
 import { RankCard } from './components/RankCard';
 import { ArchiveList } from './components/ArchiveList';
 import { CharacterDossiers } from './components/CharacterDossiers';
+import { ConspiracyMapFeature } from './map';
 import {
   computePlayerProgress,
   extractArchiveItems,
@@ -14,7 +15,7 @@ import {
 } from './helpers';
 import { navigateToCase } from './navigation';
 
-type TabView = 'all' | 'rank' | 'archive' | 'dossiers';
+type TabView = 'all' | 'rank' | 'archive' | 'dossiers' | 'map';
 
 export default function ProgressFeature() {
   const [activeTab, setActiveTab] = useState<TabView>('all');
@@ -141,6 +142,21 @@ export default function ProgressFeature() {
             Dossiers ({dossiers.length})
           </Text>
         </Pressable>
+
+        <Pressable
+          style={[styles.tabButton, activeTab === 'map' && styles.tabButtonActive]}
+          onPress={() => setActiveTab('map')}
+          accessibilityRole="tab"
+          accessibilityLabel="Show conspiracy syndicate map"
+          testID="progress.tab.map"
+        >
+          <Text
+            style={[styles.tabButtonText, activeTab === 'map' && styles.tabButtonTextActive]}
+            allowFontScaling
+          >
+            Map
+          </Text>
+        </Pressable>
       </View>
 
       {/* Rank Card */}
@@ -173,6 +189,13 @@ export default function ProgressFeature() {
       {(activeTab === 'all' || activeTab === 'dossiers') && (
         <View style={styles.sectionContainer}>
           <CharacterDossiers dossiers={dossiers} />
+        </View>
+      )}
+
+      {/* Conspiracy Map */}
+      {(activeTab === 'all' || activeTab === 'map') && (
+        <View style={styles.sectionContainer}>
+          <ConspiracyMapFeature />
         </View>
       )}
     </ScrollView>
