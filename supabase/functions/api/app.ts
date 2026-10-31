@@ -59,7 +59,7 @@ export function createApp(deps: AppDeps) {
   app.route('/', publicGroup);
 
   // Authenticated routes
-  const sessionsRouter = createSessionsRouter({ repo, clock });
+  const sessionsRouter = createSessionsRouter({ repo, clock, config });
   const authGroup = new Hono<{ Variables: AppContextVariables }>();
   authGroup.use('*', authMiddleware(auth));
   authGroup.use('*', rateLimitMiddleware(rateLimiter, config.rateLimitPerMin));
