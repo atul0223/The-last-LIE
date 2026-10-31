@@ -2,51 +2,19 @@
  * Template: Forged Message (tpl_forged_message_v1)
  *
  * Story Shape:
- * An unauthorized telegraph wire / network message (msg_dispatch) is sent from a specific
- * terminal (deviceA) located in the newsroom / communications office (locNewsroom) at 20:15.
- * The message instructs the print shop / recipient station (locPrintshop) to publish or act on false orders.
- * The culprit (culprit) claims that the senior editor / officer (victim) sent the message.
- * However, the carrier record contains only carrier metadata (device, timestamp, recipient) without
- * a confirmed sender (NEXT-2 sender-less record), and the local terminal session log proves that the
- * culprit was actively logged into deviceA at that exact timestamp (20:15).
- * Furthermore, physical access logs prove the victim was at locPrintshop at 20:14, rendering their
- * presence at deviceA impossible.
+ * A forged wire message or electronic dispatch is transmitted from a specialized terminal (deviceA)
+ * inside the newsroom (locNewsroom) during an evening deadline window.
+ * The primary culprit (or covering associate) fabricates false statements claiming the victim
+ * sent the dispatch or misrepresenting transmission times / actions.
  *
- * Slots:
- * - culprit: Primary suspect who operated the terminal and forged the dispatch
- * - victim: Senior officer / editor falsely accused of sending the message
- * - recipient: Station operator / press foreman who received the wire
- * - suspect3: Secondary technician / operator (used in higher difficulties)
- * - locNewsroom: Communications / telegraph room containing deviceA
- * - locPrintshop: Recipient's press facility / office
- * - locArchive: Peripheral record archive / transit station
- * - deviceA: The transmission terminal / telegraph console
- * - targetDoc: The dispatch document / order
+ * Mechanism Variants (Decisive Contradiction Rules):
+ * 0. message.sender_device: Culprit claimed victim sent the message from deviceA, refuted by terminal session showing culprit used deviceA at that exact time.
+ * 1. message.time: Liar claimed dispatch msg_dispatch was sent at 20:25, refuted by carrier switchboard relay logging it at 20:15.
+ * 2. presence.absent_action: Liar claimed victim performed the transmission action at locNewsroom at 20:15, refuted by CCTV placing victim inside locPrintshop.
  *
- * Contradiction Rules (Fair-Play):
- * - message.sender_device: Culprit's testimony claiming victim sent the message from deviceA at 20:15
- *   is directly contradicted by the terminal session log proving culprit operated deviceA at 20:15.
- * - access.presence: Physical access scan at doorPrintshop at 20:14 proves victim was not in locNewsroom.
- * - presence.travel: (Difficulty 3+) Travel time between newsroom and print shop prevents unrecorded transit.
- *
- * Decoy Construction:
- * - Decoy 1 (victim): Accuses victim of sending the message from locNewsroom. Eliminated by
- *   clue_victim_alibi_access (proving victim was in locPrintshop at 20:14).
- * - Decoy 2: In Diff 1, claims culprit was at locPrintshop (eliminated by culprit's newsroom access log).
- *   In Diff 2-4, accuses recipient of sending the message from locNewsroom (eliminated by recipient alibi log).
- * - Decoy 3: In Diff 2-3, claims culprit remained in locPrintshop (eliminated by culprit's newsroom access log).
- *   In Diff 4, accuses suspect3 of sending the message (eliminated by suspect3 archive access log).
- *
- * Difficulty Scaling (1 -> 4):
- * - Diff 1: 3 characters, 2 locations, 3 hypotheses. KeyEvidence size 2, 0 non-default key clues,
- *   1 red herring, no travel time required. Measured difficulty: 1 (rawScore = 8.0).
- * - Diff 2: 3 characters, 3 locations, 4 hypotheses. KeyEvidence size 3, 1 non-default key clue
- *   (after_clue unlock on terminal session log), 2 red herrings, no travel time required.
- *   Measured difficulty: 2 (rawScore = 13.5).
- * - Diff 3: 4 characters, 3 locations with travel time. 4 hypotheses. KeyEvidence size 3,
- *   1 non-default key clue, 2 red herrings, travel time required. Measured difficulty: 3 (rawScore = 16.5).
- * - Diff 4: 4 characters, 3 locations with travel time. 4 hypotheses. KeyEvidence size 4,
- *   2 non-default key clues, 2 red herrings, travel time required. Measured difficulty: 4 (rawScore = 20.0).
+ * Roles & Diversity:
+ * - Culprit role selected from a rich pool (Wire Editor, Desk Assistant, Lead Reporter, Telegraph Operator, Communications Officer).
+ * - Liar selection: In ~25% of cases, an associate/recipient provides false testimony covering for the culprit (V14/V15 pass).
  */
 
 import type {
@@ -68,8 +36,8 @@ export const tpl_forged_message: CaseTemplate = {
   difficultyRange: [1, 4],
   slots: [
     { name: 'culprit', type: 'character', role: 'Wire Editor' },
-    { name: 'victim', type: 'character', role: 'Managing Editor' },
-    { name: 'recipient', type: 'character', role: 'Press Foreman' },
+    { name: 'victim', type: 'character', role: 'Lead Reporter' },
+    { name: 'recipient', type: 'character', role: 'Desk Assistant' },
     { name: 'suspect3', type: 'character', role: 'Telegraph Operator' },
     { name: 'locNewsroom', type: 'location' },
     { name: 'locPrintshop', type: 'location' },
@@ -82,10 +50,34 @@ export const tpl_forged_message: CaseTemplate = {
     const rawDiff = params.difficulty ?? 1;
     const diff = Math.min(4, Math.max(1, rawDiff)) as 1 | 2 | 3 | 4;
 
-    const culprit = slots.culprit as Character;
-    const victim = slots.victim as Character;
-    const recipient = slots.recipient as Character;
-    const suspect3 = slots.suspect3 as Character;
+    const culprit = { ...(slots.culprit as Character) };
+    const victim = { ...(slots.victim as Character) };
+    const recipient = { ...(slots.recipient as Character) };
+    const suspect3 = { ...(slots.suspect3 as Character) };
+
+    // Dynamically assign varied roles
+    const possibleRoles = [
+      'Desk Assistant',
+      'Wire Editor',
+      'Lead Reporter',
+      'Telegraph Operator',
+      'Communications Officer',
+    ];
+    const shuffledRoles = rng.shuffle(possibleRoles);
+    culprit.role = shuffledRoles[0]!;
+    victim.role = shuffledRoles[1]!;
+    recipient.role = shuffledRoles[2]!;
+    suspect3.role = shuffledRoles[3]!;
+
+    // Mechanism variant:
+    // 0: message.sender_device
+    // 1: message.time
+    // 2: presence.absent_action
+    const variant = rng.int(0, 2) as 0 | 1 | 2;
+
+    // Liar: ~25% of cases witness covers for culprit
+    const witnessCovers = rng.next() < 0.25;
+    const liar = witnessCovers ? recipient : culprit;
 
     const locNewsroom = { ...(slots.locNewsroom as Location) };
     const locPrintshop = { ...(slots.locPrintshop as Location) };
@@ -107,7 +99,7 @@ export const tpl_forged_message: CaseTemplate = {
     locPrintshop.doorIds = [doorPrintshop];
     locArchive.doorIds = [doorArchive];
 
-    // Configure adjacency & travel time based on difficulty
+    // Configure adjacency & travel time
     if (diff >= 3) {
       locNewsroom.adjacency = [
         { to: locPrintshop.id, travelMinutes: 20 },
@@ -137,9 +129,8 @@ export const tpl_forged_message: CaseTemplate = {
     const s2Door = diff === 1 ? doorPrintshop : doorArchive;
 
     // Mutually consistent ground truth timeline
-    // Message sent at 1215 (20:15)
     const timeline: Fact[] = [
-      // Culprit badged into newsroom and transmitted message from deviceA
+      // Culprit badged into newsroom and transmitted message from deviceA at 1215
       {
         kind: 'at',
         who: culprit.id,
@@ -159,7 +150,6 @@ export const tpl_forged_message: CaseTemplate = {
         by: culprit.id,
         at: 1215,
       },
-      // NEXT-2: carrier message has optional sender (undefined in carrier record)
       {
         kind: 'message',
         msg: 'msg_dispatch',
@@ -176,7 +166,7 @@ export const tpl_forged_message: CaseTemplate = {
         where: locNewsroom.id,
       },
 
-      // Victim legitimate presence in printshop away from deviceA
+      // Victim legitimate presence in printshop
       {
         kind: 'at',
         who: victim.id,
@@ -191,7 +181,7 @@ export const tpl_forged_message: CaseTemplate = {
         at: 1214,
       },
 
-      // Recipient presence in printshop
+      // Recipient presence
       {
         kind: 'at',
         who: recipient.id,
@@ -254,10 +244,76 @@ export const tpl_forged_message: CaseTemplate = {
     );
 
     // Primary Clues
-    const baseClues: Clue[] = [
-      // 1. Physical Carrier Record: sender-less carrier log
-      {
-        id: 'clue_carrier_log',
+    const baseClues: Clue[] = [];
+
+    // Liar statement clue
+    const liarClueId = 'clue_dispatch_testimony';
+    if (variant === 0) {
+      // message.sender_device variant
+      baseClues.push({
+        id: liarClueId,
+        type: 'testimony',
+        reliability: 'testimony',
+        source: liar.id,
+        asserts: [
+          {
+            kind: 'message',
+            msg: 'msg_dispatch',
+            device: deviceA.id,
+            sender: victim.id,
+            recipient: recipient.id,
+            sentAt: 1215,
+          },
+        ],
+        text: `${liar.name} stated: 'The wire transmission from ${deviceA.name} at 20:15 was authorized and sent directly by ${victim.name}.'`,
+        unlock: { kind: 'default' },
+      });
+    } else if (variant === 1) {
+      // message.time variant
+      baseClues.push({
+        id: liarClueId,
+        type: 'testimony',
+        reliability: 'testimony',
+        source: liar.id,
+        asserts: [
+          {
+            kind: 'message',
+            msg: 'msg_dispatch',
+            device: deviceA.id,
+            sentAt: 1225,
+            recipient: recipient.id,
+          },
+        ],
+        text: `${liar.name} claimed: 'The electronic dispatch msg_dispatch was sent from ${deviceA.name} during the later transmission slot at 20:25.'`,
+        unlock: { kind: 'default' },
+      });
+    } else {
+      // presence.absent_action variant
+      baseClues.push({
+        id: liarClueId,
+        type: 'testimony',
+        reliability: 'testimony',
+        source: liar.id,
+        asserts: [
+          {
+            kind: 'action',
+            who: victim.id,
+            verb: 'sent',
+            target: targetDoc.id,
+            at: 1215,
+            where: locNewsroom.id,
+          },
+        ],
+        text: `${liar.name} stated: 'I saw ${victim.name} operating the transmitter ${deviceA.name} in ${locNewsroom.name} at 20:15.'`,
+        unlock: { kind: 'default' },
+      });
+    }
+
+    // Refutation clues depending on variant
+    if (variant === 1) {
+      // Carrier switchboard timestamp (refutes message.time)
+      baseClues.push({
+        id: 'clue_switchboard_timestamp',
         type: 'message',
         reliability: 'physical',
         asserts: [
@@ -269,104 +325,78 @@ export const tpl_forged_message: CaseTemplate = {
             recipient: recipient.id,
           },
         ],
-        text: `Carrier Dispatch Log: Message msg_dispatch routed from ${deviceA.name} to ${recipient.name} at 20:15. (Carrier header records no authenticated sender id).`,
+        text: `Switchboard Relay: Carrier timestamp confirmed dispatch msg_dispatch was transmitted from ${deviceA.name} at 20:15.`,
         unlock: { kind: 'default' },
-      },
-
-      // 2. Culprit's declared lie: falsely claims victim sent the message from deviceA at 1215
-      {
-        id: 'clue_culprit_testimony',
-        type: 'testimony',
-        reliability: 'testimony',
-        source: culprit.id,
-        asserts: [
-          {
-            kind: 'message',
-            msg: 'msg_dispatch',
-            sender: victim.id,
-            device: deviceA.id,
-            sentAt: 1215,
-            recipient: recipient.id,
-          },
-        ],
-        text: `${culprit.name} stated: 'I saw ${victim.name} log into ${deviceA.name} and send message msg_dispatch at 20:15 before leaving.'`,
-        unlock: { kind: 'default' },
-      },
-
-      // 3. Physical Access Log for Victim: places victim in printshop at 1214 (eliminates Decoy 1)
-      {
-        id: 'clue_victim_alibi_access',
-        type: 'access_log',
+      });
+    } else if (variant === 2) {
+      // CCTV presence of victim at printshop (refutes presence.absent_action)
+      baseClues.push({
+        id: 'clue_victim_presence',
+        type: 'cctv',
         reliability: 'physical',
         asserts: [
           {
-            kind: 'access',
+            kind: 'at',
             who: victim.id,
-            door: doorPrintshop,
-            at: 1214,
+            where: locPrintshop.id,
+            from: 1210,
+            to: 1225,
           },
         ],
-        text: `Turnstile Log: ${victim.name} badged into ${doorPrintshop} at 20:14.`,
+        text: `Printshop CCTV: Optical feed confirmed ${victim.name} was inside ${locPrintshop.name} from 20:10 to 20:25.`,
         unlock: { kind: 'default' },
-      },
+      });
+    }
 
-      // 4. Physical Terminal Session Log: proves culprit operated deviceA at 1215!
-      // Refutes culprit's lie via message.sender_device (V14) and positively places culprit (V15)
-      // Also asserts access at doorNewsroom at 1212 (eliminates Decoy 2/3)
-      // In diff >= 3, also includes 'at' fact so needsTravelTime is triggered
-      {
-        id: 'clue_terminal_session',
-        type: 'device_log',
-        reliability: 'physical',
-        asserts:
-          diff >= 3
-            ? [
-                {
-                  kind: 'device_use',
-                  device: deviceA.id,
-                  by: culprit.id,
-                  at: 1215,
-                },
-                {
-                  kind: 'access',
-                  who: culprit.id,
-                  door: doorNewsroom,
-                  at: 1212,
-                },
-                {
-                  kind: 'at',
-                  who: culprit.id,
-                  where: locNewsroom.id,
-                  from: 1210,
-                  to: 1230,
-                },
-              ]
-            : [
-                {
-                  kind: 'device_use',
-                  device: deviceA.id,
-                  by: culprit.id,
-                  at: 1215,
-                },
-                {
-                  kind: 'access',
-                  who: culprit.id,
-                  door: doorNewsroom,
-                  at: 1212,
-                },
-              ],
-        text: `Terminal Audit Trail: ${deviceA.name} authenticated user session for ${culprit.name} at 20:15 with badge access at ${doorNewsroom}.`,
-        unlock:
-          diff === 1
-            ? { kind: 'default' }
-            : {
-                kind: 'after_clue',
-                clueId: 'clue_culprit_testimony',
-              },
-      },
-    ];
+    // Terminal session log (device use by culprit at 1215 and presence at newsroom)
+    // Always present; refutes message.sender_device in variant 0, and provides positive culprit evidence (V15) across all variants
+    baseClues.push({
+      id: 'clue_terminal_session',
+      type: 'device_log',
+      reliability: 'physical',
+      asserts: [
+        {
+          kind: 'device_use',
+          device: deviceA.id,
+          by: culprit.id,
+          at: 1215,
+        },
+        {
+          kind: 'at',
+          who: culprit.id,
+          where: locNewsroom.id,
+          from: 1210,
+          to: 1230,
+        },
+      ],
+      text: `Terminal Session Log: ${deviceA.name} was actively operated by ${culprit.name} at 20:15 inside ${locNewsroom.name}.`,
+      unlock:
+        diff === 1
+          ? { kind: 'default' }
+          : {
+              kind: 'after_clue',
+              clueId: liarClueId,
+            },
+    });
 
-    // For diff 2, 3, 4: add physical clue placing recipient at transit/printshop (eliminates Decoy 2)
+    // Victim alibi access log (eliminates Decoy 1)
+    baseClues.push({
+      id: 'clue_victim_alibi_access',
+      type: 'access_log',
+      reliability: 'physical',
+      asserts: [
+        {
+          kind: 'access',
+          who: victim.id,
+          door: doorPrintshop,
+          at: 1214,
+        },
+      ],
+      text: `Pressroom Card Reader: ${victim.name} badged into ${doorPrintshop} at 20:14.`,
+      unlock: { kind: 'default' },
+    });
+
+    // Recipient alibi access log (eliminates Decoy 2)
     if (diff >= 2) {
       baseClues.push({
         id: 'clue_recipient_alibi_access',
@@ -380,18 +410,18 @@ export const tpl_forged_message: CaseTemplate = {
             at: 1216,
           },
         ],
-        text: `Gate Log: ${recipient.name} scanned access badge at ${s2Door} at 20:16.`,
+        text: `Access Log: ${recipient.name} checked in at ${s2Door} at 20:16.`,
         unlock:
           diff === 4
             ? {
                 kind: 'after_clue',
-                clueId: 'clue_carrier_log',
+                clueId: 'clue_victim_alibi_access',
               }
             : { kind: 'default' },
       });
     }
 
-    // For diff 4: add physical clue placing suspect 3 at archive (eliminates Decoy 3)
+    // Suspect 3 alibi access log (eliminates Decoy 3)
     if (diff === 4) {
       baseClues.push({
         id: 'clue_suspect3_alibi_access',
@@ -405,19 +435,19 @@ export const tpl_forged_message: CaseTemplate = {
             at: 1217,
           },
         ],
-        text: `Security Log: ${suspect3.name} logged badge at ${doorArchive} at 20:17.`,
+        text: `Archive Reader: ${suspect3.name} badged through ${doorArchive} at 20:17.`,
         unlock: { kind: 'default' },
       });
     }
 
+    // Red herrings
     const redHerringCount = diff === 1 ? 1 : 2;
     const clues = injectRedHerrings(baseClues, timeline, redHerringCount, rng);
 
     // Build Hypotheses
-    // Solution hypothesis: culprit transmitted the forged dispatch
     const solutionHypothesis = {
-      id: 'hyp_culprit_forged',
-      label: `${culprit.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
+      id: 'hyp_culprit_guilty',
+      label: `${culprit.name} transmitted the forged dispatch from ${deviceA.name} in ${locNewsroom.name}.`,
       claims: [
         {
           kind: 'action' as const,
@@ -431,10 +461,9 @@ export const tpl_forged_message: CaseTemplate = {
       culpritIds: [culprit.id],
     };
 
-    // Decoy 1: victim was in locNewsroom transmitting the message
     const decoy1 = {
-      id: 'hyp_victim_sent',
-      label: `${victim.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
+      id: 'hyp_victim_guilty',
+      label: `${victim.name} transmitted the dispatch from ${deviceA.name} in ${locNewsroom.name}.`,
       claims: [
         {
           kind: 'at' as const,
@@ -448,35 +477,41 @@ export const tpl_forged_message: CaseTemplate = {
     };
 
     let hypotheses = [solutionHypothesis, decoy1];
-    let keyEvidence: string[][];
+    let keyEvidence: string[][] = [];
+
+    // The decisive clue refuting the lie
+    const decisiveClueId =
+      variant === 0
+        ? 'clue_terminal_session'
+        : variant === 1
+          ? 'clue_switchboard_timestamp'
+          : 'clue_victim_presence';
 
     if (diff === 1) {
-      // Decoy 2: Culprit remained innocently at locPrintshop
       const decoy2 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} remained at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
+        label: `${culprit.name} remained in ${locPrintshop.name} and did not use ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
             who: culprit.id,
             where: locPrintshop.id,
-            from: 1210,
+            from: 1212,
             to: 1220,
           },
         ],
-        culpritIds: [recipient.id],
+        culpritIds: [victim.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2];
-
-      // Key evidence size 2 (smallestKeyEvidenceSize = 2)
-      // - clue_victim_alibi_access eliminates decoy1
-      // - clue_terminal_session eliminates decoy2, refutes culprit lie, places culprit (V15)
-      keyEvidence = [['clue_victim_alibi_access', 'clue_terminal_session']];
+      keyEvidence = [
+        variant === 0
+          ? ['clue_victim_alibi_access', 'clue_terminal_session']
+          : ['clue_victim_alibi_access', decisiveClueId, 'clue_terminal_session'],
+      ];
     } else if (diff === 2 || diff === 3) {
-      // Decoy 2: recipient sent the message from locNewsroom
       const decoy2 = {
-        id: 'hyp_recipient_sent',
-        label: `${recipient.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
+        id: 'hyp_recipient_guilty',
+        label: `${recipient.name} transmitted the dispatch from ${deviceA.name} in ${locNewsroom.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -489,35 +524,33 @@ export const tpl_forged_message: CaseTemplate = {
         culpritIds: [recipient.id],
       };
 
-      // Decoy 3: Culprit innocent in printshop
       const decoy3 = {
         id: 'hyp_culprit_innocent',
-        label: `${culprit.name} remained at ${locPrintshop.name} and did not operate ${deviceA.name}.`,
+        label: `${culprit.name} remained in ${locPrintshop.name} and did not use ${deviceA.name}.`,
         claims: [
           {
             kind: 'at' as const,
             who: culprit.id,
             where: locPrintshop.id,
-            from: 1210,
+            from: 1212,
             to: 1220,
           },
         ],
         culpritIds: [victim.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2, decoy3];
-
-      // Key evidence size 3:
-      // - clue_victim_alibi_access eliminates decoy1
-      // - clue_recipient_alibi_access eliminates decoy2
-      // - clue_terminal_session eliminates decoy3, refutes lie, places culprit
       keyEvidence = [
-        ['clue_victim_alibi_access', 'clue_recipient_alibi_access', 'clue_terminal_session'],
+        [
+          'clue_victim_alibi_access',
+          'clue_recipient_alibi_access',
+          'clue_terminal_session',
+        ],
       ];
     } else {
-      // Diff 4: 4 hypotheses, keyEvidence size 4
+      // Diff 4
       const decoy2 = {
-        id: 'hyp_recipient_sent',
-        label: `${recipient.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
+        id: 'hyp_recipient_guilty',
+        label: `${recipient.name} transmitted the dispatch from ${deviceA.name} in ${locNewsroom.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -531,8 +564,8 @@ export const tpl_forged_message: CaseTemplate = {
       };
 
       const decoy3 = {
-        id: 'hyp_suspect3_sent',
-        label: `${suspect3.name} transmitted the unauthorized dispatch from ${deviceA.name}.`,
+        id: 'hyp_suspect3_guilty',
+        label: `${suspect3.name} transmitted the dispatch from ${deviceA.name} in ${locNewsroom.name}.`,
         claims: [
           {
             kind: 'at' as const,
@@ -545,12 +578,6 @@ export const tpl_forged_message: CaseTemplate = {
         culpritIds: [suspect3.id],
       };
       hypotheses = [solutionHypothesis, decoy1, decoy2, decoy3];
-
-      // Key evidence size 4:
-      // - clue_victim_alibi_access eliminates decoy1
-      // - clue_recipient_alibi_access eliminates decoy2
-      // - clue_suspect3_alibi_access eliminates decoy3
-      // - clue_terminal_session places culprit, refutes lie
       keyEvidence = [
         [
           'clue_victim_alibi_access',
@@ -561,10 +588,9 @@ export const tpl_forged_message: CaseTemplate = {
       ];
     }
 
-    // Shuffle hypotheses so the solution is not always first
     hypotheses = rng.shuffle(hypotheses);
 
-    // Explanation beats for reveal
+    // Explanation beats
     const explanation = [
       {
         time: 1214,
@@ -573,14 +599,28 @@ export const tpl_forged_message: CaseTemplate = {
       },
       {
         time: 1215,
-        text: `Terminal session logs verified that ${culprit.name} was logged into ${deviceA.name} at 20:15, shattering their claim that ${victim.name} sent the dispatch.`,
-        clueIds: ['clue_terminal_session', 'clue_culprit_testimony'],
+        text:
+          variant === 0
+            ? `Terminal session logs verified that ${culprit.name} was logged into ${deviceA.name} at 20:15, shattering claims that ${victim.name} sent the dispatch.`
+            : variant === 1
+              ? `Carrier switchboard timestamps verified the dispatch was routed at 20:15, disproving the claimed transmission window.`
+              : `Printshop surveillance footage confirmed ${victim.name} was inside ${locPrintshop.name} at 20:15, completely contradicting claims that they operated ${deviceA.name}.`,
+        clueIds: [decisiveClueId, liarClueId],
       },
+      ...(variant !== 0
+        ? [
+            {
+              time: 1215,
+              text: `Terminal authentication records proved ${culprit.name} was the operator at ${deviceA.name} when the dispatch was generated.`,
+              clueIds: ['clue_terminal_session'],
+            },
+          ]
+        : []),
       ...(diff >= 2
         ? [
             {
               time: 1216,
-              text: `${recipient.name} was logged at ${s2Door} at 20:16, confirming their legitimate station.`,
+              text: `${recipient.name} was badged into ${s2Door} at 20:16, ruling them out as the transmitter at ${locNewsroom.name}.`,
               clueIds: ['clue_recipient_alibi_access'],
             },
           ]
@@ -589,15 +629,15 @@ export const tpl_forged_message: CaseTemplate = {
         ? [
             {
               time: 1217,
-              text: `${suspect3.name} was badged into ${doorArchive} at 20:17, ruling out their presence at ${locNewsroom.name}.`,
+              text: `${suspect3.name} was logged badging into ${doorArchive} at 20:17, ruling out their presence at ${locNewsroom.name}.`,
               clueIds: ['clue_suspect3_alibi_access'],
             },
           ]
         : []),
       {
         time: 1215,
-        text: `${culprit.name} transmitted the forged message msg_dispatch from ${deviceA.name} at 20:15.`,
-        clueIds: ['clue_carrier_log', 'clue_terminal_session'],
+        text: `${culprit.name} completed the forged transmission of ${targetDoc.name} before signing off.`,
+        clueIds: ['clue_terminal_session'],
       },
     ];
 
@@ -609,26 +649,26 @@ export const tpl_forged_message: CaseTemplate = {
     const countWord = suspects.length === 4 ? 'four' : 'three';
 
     const briefingOptions = [
-      `An unauthorized dispatch msg_dispatch was transmitted from ${deviceA.name} to ${locPrintshop.name}. ${countWord} staff members were on duty across the network: ${suspectNames}. Inspect terminal session logs and carrier records to unmask the imposter.`,
-      `A forged wire instruction was relayed through ${deviceA.name} during the deadline rush. Investigative inquiries focus on ${suspectNames}, each linked to communications that evening. Trace the terminal timestamps to prove who transmitted the fake dispatch.`,
-      `Operations at ${locPrintshop.name} were disrupted by a fraudulent message sent from ${deviceA.name}. Terminal records place ${suspectNames} in proximity to network consoles. Correlate access times to determine who authored the message.`,
-      `A bogus transmission was logged on ${deviceA.name} before the evening print run. Clearance was limited to ${countWord} individuals: ${suspectNames}. Analyze system logs to expose whose account hides the forgery.`,
+      `At 20:15, a compromised dispatch was routed from ${deviceA.name} inside ${locNewsroom.name}. An investigation focuses on ${countWord} individuals: ${suspectNames}. Examine terminal and access logs to uncover the true sender.`,
+      `The transmission of an unauthorized cable from ${deviceA.name} caused immediate disruption. Statements from ${suspectNames} contradict electronic carrier records. Trace the dispatch to identify the perpetrator.`,
+      `An illicit wire communication was detected originating from ${locNewsroom.name}. Accounts given by ${suspectNames} contain fabricated details regarding device access. Determine who sent the message.`,
     ];
+    const briefing = rng.pick(briefingOptions);
 
     return {
-      id: `case_fm_${rng.int(1000, 9999)}`,
+      id: `case_gen_${rng.int(100000, 999999)}`,
       version: 1,
       kind: 'procedural',
       title,
       difficulty: diff,
-      estimatedMinutes: 5 + diff * 2,
+      estimatedMinutes: diff * 4 + 2,
       mysteryType: 'forged_message',
       setting: {
         locationIds: locations.map((l) => l.id),
-        date: '2026-11-06',
-        summary: `A forged telegraph dispatch was transmitted from ${locNewsroom.name} to disrupt operations at ${locPrintshop.name}.`,
+        date: '2026-10-24',
+        summary: `Vesper City incidents across ${locations.map((l) => l.name).join(', ')}.`,
       },
-      briefing: rng.pick(briefingOptions),
+      briefing,
       characters,
       locations,
       objects: [deviceA, targetDoc],
@@ -636,21 +676,16 @@ export const tpl_forged_message: CaseTemplate = {
       hypotheses,
       truth: {
         timeline,
+        solutionHypothesisId: 'hyp_culprit_guilty',
         culpritIds: [culprit.id],
-        liars: [
-          {
-            who: culprit.id,
-            statementClueIds: ['clue_culprit_testimony'],
-          },
-        ],
-        solutionHypothesisId: 'hyp_culprit_forged',
+        liars: [{ who: liar.id, statementClueIds: [liarClueId] }],
         keyEvidence,
         explanation,
       },
       meta: {
-        status: 'validated',
-        author: 'Procedural Case Engine',
+        seed: typeof params.seed === 'number' ? params.seed : undefined,
         templateId: 'tpl_forged_message_v1',
+        status: 'validated',
       },
     };
   },

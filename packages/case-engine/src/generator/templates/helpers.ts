@@ -44,6 +44,15 @@ export function generateFalseAlibiTitle(
     'Sovereign',
     'Twilight',
     'Altered',
+    'Veiled',
+    'Shrouded',
+    'Unseen',
+    'Spectral',
+    'Gilded',
+    'Obscured',
+    'Hollow',
+    'Fractured',
+    'Inverted',
   ];
   const incidentNouns = [
     'Contradiction',
@@ -59,6 +68,8 @@ export function generateFalseAlibiTitle(
     'Occurrence',
     'Deception',
     'Silence',
+    'Enigma',
+    'Conundrum',
   ];
   const atmospheric = [
     'at Midnight',
@@ -69,6 +80,11 @@ export function generateFalseAlibiTitle(
     'at the Deadline',
     'in the Fog',
     'Behind Closed Doors',
+    'in the Dead of Night',
+    'Under Cover of Dark',
+    'During the Blackout',
+    'Past the Outer Gate',
+    'at the Eleventh Hour',
   ];
 
   const patterns = [
@@ -84,6 +100,12 @@ export function generateFalseAlibiTitle(
     () => `Deception at ${locAlibi.name} ${rng.pick(atmospheric)}`,
     () => `The Case of the ${rng.pick(descriptors)} ${item.name}`,
     () => `The ${rng.pick(descriptors)} Inquiry at ${locCrime.name}`,
+    () => `The ${rng.pick(descriptors)} Alibi of ${locCrime.name} ${rng.pick(atmospheric)}`,
+    () => `A Study in Discrepancy at ${locCrime.name} ${rng.pick(atmospheric)}`,
+    () => `The Fabricated Window at ${locAlibi.name}`,
+    () => `Incident of the ${rng.pick(descriptors)} ${item.name} at ${locCrime.name}`,
+    () => `The Vanishing Presence at ${locTransit.name} ${rng.pick(atmospheric)}`,
+    () => `Curfew at ${locCrime.name}: The ${rng.pick(descriptors)} ${rng.pick(incidentNouns)}`,
   ];
 
   return rng.pick(patterns)();
@@ -117,6 +139,14 @@ export function generateMissingItemTitle(
     'Custodial',
     'Twilight',
     'Phantom',
+    'Clandestine',
+    'Unclaimed',
+    'Priceless',
+    'Confidential',
+    'Archival',
+    'Classified',
+    'Gilded',
+    'Subterranean',
   ];
   const incidentNouns = [
     'Theft',
@@ -132,6 +162,8 @@ export function generateMissingItemTitle(
     'Discrepancy',
     'Inquiry',
     'Puzzle',
+    'Enigma',
+    'Extraction',
   ];
   const atmospheric = [
     'at Midnight',
@@ -142,6 +174,10 @@ export function generateMissingItemTitle(
     'in the Fog',
     'During Handover',
     'at Shift Change',
+    'in the Sub-Vault',
+    'at the Shift Bell',
+    'Through the Security Gate',
+    'Before the Morning Audit',
   ];
 
   const patterns = [
@@ -159,6 +195,12 @@ export function generateMissingItemTitle(
     () => `The Case of the ${rng.pick(descriptors)} ${item.name}`,
     () => `The ${item.name} ${rng.pick(incidentNouns)} at ${locVault.name}`,
     () => `${rng.pick(incidentNouns)} of the ${rng.pick(descriptors)} ${item.name}`,
+    () => `The Mystery of the ${rng.pick(descriptors)} ${item.name} ${rng.pick(atmospheric)}`,
+    () => `The ${locVault.name} Disappearance ${rng.pick(atmospheric)}`,
+    () => `The Break in Custody at ${locOffice.name} ${rng.pick(atmospheric)}`,
+    () => `A Breach in ${locVault.name}: The ${item.name}`,
+    () => `The Silent Removal of the ${item.name}`,
+    () => `Curator's Dilemma at ${locOffice.name} ${rng.pick(atmospheric)}`,
   ];
 
   return rng.pick(patterns)();
@@ -190,6 +232,14 @@ export function generateForgedMessageTitle(
     'Altered',
     'Untraceable',
     'Clandestine',
+    'Doctored',
+    'Splice',
+    'Sub Rosa',
+    'Covert',
+    'Cryptic',
+    'Deceptive',
+    'Mirrored',
+    'Unverified',
   ];
   const incidentNouns = [
     'Wire',
@@ -204,6 +254,8 @@ export function generateForgedMessageTitle(
     'Breach',
     'Telegram',
     'Cable',
+    'Relay',
+    'Discrepancy',
   ];
   const atmospheric = [
     'at Midnight',
@@ -213,6 +265,10 @@ export function generateForgedMessageTitle(
     'in the Pressroom',
     'Before Dawn',
     'Across the Network',
+    'Across the Northern Line',
+    'Through the Static',
+    'at the Evening Edition',
+    'on the Midnight Circuit',
   ];
 
   const patterns = [
@@ -230,6 +286,12 @@ export function generateForgedMessageTitle(
     () => `The Broken Transmission at ${locPrintshop.name} ${rng.pick(atmospheric)}`,
     () => `The ${device.name} ${rng.pick(incidentNouns)} ${rng.pick(atmospheric)}`,
     () => `The Case of the ${rng.pick(descriptors)} Dispatch`,
+    () => `The Case of the ${rng.pick(descriptors)} Transmission ${rng.pick(atmospheric)}`,
+    () => `The ${rng.pick(descriptors)} Cable from ${locNewsroom.name}`,
+    () => `Dispatches from Nowhere: The ${device.name} Affair`,
+    () => `A Phantom on the Line at ${locPrintshop.name} ${rng.pick(atmospheric)}`,
+    () => `The Tampered Wire of ${device.name} ${rng.pick(atmospheric)}`,
+    () => `The Broadcast That Never Was: ${locNewsroom.name}`,
   ];
 
   return rng.pick(patterns)();
