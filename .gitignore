@@ -8,6 +8,7 @@ node_modules/
 # Test and build outputs
 coverage/
 dist/
+supabase/functions/_shared/engine.js
 
 # Expo / React Native
 .expo/
