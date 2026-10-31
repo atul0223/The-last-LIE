@@ -18,6 +18,7 @@
     "db:reset": "supabase db reset",
     "db:seed": "node tools/cli/node_modules/tsx/dist/cli.mjs supabase/scripts/generate_seed.ts",
     "build:engine": "esbuild packages/case-engine/src/index.ts --bundle --format=esm --platform=neutral --outfile=supabase/functions/_shared/engine.js",
+    "smoke:api": "node tools/cli/node_modules/tsx/dist/cli.mjs supabase/scripts/smoke.ts",
     "test:api": "vitest run --config supabase/vitest.config.ts"
   },
   "devDependencies": {
